@@ -32,15 +32,8 @@ const Footer = () => {
 			<div className="row">
 				<div className="col-sm-1"></div>
 				<div className="col-sm-3 mb-5">
-					<h1 className="text-white">Party People</h1>
+					<h1 className="text-white">Online University</h1>
 					<p className="text-white">
-						Party People Entertainment is a premium, exclusive service
-						specializing in curating the ultimate VIP party experiences. We
-						pride ourselves in the ability to create unforgettable memories for
-						our members, ensuring they not only attend the best events, but also
-						receive unparalleled service and discounts. Our services are
-						tailored to meet the unique needs and tastes of our clientele,
-						making each party experience uniquely personal.
 					</p>
 				</div>
 				<div className="col-sm-1"></div>

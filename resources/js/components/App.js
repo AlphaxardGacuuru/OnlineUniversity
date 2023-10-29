@@ -3,6 +3,8 @@ import ReactDOM from "react-dom"
 import { HashRouter } from "react-router-dom"
 
 import TopNav from "@/components/Layouts/TopNav"
+import Footer from "@/components/Layouts/Footer"
+import Messages from "@/components/Core/Messages"
 
 import RouteList from "./Core/RouteList"
 import { random } from "lodash"
@@ -53,6 +55,7 @@ function App() {
 		<HashRouter>
 			<TopNav />
 			<RouteList />
+			<Footer />
 		</HashRouter>
 	)
 }
