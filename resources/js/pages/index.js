@@ -6,7 +6,7 @@ const index = () => {
 		<div className="row">
 			<div className="col-sm-12">
 				<div className="d-flex justiy-content-start mt-5 p-5">
-					<div className="mt-5">
+					<div className="my-auto">
 						<h1>Student Experience</h1>
 						<p>
 							Learn from the most prestigious academic minds in the world and

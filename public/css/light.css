@@ -27,7 +27,7 @@ a {
 	-webkit-transition-duration: 500ms;
 	transition-duration: 500ms;
 	padding: 0px 20px;
-	background-color: #FFF;
+	/* background-color: #FFF; */
 }
 
 .header-area .logo-area a {
@@ -85,7 +85,7 @@ a {
 }
 
 .header-area.sticky {
-	background-color: #FFFFFF;
+	background-color: #0077B6;
 }
 
 @media only screen and (max-width: 767px) {
