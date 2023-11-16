@@ -22,7 +22,7 @@
 
 	<!-- Favicon  -->
 	<link rel="icon"
-		  href="storage/img/musical-note.png">
+		  href="storage/img/favicon.ico">
 
 	<!-- Fonts -->
 	<link rel="dns-prefetch"
@@ -34,7 +34,16 @@
 
 	<!-- Styles -->
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
-	<link href="{{ asset('css/light.css') }}" rel="stylesheet">
+	{{-- <link href="{{ asset('css/light.css') }}" rel="stylesheet"> --}}
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,400i,500,500i,600,600i,700,700i,800,800i" rel="stylesheet">
+
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
+	<link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}"/>
+	<link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}"/>
+	<link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
 	
 	{{-- IOS support --}}
 	<link rel="apple-touch-icon"
@@ -61,6 +70,14 @@
 
 	{{-- Chart.js --}}
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+	<!--====== Javascripts & Jquery ======-->
+	<script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+	<script src="{{ asset('js/mixitup.min.js') }}"></script>
+	<script src="{{ asset('js/circle-progress.min.js') }}"></script>
+	<script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+	<script src="{{ asset('js/main.js') }}"></script>
 
 </body>
 

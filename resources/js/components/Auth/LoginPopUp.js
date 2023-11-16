@@ -148,7 +148,7 @@ const LoginPopUp = (props) => {
 
 								<Btn
 									type="submit"
-									btnClass="btn-primary text-white w-100 mt-2"
+									btnclassName="btn-primary text-white w-100 mt-2"
 									btnText="Login"
 									loading={loading}
 								/>
@@ -156,7 +156,7 @@ const LoginPopUp = (props) => {
 
 							<Btn
 								btnText="back"
-								btnClass="btn-outline-primary w-100 mt-2"
+								btnclassName="btn-outline-primary w-100 mt-2"
 								onClick={() => setManualLogin(false)}
 							/>
 						</div>
@@ -169,7 +169,7 @@ const LoginPopUp = (props) => {
 						/>
 
 						<Btn
-							btnClass="btn-outline-primary w-100 my-2"
+							btnclassName="btn-outline-primary w-100 my-2"
 							btnText="login with email"
 							onClick={() => setManualLogin(true)}
 						/>

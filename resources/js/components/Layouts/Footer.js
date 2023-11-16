@@ -2,8 +2,6 @@ import React from "react"
 import { Link, useLocation } from "react-router-dom"
 
 import Img from "@/components/Core/Img"
-import PrivacySVG from "@/svgs/PrivacySVG"
-import ChevronUpSVG from "@/svgs/ChevronUpSVG"
 
 const Footer = () => {
 	const location = useLocation()
@@ -26,47 +24,131 @@ const Footer = () => {
 			: ""
 
 	return (
-		<div
-			className={`mt-5 p-5 ${hide}`}
-			style={{ backgroundColor: "#0077B6" }}>
-			<div className="row">
-				<div className="col-sm-1"></div>
-				<div className="col-sm-3 mb-5">
-					<h1 className="text-white">Online University</h1>
-					<p className="text-white">
-					</p>
+		<React.Fragment>
+			{/* footer section */}
+			<footer className={`footer-section spad pb-0 ${hide}`}>
+				<div className="footer-top">
+					<div className="footer-warp">
+						<div className="row">
+							<div className="widget-item">
+								<h4>Contact Info</h4>
+								<ul className="contact-list">
+									<li>
+										1481 Creekside Lane <br />
+										Avila Beach, CA 931
+									</li>
+									<li>+53 345 7953 32453</li>
+									<li>yourmail@gmail.com</li>
+								</ul>
+							</div>
+							<div className="widget-item">
+								<h4>Engeneering</h4>
+								<ul>
+									<li>
+										<a href="">Applied Studies</a>
+									</li>
+									<li>
+										<a href="">Computer Engeneering</a>
+									</li>
+									<li>
+										<a href="">Software Engeneering</a>
+									</li>
+									<li>
+										<a href="">Informational Engeneering</a>
+									</li>
+									<li>
+										<a href="">System Engeneering</a>
+									</li>
+								</ul>
+							</div>
+							<div className="widget-item">
+								<h4>Graphic Design</h4>
+								<ul>
+									<li>
+										<a href="">Applied Studies</a>
+									</li>
+									<li>
+										<a href="">Computer Engeneering</a>
+									</li>
+									<li>
+										<a href="">Software Engeneering</a>
+									</li>
+									<li>
+										<a href="">Informational Engeneering</a>
+									</li>
+									<li>
+										<a href="">System Engeneering</a>
+									</li>
+								</ul>
+							</div>
+							<div className="widget-item">
+								<h4>Development</h4>
+								<ul>
+									<li>
+										<a href="">Applied Studies</a>
+									</li>
+									<li>
+										<a href="">Computer Engeneering</a>
+									</li>
+									<li>
+										<a href="">Software Engeneering</a>
+									</li>
+									<li>
+										<a href="">Informational Engeneering</a>
+									</li>
+									<li>
+										<a href="">System Engeneering</a>
+									</li>
+								</ul>
+							</div>
+							<div className="widget-item">
+								<h4>Newsletter</h4>
+								<form className="footer-newslatter">
+									<input
+										type="email"
+										placeholder="E-mail"
+									/>
+									<button className="site-btn">Subscribe</button>
+									<p>*We don’t spam</p>
+								</form>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div className="col-sm-1"></div>
-				<div className="col-sm-3 mb-5">
-					<h1 className="text-white">Quick Links</h1>
-					{/* Privacy Policy */}
-					<Link
-						to="/privacy"
-						className="text-white">
-						<span className="me-2">
-							<PrivacySVG />
-						</span>
-						Privacy Policy
-					</Link>
-					{/* Privacy Policy End */}
+				<div className="footer-bottom">
+					<div className="footer-warp">
+						<ul className="footer-menu">
+							<li>
+								<a href="#">Terms & Conditions</a>
+							</li>
+							<li>
+								<a href="#">Register</a>
+							</li>
+							<li>
+								<a href="#">Privacy</a>
+							</li>
+						</ul>
+						<div className="copyright">
+							<a
+								target="_blank"
+								href="https://www.templateshub.net">
+								Templates Hub
+							</a>
+						</div>
+					</div>
 				</div>
-				<div className="col-sm-1"></div>
-				<div className="col-sm-3">
-					<h1 className="text-white">Contact Us</h1>
-					<p></p>
-				</div>
-			</div>
+			</footer>
+			{/* footer section end */}
+
 			<div className="row">
 				<center>
 					<div
 						id="scrollUpBtn"
-						onClick={onScroll}>
-						<ChevronUpSVG />
-					</div>
+						onClick={onScroll}></div>
 					<br className="anti-hidden" />
 				</center>
 			</div>
-		</div>
+		</React.Fragment>
 	)
 }
 

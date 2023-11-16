@@ -60,8 +60,7 @@ const SocialMediaInput = (props) => {
 			className="mycontact-form bg-white"
 			autoComplete="off">
 			<center>
-				<div
-					className="d-flex p-1">
+				<div className="d-flex p-1">
 					{/* Profile pic */}
 					<div className="p-2">
 						<Img
@@ -104,7 +103,7 @@ const SocialMediaInput = (props) => {
 					<div className="p-1">
 						<Button
 							type="submit"
-							btnClass="btn-outline-dark"
+							btnclassName="btn-outline-dark"
 							btnText={props.btnText}
 							loading={loading}
 						/>
