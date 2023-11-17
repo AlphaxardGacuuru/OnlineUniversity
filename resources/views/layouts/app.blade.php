@@ -52,6 +52,11 @@
 		  content="#aa7700">
 </head>
 
+<style>
+	body {
+		overflow-x: hidden;
+	}
+</style>
 <body>
 	<noscript>
 		<center>

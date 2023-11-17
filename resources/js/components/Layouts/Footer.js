@@ -15,18 +15,16 @@ const Footer = () => {
 	}
 
 	const hide =
-		location.pathname.match("/verify-email/") ||
-		location.pathname.match("/admin") ||
-		location.pathname.match("/service-provider/") ||
-		location.pathname.match("/chat") ||
-		location.pathname.match("/profile")
+		location.pathname.match("/login") ||
+		location.pathname.match("/register") ||
+		location.pathname.match("/admin")
 			? "d-none"
 			: ""
 
 	return (
 		<React.Fragment>
 			{/* footer section */}
-			<footer className={`footer-section spad pb-0 ${hide}`}>
+			<footer className={`footer-section spad ps-4 pb-0 ${hide}`}>
 				<div className="footer-top">
 					<div className="footer-warp">
 						<div className="row">

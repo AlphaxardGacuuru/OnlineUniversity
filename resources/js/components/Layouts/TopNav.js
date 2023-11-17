@@ -24,15 +24,16 @@ const TopNav = (props) => {
 	}
 
 	// Hide TopNav from various pages
-	const display =
+	const hide =
 		location.pathname.match("/404") ||
+		location.pathname.match("/admin") ||
 		location.pathname.match("/login") ||
 		location.pathname.match("/register")
 			? "d-none"
 			: ""
 
 	return (
-	<header className="header-section">
+	<header className={`header-section ${hide}`}>
 		<div className="container">
 			<div className="row">
 				<div className="col-lg-3 col-md-3">
@@ -45,8 +46,8 @@ const TopNav = (props) => {
 					</div>
 				</div>
 				<div className="col-lg-9 col-md-9">
-					<a href=""
-					   className="site-btn header-btn">Login</a>
+					<Link to="/login"
+					   className="site-btn header-btn">Login</Link>
 					<nav className="main-menu">
 						<ul>
 							<li><Link to="/">Home</Link></li>

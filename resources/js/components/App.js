@@ -49,13 +49,26 @@ function App() {
 	const [login, setLogin] = useState()
 	const [auth, setAuth] = useState(getLocalStorageAuth("auth"))
 
-	const GLOBAL_STATE = []
+	const GLOBAL_STATE = {
+		getLocalStorage,
+		setLocalStorage,
+		url,
+		messages,
+		setMessages,
+		errors,
+		setErrors,
+		login,
+		setLogin,
+		auth,
+		setAuth,
+	}
 
 	return (
 		<HashRouter>
-			<TopNav />
-			<RouteList />
-			<Footer />
+			<TopNav {...GLOBAL_STATE} />
+			<RouteList {...GLOBAL_STATE} />
+			<Footer {...GLOBAL_STATE} />
+			<Messages {...GLOBAL_STATE} />
 		</HashRouter>
 	)
 }
