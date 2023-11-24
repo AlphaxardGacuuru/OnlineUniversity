@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -17,12 +19,17 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $email = fake()->unique()->safeEmail();
+
         return [
             'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'email' => $email,
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => Hash::make($email),
             'remember_token' => Str::random(10),
+            'phone' => fake()->phoneNumber(),
+            'avatar' => 'avatars/male-avatar.png',
+            'created_at' => Carbon::now()->subDay(rand(3, 12)),
         ];
     }
 
@@ -35,6 +42,25 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Add Alphaxard Account
+     *
+     * @return static
+     */
+    public function al()
+    {
+        return $this->state(fn(array $attributes) => [
+            'name' => 'Alphaxard Gacuuru',
+            'email' => 'alphaxardgacuuru47@gmail.com',
+            'email_verified_at' => now(),
+            'avatar' => 'avatars/male-avatar.png',
+            'phone' => '0700364446',
+            'password' => Hash::make('alphaxardgacuuru47@gmail.com'),
+            'remember_token' => Str::random(10),
+			'account_type' => 'admin'
         ]);
     }
 }

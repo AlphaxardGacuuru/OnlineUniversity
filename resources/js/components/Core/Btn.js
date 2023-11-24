@@ -9,7 +9,7 @@ const Btn = ({ btnStyle, btnClass, btnText, onClick, loading, disabled }) => (
 		{btnText}
 		{loading && (
 			<div
-				className="spinner-border my-auto"
+				className="spinner-border spinner-border-sm border-2 my-auto mx-2"
 				style={{ color: "inherit" }}></div>
 		)}
 	</button>

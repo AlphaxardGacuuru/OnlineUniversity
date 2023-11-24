@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -25,35 +28,96 @@ class AuthenticatedSessionController extends Controller
         ]);
     }
 
+    /*
+     * Social Logins*/
+    public function redirectToProvider($website)
+    {
+        return Socialite::driver($website)->redirect();
+    }
+
+    /**
+     * Obtain the user information from GitHub/Google/Twitter/Facebook.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function handleProviderCallback($website)
+    {
+        $user = Socialite::driver($website)->user();
+
+        $name = $user->getName() ? $user->getName() : " ";
+
+        $email = $user->getEmail() ? $user->getEmail() : redirect('/');
+
+        $avatar = $user->getAvatar() ? $user->getAvatar() : "avatar/male-avatar.png";
+
+        // Get Database User
+        $dbUser = User::where('email', $user->getEmail());
+
+        // Check if user exists
+        if ($dbUser->exists()) {
+            $token = $dbUser
+                ->first()
+                ->createToken("deviceName")
+                ->plainTextToken;
+
+            return redirect("/#/socialite/Logged in/" . $token);
+        } else {
+            // Remove forward slashes
+            $avatar = str_replace("/", " ", $avatar);
+
+            return redirect('/#/register/' . $name . '/' . $email . '/' . $avatar);
+        }
+    }
+
     /**
      * Handle an incoming authentication request.
-     *
-     * @param  \App\Http\Requests\Auth\LoginRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(LoginRequest $request)
     {
-        $request->authenticate();
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+            'device_name' => 'required',
+        ]);
 
-        $request->session()->regenerate();
+        $user = User::where('email', $request->email)->first();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+
+        $token = $user
+            ->createToken($request->device_name)
+            ->plainTextToken;
+
+        return response([
+            "message" => "Logged in",
+            "data" => $token,
+        ], 200);
     }
 
     /**
      * Destroy an authenticated session.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
     {
-        Auth::guard('web')->logout();
+        // Delete Current Access Token
+        $hasLoggedOut = auth("sanctum")
+            ->user()
+            ->currentAccessToken()
+            ->delete();
 
-        $request->session()->invalidate();
+        if ($hasLoggedOut) {
+            $message = "Logged Out";
+        } else {
+            $message = "Failed to log out";
+        }
 
-        $request->session()->regenerateToken();
-
-        return redirect('/');
+        return response(["message" => $message], 200);
     }
 }

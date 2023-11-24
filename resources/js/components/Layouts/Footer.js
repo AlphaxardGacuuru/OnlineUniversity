@@ -24,7 +24,7 @@ const Footer = () => {
 	return (
 		<React.Fragment>
 			{/* footer section */}
-			<footer className={`footer-section spad ps-4 pb-0 ${hide}`}>
+			<footer className={`footer-section spad px-4 pb-0 ${hide}`}>
 				<div className="footer-top">
 					<div className="footer-warp">
 						<div className="row">
@@ -138,13 +138,10 @@ const Footer = () => {
 			</footer>
 			{/* footer section end */}
 
-			<div className="row">
-				<center>
-					<div
-						id="scrollUpBtn"
-						onClick={onScroll}></div>
-					<br className="anti-hidden" />
-				</center>
+			<div
+				id="scrollUpBtn"
+				onClick={onScroll}>
+				<i className="fa fa-chevron-up"></i>
 			</div>
 		</React.Fragment>
 	)

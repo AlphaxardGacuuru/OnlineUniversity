@@ -41,13 +41,36 @@ function App() {
 		localStorage.setItem(state, JSON.stringify(data))
 	}
 
-	const url = process.env.MIX_APP_URL
+	const url = process.env.MIX_FRONTEND_URL
 
 	// Declare states
 	const [messages, setMessages] = useState([])
 	const [errors, setErrors] = useState([])
 	const [login, setLogin] = useState()
 	const [auth, setAuth] = useState(getLocalStorageAuth("auth"))
+
+	// Function for fetching data from API
+	const get = (endpoint, setState, storage = null, errors = true) => {
+		Axios.get(`/api/${endpoint}`)
+			.then((res) => {
+				var data = res.data ? res.data.data : []
+				setState(data)
+				storage && setLocalStorage(storage, data)
+			})
+			.catch(() => errors && setErrors([`Failed to fetch ${endpoint}`]))
+	}
+
+	// Function for getting errors from responses
+	const getErrors = (err, message = false) => {
+		const resErrors = err.response.data.errors
+		var newError = []
+		for (var resError in resErrors) {
+			newError.push(resErrors[resError])
+		}
+		// Get other errors
+		message && newError.push(err.response.data.message)
+		setErrors(newError)
+	}
 
 	const GLOBAL_STATE = {
 		getLocalStorage,
@@ -57,6 +80,8 @@ function App() {
 		setMessages,
 		errors,
 		setErrors,
+		get,
+		getErrors,
 		login,
 		setLogin,
 		auth,
@@ -66,7 +91,7 @@ function App() {
 	return (
 		<HashRouter>
 			<TopNav {...GLOBAL_STATE} />
-			<RouteList {...GLOBAL_STATE} />
+			<RouteList GLOBAL_STATE={GLOBAL_STATE} />
 			<Footer {...GLOBAL_STATE} />
 			<Messages {...GLOBAL_STATE} />
 		</HashRouter>

@@ -1,6 +1,8 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
+import { GoogleLoginButton } from "react-social-login-buttons"
+
 const login = () => {
 	return (
 		<section className="signup-section spad">
@@ -12,7 +14,7 @@ const login = () => {
 					<div className="col-lg-6">
 						<div className="signup-warp">
 							<div className="section-title text-white text-left">
-								<h2>Sign up to became a teacher</h2>
+								<h2>Sign up to became a student</h2>
 								<p>
 									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
 									malesuada lorem maximus mauris scelerisque, at rutrum nulla
@@ -22,44 +24,22 @@ const login = () => {
 							</div>
 							{/* <!-- signup form --> */}
 							<form className="signup-form">
-								<input
-									type="text"
-									placeholder="Your Name"
+								<GoogleLoginButton
+									className="border-0 m-0 w-100 mb-2"
+									onClick={() => onSocial("google")}
 								/>
-								<input
-									type="text"
-									placeholder="Your E-mail"
-								/>
-								<input
-									type="text"
-									placeholder="Your Phone"
-								/>
-								<label
-									htmlFor="v-upload"
-									className="file-up-btn">
-									Upload Course
-								</label>
-								
-								<div className="d-flex justify-content-between">
-									<Link
-										to="/register"
-										className="site-btn btn-dark">
-										Register
-									</Link>
-									<button className="site-btn">Login</button>
-								</div>
 
 								<h5 className="w-50 mx-auto my-4">Visit Other Portals</h5>
 
 								{/* Links to Other Portals */}
 								<div className="d-flex justify-content-between">
 									<Link
-										to="/admin"
+										to="/admin/login"
 										className="site-btn btn-dark">
 										Admin
 									</Link>
 									<Link
-										to="/professor"
+										to="/professor/login"
 										className="site-btn btn-dark">
 										Professor
 									</Link>

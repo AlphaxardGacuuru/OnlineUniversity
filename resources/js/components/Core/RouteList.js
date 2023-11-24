@@ -9,6 +9,7 @@ import Contact from "@/pages/contact"
 import Courses from "@/pages/courses"
 import Elements from "@/pages/elements"
 
+import AdminLogin from "@/pages/admin/login"
 import AdminDashboard from "@/pages/admin/index"
 
 const RouteList = ({ GLOBAL_STATE }) => {
@@ -41,6 +42,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 
 	// Admin Routes
 	const adminRoutes = [
+		{
+			path: "/admin/login",
+			component: <AdminLogin {...GLOBAL_STATE} />,
+		},
 		{
 			path: "/admin",
 			component: <AdminDashboard {...GLOBAL_STATE} />,
