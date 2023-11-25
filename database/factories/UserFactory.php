@@ -21,6 +21,8 @@ class UserFactory extends Factory
     {
         $email = fake()->unique()->safeEmail();
 
+        $gender = ["male", "female"];
+
         return [
             'name' => fake()->name(),
             'email' => $email,
@@ -29,6 +31,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'phone' => fake()->phoneNumber(),
             'avatar' => 'avatars/male-avatar.png',
+            'gender' => $gender[rand(0, 1)],
             'created_at' => Carbon::now()->subDay(rand(3, 12)),
         ];
     }
@@ -40,7 +43,7 @@ class UserFactory extends Factory
      */
     public function unverified()
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
@@ -60,7 +63,8 @@ class UserFactory extends Factory
             'phone' => '0700364446',
             'password' => Hash::make('alphaxardgacuuru47@gmail.com'),
             'remember_token' => Str::random(10),
-			'account_type' => 'admin'
+            'gender' => 'male',
+            'account_type' => 'admin',
         ]);
     }
 }

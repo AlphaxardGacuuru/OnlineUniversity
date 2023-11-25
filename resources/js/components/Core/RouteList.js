@@ -9,15 +9,26 @@ import Contact from "@/pages/contact"
 import Courses from "@/pages/courses"
 import Elements from "@/pages/elements"
 
+import AdminNav from "@/components/Layouts/AdminNav"
+
 import AdminLogin from "@/pages/admin/login"
 import AdminDashboard from "@/pages/admin/index"
+import AdminProfessors from "@/pages/admin/professors/index"
+import AdminProfessorCreate from "@/pages/admin/professors/create"
 
 const RouteList = ({ GLOBAL_STATE }) => {
-	const routes = [
+	const authRoutes = [
 		{
 			path: "/login",
 			component: <Login {...GLOBAL_STATE} />,
 		},
+		{
+			path: "/admin/login",
+			component: <AdminLogin {...GLOBAL_STATE} />,
+		},
+	]
+
+	const routes = [
 		{
 			path: "/",
 			component: <Index {...GLOBAL_STATE} />,
@@ -43,17 +54,32 @@ const RouteList = ({ GLOBAL_STATE }) => {
 	// Admin Routes
 	const adminRoutes = [
 		{
-			path: "/admin/login",
-			component: <AdminLogin {...GLOBAL_STATE} />,
-		},
-		{
 			path: "/admin",
 			component: <AdminDashboard {...GLOBAL_STATE} />,
 		},
-	] 
+		{
+			path: "/admin/professors",
+			component: <AdminProfessors {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/professors/create",
+			component: <AdminProfessorCreate {...GLOBAL_STATE} />,
+		},
+	]
 
 	return (
 		<React.Fragment>
+			{/* Auth Routes */}
+			{authRoutes.map((route, key) => (
+				<Route
+					key={key}
+					path={route.path}
+					exact
+					render={() => route.component}
+				/>
+			))}
+			{/* Auth Routes End */}
+
 			{/* Landing Page routes */}
 			{routes.map((route, key) => (
 				<Route
@@ -64,15 +90,18 @@ const RouteList = ({ GLOBAL_STATE }) => {
 				/>
 			))}
 			{/* Landing Page routes End */}
+
 			{/* Admin Routes */}
-			{adminRoutes.map((route, key) => (
-				<Route
-					key={key}
-					path={route.path}
-					exact
-					render={() => route.component}
-				/>
-			))}
+			<AdminNav {...GLOBAL_STATE}>
+				{adminRoutes.map((route, key) => (
+					<Route
+						key={key}
+						path={route.path}
+						exact
+						render={() => route.component}
+					/>
+				))}
+			</AdminNav>
 			{/* Admin Routes End */}
 		</React.Fragment>
 	)

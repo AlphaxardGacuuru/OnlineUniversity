@@ -21,8 +21,10 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone')->nullable();
             $table->string('avatar')->default('avatars/male-avatar.png');
+            $table->string('gender')->nullable();
             $table->string('account_type')->default('normal');
             $table->rememberToken();
+			$table->softDeletes();
             $table->timestamps();
         });
     }

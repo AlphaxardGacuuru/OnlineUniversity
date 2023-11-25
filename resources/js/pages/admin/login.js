@@ -37,14 +37,15 @@ const login = (props) => {
 					props.setMessages([res.data.message])
 					// Remove loader
 					setLoading(false)
-					// Hide Login Pop Up
-					props.setLogin(false)
 					// Encrypt and Save Sanctum Token to Local Storage
 					props.setLocalStorage("sanctumToken", encryptedToken(res.data.data))
 					// Update Logged in user
-					props.get(`auth`, props.setAuth, "auth", false)
+					// props.get(`auth`, props.setAuth, "auth", false)
 					// Reload page
-					setTimeout(() => (window.location.href = `${props.url}/#/admin`), 1000)
+					setTimeout(
+						() => (window.location.href = `${props.url}/#/admin`),
+						1000
+					)
 				})
 				.catch((err) => {
 					// Remove loader
@@ -100,8 +101,7 @@ const login = (props) => {
 										className="site-btn">
 										Login
 										{loading && (
-											<div
-												className="spinner-border spinner-border-sm border-2 light my-auto mx-2"></div>
+											<div className="spinner-border spinner-border-sm border-2 light my-auto mx-2"></div>
 										)}
 									</button>
 								</div>

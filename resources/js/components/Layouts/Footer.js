@@ -3,6 +3,8 @@ import { Link, useLocation } from "react-router-dom"
 
 import Img from "@/components/Core/Img"
 
+import ChevronUpSVG from "@/svgs/ChevronUpSVG"
+
 const Footer = () => {
 	const location = useLocation()
 
@@ -141,7 +143,7 @@ const Footer = () => {
 			<div
 				id="scrollUpBtn"
 				onClick={onScroll}>
-				<i className="fa fa-chevron-up"></i>
+				<ChevronUpSVG />
 			</div>
 		</React.Fragment>
 	)

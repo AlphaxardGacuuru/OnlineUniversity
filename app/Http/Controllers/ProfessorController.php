@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\Admin\ProfessorService;
 use App\Models\Professor;
 use Illuminate\Http\Request;
 
 class ProfessorController extends Controller
 {
+	public function __construct(protected ProfessorService $service)
+	{
+		// 
+	}
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,7 @@ class ProfessorController extends Controller
      */
     public function index()
     {
-        //
+        return $this->service->index();
     }
 
     /**
@@ -57,8 +63,14 @@ class ProfessorController extends Controller
      * @param  \App\Models\Professor  $professor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Professor $professor)
+    public function destroy($id)
     {
-        //
+        [$deleted, $message, $professor] = $this->service->destroy($id);
+
+		return response([
+			"status" => $deleted,
+			"message" => $message,
+			"data" => $professor
+		], 200);
     }
 }

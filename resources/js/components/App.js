@@ -48,6 +48,7 @@ function App() {
 	const [errors, setErrors] = useState([])
 	const [login, setLogin] = useState()
 	const [auth, setAuth] = useState(getLocalStorageAuth("auth"))
+	const [adminMenu, setAdminMenu] = useState("left-open")
 
 	// Function for fetching data from API
 	const get = (endpoint, setState, storage = null, errors = true) => {
@@ -72,6 +73,11 @@ function App() {
 		setErrors(newError)
 	}
 
+	// Fetch data on page load
+	useEffect(() => {
+		get("auth", setAuth, "auth", false)
+	}, [])
+
 	const GLOBAL_STATE = {
 		getLocalStorage,
 		setLocalStorage,
@@ -86,6 +92,8 @@ function App() {
 		setLogin,
 		auth,
 		setAuth,
+		adminMenu,
+		setAdminMenu,
 	}
 
 	return (

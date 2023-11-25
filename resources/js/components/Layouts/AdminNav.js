@@ -10,12 +10,12 @@ import DownloadSVG from "@/svgs/DownloadSVG"
 import MenuSVG from "@/svgs/MenuSVG"
 import PersonSVG from "@/svgs/PersonSVG"
 import HomeSVG from "@/svgs/HomeSVG"
-import ClubSVG from "@/svgs/ClubSVG"
-import ServiceSVG from "@/svgs/ServiceSVG"
-import PersonGearSVG from "@/svgs/PersonGearSVG"
 import PeopleSVG from "@/svgs/PeopleSVG"
-import BoxSVG from "@/svgs/BoxSVG"
-import PackageSVG from "@/svgs/PackageSVG"
+import FacultySVG from "@/svgs/FacultySVG"
+import DepartmentSVG from "@/svgs/DepartmentSVG"
+import CourseSVG from "@/svgs/CourseSVG"
+import StaffSVG from "@/svgs/StaffSVG"
+import StudentSVG from "@/svgs/StudentSVG"
 
 const AdminMenu = (props) => {
 	const location = useLocation()
@@ -25,29 +25,17 @@ const AdminMenu = (props) => {
 	const [avatarVisibility, setAvatarVisibility] = useState("")
 
 	useEffect(() => {
-		// Fetch Auth
-		location.pathname.match("/admin") &&
-			Axios.get("/api/admin/auth")
-				.then((res) => {
-					props.setAuth(res.data.data)
-					// Set LocalStorage
-					props.setLocalStorage("auth", res.data.data)
-				})
-				.catch((err) => {
-					props.getErrors(err, false)
+		var isInAdminPage =
+			location.pathname.match("/admin") &&
+			!location.pathname.match("/admin/login") &&
+			!location.pathname.match("/admin/register")
 
-					var isInAdminPage =
-						location.pathname.match("/admin") &&
-						!location.pathname.match("/admin/login") &&
-						!location.pathname.match("/admin/register")
-
-					// Handle Redirects for Admin
-					if (isInAdminPage) {
-						if (props.auth.accountType != "admin") {
-							router.push("/admin/login")
-						}
-					}
-				})
+		// Handle Redirects for Admin
+		if (isInAdminPage) {
+			if (props.auth.accountType != "admin") {
+				router.push("/admin/login")
+			}
+		}
 	}, [props.location])
 
 	const logout = () => {
@@ -101,9 +89,7 @@ const AdminMenu = (props) => {
 				<header className="header-area bg-primary shadow">
 					<div className="container-fluid p-0">
 						<div className="row">
-							<div
-								className="col-12"
-								style={{ padding: "0" }}>
+							<div className="col-12">
 								<div className="menu-area d-flex justify-content-between">
 									<div className="d-flex align-items-center">
 										{/* <!-- Left Menu Icon --> */}
@@ -124,8 +110,8 @@ const AdminMenu = (props) => {
 										<div className="logo-area">
 											<Link
 												to="/admin"
-												className="text-white">
-												Party People
+												className="text-white fs-1">
+												Web Uni
 												{/* <span className="main-logo">Party People</span> */}
 											</Link>
 										</div>
@@ -137,7 +123,7 @@ const AdminMenu = (props) => {
 											{/* Admin */}
 											<Link
 												to="/"
-												className="btn btn-outline-light rounded-pill text-uppercase mx-3">
+												className="btn btn-outline-light rounded-pill text-uppercase mx-3 hidden">
 												visit website
 											</Link>
 										</div>
@@ -191,9 +177,9 @@ const AdminMenu = (props) => {
 																	/>
 																</div>
 																<div className="ps-2">
-																	<h5 className="text-wrap">
+																	<h6 className="text-wrap fs-6">
 																		{props.auth?.name}
-																	</h5>
+																	</h6>
 																</div>
 															</div>
 														</Link>
@@ -214,7 +200,7 @@ const AdminMenu = (props) => {
 															to="#"
 															className="p-2 px-3 dropdown-item"
 															onClick={(e) => logout(e)}>
-															<h6>
+															<h6 className="fs-6">
 																<span className="me-2">
 																	<LogoutSVG />
 																</span>
@@ -267,12 +253,12 @@ const AdminMenu = (props) => {
 								{/* Customers Link */}
 								<li className="nav-item">
 									<Link
-										to={`/admin/user`}
-										className={`nav-link ${activeStrict("/admin/user")}`}>
+										to={`/admin/professors`}
+										className={`nav-link ${activeStrict("/admin/professors")}`}>
 										<div className="nav-link-icon">
-											<PeopleSVG />
+											<PersonSVG />
 										</div>
-										<div className="nav-link-text">Customers</div>
+										<div className="nav-link-text">Professors</div>
 									</Link>
 								</li>
 								{/* Customers Link End */}
@@ -284,105 +270,60 @@ const AdminMenu = (props) => {
 											active("/admin/club") || active("/admin/good")
 										}`}>
 										<div className="nav-link-icon">
-											<ClubSVG />
+											<StudentSVG />
 										</div>
-										<div className="nav-link-text">Clubs</div>
+										<div className="nav-link-text">Students</div>
 									</Link>
 								</li>
 								{/* Clubs Link End */}
-								{/* Orders Link */}
+								{/* Faculties Link */}
 								<li className="nav-item">
 									<Link
-										to={`/admin/order`}
-										className={`nav-link ${activeStrict("/admin/order")}`}>
+										to={`/admin/faculties`}
+										className={`nav-link ${active("/admin/faculties")}`}>
 										<div className="nav-link-icon">
-											<BoxSVG />
+											<FacultySVG />
 										</div>
-										<div className="nav-link-text">Orders</div>
+										<div className="nav-link-text">Faculties</div>
 									</Link>
 								</li>
-								{/* Club Links */}
-								{/* Services Link */}
+								{/* Faculties Link End */}
+								{/* Departments Link */}
 								<li className="nav-item">
 									<Link
-										to={`/admin/service`}
-										className={`nav-link ${active("/admin/service")}`}>
+										to={`/admin/departments`}
+										className={`nav-link ${active("/admin/departments")}`}>
 										<div className="nav-link-icon">
-											<ServiceSVG />
+											<DepartmentSVG />
 										</div>
-										<div className="nav-link-text">Services</div>
+										<div className="nav-link-text">Departments</div>
 									</Link>
 								</li>
-								{/* Services Links */}
-								{/* Packages Link */}
+								{/* Departments Link End */}
+								{/* Courses Link */}
 								<li className="nav-item">
 									<Link
-										to={`/admin/club-package`}
-										className={`nav-link ${active("/admin/package")}`}>
+										to={`/admin/courses`}
+										className={`nav-link ${active("/admin/courses")}`}>
 										<div className="nav-link-icon">
-											<PackageSVG />
+											<CourseSVG />
 										</div>
-										<div className="nav-link-text">Packages</div>
+										<div className="nav-link-text">Courses</div>
 									</Link>
 								</li>
-								{/* Packages Links */}
-								{/* <li className="nav-item">
-								<a
-									href="#"
-									className={`nav-link accordion-button ${active(
-										"/admin/club/"
-									)}`}
-									data-bs-toggle="collapse"
-									data-bs-target="#collapseClub"
-									aria-expanded="false"
-									aria-controls="collapseClub">
-									<span>
-										<ClubSVG />
-									</span>
-									Clubs
-									</a> */}
-
-								{/* Collapse */}
-								{/* <div
-									className="collapse"
-									id="collapseClub">
-									<ol>
-										<li className="nav-item">
-											<Link
-												to="/admin/club"
-												className={`nav-link ${active("/admin/club")}`}>
-												All Clubs
-											</Link>
-										</li>
-									</ol>
-								</div>
-							</li> */}
-								{/* Collapse End */}
-								{/* Club Links End */}
+								{/* Courses Link End */}
 								{/* Staff Links */}
 								<li className="nav-item">
 									<Link
 										to={`/admin/staff`}
 										className={`nav-link ${active("/admin/staff")}`}>
 										<div className="nav-link-icon">
-											<PersonSVG />
+											<StaffSVG />
 										</div>
 										<div className="nav-link-text">Staff</div>
 									</Link>
 								</li>
 								{/* Staff Link End */}
-								{/* Role Links */}
-								<li className="nav-item">
-									<Link
-										to={`/admin/role`}
-										className={`nav-link ${active("/admin/role")}`}>
-										<div className="nav-link-icon">
-											<PersonGearSVG />
-										</div>
-										<div className="nav-link-text">Roles</div>
-									</Link>
-								</li>
-								{/* Role Link End */}
 							</ul>
 						</nav>
 					</div>
