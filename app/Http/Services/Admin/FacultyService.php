@@ -17,4 +17,61 @@ class FacultyService extends Service
 
 		return FacultyResource::collection($faculties);
 	}
+
+	/*
+	* Get One Faculty
+	*/ 
+	public function show($id)
+	{
+		$faculty = Faculty::find($id);
+
+		return new FacultyResource($faculty);
+	}
+
+	/*
+	* Store Faculty
+	*/ 
+	public function store($request)
+	{
+		$faculty = new Faculty;
+		$faculty->name = $request->input("name");
+		
+		$saved = $faculty->save();
+
+		$message = $faculty->name . " created successfully";
+
+		return [$saved, $message, $faculty];
+	}
+
+	/*
+	* Update Faculty
+	*/ 
+	public function update($request, $id)
+	{
+		$faculty = Faculty::find($id);
+
+		if ($request->filled("name")) {
+			$faculty->name = $request->input("name");
+		}
+		
+		$saved = $faculty->save();
+
+		$message = $faculty->name . " created successfully";
+
+		return [$saved, $message, $faculty];
+	}
+
+	/*
+	* Destroy
+	*/ 
+	public function destroy($id)
+	{
+		$faculty = Faculty::find($id);
+
+		$deleted = $faculty->delete();
+
+		$message = $faculty->name . " deleted successfully";
+
+		return [$deleted, $message, $faculty];
+	}
 }

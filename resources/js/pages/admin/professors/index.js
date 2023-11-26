@@ -43,10 +43,10 @@ const index = (props) => {
 				props.getErrors(err)
 			})
 	}
+	
 	return (
 		<div className="row">
 			<div className="col-sm-12">
-
 				{/* Data */}
 				<div className="card shadow-sm p-2">
 					<div className="d-flex justify-content-between">
@@ -120,7 +120,7 @@ const index = (props) => {
 						<thead>
 							<tr>
 								<th colSpan="9"></th>
-								<th>
+								<th className="text-end">
 									<MyLink
 										linkTo="/admin/professors/create"
 										text="create"
@@ -174,7 +174,7 @@ const index = (props) => {
 										<td>{professor.facultyName}</td>
 										<td>{professor.departmentName}</td>
 										<td>{professor.createdAt}</td>
-										<td>
+										<td className="text-end">
 											<div className="d-flex">
 												<MyLink
 													linkTo={`/admin/professors/${professor.id}/edit`}

@@ -119,7 +119,7 @@ const index = (props) => {
 						<thead>
 							<tr>
 								<th colSpan="9"></th>
-								<th>
+								<th className="text-end">
 									<MyLink
 										linkTo="/admin/students/create"
 										text="create"
@@ -173,7 +173,7 @@ const index = (props) => {
 										<td>{student.facultyName}</td>
 										<td>{student.departmentName}</td>
 										<td>{student.createdAt}</td>
-										<td>
+										<td className="text-end">
 											<div className="d-flex">
 												<MyLink
 													linkTo={`/admin/students/${student.id}/edit`}

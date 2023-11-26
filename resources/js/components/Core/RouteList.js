@@ -26,6 +26,14 @@ import AdminStaff from "@/pages/admin/staff/index"
 import AdminStaffCreate from "@/pages/admin/staff/create"
 import AdminStaffEdit from "@/pages/admin/staff/[id]"
 
+import AdminFaculties from "@/pages/admin/faculties/index"
+import AdminFacultyCreate from "@/pages/admin/faculties/create"
+import AdminFacultyShow from "@/pages/admin/faculties/[id]"
+import AdminFacultyEdit from "@/pages/admin/faculties/edit/[id]"
+
+import AdminDepartmentCreate from "@/pages/admin/departments/create"
+import AdminDepartmentEdit from "@/pages/admin/departments/[id]"
+
 const RouteList = ({ GLOBAL_STATE }) => {
 	const authRoutes = [
 		{
@@ -102,6 +110,30 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/staff/:id/edit",
 			component: <AdminStaffEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/faculties",
+			component: <AdminFaculties {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/faculties/create",
+			component: <AdminFacultyCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/faculties/:id/show",
+			component: <AdminFacultyShow {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/faculties/:id/edit",
+			component: <AdminFacultyEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/departments/:id/create",
+			component: <AdminDepartmentCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/departments/:id/edit",
+			component: <AdminDepartmentEdit {...GLOBAL_STATE} />,
 		},
 	]
 

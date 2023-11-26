@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {
-	public function __construct(protected DepartmentService $service)
-	{
-		// 
-	}
+    public function __construct(protected DepartmentService $service)
+    {
+        //
+    }
 
     /**
      * Display a listing of the resource.
@@ -31,7 +31,18 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            "name" => "required|string",
+            "facultyId" => "required|string",
+        ]);
+
+        [$saved, $message, $department] = $this->service->store($request);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $department,
+        ]);
     }
 
     /**
@@ -40,9 +51,9 @@ class DepartmentController extends Controller
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function show(Department $department)
+    public function show($id)
     {
-        //
+        return $this->service->show($id);
     }
 
     /**
@@ -52,9 +63,20 @@ class DepartmentController extends Controller
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Department $department)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            "name" => "nullable|string",
+            "facultyId" => "nullable|string",
+        ]);
+
+        [$saved, $message, $department] = $this->service->update($request, $id);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $department,
+        ], 200);
     }
 
     /**
@@ -63,8 +85,14 @@ class DepartmentController extends Controller
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Department $department)
+    public function destroy($id)
     {
-        //
+        [$deleted, $message, $department] = $this->service->destroy($id);
+
+        return response([
+            "status" => $deleted,
+            "message" => $message,
+            "data" => $department,
+        ], 200);
     }
 }

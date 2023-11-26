@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\Admin\FacultyService;
-use App\Models\Faculty;
 use Illuminate\Http\Request;
 
 class FacultyController extends Controller
@@ -31,7 +30,17 @@ class FacultyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+			"name" => "required|string"
+		]);
+
+		[$saved, $message, $faculty] = $this->service->store($request);
+
+		return response([
+			"status" => $saved,
+			"message" => $message,
+			"data" => $faculty
+		], 200);
     }
 
     /**
@@ -40,9 +49,9 @@ class FacultyController extends Controller
      * @param  \App\Models\Faculty  $faculty
      * @return \Illuminate\Http\Response
      */
-    public function show(Faculty $faculty)
+    public function show($id)
     {
-        //
+        return $this->service->show($id);
     }
 
     /**
@@ -52,9 +61,19 @@ class FacultyController extends Controller
      * @param  \App\Models\Faculty  $faculty
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Faculty $faculty)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+			"name" => "nullable|string"
+		]);
+
+		[$saved, $message, $faculty] = $this->service->update($request, $id);
+
+		return response([
+			"status" => $saved,
+			"message" => $message,
+			"data" => $faculty
+		], 200);
     }
 
     /**
@@ -63,8 +82,14 @@ class FacultyController extends Controller
      * @param  \App\Models\Faculty  $faculty
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Faculty $faculty)
+    public function destroy($id)
     {
-        //
+        [$deleted, $message, $faculty] = $this->service->destroy($id);
+
+		return response([
+			"status" => $deleted,
+			"message" => $message,
+			"data" => $faculty
+		], 200);
     }
 }
