@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Link, useLocation, useHistory, withRouter } from "react-router-dom"
 
+import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
 
@@ -16,6 +17,7 @@ import DepartmentSVG from "@/svgs/DepartmentSVG"
 import CourseSVG from "@/svgs/CourseSVG"
 import StaffSVG from "@/svgs/StaffSVG"
 import StudentSVG from "@/svgs/StudentSVG"
+import ChevronRightSVG from "@/svgs/ChevronRightSVG"
 
 const AdminMenu = (props) => {
 	const location = useLocation()
@@ -220,7 +222,6 @@ const AdminMenu = (props) => {
 					</div>
 				</header>
 				<br />
-				<br />
 				{/* Remove for profile page for better background image */}
 				{location.pathname.match(/profile/) ? (
 					<br className="hidden" />
@@ -254,7 +255,7 @@ const AdminMenu = (props) => {
 								<li className="nav-item">
 									<Link
 										to={`/admin/professors`}
-										className={`nav-link ${activeStrict("/admin/professors")}`}>
+										className={`nav-link ${active("/admin/professors")}`}>
 										<div className="nav-link-icon">
 											<PersonSVG />
 										</div>
@@ -331,7 +332,35 @@ const AdminMenu = (props) => {
 					<br />
 				</div>
 				{/* <!-- ***** Side Menu Area End ***** --> */}
-				<div className="left-main">{props.children}</div>
+				<div className="left-main px-4">
+					<h2>{props.page.name}</h2>
+
+					<div className="d-flex justify-content-start">
+						{props.page.path.map((path, key) => (
+							<div key={key}>
+								{key < props.page.path.length - 1 ? (
+									<MyLink
+										linkTo={`/admin/${path}`}
+										className="btn btn-sm btn-outline-secondary my-3"
+										text={path}
+									/>
+								) : (
+									<Btn
+										btnClass="btn btn-sm btn-secondary my-3"
+										btnText={path}
+									/>
+								)}
+
+								{key < props.page.path.length - 1 && (
+									<span className="text-secondary">
+										<ChevronRightSVG />
+									</span>
+								)}
+							</div>
+						))}
+					</div>
+					{props.children}
+				</div>
 			</div>
 
 			{/* Sliding Bottom Nav */}

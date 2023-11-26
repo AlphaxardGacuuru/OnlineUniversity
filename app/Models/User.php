@@ -7,10 +7,10 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
@@ -72,5 +72,39 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn($value) => Carbon::parse($value)->format('d M Y'),
         );
+    }
+
+    /*
+     * Relationships
+     */
+
+    public function userFaculties()
+    {
+        return $this->hasMany(UserFaculty::class);
+    }
+
+    public function userDepartments()
+    {
+        return $this->hasMany(UserDepartment::class);
+    }
+
+    /*
+     * Custom functions
+     */
+
+    public function faculty()
+    {
+        return $this->userFaculties()
+            ->get()
+            ->map(fn($userFaculty) => $userFaculty->faculty)
+            ->first();
+    }
+
+    public function department()
+    {
+        return $this->userDepartments()
+            ->get()
+            ->map(fn($userDepartment) => $userDepartment->department)
+            ->first();
     }
 }

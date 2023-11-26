@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 
 class ProfessorController extends Controller
 {
-	public function __construct(protected ProfessorService $service)
-	{
-		// 
-	}
+    public function __construct(protected ProfessorService $service)
+    {
+        //
+    }
 
     /**
      * Display a listing of the resource.
@@ -31,7 +31,22 @@ class ProfessorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            "name" => "required|string",
+            "email" => "required|email|unique:users",
+            "phone" => "string|unique:users",
+            "gender" => "required|string",
+            "facultyId" => "required|string",
+            "departmentId" => "required|string",
+        ]);
+
+        [$saved, $message, $professor] = $this->service->store($request);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $professor,
+        ], 200);
     }
 
     /**
@@ -40,9 +55,9 @@ class ProfessorController extends Controller
      * @param  \App\Models\Professor  $professor
      * @return \Illuminate\Http\Response
      */
-    public function show(Professor $professor)
+    public function show($id)
     {
-        //
+        return $this->service->show($id);
     }
 
     /**
@@ -52,9 +67,24 @@ class ProfessorController extends Controller
      * @param  \App\Models\Professor  $professor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Professor $professor)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            "name" => "nullable|string",
+            "email" => "nullable|email|unique:users",
+            "phone" => "string|unique:users",
+            "gender" => "nullable|string",
+            "facultyId" => "nullable|string",
+            "departmentId" => "nullable|string",
+        ]);
+
+        [$saved, $message, $professor] = $this->service->update($request, $id);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $professor,
+        ], 200);
     }
 
     /**
@@ -67,10 +97,10 @@ class ProfessorController extends Controller
     {
         [$deleted, $message, $professor] = $this->service->destroy($id);
 
-		return response([
-			"status" => $deleted,
-			"message" => $message,
-			"data" => $professor
-		], 200);
+        return response([
+            "status" => $deleted,
+            "message" => $message,
+            "data" => $professor,
+        ], 200);
     }
 }

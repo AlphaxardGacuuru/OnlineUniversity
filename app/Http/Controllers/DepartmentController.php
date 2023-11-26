@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\Admin\DepartmentService;
 use App\Models\Department;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {
+	public function __construct(protected DepartmentService $service)
+	{
+		// 
+	}
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+        return $this->service->index();
     }
 
     /**

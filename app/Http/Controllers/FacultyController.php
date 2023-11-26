@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\Admin\FacultyService;
 use App\Models\Faculty;
 use Illuminate\Http\Request;
 
 class FacultyController extends Controller
 {
+	public function __construct(protected FacultyService $service)
+	{
+		// 
+	}
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,7 @@ class FacultyController extends Controller
      */
     public function index()
     {
-        //
+        return $this->service->index();
     }
 
     /**
