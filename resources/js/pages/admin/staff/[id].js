@@ -7,28 +7,22 @@ import MyLink from "@/components/Core/MyLink"
 const edit = (props) => {
 	var { id } = useParams()
 
-	const [student, setStudent] = useState({})
+	const [staff, setStaff] = useState({})
 	const [name, setName] = useState()
 	const [email, setEmail] = useState()
 	const [phone, setPhone] = useState()
 	const [gender, setGender] = useState()
-	const [facultyId, setFacultyId] = useState()
-	const [departmentId, setDepartmentId] = useState()
-	const [faculties, setFaculties] = useState([])
-	const [departments, setDepartments] = useState([])
 	const [loading, setLoading] = useState()
 
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Edit Student", path: ["students", "edit"] })
+		props.setPage({ name: "Edit Staff", path: ["staff", "edit"] })
 
-		Axios.get(`/api/students/${id}`).then((res) => {
-			setStudent(res.data.data)
+		Axios.get(`/api/staff/${id}`).then((res) => {
+			setStaff(res.data.data)
 			setFacultyId(res.data.data.facultyId.toString())
 		})
-		props.get("faculties", setFaculties)
-		props.get("departments", setDepartments)
 	}, [])
 
 	/*
@@ -38,13 +32,11 @@ const edit = (props) => {
 		e.preventDefault()
 
 		setLoading(true)
-		Axios.put(`/api/students/${id}`, {
+		Axios.put(`/api/staff/${id}`, {
 			name: name,
 			email: email,
 			phone: phone,
 			gender: gender,
-			facultyId: facultyId,
-			departmentId: departmentId,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -66,21 +58,21 @@ const edit = (props) => {
 					<input
 						type="text"
 						name="name"
-						placeholder={student.name}
+						placeholder={staff.name}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
 					/>
 					<input
 						type="text"
 						name="email"
-						placeholder={student.email}
+						placeholder={staff.email}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setEmail(e.target.value)}
 					/>
 					<input
 						type="tel"
 						name="phone"
-						placeholder={student.phone}
+						placeholder={staff.phone}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setPhone(e.target.value)}
 					/>
@@ -92,46 +84,14 @@ const edit = (props) => {
 						<option value="">Select Gender</option>
 						<option
 							value="male"
-							selected={student.gender == "male"}>
+							selected={staff.gender == "male"}>
 							Male
 						</option>
 						<option
 							value="female"
-							selected={student.gender == "female"}>
+							selected={staff.gender == "female"}>
 							Female
 						</option>
-					</select>
-
-					<select
-						name="facultyId"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setFacultyId(e.target.value)}>
-						<option value="">Select Faculty</option>
-						{faculties.map((faculty, key) => (
-							<option
-								key={key}
-								value={faculty.id}
-								selected={student.facultyId == faculty.id}>
-								{faculty.name}
-							</option>
-						))}
-					</select>
-
-					<select
-						name="departmentId"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setDepartmentId(e.target.value)}>
-						<option value="">Select Department</option>
-						{departments
-							.filter((department) => department.facultyId == facultyId)
-							.map((department, key) => (
-								<option
-									key={key}
-									value={department.id}
-									selected={student.departmentId == department.id}>
-									{department.name}
-								</option>
-							))}
 					</select>
 
 					<div className="d-flex justify-content-end mb-2">
@@ -143,8 +103,8 @@ const edit = (props) => {
 
 					<center>
 						<MyLink
-							linkTo="/admin/students"
-							text="back to students"
+							linkTo="/admin/staff"
+							text="back to staff"
 						/>
 					</center>
 

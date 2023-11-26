@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Staff;
+use App\Http\Services\Admin\StaffService;
 use Illuminate\Http\Request;
 
 class StaffController extends Controller
 {
+    public function __construct(protected StaffService $service)
+    {
+        //
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,7 @@ class StaffController extends Controller
      */
     public function index()
     {
-        //
+        return $this->service->index();
     }
 
     /**
@@ -25,7 +30,20 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            "name" => "required|string",
+            "email" => "required|email|unique:users",
+            "phone" => "string|unique:users",
+            "gender" => "required|string",
+        ]);
+
+        [$saved, $message, $staff] = $this->service->store($request);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $staff,
+        ], 200);
     }
 
     /**
@@ -34,9 +52,9 @@ class StaffController extends Controller
      * @param  \App\Models\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function show(Staff $staff)
+    public function show($id)
     {
-        //
+        return $this->service->show($id);
     }
 
     /**
@@ -46,9 +64,22 @@ class StaffController extends Controller
      * @param  \App\Models\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Staff $staff)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            "name" => "nullable|string",
+            "email" => "nullable|email|unique:users",
+            "phone" => "string|unique:users",
+            "gender" => "nullable|string",
+        ]);
+
+        [$saved, $message, $staff] = $this->service->update($request, $id);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $staff,
+        ], 200);
     }
 
     /**
@@ -57,8 +88,14 @@ class StaffController extends Controller
      * @param  \App\Models\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Staff $staff)
+    public function destroy($id)
     {
-        //
+        [$deleted, $message, $staff] = $this->service->destroy($id);
+
+        return response([
+            "status" => $deleted,
+            "message" => $message,
+            "data" => $staff,
+        ], 200);
     }
 }

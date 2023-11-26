@@ -22,6 +22,10 @@ import AdminStudents from "@/pages/admin/students/index"
 import AdminStudentCreate from "@/pages/admin/students/create"
 import AdminStudentEdit from "@/pages/admin/students/[id]"
 
+import AdminStaff from "@/pages/admin/staff/index"
+import AdminStaffCreate from "@/pages/admin/staff/create"
+import AdminStaffEdit from "@/pages/admin/staff/[id]"
+
 const RouteList = ({ GLOBAL_STATE }) => {
 	const authRoutes = [
 		{
@@ -86,6 +90,18 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/students/:id/edit",
 			component: <AdminStudentEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/staff",
+			component: <AdminStaff {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/staff/create",
+			component: <AdminStaffCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/staff/:id/edit",
+			component: <AdminStaffEdit {...GLOBAL_STATE} />,
 		},
 	]
 

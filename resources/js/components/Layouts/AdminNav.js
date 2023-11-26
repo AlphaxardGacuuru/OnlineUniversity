@@ -289,18 +289,6 @@ const AdminMenu = (props) => {
 									</Link>
 								</li>
 								{/* Faculties Link End */}
-								{/* Departments Link */}
-								<li className="nav-item">
-									<Link
-										to={`/admin/departments`}
-										className={`nav-link ${active("/admin/departments")}`}>
-										<div className="nav-link-icon">
-											<DepartmentSVG />
-										</div>
-										<div className="nav-link-text">Departments</div>
-									</Link>
-								</li>
-								{/* Departments Link End */}
 								{/* Courses Link */}
 								<li className="nav-item">
 									<Link
