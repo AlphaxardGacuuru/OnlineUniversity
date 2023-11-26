@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('avatar')->default('avatars/male-avatar.png');
             $table->string('gender')->nullable();
-            $table->string('account_type')->default('normal');
+            $table->string('account_type')->default('student');
             $table->rememberToken();
 			$table->softDeletes();
             $table->timestamps();

@@ -1,19 +1,21 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Link, useHistory, useLocation } from "react-router-dom"
 
 import CryptoJS from "crypto-js"
-// import Axios from "axios"
-// import { useAuth } from "@/hooks/auth";
-
-import Btn from "@/components/Core/Btn"
-import MyLink from "@/components/Core/MyLink"
-
-import { GoogleLoginButton } from "react-social-login-buttons"
 
 const login = (props) => {
+	var router = useHistory()
+
 	const [email, setEmail] = useState("alphaxardgacuuru47@gmail.com")
 	const [password, setPassword] = useState("alphaxardgacuuru47@gmail.com")
 	const [loading, setLoading] = useState(false)
+
+	useEffect(() => {
+		// Handle Redirects for Admin
+		if (props.auth.accountType == "admin") {
+			router.push("/admin")
+		}
+	}, [])
 
 	// Encrypt Token
 	const encryptedToken = (token) => {
@@ -42,10 +44,7 @@ const login = (props) => {
 					// Update Logged in user
 					// props.get(`auth`, props.setAuth, "auth", false)
 					// Reload page
-					setTimeout(
-						() => (window.location.href = `${props.url}/#/admin`),
-						1000
-					)
+					setTimeout(() => window.location.reload(), 1000)
 				})
 				.catch((err) => {
 					// Remove loader
@@ -56,7 +55,7 @@ const login = (props) => {
 	}
 
 	return (
-		<section className="signup-section spad">
+		<section className="signup-section spad py-5">
 			<div
 				className="signup-bg set-bg"
 				style={{ background: `url("/storage/img/signup-bg.jpg")` }}></div>
@@ -69,8 +68,9 @@ const login = (props) => {
 								<p>
 									Lorem ipsum dolor sit amet consectetur, adipisicing elit.
 									Distinctio earum, eligendi tenetur placeat praesentium iure.
-									Cum libero blanditiis aut, provident fugiat aliquid sit et
-									quae animi expedita quo eos ducimus.
+									Nam aperiam blanditiis repellendus, pariatur eveniet
+									similique, ipsam consequatur nostrum ipsum, molestiae quas
+									magnam quibusdam nobis neque quidem delectus culpa!
 								</p>
 							</div>
 							<form
@@ -78,13 +78,15 @@ const login = (props) => {
 								className="signup-form">
 								<input
 									type="text"
-									placeholder="Your E-mail"
+									placeholder="Your Email"
+									value={email}
 									onChange={(e) => setEmail(e.target.value)}
 									autoComplete="email"
 								/>
 								<input
 									type="password"
 									placeholder="Your Password"
+									value={password}
 									onChange={(e) => setPassword(e.target.value)}
 								/>
 

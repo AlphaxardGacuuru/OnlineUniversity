@@ -20,7 +20,7 @@ const create = (props) => {
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Create Professor", path: ["professors", "create"] })
+		props.setPage({ name: "Create Student", path: ["students", "create"] })
 		props.get("faculties", setFaculties)
 		props.get("departments", setDepartments)
 	}, [])
@@ -32,7 +32,7 @@ const create = (props) => {
 		e.preventDefault()
 
 		setLoading(true)
-		Axios.post("/api/professors", {
+		Axios.post("/api/students", {
 			name: name,
 			email: email,
 			phone: phone,
@@ -44,8 +44,8 @@ const create = (props) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
-				// Redirect to Professors
-				setTimeout(() => history.push("/admin/professors"), 1000)
+				// Redirect to Students
+				setTimeout(() => history.push("/admin/students"), 1000)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -135,8 +135,8 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-center">
 						<MyLink
-							linkTo="/admin/professors"
-							text="back to professors"
+							linkTo="/admin/students"
+							text="back to students"
 						/>
 					</div>
 					<div className="col-sm-4"></div>

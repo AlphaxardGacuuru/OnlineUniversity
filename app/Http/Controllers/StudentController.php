@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\Admin\StudentService;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
+    public function __construct(protected StudentService $service)
+    {
+        //
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        return $this->service->index();
     }
 
     /**
@@ -25,7 +31,22 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            "name" => "required|string",
+            "email" => "required|email|unique:users",
+            "phone" => "string|unique:users",
+            "gender" => "required|string",
+            "facultyId" => "required|string",
+            "departmentId" => "required|string",
+        ]);
+
+        [$saved, $message, $professor] = $this->service->store($request);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $professor,
+        ], 200);
     }
 
     /**
@@ -34,9 +55,9 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function show(Student $student)
+    public function show($id)
     {
-        //
+        return $this->service->show($id);
     }
 
     /**
@@ -46,9 +67,24 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Student $student)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            "name" => "nullable|string",
+            "email" => "nullable|email|unique:users",
+            "phone" => "string|unique:users",
+            "gender" => "nullable|string",
+            "facultyId" => "nullable|string",
+            "departmentId" => "nullable|string",
+        ]);
+
+        [$saved, $message, $professor] = $this->service->update($request, $id);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $professor,
+        ], 200);
     }
 
     /**
@@ -57,8 +93,14 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $student)
+    public function destroy($id)
     {
-        //
+        [$deleted, $message, $professor] = $this->service->destroy($id);
+
+        return response([
+            "status" => $deleted,
+            "message" => $message,
+            "data" => $professor,
+        ], 200);
     }
 }

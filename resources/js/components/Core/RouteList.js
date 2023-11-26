@@ -13,9 +13,14 @@ import AdminNav from "@/components/Layouts/AdminNav"
 
 import AdminLogin from "@/pages/admin/login"
 import AdminDashboard from "@/pages/admin/index"
+
 import AdminProfessors from "@/pages/admin/professors/index"
 import AdminProfessorCreate from "@/pages/admin/professors/create"
 import AdminProfessorEdit from "@/pages/admin/professors/[id]"
+
+import AdminStudents from "@/pages/admin/students/index"
+import AdminStudentCreate from "@/pages/admin/students/create"
+import AdminStudentEdit from "@/pages/admin/students/[id]"
 
 const RouteList = ({ GLOBAL_STATE }) => {
 	const authRoutes = [
@@ -69,6 +74,18 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/professors/:id/edit",
 			component: <AdminProfessorEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/students",
+			component: <AdminStudents {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/students/create",
+			component: <AdminStudentCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/students/:id/edit",
+			component: <AdminStudentEdit {...GLOBAL_STATE} />,
 		},
 	]
 

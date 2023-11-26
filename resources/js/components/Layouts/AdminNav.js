@@ -266,9 +266,9 @@ const AdminMenu = (props) => {
 								{/* Clubs Link */}
 								<li className="nav-item">
 									<Link
-										to={`/admin/club`}
+										to={`/admin/students`}
 										className={`nav-link ${
-											active("/admin/club") || active("/admin/good")
+											active("/admin/students") || active("/admin/students")
 										}`}>
 										<div className="nav-link-icon">
 											<StudentSVG />
