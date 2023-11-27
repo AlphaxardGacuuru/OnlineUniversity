@@ -42,7 +42,7 @@ const login = (props) => {
 					// Encrypt and Save Sanctum Token to Local Storage
 					props.setLocalStorage("sanctumToken", encryptedToken(res.data.data))
 					// Update Logged in user
-					// props.get(`auth`, props.setAuth, "auth", false)
+					props.get(`auth`, props.setAuth, "auth", false)
 					// Reload page
 					setTimeout(() => window.location.href = `${props.url}/#/admin`, 500)
 				})

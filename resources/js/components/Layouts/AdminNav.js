@@ -35,7 +35,7 @@ const AdminMenu = (props) => {
 		// Handle Redirects for Admin
 		if (isInAdminPage) {
 			if (props.auth.accountType != "admin") {
-				router.push("/admin/login")
+				setTimeout(() => router.push("/admin/login"), 5000)
 			}
 		}
 	}, [props.location])

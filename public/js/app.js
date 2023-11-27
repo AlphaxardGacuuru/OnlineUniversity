@@ -103389,7 +103389,9 @@ var AdminMenu = function AdminMenu(props) {
     // Handle Redirects for Admin
     if (isInAdminPage) {
       if (props.auth.accountType != "admin") {
-        router.push("/admin/login");
+        setTimeout(function () {
+          return router.push("/admin/login");
+        }, 5000);
       }
     }
   }, [props.location]);
@@ -103873,7 +103875,9 @@ var InstructorMenu = function InstructorMenu(props) {
     // Handle Redirects for Instructor
     if (isInInstructorPage) {
       if (props.auth.accountType != "instructor") {
-        router.push("/instructor/login");
+        setTimeout(function () {
+          return router.push("/instructor/login");
+        }, 5000);
       }
     }
   }, [props.location]);
@@ -106669,7 +106673,7 @@ var login = function login(props) {
         // Encrypt and Save Sanctum Token to Local Storage
         props.setLocalStorage("sanctumToken", encryptedToken(res.data.data));
         // Update Logged in user
-        // props.get(`auth`, props.setAuth, "auth", false)
+        props.get("auth", props.setAuth, "auth", false);
         // Reload page
         setTimeout(function () {
           return window.location.href = "".concat(props.url, "/#/admin");
@@ -110698,11 +110702,18 @@ var login = function login(props) {
         // Encrypt and Save Sanctum Token to Local Storage
         props.setLocalStorage("sanctumToken", encryptedToken(res.data.data));
         // Update Logged in user
-        // props.get(`auth`, props.setAuth, "auth", false)
-        // Reload page
-        setTimeout(function () {
-          return window.location.href = "".concat(props.url, "/#/instructor");
-        }, 500);
+        Axios.get("/api/auth", {
+          headers: {
+            Authorization: "Bearer ".concat(res.data.data)
+          }
+        }).then(function (res) {
+          // Set LocalStorage
+          props.setLocalStorage("auth", res.data.data);
+          // Reload page
+          window.location.href = "/#/admin";
+        })["catch"](function (err) {
+          return props.getErrors(err, false);
+        });
       })["catch"](function (err) {
         // Remove loader
         setLoading(false);
