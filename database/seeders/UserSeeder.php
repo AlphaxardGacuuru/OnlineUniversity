@@ -14,11 +14,18 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        // Check if @alphaxardG exists
+        // Check if Al or Gacuuru exists
         $alDoesntExist = User::where('email', 'alphaxardgacuuru47@gmail.com')
             ->doesntExist();
 
+        $gacuuruDoesntExist = User::where('email', 'gacuuruwakarenge@gmail.com')
+            ->doesntExist();
+
         if ($alDoesntExist) {
+            User::factory()->al()->create();
+        }
+
+        if ($gacuuruDoesntExist) {
             User::factory()->al()->create();
         }
 

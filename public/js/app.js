@@ -80708,6 +80708,169 @@ if (document.getElementById("app")) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Charts/Bar.js":
+/*!***********************************************!*\
+  !*** ./resources/js/components/Charts/Bar.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var Bar = function Bar(props) {
+  var ctx = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+
+  /*
+   * Colors
+   */
+  // "rgba(255, 99, 132, 1)", RED
+  // "rgba(255, 159, 64, 1)", ORANGE
+  // "rgba(255, 205, 86, 1)", YELLOW
+  // "rgba(75, 192, 192, 1)", TEAL
+  // "rgba(54, 162, 235, 1)", BLUE
+  // "rgba(153, 102, 255, 1)", PURPLE
+  // "rgba(201, 203, 207, 1)", GREY
+  // "rgba(24, 135, 84, 1)", GREEN
+
+  var config = {
+    type: "bar",
+    data: {
+      labels: props.labels,
+      datasets: props.datasets
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  };
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    new Chart(ctx.current, config);
+  }, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "p-2",
+    style: {
+      width: "100%",
+      height: "auto"
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
+    ref: ctx
+  }));
+};
+/* harmony default export */ __webpack_exports__["default"] = (Bar);
+
+/***/ }),
+
+/***/ "./resources/js/components/Charts/Doughnut.js":
+/*!****************************************************!*\
+  !*** ./resources/js/components/Charts/Doughnut.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var Doughnut = function Doughnut(props) {
+  var ctx = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+  var config = {
+    type: "doughnut",
+    options: {
+      cutout: "90%",
+      radius: "100%"
+    },
+    data: {
+      labels: props.labels,
+      datasets: props.datasets
+    }
+  };
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    new Chart(ctx.current, config);
+  }, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "p-2",
+    style: {
+      width: "20em",
+      height: "20em"
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
+    ref: ctx
+  }));
+};
+/* harmony default export */ __webpack_exports__["default"] = (Doughnut);
+
+/***/ }),
+
+/***/ "./resources/js/components/Charts/Line.js":
+/*!************************************************!*\
+  !*** ./resources/js/components/Charts/Line.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var Line = function Line(props) {
+  var ctx = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+
+  /*
+   * Colors
+   */
+  // "rgba(255, 99, 132, 1)", RED
+  // "rgba(255, 159, 64, 1)", ORANGE
+  // "rgba(255, 205, 86, 1)", YELLOW
+  // "rgba(75, 192, 192, 1)", TEAL
+  // "rgba(54, 162, 235, 1)", BLUE
+  // "rgba(153, 102, 255, 1)", PURPLE
+  // "rgba(201, 203, 207, 1)", GREY
+  // "rgba(24, 135, 84, 1)", GREEN
+
+  var config = {
+    type: "line",
+    data: {
+      labels: props.labels,
+      datasets: props.datasets
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: {
+          display: false
+        },
+        y: {
+          display: false
+        }
+      }
+    }
+  };
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    new Chart(ctx.current, config);
+  }, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "p-2",
+    style: {
+      width: "100%",
+      height: "auto"
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
+    ref: ctx
+  }));
+};
+/* harmony default export */ __webpack_exports__["default"] = (Line);
+
+/***/ }),
+
 /***/ "./resources/js/components/Core/Btn.js":
 /*!*********************************************!*\
   !*** ./resources/js/components/Core/Btn.js ***!
@@ -83667,9 +83830,360 @@ var index = function index(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
+/* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
+/* harmony import */ var _components_Core_Img__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/Img */ "./resources/js/components/Core/Img.js");
+/* harmony import */ var _svgs_StudentSVG__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/svgs/StudentSVG */ "./resources/js/svgs/StudentSVG.js");
+/* harmony import */ var _svgs_PeopleSVG__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/svgs/PeopleSVG */ "./resources/js/svgs/PeopleSVG.js");
+/* harmony import */ var _components_Charts_Bar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/Charts/Bar */ "./resources/js/components/Charts/Bar.js");
+/* harmony import */ var _svgs_StaffSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/StaffSVG */ "./resources/js/svgs/StaffSVG.js");
+/* harmony import */ var _svgs_ArrowUpSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/ArrowUpSVG */ "./resources/js/svgs/ArrowUpSVG.js");
+/* harmony import */ var _svgs_ArrowDownSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/ArrowDownSVG */ "./resources/js/svgs/ArrowDownSVG.js");
+/* harmony import */ var _components_Charts_Line__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/components/Charts/Line */ "./resources/js/components/Charts/Line.js");
+/* harmony import */ var _svgs_FacultySVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/FacultySVG */ "./resources/js/svgs/FacultySVG.js");
+/* harmony import */ var _svgs_DepartmentSVG__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/svgs/DepartmentSVG */ "./resources/js/svgs/DepartmentSVG.js");
+/* harmony import */ var _svgs_CourseSVG__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/svgs/CourseSVG */ "./resources/js/svgs/CourseSVG.js");
+/* harmony import */ var _components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/components/Charts/Doughnut */ "./resources/js/components/Charts/Doughnut.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var index = function index() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var index = function index(props) {
+  var _dashboard$instructor, _dashboard$students, _dashboard$staff, _dashboard$instructor2, _dashboard$students2, _dashboard$staff2, _dashboard$staff3, _dashboard$staff4, _dashboard$staff5, _dashboard$instructor3, _dashboard$students3, _dashboard$staff6, _dashboard$instructor4, _dashboard$instructor5, _dashboard$instructor6, _dashboard$instructor7, _dashboard$instructor8, _dashboard$instructor9, _dashboard$instructor10, _dashboard$students4, _dashboard$students5, _dashboard$students6, _dashboard$students7, _dashboard$students8, _dashboard$students9, _dashboard$students10, _dashboard$staff7, _dashboard$staff8, _dashboard$staff9, _dashboard$staff10, _dashboard$staff11, _dashboard$staff12, _dashboard$instructor11, _dashboard$faculties, _dashboard$faculties2, _dashboard$faculties3, _dashboard$faculties4, _dashboard$faculties5, _dashboard$faculties6, _dashboard$faculties7, _dashboard$department, _dashboard$department2, _dashboard$department3, _dashboard$department4, _dashboard$department5, _dashboard$department6, _dashboard$department7, _dashboard$staff13, _dashboard$courses, _dashboard$courses2, _dashboard$courses3, _dashboard$courses4, _dashboard$courses5, _dashboard$courses6, _dashboard$instructor12, _dashboard$instructor13, _dashboard$students11, _dashboard$staff14;
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+    _useState2 = _slicedToArray(_useState, 2),
+    dashboard = _useState2[0],
+    setDashboard = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState4 = _slicedToArray(_useState3, 2),
+    instructors = _useState4[0],
+    setInstructors = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState6 = _slicedToArray(_useState5, 2),
+    students = _useState6[0],
+    setStudents = _useState6[1];
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState8 = _slicedToArray(_useState7, 2),
+    staff = _useState8[0],
+    setStaff = _useState8[1];
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    // Set page
+    props.setPage({
+      name: "Dashboard",
+      path: ["/"]
+    });
+    Axios.get("/api/admin").then(function (res) {
+      return setDashboard(res.data);
+    });
+    props.get("professors", setInstructors);
+    props.get("students", setStudents);
+    props.get("staff", setStaff);
+  }, []);
+  var barGraphDatasets1 = [{
+    label: "Professors this month",
+    data: (_dashboard$instructor = dashboard.instructors) === null || _dashboard$instructor === void 0 || (_dashboard$instructor = _dashboard$instructor.lastMonth) === null || _dashboard$instructor === void 0 ? void 0 : _dashboard$instructor.data,
+    backgroundColor: "rgba(54, 162, 235, 1)",
+    borderColor: "rgb(255, 255, 255)",
+    borderWidth: 1,
+    borderRadius: "50",
+    barThickness: "20"
+  }, {
+    label: "Students this month",
+    data: (_dashboard$students = dashboard.students) === null || _dashboard$students === void 0 || (_dashboard$students = _dashboard$students.lastMonth) === null || _dashboard$students === void 0 ? void 0 : _dashboard$students.data,
+    backgroundColor: "rgba(255, 99, 132, 1)",
+    borderColor: "rgb(255, 255, 255)",
+    borderWidth: 1,
+    borderRadius: "50",
+    barThickness: "20"
+  }, {
+    label: "Staff this month",
+    data: (_dashboard$staff = dashboard.staff) === null || _dashboard$staff === void 0 || (_dashboard$staff = _dashboard$staff.lastMonth) === null || _dashboard$staff === void 0 ? void 0 : _dashboard$staff.data,
+    backgroundColor: "rgba(255, 205, 86, 1)",
+    borderColor: "rgb(255, 255, 255)",
+    borderWidth: 1,
+    borderRadius: "50",
+    barThickness: "20"
+  }];
+  var lineGraphDatasets1 = [{
+    label: "Last Week",
+    data: (_dashboard$instructor2 = dashboard.instructors) === null || _dashboard$instructor2 === void 0 ? void 0 : _dashboard$instructor2.lastWeek
+    // backgroundColor: "rgba(255, 99, 132, 1)",
+    // borderColor: "rgb(255, 99, 132)",
+    // borderWidth: 1,
+  }];
+
+  var lineGraphDatasets2 = [{
+    label: "Last Week",
+    data: (_dashboard$students2 = dashboard.students) === null || _dashboard$students2 === void 0 ? void 0 : _dashboard$students2.lastWeek,
+    backgroundColor: "rgba(255, 99, 132, 1)",
+    borderColor: "rgb(255, 99, 132)"
+    // borderWidth: 1,
+  }];
+
+  var lineGraphDatasets3 = [{
+    label: "Last Week",
+    data: (_dashboard$staff2 = dashboard.staff) === null || _dashboard$staff2 === void 0 ? void 0 : _dashboard$staff2.lastWeek,
+    backgroundColor: "rgba(255, 159, 64, 1)",
+    borderColor: "rgb(255, 159, 64)"
+    // borderWidth: 1,
+  }];
+
+  var lineGraphDatasets4 = [{
+    label: "Last Week",
+    data: (_dashboard$staff3 = dashboard.staff) === null || _dashboard$staff3 === void 0 ? void 0 : _dashboard$staff3.lastWeek,
+    backgroundColor: "rgba(255, 205, 86, 1)",
+    borderColor: "rgb(255, 205, 86)"
+    // borderWidth: 1,
+  }];
+
+  var lineGraphDatasets5 = [{
+    label: "Last Week",
+    data: (_dashboard$staff4 = dashboard.staff) === null || _dashboard$staff4 === void 0 ? void 0 : _dashboard$staff4.lastWeek,
+    backgroundColor: "rgba(75, 192, 192, 1)",
+    borderColor: "rgb(75, 192, 192)"
+    // borderWidth: 1,
+  }];
+
+  var lineGraphDatasets6 = [{
+    label: "Last Week",
+    data: (_dashboard$staff5 = dashboard.staff) === null || _dashboard$staff5 === void 0 ? void 0 : _dashboard$staff5.lastWeek,
+    backgroundColor: "rgba(153, 102, 255, 1)",
+    borderColor: "rgb(153, 102, 255)"
+    // borderWidth: 1,
+  }];
+
+  var doughnutGraphDatasets1 = [{
+    label: "Last Week",
+    data: [(_dashboard$instructor3 = dashboard.instructors) === null || _dashboard$instructor3 === void 0 ? void 0 : _dashboard$instructor3.total, (_dashboard$students3 = dashboard.students) === null || _dashboard$students3 === void 0 ? void 0 : _dashboard$students3.total, (_dashboard$staff6 = dashboard.staff) === null || _dashboard$staff6 === void 0 ? void 0 : _dashboard$staff6.total],
+    backgroundColor: ["rgba(54, 162, 235, 1)", "rgba(255, 99, 132, 1)", "rgba(255, 205, 86, 1)"],
+    borderColor: ["rgba(54, 162, 235, 1)", "rgba(255, 99, 132, 1)", "rgba(255, 205, 86, 1)"]
+    // borderWidth: 1,
+  }];
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-12"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex flex-wrap"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "px-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Instructors"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, (_dashboard$instructor4 = dashboard.instructors) === null || _dashboard$instructor4 === void 0 ? void 0 : _dashboard$instructor4.total)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "px-4 fs-2 bg-primary-subtle text-primary rounded"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PeopleSVG__WEBPACK_IMPORTED_MODULE_5__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: ""
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, ((_dashboard$instructor5 = dashboard.instructors) === null || _dashboard$instructor5 === void 0 ? void 0 : _dashboard$instructor5.growth) > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-success"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ArrowUpSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null), (_dashboard$instructor6 = dashboard.instructors) === null || _dashboard$instructor6 === void 0 ? void 0 : _dashboard$instructor6.growth), ((_dashboard$instructor7 = dashboard.instructors) === null || _dashboard$instructor7 === void 0 ? void 0 : _dashboard$instructor7.growth) == 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-secondary"
+  }, (_dashboard$instructor8 = dashboard.instructors) === null || _dashboard$instructor8 === void 0 ? void 0 : _dashboard$instructor8.growth), ((_dashboard$instructor9 = dashboard.instructors) === null || _dashboard$instructor9 === void 0 ? void 0 : _dashboard$instructor9.growth) < 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ArrowDownSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null), (_dashboard$instructor10 = dashboard.instructors) === null || _dashboard$instructor10 === void 0 ? void 0 : _dashboard$instructor10.growth)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end align-items-center"
+  }, dashboard.instructors && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Line__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    labels: [1, 2, 3, 4, 5, 6, 7],
+    datasets: lineGraphDatasets1
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "px-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Students"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, (_dashboard$students4 = dashboard.students) === null || _dashboard$students4 === void 0 ? void 0 : _dashboard$students4.total)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "px-4 fs-2 bg-primary-subtle text-primary rounded"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_StudentSVG__WEBPACK_IMPORTED_MODULE_4__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: ""
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, ((_dashboard$students5 = dashboard.students) === null || _dashboard$students5 === void 0 ? void 0 : _dashboard$students5.growth) > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-success"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ArrowUpSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null), (_dashboard$students6 = dashboard.students) === null || _dashboard$students6 === void 0 ? void 0 : _dashboard$students6.growth), ((_dashboard$students7 = dashboard.students) === null || _dashboard$students7 === void 0 ? void 0 : _dashboard$students7.growth) == 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-secondary"
+  }, (_dashboard$students8 = dashboard.students) === null || _dashboard$students8 === void 0 ? void 0 : _dashboard$students8.growth), ((_dashboard$students9 = dashboard.students) === null || _dashboard$students9 === void 0 ? void 0 : _dashboard$students9.growth) < 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ArrowDownSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null), (_dashboard$students10 = dashboard.students) === null || _dashboard$students10 === void 0 ? void 0 : _dashboard$students10.growth)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end align-items-center"
+  }, dashboard.students && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Line__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    labels: [1, 2, 3, 4, 5, 6, 7],
+    datasets: lineGraphDatasets2
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "px-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Staff"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, (_dashboard$staff7 = dashboard.staff) === null || _dashboard$staff7 === void 0 ? void 0 : _dashboard$staff7.total)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "px-4 fs-2 bg-primary-subtle text-primary rounded"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_StaffSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: ""
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, ((_dashboard$staff8 = dashboard.staff) === null || _dashboard$staff8 === void 0 ? void 0 : _dashboard$staff8.growth) > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-success"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ArrowUpSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null), (_dashboard$staff9 = dashboard.staff) === null || _dashboard$staff9 === void 0 ? void 0 : _dashboard$staff9.growth), ((_dashboard$staff10 = dashboard.staff) === null || _dashboard$staff10 === void 0 ? void 0 : _dashboard$staff10.growth) == 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-secondary"
+  }, (_dashboard$staff11 = dashboard.staff) === null || _dashboard$staff11 === void 0 ? void 0 : _dashboard$staff11.growth), ((_dashboard$staff12 = dashboard.staff) === null || _dashboard$staff12 === void 0 ? void 0 : _dashboard$staff12.growth) < 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ArrowDownSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null), (_dashboard$instructor11 = dashboard.instructors) === null || _dashboard$instructor11 === void 0 ? void 0 : _dashboard$instructor11.growth)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end align-items-center"
+  }, dashboard.staff && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Line__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    labels: [1, 2, 3, 4, 5, 6, 7],
+    datasets: lineGraphDatasets3
+  })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-12"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex flex-wrap"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "px-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Faculties"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, (_dashboard$faculties = dashboard.faculties) === null || _dashboard$faculties === void 0 ? void 0 : _dashboard$faculties.total)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "px-4 fs-2 bg-primary-subtle text-primary rounded"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_FacultySVG__WEBPACK_IMPORTED_MODULE_11__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: ""
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, ((_dashboard$faculties2 = dashboard.faculties) === null || _dashboard$faculties2 === void 0 ? void 0 : _dashboard$faculties2.growth) > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-success"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ArrowUpSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null), (_dashboard$faculties3 = dashboard.faculties) === null || _dashboard$faculties3 === void 0 ? void 0 : _dashboard$faculties3.growth), ((_dashboard$faculties4 = dashboard.faculties) === null || _dashboard$faculties4 === void 0 ? void 0 : _dashboard$faculties4.growth) == 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-secondary"
+  }, (_dashboard$faculties5 = dashboard.faculties) === null || _dashboard$faculties5 === void 0 ? void 0 : _dashboard$faculties5.growth), ((_dashboard$faculties6 = dashboard.faculties) === null || _dashboard$faculties6 === void 0 ? void 0 : _dashboard$faculties6.growth) < 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ArrowDownSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null), (_dashboard$faculties7 = dashboard.faculties) === null || _dashboard$faculties7 === void 0 ? void 0 : _dashboard$faculties7.growth)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end align-items-center"
+  }, dashboard.faculties && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Line__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    labels: [1, 2, 3, 4, 5, 6, 7],
+    datasets: lineGraphDatasets4
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "px-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Departments"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, (_dashboard$department = dashboard.departments) === null || _dashboard$department === void 0 ? void 0 : _dashboard$department.total)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "px-4 fs-2 bg-primary-subtle text-primary rounded"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_DepartmentSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: ""
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, ((_dashboard$department2 = dashboard.departments) === null || _dashboard$department2 === void 0 ? void 0 : _dashboard$department2.growth) > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-success"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ArrowUpSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null), (_dashboard$department3 = dashboard.departments) === null || _dashboard$department3 === void 0 ? void 0 : _dashboard$department3.growth), ((_dashboard$department4 = dashboard.departments) === null || _dashboard$department4 === void 0 ? void 0 : _dashboard$department4.growth) == 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-secondary"
+  }, (_dashboard$department5 = dashboard.departments) === null || _dashboard$department5 === void 0 ? void 0 : _dashboard$department5.growth), ((_dashboard$department6 = dashboard.departments) === null || _dashboard$department6 === void 0 ? void 0 : _dashboard$department6.growth) < 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ArrowDownSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null), (_dashboard$department7 = dashboard.departments) === null || _dashboard$department7 === void 0 ? void 0 : _dashboard$department7.growth)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end align-items-center"
+  }, dashboard.departments && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Line__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    labels: [1, 2, 3, 4, 5, 6, 7],
+    datasets: lineGraphDatasets5
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "px-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Courses"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, (_dashboard$staff13 = dashboard.staff) === null || _dashboard$staff13 === void 0 ? void 0 : _dashboard$staff13.total)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "px-4 fs-2 bg-primary-subtle text-primary rounded"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_CourseSVG__WEBPACK_IMPORTED_MODULE_13__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: ""
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, ((_dashboard$courses = dashboard.courses) === null || _dashboard$courses === void 0 ? void 0 : _dashboard$courses.growth) > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-success"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ArrowUpSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null), (_dashboard$courses2 = dashboard.courses) === null || _dashboard$courses2 === void 0 ? void 0 : _dashboard$courses2.growth), ((_dashboard$courses3 = dashboard.courses) === null || _dashboard$courses3 === void 0 ? void 0 : _dashboard$courses3.growth) == 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-secondary"
+  }, (_dashboard$courses4 = dashboard.courses) === null || _dashboard$courses4 === void 0 ? void 0 : _dashboard$courses4.growth), ((_dashboard$courses5 = dashboard.courses) === null || _dashboard$courses5 === void 0 ? void 0 : _dashboard$courses5.growth) < 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ArrowDownSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null), (_dashboard$courses6 = dashboard.courses) === null || _dashboard$courses6 === void 0 ? void 0 : _dashboard$courses6.growth)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end align-items-center"
+  }, dashboard.courses && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Line__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    labels: [1, 2, 3, 4, 5, 6, 7],
+    datasets: lineGraphDatasets6
+  })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+    className: "my-3"
+  }, "Users This Month"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-8"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card rounded hidden-scroll"
+  }, dashboard.instructors && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Bar__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    labels: (_dashboard$instructor12 = dashboard.instructors) === null || _dashboard$instructor12 === void 0 ? void 0 : _dashboard$instructor12.lastMonth.labels,
+    datasets: barGraphDatasets1
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card p-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, ((_dashboard$instructor13 = dashboard.instructors) === null || _dashboard$instructor13 === void 0 ? void 0 : _dashboard$instructor13.total) + ((_dashboard$students11 = dashboard.students) === null || _dashboard$students11 === void 0 ? void 0 : _dashboard$students11.total) + ((_dashboard$staff14 = dashboard.staff) === null || _dashboard$staff14 === void 0 ? void 0 : _dashboard$staff14.total)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Total Users"), dashboard.instructors && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_14__["default"], {
+    labels: ["Instructors", "Students", "Staff"],
+    datasets: doughnutGraphDatasets1
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-8"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+    className: "my-3"
+  }, "Recent Intructors"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "table-responsive"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "table table-hover"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Date Joined"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, instructors.map(function (instructor, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      key: key
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      src: instructor.avatar,
+      className: "rounded-circle",
+      width: "25px",
+      height: "25px",
+      alt: "Avatar"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, instructor.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, instructor.createdAt));
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+    className: "my-3"
+  }, "Recent Intructors"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "table-responsive"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "table table-hover"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Date Joined"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, instructors.map(function (instructor, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      key: key
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      src: instructor.avatar,
+      className: "rounded-circle",
+      width: "25px",
+      height: "25px",
+      alt: "Avatar"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, instructor.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, instructor.createdAt));
+  }))))))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);
 
@@ -87710,6 +88224,64 @@ var index = function index() {
   }, "Register Now")))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);
+
+/***/ }),
+
+/***/ "./resources/js/svgs/ArrowDownSVG.js":
+/*!*******************************************!*\
+  !*** ./resources/js/svgs/ArrowDownSVG.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var ArrowDownSVG = function ArrowDownSVG() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "1em",
+    height: "1em",
+    fill: "currentColor",
+    className: "bi bi-arrow-down",
+    viewBox: "0 0 16 16"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    fillRule: "evenodd",
+    d: "M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"
+  }));
+};
+/* harmony default export */ __webpack_exports__["default"] = (ArrowDownSVG);
+
+/***/ }),
+
+/***/ "./resources/js/svgs/ArrowUpSVG.js":
+/*!*****************************************!*\
+  !*** ./resources/js/svgs/ArrowUpSVG.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var ArrowUpSVG = function ArrowUpSVG() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "1em",
+    height: "1em",
+    fill: "currentColor",
+    className: "bi bi-arrow-up",
+    viewBox: "0 0 16 16"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    fillRule: "evenodd",
+    d: "M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"
+  }));
+};
+/* harmony default export */ __webpack_exports__["default"] = (ArrowUpSVG);
 
 /***/ }),
 

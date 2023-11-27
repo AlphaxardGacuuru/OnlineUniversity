@@ -8,16 +8,7 @@ const Doughnut = (props) => {
 		options: { cutout: "90%", radius: "100%" },
 		data: {
 			labels: props.labels,
-			datasets: [
-				{
-					// label: "My First Dataset",
-					data: props.data,
-					backgroundColor: props.backgroundColor,
-					borderColor: "#FFF",
-					borderWidth: 1,
-					hoverOffset: 4,
-				},
-			],
+			datasets: props.datasets
 		},
 	}
 

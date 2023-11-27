@@ -67,4 +67,24 @@ class UserFactory extends Factory
             'account_type' => 'admin',
         ]);
     }
+
+    /**
+     * Add Alphaxard Account
+     *
+     * @return static
+     */
+    public function gacuuru()
+    {
+        return $this->state(fn(array $attributes) => [
+            'name' => 'Gacuuru Aa Karenge',
+            'email' => 'gacuuruwakarenge@gmail.com',
+            'email_verified_at' => now(),
+            'avatar' => 'avatars/male-avatar.png',
+            'phone' => '0722777990',
+            'password' => Hash::make('gacuuruwakarenge@gmail.com'),
+            'remember_token' => Str::random(10),
+            'gender' => 'male',
+            'account_type' => 'professor',
+        ]);
+    }
 }

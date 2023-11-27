@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\FacultyController;
@@ -39,6 +40,11 @@ Route::apiResources([
     "units" => UnitController::class,
     "users" => UserController::class,
 ]);
+
+/*
+* Admin Dashboard
+*/ 
+Route::get("admin", [AdminController::class, "index"]);
 
 /*
  * Filepond Controller
