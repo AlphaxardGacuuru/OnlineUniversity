@@ -8,20 +8,19 @@ const create = (props) => {
 	var history = useHistory()
 
 	const [name, setName] = useState()
-	const [email, setEmail] = useState()
-	const [phone, setPhone] = useState()
-	const [gender, setGender] = useState()
+	const [description, setDescription] = useState()
+	const [duration, setDuration] = useState()
+	const [price, setPrice] = useState()
 	const [facultyId, setFacultyId] = useState()
 	const [departmentId, setDepartmentId] = useState()
 	const [faculties, setFaculties] = useState([])
 	const [departments, setDepartments] = useState([])
 	const [loading, setLoading] = useState()
 
-	// Get Faculties and Departments
+	// Get Courses and Departments
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Create Professor", path: ["professors", "create"] })
-		props.get("faculties", setFaculties)
+		props.setPage({ name: "Create Course", path: ["courses", "create"] })
 		props.get("departments", setDepartments)
 	}, [])
 
@@ -32,20 +31,19 @@ const create = (props) => {
 		e.preventDefault()
 
 		setLoading(true)
-		Axios.post("/api/professors", {
+		Axios.post("/api/courses", {
 			name: name,
-			email: email,
-			phone: phone,
-			gender: gender,
-			facultyId: facultyId,
+			description: description,
+			duration: duration,
+			price: price,
 			departmentId: departmentId,
 		})
 			.then((res) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
-				// Redirect to Professors
-				setTimeout(() => history.push("/admin/professors"), 500)
+				// Redirect to Courses
+				setTimeout(() => history.push("/admin/courses"), 500)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -67,47 +65,33 @@ const create = (props) => {
 						onChange={(e) => setName(e.target.value)}
 						required={true}
 					/>
-					<input
+
+					<textarea
 						type="text"
-						name="email"
-						placeholder="Email"
+						name="description"
+						placeholder="Description"
 						className="form-control mb-2 me-2"
-						onChange={(e) => setEmail(e.target.value)}
-						required={true}
-					/>
+						rows="10"
+						onChange={(e) => setDescription(e.target.value)}
+						required={true}></textarea>
+
 					<input
-						type="tel"
-						name="phone"
-						placeholder="Phone"
+						type="number"
+						name="duration"
+						placeholder="Duration in months"
 						className="form-control mb-2 me-2"
-						onChange={(e) => setPhone(e.target.value)}
+						onChange={(e) => setDuration(e.target.value)}
 						required={true}
 					/>
 
-					<select
-						name="gender"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setGender(e.target.value)}
-						required={true}>
-						<option value="">Select Gender</option>
-						<option value="male">Male</option>
-						<option value="female">Female</option>
-					</select>
-
-					<select
-						name="facultyId"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setFacultyId(e.target.value)}
-						required={true}>
-						<option value="">Select Faculty</option>
-						{faculties.map((faculty, key) => (
-							<option
-								key={key}
-								value={faculty.id}>
-								{faculty.name}
-							</option>
-						))}
-					</select>
+					<input
+						type="number"
+						name="price"
+						placeholder="Price"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setPrice(e.target.value)}
+						required={true}
+					/>
 
 					<select
 						name="departmentId"
@@ -115,28 +99,26 @@ const create = (props) => {
 						onChange={(e) => setDepartmentId(e.target.value)}
 						required={true}>
 						<option value="">Select Department</option>
-						{departments
-							.filter((department) => department.facultyId == facultyId)
-							.map((department, key) => (
-								<option
-									key={key}
-									value={department.id}>
-									{department.name}
-								</option>
-							))}
+						{departments.map((department, key) => (
+							<option
+								key={key}
+								value={department.id}>
+								{department.name}
+							</option>
+						))}
 					</select>
 
-					<div className="d-flex justify-content-end">
+					<div className="d-flex justify-content-end mb-2">
 						<Btn
 							btnText="create"
 							loading={loading}
 						/>
 					</div>
 
-					<div className="d-flex justify-content-center">
+					<div className="d-flex justify-content-center mb-5">
 						<MyLink
-							linkTo="/admin/professors"
-							text="back to professors"
+							linkTo="/admin/courses"
+							text="back to courses"
 						/>
 					</div>
 					<div className="col-sm-4"></div>

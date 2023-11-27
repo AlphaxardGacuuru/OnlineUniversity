@@ -5,15 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Department extends Model
+class UserCourse extends Model
 {
     use HasFactory;
 
 	/*
 	* Relationships
 	*/ 
-	public function faculty()
+	
+	public function user()
 	{
-		return $this->belongsTo(Faculty::class);
+		return $this->belongsTo(User::class);
+	}
+	
+	public function course()
+	{
+		return $this->belongsTo(Department::class);
 	}
 }

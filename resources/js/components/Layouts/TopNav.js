@@ -33,34 +33,83 @@ const TopNav = (props) => {
 			: ""
 
 	return (
-	<header className={`header-section ${hide}`}>
-		<div className="container">
-			<div className="row">
-				<div className="col-lg-3 col-md-3">
-					<div className="site-logo">
-						<Img src="/storage/img/logo.png"
-							 alt="" />
+		<header className={`header-section ${hide}`}>
+			<div className="container">
+				<div className="row">
+					<div className="col-lg-3 col-md-3">
+						<div className="site-logo">
+							<Img
+								src="/storage/img/logo.png"
+								alt=""
+							/>
+						</div>
+						<div className="nav-switch">
+							<i className="fa fa-bars"></i>
+						</div>
 					</div>
-					<div className="nav-switch">
-						<i className="fa fa-bars"></i>
+					<div className="col-lg-9 col-md-9">
+						{props.auth.name == "Guest" ? (
+							<Link
+								to="/login"
+								className="site-btn header-btn">
+								Login
+							</Link>
+						) : (
+							<React.Fragment>
+								{/* Admin Link */}
+								{props.auth.accountType == "admin" && (
+									<Link
+										to="/admin"
+										className="site-btn header-btn">
+										Admin
+									</Link>
+								)}
+								{/* Admin Link End */}
+
+								{/* Student Link */}
+								{props.auth.accountType == "student" && (
+									<Link
+										to="/student"
+										className="site-btn header-btn">
+										Student
+									</Link>
+								)}
+								{/* Student Link End */}
+
+								{/* Professor Link */}
+								{props.auth.accountType == "professor" && (
+									<Link
+										to="/professor"
+										className="site-btn header-btn">
+										Professor
+									</Link>
+								)}
+								{/* Professor Link End */}
+							</React.Fragment>
+						)}
+						<nav className="main-menu">
+							<ul>
+								<li>
+									<Link to="/">Home</Link>
+								</li>
+								<li>
+									<Link to="/about">About us</Link>
+								</li>
+								<li>
+									<Link to="/courses">Courses</Link>
+								</li>
+								<li>
+									<Link to="/blog">News</Link>
+								</li>
+								<li>
+									<Link to="/contact">Contact</Link>
+								</li>
+							</ul>
+						</nav>
 					</div>
-				</div>
-				<div className="col-lg-9 col-md-9">
-					<Link to="/login"
-					   className="site-btn header-btn">Login</Link>
-					<nav className="main-menu">
-						<ul>
-							<li><Link to="/">Home</Link></li>
-							<li><Link to="/about">About us</Link></li>
-							<li><Link to="/courses">Courses</Link></li>
-							<li><Link to="/blog">News</Link></li>
-							<li><Link to="/contact">Contact</Link></li>
-						</ul>
-					</nav>
 				</div>
 			</div>
-		</div>
-	</header>
+		</header>
 	)
 }
 

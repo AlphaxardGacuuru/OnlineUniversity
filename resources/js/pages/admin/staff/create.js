@@ -37,7 +37,7 @@ const create = (props) => {
 				// Show messages
 				props.setMessages([res.data.message])
 				// Redirect to Staff
-				setTimeout(() => history.push("/admin/staff"), 1000)
+				setTimeout(() => history.push("/admin/staff"), 500)
 			})
 			.catch((err) => {
 				setLoading(false)

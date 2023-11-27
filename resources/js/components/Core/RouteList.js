@@ -34,6 +34,15 @@ import AdminFacultyEdit from "@/pages/admin/faculties/edit/[id]"
 import AdminDepartmentCreate from "@/pages/admin/departments/create"
 import AdminDepartmentEdit from "@/pages/admin/departments/[id]"
 
+import AdminCourses from "@/pages/admin/courses/index"
+import AdminCourseCreate from "@/pages/admin/courses/create"
+import AdminCourseShow from "@/pages/admin/courses/[id]"
+import AdminCourseEdit from "@/pages/admin/courses/edit/[id]"
+
+import AdminUnitCreate from "@/pages/admin/units/create"
+import AdminUnitShow from "@/pages/admin/units/[id]"
+import AdminUnitEdit from "@/pages/admin/units/edit/[id]"
+
 const RouteList = ({ GLOBAL_STATE }) => {
 	const authRoutes = [
 		{
@@ -134,6 +143,34 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/departments/:id/edit",
 			component: <AdminDepartmentEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/courses",
+			component: <AdminCourses {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/courses/create",
+			component: <AdminCourseCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/courses/:id/show",
+			component: <AdminCourseShow {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/courses/:id/edit",
+			component: <AdminCourseEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/units/:id/create",
+			component: <AdminUnitCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/units/:id/show",
+			component: <AdminUnitShow {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/units/:id/edit",
+			component: <AdminUnitEdit {...GLOBAL_STATE} />,
 		},
 	]
 

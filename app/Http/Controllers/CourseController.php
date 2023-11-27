@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\Admin\CourseService;
 use App\Models\Course;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
+	public function __construct(protected CourseService $service)
+	{
+			// 
+	}
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        return $this->service->index();
     }
 
     /**
@@ -25,7 +31,21 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+			"name" => "required|string|unique:courses",
+			"description" => "required|string",
+			"duration" => "required|string",
+			"price" => "required|string",
+			"departmentId" => "nullable|string",
+		]);
+
+		[$saved, $message, $course] = $this->service->store($request);
+
+		return response([
+			"status" => $saved,
+			"message" => $message,
+			"data" => $course
+		], 200);
     }
 
     /**
@@ -34,9 +54,9 @@ class CourseController extends Controller
      * @param  \App\Models\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function show(Course $course)
+    public function show($id)
     {
-        //
+        return $this->service->show($id);
     }
 
     /**
@@ -46,9 +66,23 @@ class CourseController extends Controller
      * @param  \App\Models\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Course $course)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+			"name" => "required|string|unique:courses",
+			"description" => "required|string",
+			"duration" => "required|string",
+			"price" => "required|string",
+			"departmentId" => "nullable|string",
+		]);
+
+		[$saved, $message, $course] = $this->service->update($request, $id);
+
+		return response([
+			"status" => $saved,
+			"message" => $message,
+			"data" => $course
+		], 200);
     }
 
     /**
@@ -57,8 +91,14 @@ class CourseController extends Controller
      * @param  \App\Models\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Course $course)
+    public function destroy($id)
     {
-        //
+        [$deleted, $message, $course] = $this->service->destory($id);
+
+		return response([
+			"status" => $deleted,
+			"message" => $message,
+			"data" => $course
+		], 200);
     }
 }

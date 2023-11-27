@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Unit;
+use App\Http\Services\Admin\UnitService;
 use Illuminate\Http\Request;
 
 class UnitController extends Controller
 {
+    public function __construct(protected UnitService $service)
+    {
+        //
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,7 @@ class UnitController extends Controller
      */
     public function index()
     {
-        //
+        return $this->service->index();
     }
 
     /**
@@ -25,7 +30,21 @@ class UnitController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            "name" => "required|string",
+            "description" => "required|string",
+            "professorId" => "nullable|string",
+            "credits" => "nullable|string",
+            "courseId" => "required|string",
+        ]);
+		
+        [$saved, $message, $unit] = $this->service->store($request);
+		
+        return response([
+			"status" => $saved,
+            "message" => $message,
+            "data" => $unit,
+        ], 200);
     }
 
     /**
@@ -34,21 +53,35 @@ class UnitController extends Controller
      * @param  \App\Models\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function show(Unit $unit)
+    public function show($id)
     {
-        //
+        return $this->service->show($id);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Unit  $unit
-     * @return \Illuminate\Http\Response
+	 * @param  \App\Models\Unit  $unit
+	 * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Unit $unit)
+	public function update(Request $request, $id)
     {
-        //
+		$this->validate($request, [
+			"name" => "required|string",
+            "description" => "required|string",
+            "professorId" => "nullable|string",
+            "credits" => "nullable|string",
+			"courseId" => "required|string",
+        ]);
+
+        [$saved, $message, $unit] = $this->service->update($request, $id);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $unit,
+        ], 200);
     }
 
     /**
@@ -57,8 +90,14 @@ class UnitController extends Controller
      * @param  \App\Models\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Unit $unit)
+    public function destroy($id)
     {
-        //
+        [$deleted, $message, $unit] = $this->service->destory($id);
+
+        return response([
+            "status" => $deleted,
+            "message" => $message,
+            "data" => $unit,
+        ], 200);
     }
 }

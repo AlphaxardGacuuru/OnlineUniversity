@@ -25,7 +25,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->timestamps();
 
-            $table->unique(["user_id", "department_id"]);
+            $table->unique(['user_id', 'department_id']);
         });
     }
 

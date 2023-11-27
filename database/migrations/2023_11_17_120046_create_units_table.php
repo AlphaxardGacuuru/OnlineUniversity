@@ -15,6 +15,13 @@ return new class extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('description');
+			$table->decimal('credits', 5, 2)->nullable();
+            $table->foreignId('course_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

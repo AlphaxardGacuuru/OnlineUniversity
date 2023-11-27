@@ -5,11 +5,11 @@ import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
 
 import PersonSVG from "@/svgs/PersonSVG"
-import FacultySVG from "@/svgs/FacultySVG"
+import CourseSVG from "@/svgs/CourseSVG"
 
 const index = (props) => {
-	// Get Faculties
-	const [faculties, setFaculties] = useState([])
+	// Get Courses
+	const [courses, setCourses] = useState([])
 	const [loading, setLoading] = useState()
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
@@ -17,24 +17,24 @@ const index = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Faculties", path: ["faculties"] })
-		props.get("faculties", setFaculties)
+		props.setPage({ name: "Courses", path: ["courses"] })
+		props.get("courses", setCourses)
 	}, [])
 
 	/*
 	 * Delete
 	 */
-	const onDelete = (facultyId) => {
+	const onDelete = (courseId) => {
 		// Toggle loader
 		setLoading(true)
 
-		Axios.delete(`/api/faculties/${facultyId}`)
+		Axios.delete(`/api/courses/${courseId}`)
 			.then((res) => {
 				props.setMessages([res.data.message])
 				// Toggle loader
 				setLoading(true)
 				// Delete rows
-				setFaculties(faculties.filter((faculty) => faculty.id != facultyId))
+				setCourses(courses.filter((course) => course.id != courseId))
 			})
 			.catch((err) => {
 				// Toggle loader
@@ -52,11 +52,11 @@ const index = (props) => {
 						{/* Total */}
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 							<div>
-								<span className="fs-4">{faculties.length}</span>
-								<h4>Total Faculties</h4>
+								<span className="fs-4">{courses.length}</span>
+								<h4>Total Courses</h4>
 							</div>
 							<div className="fs-1 py-3 px-4 bg-primary-subtle rounded-circle">
-								<FacultySVG />
+								<CourseSVG />
 							</div>
 						</div>
 						{/* Total End */}
@@ -70,10 +70,10 @@ const index = (props) => {
 					<table className="table table-hover">
 						<thead>
 							<tr>
-								<th colSpan="3"></th>
+								<th colSpan="7"></th>
 								<th className="text-end">
 									<MyLink
-										linkTo="/admin/faculties/create"
+										linkTo="/admin/courses/create"
 										text="create"
 									/>
 								</th>
@@ -81,26 +81,34 @@ const index = (props) => {
 							<tr>
 								<th>#</th>
 								<th>Name</th>
-								<th>Date Founded</th>
+								<th>Description</th>
+								<th>Department</th>
+								<th>Faculty</th>
+								<th>Duration (M0nths)</th>
+								<th>Price (KES)</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							{faculties.map((faculty, key) => (
+							{courses.map((course, key) => (
 								<tr key={key}>
 									<td>{key + 1}</td>
-									<td>{faculty.name}</td>
-									<td>{faculty.createdAt}</td>
+									<td>{course.name}</td>
+									<td>{course.description}</td>
+									<td>{course.departmentName}</td>
+									<td>{course.facultyName}</td>
+									<td>{course.duration}</td>
+									<td className="text-success">{course.price}</td>
 									<td className="text-end">
 										<div className="d-flex">
 											<MyLink
-												linkTo={`/admin/faculties/${faculty.id}/show`}
+												linkTo={`/admin/courses/${course.id}/show`}
 												text="view"
 												className="btn-sm me-2"
 											/>
 
 											<MyLink
-												linkTo={`/admin/faculties/${faculty.id}/edit`}
+												linkTo={`/admin/courses/${course.id}/edit`}
 												text="edit"
 												className="btn-sm"
 											/>
@@ -119,7 +127,7 @@ const index = (props) => {
 																<h1
 																	id="deleteModalLabel"
 																	className="modal-title fs-5 text-danger">
-																	Delete Faculty
+																	Delete Course
 																</h1>
 																<button
 																	type="button"
@@ -128,7 +136,7 @@ const index = (props) => {
 																	aria-label="Close"></button>
 															</div>
 															<div className="modal-body text-wrap">
-																Are you sure you want to delete {faculty.name}.
+																Are you sure you want to delete {course.name}.
 															</div>
 															<div className="modal-footer justify-content-between">
 																<button
@@ -141,7 +149,7 @@ const index = (props) => {
 																	type="button"
 																	className="btn btn-danger rounded-pill"
 																	data-bs-dismiss="modal"
-																	onClick={() => onDelete(faculty.id)}>
+																	onClick={() => onDelete(course.id)}>
 																	Delete
 																</button>
 															</div>

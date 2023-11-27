@@ -31,7 +31,7 @@ class FacultyController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			"name" => "required|string"
+			"name" => "required|string|unique:faculties"
 		]);
 
 		[$saved, $message, $faculty] = $this->service->store($request);
@@ -64,7 +64,7 @@ class FacultyController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			"name" => "nullable|string"
+			"name" => "nullable|string|unique:faculties"
 		]);
 
 		[$saved, $message, $faculty] = $this->service->update($request, $id);
