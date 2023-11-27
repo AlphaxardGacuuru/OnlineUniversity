@@ -42,9 +42,16 @@ const login = (props) => {
 					// Encrypt and Save Sanctum Token to Local Storage
 					props.setLocalStorage("sanctumToken", encryptedToken(res.data.data))
 					// Update Logged in user
-					props.get(`auth`, props.setAuth, "auth", false)
-					// Reload page
-					setTimeout(() => window.location.href = `${props.url}/#/admin`, 500)
+					Axios.get("/api/auth", {
+						headers: { Authorization: `Bearer ${res.data.data}` },
+					})
+						.then((res) => {
+							// Set LocalStorage
+							props.setLocalStorage("auth", res.data.data)
+							// Reload page
+							window.location.href = `/#/instructor`
+						})
+						.catch((err) => props.getErrors(err, false))
 				})
 				.catch((err) => {
 					// Remove loader

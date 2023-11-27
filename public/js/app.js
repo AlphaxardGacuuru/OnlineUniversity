@@ -106673,11 +106673,18 @@ var login = function login(props) {
         // Encrypt and Save Sanctum Token to Local Storage
         props.setLocalStorage("sanctumToken", encryptedToken(res.data.data));
         // Update Logged in user
-        props.get("auth", props.setAuth, "auth", false);
-        // Reload page
-        setTimeout(function () {
-          return window.location.href = "".concat(props.url, "/#/admin");
-        }, 500);
+        Axios.get("/api/auth", {
+          headers: {
+            Authorization: "Bearer ".concat(res.data.data)
+          }
+        }).then(function (res) {
+          // Set LocalStorage
+          props.setLocalStorage("auth", res.data.data);
+          // Reload page
+          window.location.href = "/#/instructor";
+        })["catch"](function (err) {
+          return props.getErrors(err, false);
+        });
       })["catch"](function (err) {
         // Remove loader
         setLoading(false);
