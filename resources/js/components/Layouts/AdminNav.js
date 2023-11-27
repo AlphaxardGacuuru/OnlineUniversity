@@ -38,8 +38,7 @@ const AdminMenu = (props) => {
 				router.push("/admin/login")
 			}
 		}
-	}, [])
-	// }, [props.location])
+	}, [props.location])
 
 	const logout = () => {
 		Axios.post(`/logout`)

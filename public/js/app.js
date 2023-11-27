@@ -103392,9 +103392,7 @@ var AdminMenu = function AdminMenu(props) {
         router.push("/admin/login");
       }
     }
-  }, []);
-  // }, [props.location])
-
+  }, [props.location]);
   var logout = function logout() {
     Axios.post("/logout").then(function (res) {
       props.setMessages([res.data.message]);
@@ -103875,12 +103873,10 @@ var InstructorMenu = function InstructorMenu(props) {
     // Handle Redirects for Instructor
     if (isInInstructorPage) {
       if (props.auth.accountType != "instructor") {
-        // router.push("/instructor/login")
+        router.push("/instructor/login");
       }
     }
-  }, []);
-  // }, [props.location])
-
+  }, [props.location]);
   var logout = function logout() {
     Axios.post("/logout").then(function (res) {
       props.setMessages([res.data.message]);
@@ -106676,8 +106672,8 @@ var login = function login(props) {
         // props.get(`auth`, props.setAuth, "auth", false)
         // Reload page
         setTimeout(function () {
-          return window.location.reload();
-        }, 1000);
+          return window.location.href = "".concat(props.url, "/#/admin");
+        }, 500);
       })["catch"](function (err) {
         // Remove loader
         setLoading(false);
@@ -110705,8 +110701,8 @@ var login = function login(props) {
         // props.get(`auth`, props.setAuth, "auth", false)
         // Reload page
         setTimeout(function () {
-          return window.location.reload();
-        }, 1000);
+          return window.location.href = "".concat(props.url, "/#/instructor");
+        }, 500);
       })["catch"](function (err) {
         // Remove loader
         setLoading(false);

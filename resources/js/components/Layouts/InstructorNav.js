@@ -36,11 +36,10 @@ const InstructorMenu = (props) => {
 		// Handle Redirects for Instructor
 		if (isInInstructorPage) {
 			if (props.auth.accountType != "instructor") {
-				// router.push("/instructor/login")
+				router.push("/instructor/login")
 			}
 		}
-	}, [])
-	// }, [props.location])
+	}, [props.location])
 
 	const logout = () => {
 		Axios.post(`/logout`)

@@ -44,7 +44,7 @@ const login = (props) => {
 					// Update Logged in user
 					// props.get(`auth`, props.setAuth, "auth", false)
 					// Reload page
-					setTimeout(() => window.location.reload(), 1000)
+					setTimeout(() => window.location.href = `${props.url}/#/admin`, 500)
 				})
 				.catch((err) => {
 					// Remove loader
