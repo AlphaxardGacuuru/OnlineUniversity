@@ -76,7 +76,7 @@ class UserFactory extends Factory
     public function gacuuru()
     {
         return $this->state(fn(array $attributes) => [
-            'name' => 'Gacuuru Aa Karenge',
+            'name' => 'Gacuuru Wa Karenge',
             'email' => 'gacuuruwakarenge@gmail.com',
             'email_verified_at' => now(),
             'avatar' => 'avatars/male-avatar.png',

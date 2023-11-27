@@ -22,6 +22,11 @@ class Unit extends Model
         return $this->hasMany(UserUnit::class);
     }
 
+    public function materials()
+    {
+        return $this->hasMany(Material::class);
+    }
+
     /*
      * Custom functions
      */

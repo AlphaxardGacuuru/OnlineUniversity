@@ -10,6 +10,7 @@ import Courses from "@/pages/courses"
 import Elements from "@/pages/elements"
 
 import AdminNav from "@/components/Layouts/AdminNav"
+import InstructorNav from "@/components/Layouts/InstructorNav"
 
 import AdminLogin from "@/pages/admin/login"
 import AdminDashboard from "@/pages/admin/index"
@@ -43,6 +44,13 @@ import AdminUnitCreate from "@/pages/admin/units/create"
 import AdminUnitShow from "@/pages/admin/units/[id]"
 import AdminUnitEdit from "@/pages/admin/units/edit/[id]"
 
+import InstructorLogin from "@/pages/instructor/login"
+import Instructor from "@/pages/instructor/index"
+import InstructorUnitShow from "@/pages/admin/units/[id]"
+
+import InstructorMaterialCreate from "@/pages/instructor/materials/create"
+import InstructorMaterialEdit from "@/pages/instructor/materials/[id]"
+
 const RouteList = ({ GLOBAL_STATE }) => {
 	const authRoutes = [
 		{
@@ -52,6 +60,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/login",
 			component: <AdminLogin {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/instructor/login",
+			component: <InstructorLogin {...GLOBAL_STATE} />,
 		},
 	]
 
@@ -174,6 +186,25 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		},
 	]
 
+	const instructorRoutes = [
+		{
+			path: "/instructor",
+			component: <Instructor {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/instructor/units/:id/show",
+			component: <InstructorUnitShow {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/instructor/materials/:id/create",
+			component: <InstructorMaterialCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/instructor/materials/:id/edit",
+			component: <InstructorMaterialEdit {...GLOBAL_STATE} />,
+		},
+	]
+
 	return (
 		<React.Fragment>
 			{/* Auth Routes */}
@@ -210,6 +241,19 @@ const RouteList = ({ GLOBAL_STATE }) => {
 				))}
 			</AdminNav>
 			{/* Admin Routes End */}
+
+			{/* Instructor Routes */}
+			<InstructorNav {...GLOBAL_STATE}>
+				{instructorRoutes.map((route, key) => (
+					<Route
+						key={key}
+						path={route.path}
+						exact
+						render={() => route.component}
+					/>
+				))}
+			</InstructorNav>
+			{/* Instructor Routes End */}
 		</React.Fragment>
 	)
 }

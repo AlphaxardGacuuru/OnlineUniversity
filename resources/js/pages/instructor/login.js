@@ -6,14 +6,14 @@ import CryptoJS from "crypto-js"
 const login = (props) => {
 	var router = useHistory()
 
-	const [email, setEmail] = useState("alphaxardgacuuru47@gmail.com")
-	const [password, setPassword] = useState("alphaxardgacuuru47@gmail.com")
+	const [email, setEmail] = useState("gacuuruwakarenge@gmail.com")
+	const [password, setPassword] = useState("gacuuruwakarenge@gmail.com")
 	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
 		// Handle Redirects for Admin
-		if (props.auth.name != "Guest") {
-			router.push("/admin")
+		if (props.auth.accountType == "professor") {
+			router.push("/instructor")
 		}
 	}, [])
 

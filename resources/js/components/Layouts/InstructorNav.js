@@ -18,8 +18,9 @@ import CourseSVG from "@/svgs/CourseSVG"
 import StaffSVG from "@/svgs/StaffSVG"
 import StudentSVG from "@/svgs/StudentSVG"
 import ChevronRightSVG from "@/svgs/ChevronRightSVG"
+import UnitSVG from "@/svgs/UnitSVG"
 
-const AdminMenu = (props) => {
+const InstructorMenu = (props) => {
 	const location = useLocation()
 	const router = useHistory()
 
@@ -27,15 +28,15 @@ const AdminMenu = (props) => {
 	const [avatarVisibility, setAvatarVisibility] = useState("")
 
 	useEffect(() => {
-		var isInAdminPage =
-			location.pathname.match("/admin") &&
-			!location.pathname.match("/admin/login") &&
-			!location.pathname.match("/admin/register")
+		var isInInstructorPage =
+			location.pathname.match("/instructor") &&
+			!location.pathname.match("/instructor/login") &&
+			!location.pathname.match("/instructor/register")
 
-		// Handle Redirects for Admin
-		if (isInAdminPage) {
-			if (props.auth.accountType != "admin") {
-				router.push("/admin/login")
+		// Handle Redirects for Instructor
+		if (isInInstructorPage) {
+			if (props.auth.accountType != "instructor") {
+				// router.push("/instructor/login")
 			}
 		}
 	}, [])
@@ -59,11 +60,11 @@ const AdminMenu = (props) => {
 			})
 	}
 
-	// Show Admin Nav based on Location
-	const showAdminNav =
-		location.pathname.match("/admin") &&
-		!location.pathname.match("/admin/login") &&
-		!location.pathname.match("/admin/register")
+	// Show Instructor Nav based on Location
+	const showInstructorNav =
+		location.pathname.match("/instructor") &&
+		!location.pathname.match("/instructor/login") &&
+		!location.pathname.match("/instructor/register")
 			? "d-block"
 			: "d-none"
 
@@ -71,7 +72,7 @@ const AdminMenu = (props) => {
 	const active = (check) => {
 		return (
 			location.pathname.match(check) &&
-			"rounded-end-pill text-primary bg-primary-subtle"
+			"rounded-end-pill text-danger bg-danger-subtle"
 		)
 	}
 
@@ -79,7 +80,7 @@ const AdminMenu = (props) => {
 	const activeStrict = (check) => {
 		return (
 			location.pathname == check &&
-			"rounded-end-pill text-primary bg-primary-subtle"
+			"rounded-end-pill text-danger bg-danger-subtle"
 		)
 	}
 
@@ -87,9 +88,9 @@ const AdminMenu = (props) => {
 		<React.Fragment>
 			<div
 				id="MyElement"
-				className={props.adminMenu + " " + showAdminNav}>
+				className={props.instructorMenu + " " + showInstructorNav}>
 				{/* <!-- ***** Header Area Start ***** --> */}
-				<header className="header-area bg-primary shadow">
+				<header className="header-area bg-danger shadow">
 					<div className="container-fluid p-0">
 						<div className="row">
 							<div className="col-12">
@@ -102,8 +103,10 @@ const AdminMenu = (props) => {
 											className="text-white me-3"
 											onClick={(e) => {
 												e.preventDefault()
-												// Open Admin Menu
-												props.setAdminMenu(props.adminMenu ? "" : "left-open")
+												// Open Instructor Menu
+												props.setInstructorMenu(
+													props.instructorMenu ? "" : "left-open"
+												)
 											}}>
 											<MenuSVG />
 										</a>
@@ -112,7 +115,7 @@ const AdminMenu = (props) => {
 										{/* <!-- Logo Area  --> */}
 										<div className="logo-area">
 											<Link
-												to="/admin"
+												to="/instructor"
 												className="text-white fs-1">
 												Web Uni
 												{/* <span className="main-logo">Party People</span> */}
@@ -123,7 +126,6 @@ const AdminMenu = (props) => {
 									{/* Top Nav Links Area */}
 									<div className="menu-content-area d-flex align-items-center">
 										<div className="d-flex align-items-center justify-content-between">
-											{/* Admin */}
 											<Link
 												to="/"
 												className="btn btn-outline-light rounded-pill text-uppercase mx-3 hidden">
@@ -167,7 +169,7 @@ const AdminMenu = (props) => {
 													{/* Avatar End */}
 													<div className="dropdown-menu rounded-0 m-0 p-0 bg-white">
 														<Link
-															to={`/admin/staff/edit/${props.auth.id}`}
+															to={`/instructor/staff/edit/${props.auth.id}`}
 															className="p-2 px-3 pt-3 dropdown-item">
 															<div className="d-flex">
 																<div className="align-items-center">
@@ -183,6 +185,9 @@ const AdminMenu = (props) => {
 																	<h6 className="text-wrap fs-6">
 																		{props.auth?.name}
 																	</h6>
+																	<p className="text-wrap text-capitalize">
+																		{props.auth?.accountType}
+																	</p>
 																</div>
 															</div>
 														</Link>
@@ -234,86 +239,24 @@ const AdminMenu = (props) => {
 				)}
 
 				{/* <!-- ***** Side Menu Area Start ***** --> */}
-				<div className="leftMenu d-flex align-items-center justify-content-start bg-primary">
+				<div className="leftMenu d-flex align-items-center justify-content-start bg-danger">
 					<div
 						className="sonarNav wow fadeInUp w-100 mt-4"
 						data-wow-delay="1s">
 						<nav>
 							<ul className="m-0 p-0">
-								{/* Dashboard Link */}
+								{/* Profile Link */}
 								<li className="nav-item">
 									<Link
-										to={`/admin`}
-										className={`nav-link ${activeStrict("/admin")}`}>
-										<div className="nav-link-icon">
-											<HomeSVG />
-										</div>
-										<div className="nav-link-text">Dashboard</div>
-									</Link>
-								</li>
-								{/* Dashboard Link End */}
-								{/* Customers Link */}
-								<li className="nav-item">
-									<Link
-										to={`/admin/professors`}
-										className={`nav-link ${active("/admin/professors")}`}>
+										to={`/instructor`}
+										className={`nav-link ${activeStrict("/instructor")}`}>
 										<div className="nav-link-icon">
 											<PersonSVG />
 										</div>
-										<div className="nav-link-text">Professors</div>
+										<div className="nav-link-text">Profile</div>
 									</Link>
 								</li>
-								{/* Customers Link End */}
-								{/* Clubs Link */}
-								<li className="nav-item">
-									<Link
-										to={`/admin/students`}
-										className={`nav-link ${
-											active("/admin/students") || active("/admin/students")
-										}`}>
-										<div className="nav-link-icon">
-											<StudentSVG />
-										</div>
-										<div className="nav-link-text">Students</div>
-									</Link>
-								</li>
-								{/* Clubs Link End */}
-								{/* Faculties Link */}
-								<li className="nav-item">
-									<Link
-										to={`/admin/faculties`}
-										className={`nav-link ${active("/admin/faculties")}`}>
-										<div className="nav-link-icon">
-											<FacultySVG />
-										</div>
-										<div className="nav-link-text">Faculties</div>
-									</Link>
-								</li>
-								{/* Faculties Link End */}
-								{/* Courses Link */}
-								<li className="nav-item">
-									<Link
-										to={`/admin/courses`}
-										className={`nav-link ${active("/admin/courses")}`}>
-										<div className="nav-link-icon">
-											<CourseSVG />
-										</div>
-										<div className="nav-link-text">Courses</div>
-									</Link>
-								</li>
-								{/* Courses Link End */}
-								{/* Staff Links */}
-								<li className="nav-item">
-									<Link
-										to={`/admin/staff`}
-										className={`nav-link ${active("/admin/staff")}`}>
-										<div className="nav-link-icon">
-											<StaffSVG />
-										</div>
-										<div className="nav-link-text">Staff</div>
-									</Link>
-								</li>
-								{/* Staff Link End */}
+								{/* Profile Link End */}
 							</ul>
 						</nav>
 					</div>
@@ -329,7 +272,7 @@ const AdminMenu = (props) => {
 							<div key={key}>
 								{key < props.page.path.length - 1 ? (
 									<MyLink
-										linkTo={`/admin/${path}`}
+										linkTo={`/instructor/${path}`}
 										className="btn btn-sm btn-outline-secondary my-3"
 										text={path}
 									/>
@@ -371,7 +314,7 @@ const AdminMenu = (props) => {
 						className="m-0 p-0"
 						style={{ display: avatarVisibility }}>
 						<Link
-							to={`/admin/staff/edit/${props.auth.id}`}
+							to={`/instructor/staff/edit/${props.auth.id}`}
 							style={{ padding: "0px", margin: "0px" }}
 							className="border-bottom text-start"
 							onClick={() => setBottomMenu("")}>
@@ -429,4 +372,4 @@ const AdminMenu = (props) => {
 	)
 }
 
-export default withRouter(AdminMenu)
+export default withRouter(InstructorMenu)

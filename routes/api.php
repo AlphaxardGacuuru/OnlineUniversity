@@ -5,6 +5,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\FilePondController;
+use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
@@ -39,6 +40,7 @@ Route::apiResources([
     "students" => StudentController::class,
     "units" => UnitController::class,
     "users" => UserController::class,
+    "materials" => MaterialController::class,
 ]);
 
 /*

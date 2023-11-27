@@ -7,6 +7,25 @@ import ChevronUpSVG from "@/svgs/ChevronUpSVG"
 
 const Footer = () => {
 	const location = useLocation()
+	
+	// Listen for scroll events
+	window.addEventListener("scroll", function () {
+		// Calculate the document height
+		const docHeight = document.body.scrollHeight
+
+		// Calculate the current scroll position
+		const scrollPosition =
+			window.scrollY || window.pageYOffset || document.documentElement.scrollTop
+
+		// Calculate the 50% scroll position
+		const halfwayScroll = docHeight * 0.5
+
+		// Check if the scroll position is beyond 50%
+		if (scrollPosition > halfwayScroll) {
+			console.log("Scrolled down to 50% of the page.")
+			// Perform actions when scrolled down to 50%
+		}
+	})
 
 	const onScroll = () => {
 		// Smooth scroll to top
@@ -19,7 +38,8 @@ const Footer = () => {
 	const hide =
 		location.pathname.match("/login") ||
 		location.pathname.match("/register") ||
-		location.pathname.match("/admin")
+		location.pathname.match("/admin") ||
+		location.pathname.match("/instructor")
 			? "d-none"
 			: ""
 

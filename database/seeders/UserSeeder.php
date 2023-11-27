@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
         }
 
         if ($gacuuruDoesntExist) {
-            User::factory()->al()->create();
+            User::factory()->gacuuru()->create();
         }
 
         User::factory()->count(100)->create();

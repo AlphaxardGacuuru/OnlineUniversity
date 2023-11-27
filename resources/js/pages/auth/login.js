@@ -39,7 +39,7 @@ const login = () => {
 										Admin
 									</Link>
 									<Link
-										to="/professor/login"
+										to="/instructor/login"
 										className="site-btn btn-dark">
 										Professor
 									</Link>

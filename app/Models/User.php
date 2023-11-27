@@ -88,6 +88,16 @@ class User extends Authenticatable
         return $this->hasMany(UserDepartment::class);
     }
 
+    public function userCourses()
+    {
+        return $this->hasMany(UserCourse::class);
+    }
+
+    public function userUnits()
+    {
+        return $this->hasMany(UserUnit::class, "user_id");
+    }
+
     /*
      * Custom functions
      */
@@ -106,5 +116,19 @@ class User extends Authenticatable
             ->get()
             ->map(fn($userDepartment) => $userDepartment->department)
             ->first();
+    }
+
+    public function courses()
+    {
+        return $this->userCourses()
+            ->get()
+            ->map(fn($userCourse) => $userCourse->course);
+    }
+
+    public function units()
+    {
+        return $this->userUnits()
+            ->get()
+            ->map(fn($userUnit) => $userUnit->unit);
     }
 }

@@ -149,7 +149,7 @@ const index = (props) => {
 		<>
 			<div className="row">
 				<div className="col-sm-12">
-					<div className="d-flex flex-wrap">
+					<div className="d-flex flex-wrap justify-content-center">
 						{/* Customers */}
 						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card">
 							<div className="d-flex justify-content-between align-items-center">
@@ -288,7 +288,7 @@ const index = (props) => {
 
 			<div className="row">
 				<div className="col-sm-12">
-					<div className="d-flex flex-wrap">
+					<div className="d-flex flex-wrap justify-content-center">
 						{/* Faculties */}
 						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card">
 							<div className="d-flex justify-content-between align-items-center">

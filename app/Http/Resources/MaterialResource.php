@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UnitResource extends JsonResource
+class MaterialResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,12 +18,9 @@ class UnitResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "description" => $this->description,
-            "courseId" => $this->course_id,
-            "credits" => $this->credits,
-            "professors" => $this->professors(),
-            "professorId" => $this->professors()[0]?->id,
-            "professorName" => $this->professors()[0]?->name,
-			"materials" => $this->materials
+            "type" => $this->type,
+            "unitId" => $this->unit_id,
+            "createdAt" => $this->created_at,
         ];
     }
 }

@@ -26,6 +26,7 @@ const TopNav = (props) => {
 	// Hide TopNav from various pages
 	const hide =
 		location.pathname.match("/404") ||
+		location.pathname.match("/instructor") ||
 		location.pathname.match("/admin") ||
 		location.pathname.match("/login") ||
 		location.pathname.match("/register")
