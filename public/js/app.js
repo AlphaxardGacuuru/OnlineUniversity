@@ -103389,9 +103389,7 @@ var AdminMenu = function AdminMenu(props) {
     // Handle Redirects for Admin
     if (isInAdminPage) {
       if (props.auth.accountType != "admin") {
-        setTimeout(function () {
-          return router.push("/admin/login");
-        }, 5000);
+        // setTimeout(() => router.push("/admin/login"), 5000)
       }
     }
   }, [props.location]);
@@ -103875,9 +103873,7 @@ var InstructorMenu = function InstructorMenu(props) {
     // Handle Redirects for Instructor
     if (isInInstructorPage) {
       if (props.auth.accountType != "instructor") {
-        setTimeout(function () {
-          return router.push("/instructor/login");
-        }, 5000);
+        // setTimeout(() => router.push("/instructor/login"), 5000)
       }
     }
   }, [props.location]);
@@ -106647,7 +106643,7 @@ var login = function login(props) {
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Handle Redirects for Admin
     if (props.auth.name != "Guest") {
-      router.push("/admin");
+      // router.push("/admin")
     }
   }, []);
 

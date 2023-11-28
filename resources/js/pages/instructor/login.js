@@ -13,7 +13,7 @@ const login = (props) => {
 	useEffect(() => {
 		// Handle Redirects for Admin
 		if (props.auth.accountType == "professor") {
-			router.push("/instructor")
+			// router.push("/instructor")
 		}
 	}, [])
 

@@ -36,7 +36,7 @@ const InstructorMenu = (props) => {
 		// Handle Redirects for Instructor
 		if (isInInstructorPage) {
 			if (props.auth.accountType != "instructor") {
-				setTimeout(() => router.push("/instructor/login"), 5000)
+				// setTimeout(() => router.push("/instructor/login"), 5000)
 			}
 		}
 	}, [props.location])

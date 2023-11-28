@@ -13,7 +13,7 @@ const login = (props) => {
 	useEffect(() => {
 		// Handle Redirects for Admin
 		if (props.auth.name != "Guest") {
-			router.push("/admin")
+			// router.push("/admin")
 		}
 	}, [])
 
