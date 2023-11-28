@@ -35,8 +35,8 @@ const InstructorMenu = (props) => {
 
 		// Handle Redirects for Instructor
 		if (isInInstructorPage) {
-			if (props.auth.accountType != "instructor") {
-				// setTimeout(() => router.push("/instructor/login"), 5000)
+			if (props.auth.accountType != "professor") {
+				setTimeout(() => router.push("/instructor/login"), 4000)
 			}
 		}
 	}, [props.location])
@@ -55,7 +55,8 @@ const InstructorMenu = (props) => {
 				// Remove phone from localStorage
 				localStorage.clear()
 				// Redirect
-				window.location.href = `/#/instructor/login`
+				// window.location.href = `/#/instructor/login`
+				window.location.reload()
 			})
 	}
 

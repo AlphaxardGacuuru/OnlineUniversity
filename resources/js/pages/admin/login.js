@@ -11,9 +11,16 @@ const login = (props) => {
 	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
-		// Handle Redirects for Admin
+		// Handle Redirects
 		if (props.auth.name != "Guest") {
-			// router.push("/admin")
+			// Handle Redirects
+			if (props.auth.accountType == "professor") {
+				router.push("/instructor")
+			} else if (props.auth.accountType == "admin") {
+				router.push("/admin")
+			} else {
+				router.push("/student")
+			}
 		}
 	}, [])
 
@@ -49,7 +56,8 @@ const login = (props) => {
 							// Set LocalStorage
 							props.setLocalStorage("auth", res.data.data)
 							// Redirect
-							window.location.href = `/#/admin`
+							// window.location.href = `${props.url}/#/admin`
+							window.location.reload()
 						})
 						.catch((err) => props.getErrors(err, false))
 				})

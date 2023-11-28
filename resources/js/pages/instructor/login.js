@@ -11,9 +11,15 @@ const login = (props) => {
 	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
-		// Handle Redirects for Admin
-		if (props.auth.accountType == "professor") {
-			// router.push("/instructor")
+		if (props.auth.name != "Guest") {
+			// Handle Redirects
+			if (props.auth.accountType == "professor") {
+				router.push("/instructor")
+			} else if (props.auth.accountType == "admin") {
+				router.push("/admin")
+			} else {
+				router.push("/student")
+			}
 		}
 	}, [])
 
@@ -49,7 +55,8 @@ const login = (props) => {
 							// Set LocalStorage
 							props.setLocalStorage("auth", res.data.data)
 							// Reload page
-							window.location.href = `/#/instructor`
+							// window.location.href = `/#/instructor`
+							window.location.reload()
 						})
 						.catch((err) => props.getErrors(err, false))
 				})
@@ -71,7 +78,7 @@ const login = (props) => {
 					<div className="col-lg-6">
 						<div className="signup-warp">
 							<div className="section-title text-white text-left">
-								<h2>Login to Admin Portal</h2>
+								<h2>Login to Instructor Portal</h2>
 								<p>
 									Lorem ipsum dolor sit amet consectetur, adipisicing elit.
 									Distinctio earum, eligendi tenetur placeat praesentium iure.

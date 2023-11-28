@@ -103389,7 +103389,9 @@ var AdminMenu = function AdminMenu(props) {
     // Handle Redirects for Admin
     if (isInAdminPage) {
       if (props.auth.accountType != "admin") {
-        // setTimeout(() => router.push("/admin/login"), 5000)
+        setTimeout(function () {
+          return router.push("/admin/login");
+        }, 4000);
       }
     }
   }, [props.location]);
@@ -103399,7 +103401,8 @@ var AdminMenu = function AdminMenu(props) {
       // Remove phone from localStorage
       localStorage.clear();
       // Redirect
-      window.location.href = "/#/admin/login";
+      // window.location.href = `/#/admin/login`
+      window.location.reload();
     })["catch"](function (err) {
       props.getErrors(err);
       // Remove phone from localStorage
@@ -103872,8 +103875,10 @@ var InstructorMenu = function InstructorMenu(props) {
 
     // Handle Redirects for Instructor
     if (isInInstructorPage) {
-      if (props.auth.accountType != "instructor") {
-        // setTimeout(() => router.push("/instructor/login"), 5000)
+      if (props.auth.accountType != "professor") {
+        setTimeout(function () {
+          return router.push("/instructor/login");
+        }, 4000);
       }
     }
   }, [props.location]);
@@ -103889,7 +103894,8 @@ var InstructorMenu = function InstructorMenu(props) {
       // Remove phone from localStorage
       localStorage.clear();
       // Redirect
-      window.location.href = "/#/instructor/login";
+      // window.location.href = `/#/instructor/login`
+      window.location.reload();
     });
   };
 
@@ -106641,9 +106647,16 @@ var login = function login(props) {
     loading = _useState6[0],
     setLoading = _useState6[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    // Handle Redirects for Admin
+    // Handle Redirects
     if (props.auth.name != "Guest") {
-      // router.push("/admin")
+      // Handle Redirects
+      if (props.auth.accountType == "professor") {
+        router.push("/instructor");
+      } else if (props.auth.accountType == "admin") {
+        router.push("/admin");
+      } else {
+        router.push("/student");
+      }
     }
   }, []);
 
@@ -106677,7 +106690,8 @@ var login = function login(props) {
           // Set LocalStorage
           props.setLocalStorage("auth", res.data.data);
           // Redirect
-          window.location.href = "/#/admin";
+          // window.location.href = `${props.url}/#/admin`
+          window.location.reload();
         })["catch"](function (err) {
           return props.getErrors(err, false);
         });
@@ -110677,9 +110691,15 @@ var login = function login(props) {
     loading = _useState6[0],
     setLoading = _useState6[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    // Handle Redirects for Admin
-    if (props.auth.accountType == "professor") {
-      router.push("/instructor");
+    if (props.auth.name != "Guest") {
+      // Handle Redirects
+      if (props.auth.accountType == "professor") {
+        router.push("/instructor");
+      } else if (props.auth.accountType == "admin") {
+        router.push("/admin");
+      } else {
+        router.push("/student");
+      }
     }
   }, []);
 
@@ -110713,7 +110733,8 @@ var login = function login(props) {
           // Set LocalStorage
           props.setLocalStorage("auth", res.data.data);
           // Reload page
-          window.location.href = "/#/instructor";
+          // window.location.href = `/#/instructor`
+          window.location.reload();
         })["catch"](function (err) {
           return props.getErrors(err, false);
         });
@@ -110741,7 +110762,7 @@ var login = function login(props) {
     className: "signup-warp"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "section-title text-white text-left"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Login to Admin Portal"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio earum, eligendi tenetur placeat praesentium iure. Nam aperiam blanditiis repellendus, pariatur eveniet similique, ipsam consequatur nostrum ipsum, molestiae quas magnam quibusdam nobis neque quidem delectus culpa!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Login to Instructor Portal"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio earum, eligendi tenetur placeat praesentium iure. Nam aperiam blanditiis repellendus, pariatur eveniet similique, ipsam consequatur nostrum ipsum, molestiae quas magnam quibusdam nobis neque quidem delectus culpa!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: onSubmit,
     className: "signup-form"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {

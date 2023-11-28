@@ -35,7 +35,7 @@ const AdminMenu = (props) => {
 		// Handle Redirects for Admin
 		if (isInAdminPage) {
 			if (props.auth.accountType != "admin") {
-				// setTimeout(() => router.push("/admin/login"), 5000)
+				setTimeout(() => router.push("/admin/login"), 4000)
 			}
 		}
 	}, [props.location])
@@ -47,7 +47,8 @@ const AdminMenu = (props) => {
 				// Remove phone from localStorage
 				localStorage.clear()
 				// Redirect
-				window.location.href = `/#/admin/login`
+				// window.location.href = `/#/admin/login`
+				window.location.reload()
 			})
 			.catch((err) => {
 				props.getErrors(err)
