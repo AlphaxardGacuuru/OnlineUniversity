@@ -110717,7 +110717,7 @@ var login = function login(props) {
           // Set LocalStorage
           props.setLocalStorage("auth", res.data.data);
           // Reload page
-          window.location.href = "/#/admin";
+          window.location.href = "/#/instructor";
         })["catch"](function (err) {
           return props.getErrors(err, false);
         });

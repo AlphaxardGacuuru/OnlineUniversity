@@ -49,7 +49,7 @@ const login = (props) => {
 							// Set LocalStorage
 							props.setLocalStorage("auth", res.data.data)
 							// Reload page
-							window.location.href = `/#/admin`
+							window.location.href = `/#/instructor`
 						})
 						.catch((err) => props.getErrors(err, false))
 				})
