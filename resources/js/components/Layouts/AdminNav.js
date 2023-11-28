@@ -46,8 +46,8 @@ const AdminMenu = (props) => {
 				props.setMessages([res.data.message])
 				// Remove phone from localStorage
 				localStorage.clear()
-				// Reload
-				window.location.reload()
+				// Redirect
+				window.location.href = `/#/admin/login`
 			})
 			.catch((err) => {
 				props.getErrors(err)

@@ -48,7 +48,7 @@ const login = (props) => {
 						.then((res) => {
 							// Set LocalStorage
 							props.setLocalStorage("auth", res.data.data)
-							// Reload page
+							// Redirect
 							window.location.href = `/#/admin`
 						})
 						.catch((err) => props.getErrors(err, false))

@@ -103400,8 +103400,8 @@ var AdminMenu = function AdminMenu(props) {
       props.setMessages([res.data.message]);
       // Remove phone from localStorage
       localStorage.clear();
-      // Reload
-      window.location.reload();
+      // Redirect
+      window.location.href = "/#/admin/login";
     })["catch"](function (err) {
       props.getErrors(err);
       // Remove phone from localStorage
@@ -103892,8 +103892,8 @@ var InstructorMenu = function InstructorMenu(props) {
       props.getErrors(err);
       // Remove phone from localStorage
       localStorage.clear();
-      // Reload
-      window.location.reload();
+      // Redirect
+      window.location.href = "/#/instructor/login";
     });
   };
 
@@ -106680,7 +106680,7 @@ var login = function login(props) {
         }).then(function (res) {
           // Set LocalStorage
           props.setLocalStorage("auth", res.data.data);
-          // Reload page
+          // Redirect
           window.location.href = "/#/admin";
         })["catch"](function (err) {
           return props.getErrors(err, false);

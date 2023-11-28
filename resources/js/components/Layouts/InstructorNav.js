@@ -54,8 +54,8 @@ const InstructorMenu = (props) => {
 				props.getErrors(err)
 				// Remove phone from localStorage
 				localStorage.clear()
-				// Reload
-				window.location.reload()
+				// Redirect
+				window.location.href = `/#/instructor/login`
 			})
 	}
 
