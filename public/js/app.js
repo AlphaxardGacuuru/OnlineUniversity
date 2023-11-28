@@ -104192,7 +104192,7 @@ var TopNav = function TopNav(props) {
     to: "/student",
     className: "site-btn header-btn"
   }, "Student"), props.auth.accountType == "professor" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/professor",
+    to: "/instructor",
     className: "site-btn header-btn"
   }, "Professor")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
     className: "main-menu"

@@ -80,7 +80,7 @@ const TopNav = (props) => {
 								{/* Professor Link */}
 								{props.auth.accountType == "professor" && (
 									<Link
-										to="/professor"
+										to="/instructor"
 										className="site-btn header-btn">
 										Professor
 									</Link>
