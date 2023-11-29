@@ -8,90 +8,100 @@ use App\Models\Course;
 
 class CourseService extends Service
 {
-	/*
-	* Get All Courses
-	*/ 
-	public function index()
-	{
-		$courses = Course::orderBy("id", "DESC")->paginate();
+    /*
+     * Get All Courses
+     */
+    public function index($request)
+    {
+        if ($request->filled("idAndName")) {
+            $courses = Course::select("id", "name", "department_id as departmentId")
+                ->orderBy("id", "DESC")
+                ->get();
 
-		return CourseResource::collection($courses);
-	}
+				return response([
+					"data" => $courses
+				], 200);
+        }
 
-	/*
-	* Get One Course
-	*/ 
-	public function show($id)
-	{
-		$course = Course::find($id);
+        $courses = Course::orderBy("id", "DESC")->paginate(20);
 
-		return new CourseResource($course);
-	}
+        return CourseResource::collection($courses);
+    }
 
-	/*
-	* Store Course
-	*/ 
-	public function store($request)
-	{
-		$course = new Course;
-		$course->name = $request->input("name");
-		$course->description = $request->input("description");
-		$course->duration = $request->input("duration");
-		$course->price = $request->input("price");
-		$course->department_id = $request->input("departmentId");
+    /*
+     * Get One Course
+     */
+    public function show($id)
+    {
+        $course = Course::findOrFail($id);
 
-		$saved = $course->save();
+        return new CourseResource($course);
+    }
 
-		$message = $course->name . " created successfully";
+    /*
+     * Store Course
+     */
+    public function store($request)
+    {
+        $course = new Course;
+        $course->name = $request->input("name");
+        $course->description = $request->input("description");
+        $course->duration = $request->input("duration");
+        $course->price = $request->input("price");
+        $course->department_id = $request->input("departmentId");
 
-		return [$saved, $message, $course];
-	}
+        $saved = $course->save();
 
-	/*
-	* Update
-	*/ 
-	public function update($request, $id)
-	{
-		$course = Course::find($id);
+        $message = $course->name . " created successfully";
 
-		if ($request->filled("name")) {
-			$course->name = $request->input("name");
-		}
+        return [$saved, $message, $course];
+    }
 
-		if ($request->filled("description")) {
-			$course->description = $request->input("description");
-		}
+    /*
+     * Update
+     */
+    public function update($request, $id)
+    {
+        $course = Course::findOrFail($id);
 
-		if ($request->filled("duration")) {
-			$course->duration = $request->input("duration");
-		}
+        if ($request->filled("name")) {
+            $course->name = $request->input("name");
+        }
 
-		if ($request->filled("price")) {
-			$course->price = $request->input("price");
-		}
+        if ($request->filled("description")) {
+            $course->description = $request->input("description");
+        }
 
-		if ($request->filled("departmentId")) {
-			$course->department_id = $request->input("departmentId");
-		}
+        if ($request->filled("duration")) {
+            $course->duration = $request->input("duration");
+        }
 
-		$saved = $course->save();
+        if ($request->filled("price")) {
+            $course->price = $request->input("price");
+        }
 
-		$message = $course->name . " updated successfully";
+        if ($request->filled("departmentId")) {
+            $course->department_id = $request->input("departmentId");
+        }
 
-		return [$saved, $message, $course];
-	}
+        $saved = $course->save();
 
-	/*
-	* Destroy
-	*/ 
-	public function destory($id)
-	{
-		$course = Course::find($id);
-		
-		$deleted = $course->delete();
+        $message = $course->name . " updated successfully";
 
-		$message = $course->name . " deleted successfully";
+        return [$saved, $message, $course];
+    }
 
-		return [$deleted, $message, $course];
-	}
+    /*
+     * Destroy
+     */
+    public function destory($id)
+    {
+        $course = Course::findOrFail($id);
+
+        $deleted = $course->delete();
+
+        $message = $course->name . " deleted successfully";
+
+        return [$deleted, $message, $course];
+    }
 }

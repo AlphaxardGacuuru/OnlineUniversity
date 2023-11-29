@@ -6,6 +6,7 @@ import Img from "@/components/Core/Img"
 
 import UnitSVG from "@/svgs/UnitSVG"
 import PersonSVG from "@/svgs/PersonSVG"
+import StudentSVG from "@/svgs/StudentSVG"
 
 const show = (props) => {
 	var { id } = useParams()
@@ -105,7 +106,7 @@ const show = (props) => {
 									<span className="fs-4">{course.units?.length}</span>
 									<h4>Total Units</h4>
 								</div>
-								<div className="fs-1 py-3 px-4 bg-primary-subtle rounded-circle">
+								<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
 									<UnitSVG />
 								</div>
 							</div>
@@ -119,7 +120,7 @@ const show = (props) => {
 						<table className="table table-hover">
 							<thead>
 								<tr>
-									<th colSpan="5">Units</th>
+									<th colSpan="4">Units</th>
 									<th className="text-end">
 										<MyLink
 											linkTo={`/admin/units/${id}/create`}
@@ -131,7 +132,6 @@ const show = (props) => {
 									<td>#</td>
 									<td>Name</td>
 									<td>Description</td>
-									<td>Professor</td>
 									<td>Credits</td>
 									<td>Action</td>
 								</tr>
@@ -140,7 +140,6 @@ const show = (props) => {
 										<td>{key + 1}</td>
 										<td>{unit.name}</td>
 										<td>{unit.description}</td>
-										<td>{unit.professorName}</td>
 										<td>{unit.credits}</td>
 										<td>
 											<div className="d-flex justify-content-end">
@@ -232,7 +231,7 @@ const show = (props) => {
 									<span className="fs-4">{course.professors?.length}</span>
 									<h4>Total Professors</h4>
 								</div>
-								<div className="fs-1 py-3 px-4 bg-primary-subtle rounded-circle">
+								<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
 									<PersonSVG />
 								</div>
 							</div>
@@ -434,8 +433,8 @@ const show = (props) => {
 									<span className="fs-4">{course.students?.length}</span>
 									<h4>Total Professors</h4>
 								</div>
-								<div className="fs-1 py-3 px-4 bg-primary-subtle rounded-circle">
-									<PersonSVG />
+								<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
+									<StudentSVG />
 								</div>
 							</div>
 							{/* Total End */}

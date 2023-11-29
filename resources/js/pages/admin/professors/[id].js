@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
+import PlusSVG from "@/svgs/PlusSVG"
 
 const edit = (props) => {
 	var { id } = useParams()
@@ -12,6 +13,7 @@ const edit = (props) => {
 	const [email, setEmail] = useState()
 	const [phone, setPhone] = useState()
 	const [gender, setGender] = useState()
+	const [education, setEducation] = useState()
 	const [facultyId, setFacultyId] = useState()
 	const [departmentId, setDepartmentId] = useState()
 	const [courseId, setCourseId] = useState()
@@ -22,6 +24,8 @@ const edit = (props) => {
 	const [units, setUnits] = useState([])
 	const [loading, setLoading] = useState()
 
+	var educationList = ["phd", " masters", "degree", "certificate"]
+
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
@@ -30,10 +34,12 @@ const edit = (props) => {
 		Axios.get(`/api/professors/${id}`).then((res) => {
 			setProfessor(res.data.data)
 			setFacultyId(res.data.data.facultyId.toString())
+			setDepartmentId(res.data.data.departmentId.toString())
+			setCourseId(res.data.data.courseId.toString())
 		})
 		props.get("faculties", setFaculties)
 		props.get("departments", setDepartments)
-		props.get("courses", setCourses)
+		props.get("courses?idAndName=true", setCourses)
 		props.get("units", setUnits)
 	}, [])
 
@@ -49,13 +55,18 @@ const edit = (props) => {
 			email: email,
 			phone: phone,
 			gender: gender,
+			education: education,
 			facultyId: facultyId,
 			departmentId: departmentId,
+			courseId: courseId,
+			unitId: unitId,
 		})
 			.then((res) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
+				// Reload page
+				window.location.reload()
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -109,10 +120,27 @@ const edit = (props) => {
 					</select>
 
 					<select
+						name="education"
+						className="form-control mb-3 me-2 text-capitalize"
+						onChange={(e) => setEducation(e.target.value)}>
+						<option value="">Select Education</option>
+						{educationList.map((education, key) => (
+							<option
+								key={key}
+								value={education}
+								className="text-capitalize"
+								selected={professor.education == education}>
+								{education}
+							</option>
+						))}
+					</select>
+
+					<select
 						name="facultyId"
 						className="form-control mb-3 me-2"
-						onChange={(e) => setFacultyId(e.target.value)}>
-						<option value="">Select Faculty</option>
+						onChange={(e) => setFacultyId(e.target.value)}
+						required={true}>
+						<option value="remove">Select Faculty</option>
 						{faculties.map((faculty, key) => (
 							<option
 								key={key}
@@ -126,8 +154,9 @@ const edit = (props) => {
 					<select
 						name="departmentId"
 						className="form-control mb-3 me-2"
-						onChange={(e) => setDepartmentId(e.target.value)}>
-						<option value="">Select Department</option>
+						onChange={(e) => setDepartmentId(e.target.value)}
+						required={true}>
+						<option value="remove">Select Department</option>
 						{departments
 							.filter((department) => department.facultyId == facultyId)
 							.map((department, key) => (
@@ -144,7 +173,7 @@ const edit = (props) => {
 						name="courseId"
 						className="form-control mb-3 me-2"
 						onChange={(e) => setCourseId(e.target.value)}>
-						<option value="">Select Course</option>
+						<option value="remove">Select Course</option>
 						{courses
 							.filter((course) => course.departmentId == departmentId)
 							.map((course, key) => (
@@ -161,7 +190,7 @@ const edit = (props) => {
 						name="unitId"
 						className="form-control mb-3 me-2"
 						onChange={(e) => setUnitId(e.target.value)}>
-						<option value="">Select Unit</option>
+						<option value="remove">Select Unit</option>
 						{units
 							.filter((unit) => unit.courseId == courseId)
 							.map((unit, key) => (

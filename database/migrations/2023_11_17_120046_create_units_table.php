@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('units', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('code');
             $table->string('description');
 			$table->decimal('credits', 5, 2)->nullable();
             $table->foreignId('course_id')

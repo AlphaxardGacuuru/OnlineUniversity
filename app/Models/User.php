@@ -95,7 +95,7 @@ class User extends Authenticatable
 
     public function userUnits()
     {
-        return $this->hasMany(UserUnit::class, "user_id");
+        return $this->hasMany(UserUnit::class);
     }
 
     /*
@@ -122,13 +122,15 @@ class User extends Authenticatable
     {
         return $this->userCourses()
             ->get()
-            ->map(fn($userCourse) => $userCourse->course);
+            ->map(fn($userCourse) => $userCourse->course)
+            ->first();
     }
 
     public function unit()
     {
         return $this->userUnits()
             ->get()
-            ->map(fn($userUnit) => $userUnit->unit);
+            ->map(fn($userUnit) => $userUnit->unit)
+            ->first();
     }
 }

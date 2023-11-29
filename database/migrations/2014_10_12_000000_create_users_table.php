@@ -18,12 +18,15 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken();
             $table->string('password');
             $table->string('phone')->nullable();
             $table->string('avatar')->default('avatars/male-avatar.png');
             $table->string('gender')->nullable();
             $table->string('account_type')->default('student');
-            $table->rememberToken();
+            $table->string('current_location')->nullable();
+            $table->string('origin_location')->nullable();
+            $table->string('education')->nullable();
 			$table->softDeletes();
             $table->timestamps();
         });

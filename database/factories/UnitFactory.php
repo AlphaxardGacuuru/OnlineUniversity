@@ -17,7 +17,8 @@ class UnitFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "name" => fake()->catchPhrase(),
+            "description" => fake()->realText($maxNbChars = 20, $indexSize = 2),
         ];
     }
 }

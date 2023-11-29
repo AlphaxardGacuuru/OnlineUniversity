@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\Admin\StudentService;
-use App\Models\Student;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -19,7 +18,7 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {		
         return $this->service->index();
     }
 
@@ -36,6 +35,8 @@ class StudentController extends Controller
             "email" => "required|email|unique:users",
             "phone" => "string|unique:users",
             "gender" => "required|string",
+			"currentLocation" => "nullable|string",
+			"originLocation" => "nullable|string",
             "facultyId" => "required|string",
             "departmentId" => "required|string",
         ]);
@@ -74,6 +75,8 @@ class StudentController extends Controller
             "email" => "nullable|email|unique:users",
             "phone" => "string|unique:users",
             "gender" => "nullable|string",
+			"currentLocation" => "nullable|string",
+			"originLocation" => "nullable|string",
             "facultyId" => "nullable|string",
             "departmentId" => "nullable|string",
         ]);

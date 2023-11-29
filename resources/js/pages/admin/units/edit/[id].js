@@ -9,22 +9,16 @@ const edit = (props) => {
 
 	const [unit, setUnit] = useState({})
 	const [name, setName] = useState()
+	const [code, setCode] = useState()
 	const [description, setDescription] = useState()
-	const [professorId, setProfessorId] = useState()
 	const [credits, setCredits] = useState()
-	const [professors, setProfessors] = useState([])
 	const [loading, setLoading] = useState()
 
 	// Get Units and Departments
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Edit Unit", path: ["units", "edit"] })
-		props.get("professors", setProfessors)
-
-		Axios.get(`/api/units/${id}`).then((res) => {
-			setUnit(res.data.data)
-			setProfessorId(res.data.data.professorId.toString())
-		})
+		props.get(`units/${id}`, setUnit)
 	}, [])
 
 	/*
@@ -36,6 +30,10 @@ const edit = (props) => {
 		setLoading(true)
 		Axios.put(`/api/units/${id}`, {
 			name: name,
+			code: code,
+			description: description,
+			courseId: id,
+			credits: credits,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -62,6 +60,15 @@ const edit = (props) => {
 						onChange={(e) => setName(e.target.value)}
 					/>
 
+					<input
+						type="text"
+						name="code"
+						placeholder="Code"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setCode(e.target.value)}
+						required={true}
+					/>
+
 					<textarea
 						type="text"
 						name="description"
@@ -69,22 +76,6 @@ const edit = (props) => {
 						className="form-control mb-2 me-2"
 						onChange={(e) => setDescription(e.target.value)}
 						required={true}></textarea>
-
-					<select
-						name="professorId"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setProfessorId(e.target.value)}
-						required={true}>
-						<option value="">Select Professor</option>
-						{professors.map((professor, key) => (
-							<option
-								key={key}
-								value={professor.id}
-								selected={unit.professorId == professor.id}>
-								{professor.name}
-							</option>
-						))}
-					</select>
 
 					<input
 						type="number"

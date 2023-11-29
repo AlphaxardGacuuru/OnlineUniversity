@@ -5,9 +5,6 @@ namespace App\Http\Services\Admin;
 use App\Http\Resources\StaffResource;
 use App\Http\Services\Service;
 use App\Models\User;
-use App\Models\UserDepartment;
-use App\Models\UserFaculty;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class StaffService extends Service
@@ -19,7 +16,7 @@ class StaffService extends Service
     {
         $staff = User::where("account_type", "staff")
             ->orderBy("id", "DESC")
-            ->paginate(20);
+            ->get();
 
         return StaffResource::collection($staff);
     }
@@ -29,7 +26,7 @@ class StaffService extends Service
      */
     public function show($id)
     {
-        $staff = User::find($id);
+        $staff = User::findOrFail($id);
 
         return new StaffResource($staff);
     }
@@ -47,7 +44,7 @@ class StaffService extends Service
         $staff->password = Hash::make($request->input("email"));
         $staff->account_type = "staff";
 
-		$saved = $staff->save();
+        $saved = $staff->save();
 
         $message = $staff->name . " created successfully";
 
@@ -59,7 +56,7 @@ class StaffService extends Service
      */
     public function update($request, $id)
     {
-        $staff = User::find($id);
+        $staff = User::findOrFail($id);
 
         if ($request->filled("name")) {
             $staff->name = $request->input("name");
@@ -93,7 +90,7 @@ class StaffService extends Service
      */
     public function destroy($id)
     {
-        $staff = User::find($id);
+        $staff = User::findOrFail($id);
 
         $deleted = $staff->delete();
 
@@ -105,7 +102,7 @@ class StaffService extends Service
      */
     public function forceDestory($id)
     {
-        $staff = User::find($id);
+        $staff = User::findOrFail($id);
 
         // Get old thumbnail and delete it
         $oldThumbnail = substr($staff->thumbnail, 9);

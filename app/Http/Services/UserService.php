@@ -24,7 +24,7 @@ class UserService extends Service
      */
     public function show($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         return new UserResource($user);
     }
@@ -36,7 +36,7 @@ class UserService extends Service
     public function update($request, $id)
     {
         /* Update profile */
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         if ($request->filled('name')) {
             $user->name = $request->input('name');
@@ -57,7 +57,7 @@ class UserService extends Service
      */
     public function destory($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         $deleted = $user->delete();
 
@@ -69,7 +69,7 @@ class UserService extends Service
      */
     public function forceDestory($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         // Get old thumbnail and delete it
         $oldThumbnail = substr($user->thumbnail, 9);

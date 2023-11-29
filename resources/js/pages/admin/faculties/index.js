@@ -55,7 +55,7 @@ const index = (props) => {
 								<span className="fs-4">{faculties.length}</span>
 								<h4>Total Faculties</h4>
 							</div>
-							<div className="fs-1 py-3 px-4 bg-primary-subtle rounded-circle">
+							<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
 								<FacultySVG />
 							</div>
 						</div>

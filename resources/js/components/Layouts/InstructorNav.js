@@ -19,6 +19,7 @@ import StaffSVG from "@/svgs/StaffSVG"
 import StudentSVG from "@/svgs/StudentSVG"
 import ChevronRightSVG from "@/svgs/ChevronRightSVG"
 import UnitSVG from "@/svgs/UnitSVG"
+import KenyanClock from "@/functions/KenyanClock"
 
 const InstructorMenu = (props) => {
 	const location = useLocation()
@@ -131,6 +132,9 @@ const InstructorMenu = (props) => {
 												className="btn btn-outline-light rounded-pill text-uppercase mx-3 hidden">
 												visit website
 											</Link>
+											{/* Kenyan Clock */}
+											<KenyanClock className="btn btn-outline-light" />
+											{/* Kenyan Clock End */}
 										</div>
 										<div className="header-social-area d-flex align-items-center">
 											<>
@@ -160,9 +164,9 @@ const InstructorMenu = (props) => {
 														}}>
 														<Img
 															src={props.auth?.avatar}
-															className="rounded-circle anti-hidden"
-															width="20px"
-															height="20px"
+															className="rounded-circle bg-light p-1 anti-hidden"
+															width="30px"
+															height="30px"
 															alt="Avatar"
 														/>
 													</span>
@@ -185,7 +189,7 @@ const InstructorMenu = (props) => {
 																	<h6 className="text-wrap fs-6">
 																		{props.auth?.name}
 																	</h6>
-																	<p className="text-wrap text-capitalize">
+																	<p className="text-wrap text-capitalize text-danger">
 																		{props.auth?.accountType}
 																	</p>
 																</div>

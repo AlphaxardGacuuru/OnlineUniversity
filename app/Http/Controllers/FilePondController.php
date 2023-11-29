@@ -19,7 +19,7 @@ class FilePondController extends Controller
         $avatar = $request->file('filepond-avatar')->store('public/avatars');
         $avatar = substr($avatar, 7);
 
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         // Delete profile pic if it's not the default one
         if ($user->avatar != '/storage/avatars/male_avatar.png') {

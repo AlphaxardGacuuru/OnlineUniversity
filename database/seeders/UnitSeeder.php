@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Course;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Unit;
 use Illuminate\Database\Seeder;
 
 class UnitSeeder extends Seeder
@@ -15,6 +15,15 @@ class UnitSeeder extends Seeder
      */
     public function run()
     {
-		
+        $courses = Course::all();
+
+        foreach ($courses as $course) {
+            Unit::factory()
+                ->count(5)
+                ->create([
+                    "code" => substr($course->department->name, 0, 3) . "-" . rand(100, 999),
+                    "course_id" => $course->id,
+                ]);
+        }
     }
 }

@@ -7,15 +7,15 @@ use App\Models\Material;
 
 class MaterialService extends Service
 {
-	/*
-	* Get One Material
-	*/ 
-	public function show($id)
-	{
-		$material = Material::find($id);
+    /*
+     * Get One Material
+     */
+    public function show($id)
+    {
+        $material = Material::findOrFail($id);
 
-		return new MaterialResource($material);
-	}
+        return new MaterialResource($material);
+    }
 
     /*
      * Store Material
@@ -41,7 +41,7 @@ class MaterialService extends Service
      */
     public function update($request, $id)
     {
-        $material = Material::find($id);
+        $material = Material::findOrFail($id);
 
         if ($request->input("name")) {
             $material->name = $request->input("name");
@@ -75,7 +75,7 @@ class MaterialService extends Service
      */
     public function destroy($id)
     {
-        $material = Material::find($id);
+        $material = Material::findOrFail($id);
 
         $deleted = $material->delete();
 

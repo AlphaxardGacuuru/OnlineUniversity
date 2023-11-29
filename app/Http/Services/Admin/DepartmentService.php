@@ -18,65 +18,65 @@ class DepartmentService extends Service
         return DepartmentResource::collection($departments);
     }
 
-	/*
-	* Get One Department
-	*/ 
-	public function show($id)
-	{
-		$department = Department::find($id);
+    /*
+     * Get One Department
+     */
+    public function show($id)
+    {
+        $department = Department::findOrFail($id);
 
-		return new DepartmentResource($department);
-	}
+        return new DepartmentResource($department);
+    }
 
-	/*
-	* Store Department
-	*/ 
-	public function store($request)
-	{
-		$department = new Department;
-		$department->name = $request->input("name");
-		$department->faculty_id = $request->input("facultyId");
-		
-		$saved = $department->save();
+    /*
+     * Store Department
+     */
+    public function store($request)
+    {
+        $department = new Department;
+        $department->name = $request->input("name");
+        $department->faculty_id = $request->input("facultyId");
 
-		$message = $department->name . " created successfully";
+        $saved = $department->save();
 
-		return [$saved, $message, $department];
-	}
+        $message = $department->name . " created successfully";
 
-	/*
-	* Update Department
-	*/ 
-	public function update($request, $id)
-	{
-		$department = Department::find($id);
+        return [$saved, $message, $department];
+    }
 
-		if ($request->filled("name")) {
-			$department->name = $request->input("name");
-		}
+    /*
+     * Update Department
+     */
+    public function update($request, $id)
+    {
+        $department = Department::findOrFail($id);
 
-		if ($request->filled("facultyId")) {
-			$department->faculty_id = $request->input("facultyId");
-		}
-		
-		$saved = $department->save();
+        if ($request->filled("name")) {
+            $department->name = $request->input("name");
+        }
 
-		$message = $department->name . " created successfully";
+        if ($request->filled("facultyId")) {
+            $department->faculty_id = $request->input("facultyId");
+        }
 
-		return [$saved, $message, $department];
-	}
+        $saved = $department->save();
 
-	/*
-	* Destroy
-	*/ 
-	public function destroy($id)
-	{
-		$department = Department::find($id);
+        $message = $department->name . " created successfully";
 
-		$deleted = $department->delete();
+        return [$saved, $message, $department];
+    }
 
-		$message = $department->name . " deleted successfully";
+    /*
+     * Destroy
+     */
+    public function destroy($id)
+    {
+        $department = Department::findOrFail($id);
 
-		return [$deleted, $message, $department];
-	}
+        $deleted = $department->delete();
+
+        $message = $department->name . " deleted successfully";
+
+        return [$deleted, $message, $department];
+    }
 }

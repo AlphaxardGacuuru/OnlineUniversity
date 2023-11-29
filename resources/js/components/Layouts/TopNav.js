@@ -68,8 +68,6 @@ const TopNav = (props) => {
 		}
 	}
 
-	console.log(window.scrollX)
-
 	return (
 		<React.Fragment>
 			<div

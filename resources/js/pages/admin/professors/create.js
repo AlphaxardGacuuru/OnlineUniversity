@@ -11,11 +11,14 @@ const create = (props) => {
 	const [email, setEmail] = useState()
 	const [phone, setPhone] = useState()
 	const [gender, setGender] = useState()
+	const [education, setEducation] = useState()
 	const [facultyId, setFacultyId] = useState()
 	const [departmentId, setDepartmentId] = useState()
 	const [faculties, setFaculties] = useState([])
 	const [departments, setDepartments] = useState([])
 	const [loading, setLoading] = useState()
+
+	var educationList = ["phd", " masters", "degree", "certificate"]
 
 	// Get Faculties and Departments
 	useEffect(() => {
@@ -37,6 +40,7 @@ const create = (props) => {
 			email: email,
 			phone: phone,
 			gender: gender,
+			education: education,
 			facultyId: facultyId,
 			departmentId: departmentId,
 		})
@@ -92,6 +96,22 @@ const create = (props) => {
 						<option value="">Select Gender</option>
 						<option value="male">Male</option>
 						<option value="female">Female</option>
+					</select>
+
+					<select
+						name="education"
+						className="form-control mb-3 me-2"
+						onChange={(e) => setEducation(e.target.value)}
+						required={true}>
+						<option value="">Select Education</option>
+						{educationList.map((education, key) => (
+							<option
+								key={key}
+								value={education}
+								className="text-capitalize">
+								{education}
+							</option>
+						))}
 					</select>
 
 					<select

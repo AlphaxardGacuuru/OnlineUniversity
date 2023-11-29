@@ -36,8 +36,11 @@ class ProfessorController extends Controller
             "email" => "required|email|unique:users",
             "phone" => "string|unique:users",
             "gender" => "required|string",
+            "education" => "required|string",
             "facultyId" => "required|string",
             "departmentId" => "required|string",
+            "courseId" => "required|string",
+            "unitId" => "required|string",
         ]);
 
         [$saved, $message, $professor] = $this->service->store($request);
@@ -74,8 +77,11 @@ class ProfessorController extends Controller
             "email" => "nullable|email|unique:users",
             "phone" => "string|unique:users",
             "gender" => "nullable|string",
+            "education" => "nullable|string",
             "facultyId" => "nullable|string",
             "departmentId" => "nullable|string",
+            "courseId" => "required|string",
+            "unitId" => "required|string",
         ]);
 
         [$saved, $message, $professor] = $this->service->update($request, $id);

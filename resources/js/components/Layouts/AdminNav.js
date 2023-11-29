@@ -18,6 +18,7 @@ import CourseSVG from "@/svgs/CourseSVG"
 import StaffSVG from "@/svgs/StaffSVG"
 import StudentSVG from "@/svgs/StudentSVG"
 import ChevronRightSVG from "@/svgs/ChevronRightSVG"
+import KenyanClock from "@/functions/KenyanClock"
 
 const AdminMenu = (props) => {
 	const location = useLocation()
@@ -35,7 +36,7 @@ const AdminMenu = (props) => {
 		// Handle Redirects for Admin
 		if (isInAdminPage) {
 			if (props.auth.accountType != "admin") {
-				setTimeout(() => router.push("/admin/login"), 4000)
+				setTimeout(() => router.push("/admin/login"), 2000)
 			}
 		}
 	}, [props.location])
@@ -123,12 +124,16 @@ const AdminMenu = (props) => {
 									{/* Top Nav Links Area */}
 									<div className="menu-content-area d-flex align-items-center">
 										<div className="d-flex align-items-center justify-content-between">
-											{/* Admin */}
+											{/* Main Site Link */}
 											<Link
 												to="/"
 												className="btn btn-outline-light rounded-pill text-uppercase mx-3 hidden">
 												visit website
 											</Link>
+											{/* Main Site Link End */}
+											{/* Kenyan Clock */}
+											<KenyanClock className="btn btn-outline-light" />
+											{/* Kenyan Clock End */}
 										</div>
 										<div className="header-social-area d-flex align-items-center">
 											<>
@@ -158,9 +163,9 @@ const AdminMenu = (props) => {
 														}}>
 														<Img
 															src={props.auth?.avatar}
-															className="rounded-circle anti-hidden"
-															width="20px"
-															height="20px"
+															className="rounded-circle bg-light p-1 anti-hidden"
+															width="30px"
+															height="30px"
 															alt="Avatar"
 														/>
 													</span>
@@ -183,7 +188,7 @@ const AdminMenu = (props) => {
 																	<h6 className="text-wrap fs-6">
 																		{props.auth?.name}
 																	</h6>
-																	<p className="text-wrap text-capitalize">
+																	<p className="text-wrap text-capitalize text-primary">
 																		{props.auth?.accountType}
 																	</p>
 																</div>
@@ -333,18 +338,18 @@ const AdminMenu = (props) => {
 								{key < props.page.path.length - 1 ? (
 									<MyLink
 										linkTo={`/admin/${path}`}
-										className="btn btn-sm btn-outline-secondary my-3"
+										className="btn btn-sm btn-outline-primary my-3"
 										text={path}
 									/>
 								) : (
 									<Btn
-										btnClass="btn btn-sm btn-secondary my-3"
+										btnClass="btn btn-sm btn-primary my-3"
 										btnText={path}
 									/>
 								)}
 
 								{key < props.page.path.length - 1 && (
-									<span className="text-secondary">
+									<span className="text-primary">
 										<ChevronRightSVG />
 									</span>
 								)}

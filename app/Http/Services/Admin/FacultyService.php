@@ -8,70 +8,70 @@ use App\Models\Faculty;
 
 class FacultyService extends Service
 {
-	/*
-	* Get All Faculties
-	*/ 
-	public function index()
-	{
-		$faculties = Faculty::orderBy("id", "DESC")->get();
+    /*
+     * Get All Faculties
+     */
+    public function index()
+    {
+        $faculties = Faculty::orderBy("id", "DESC")->get();
 
-		return FacultyResource::collection($faculties);
-	}
+        return FacultyResource::collection($faculties);
+    }
 
-	/*
-	* Get One Faculty
-	*/ 
-	public function show($id)
-	{
-		$faculty = Faculty::find($id);
+    /*
+     * Get One Faculty
+     */
+    public function show($id)
+    {
+        $faculty = Faculty::findOrFail($id);
 
-		return new FacultyResource($faculty);
-	}
+        return new FacultyResource($faculty);
+    }
 
-	/*
-	* Store Faculty
-	*/ 
-	public function store($request)
-	{
-		$faculty = new Faculty;
-		$faculty->name = $request->input("name");
-		
-		$saved = $faculty->save();
+    /*
+     * Store Faculty
+     */
+    public function store($request)
+    {
+        $faculty = new Faculty;
+        $faculty->name = $request->input("name");
 
-		$message = $faculty->name . " created successfully";
+        $saved = $faculty->save();
 
-		return [$saved, $message, $faculty];
-	}
+        $message = $faculty->name . " created successfully";
 
-	/*
-	* Update Faculty
-	*/ 
-	public function update($request, $id)
-	{
-		$faculty = Faculty::find($id);
+        return [$saved, $message, $faculty];
+    }
 
-		if ($request->filled("name")) {
-			$faculty->name = $request->input("name");
-		}
-		
-		$saved = $faculty->save();
+    /*
+     * Update Faculty
+     */
+    public function update($request, $id)
+    {
+        $faculty = Faculty::findOrFail($id);
 
-		$message = $faculty->name . " created successfully";
+        if ($request->filled("name")) {
+            $faculty->name = $request->input("name");
+        }
 
-		return [$saved, $message, $faculty];
-	}
+        $saved = $faculty->save();
 
-	/*
-	* Destroy
-	*/ 
-	public function destroy($id)
-	{
-		$faculty = Faculty::find($id);
+        $message = $faculty->name . " created successfully";
 
-		$deleted = $faculty->delete();
+        return [$saved, $message, $faculty];
+    }
 
-		$message = $faculty->name . " deleted successfully";
+    /*
+     * Destroy
+     */
+    public function destroy($id)
+    {
+        $faculty = Faculty::findOrFail($id);
 
-		return [$deleted, $message, $faculty];
-	}
+        $deleted = $faculty->delete();
+
+        $message = $faculty->name . " deleted successfully";
+
+        return [$deleted, $message, $faculty];
+    }
 }

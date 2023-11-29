@@ -9,6 +9,7 @@ import StaffSVG from "@/svgs/StaffSVG"
 const index = (props) => {
 	// Get Staff
 	const [staff, setStaff] = useState([])
+	const [roles, setRoles] = useState([])
 	const [loading, setLoading] = useState()
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
@@ -16,7 +17,7 @@ const index = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({name: "Staff", path: ["staff"]})
+		props.setPage({ name: "Staff", path: ["staff"] })
 		props.get("staff", setStaff)
 	}, [])
 
@@ -33,9 +34,7 @@ const index = (props) => {
 				// Toggle loader
 				setLoading(true)
 				// Delete rows
-				setStaff(
-					staff.filter((staff) => staff.id != staffId)
-				)
+				setStaff(staff.filter((staff) => staff.id != staffId))
 			})
 			.catch((err) => {
 				// Toggle loader
@@ -55,7 +54,7 @@ const index = (props) => {
 								<span className="fs-4">{staff.length}</span>
 								<h4>Total Staff</h4>
 							</div>
-							<div className="fs-1 py-3 px-4 bg-primary-subtle rounded-circle">
+							<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
 								<StaffSVG />
 							</div>
 						</div>
@@ -96,6 +95,26 @@ const index = (props) => {
 							</select>
 						</div>
 						{/* Gender End */}
+						{/* Role */}
+						<div className="flex-grow-1 me-2 mb-2">
+							<select
+								id=""
+								type="text"
+								name="name"
+								placeholder="Search by Role"
+								className="form-control me-2"
+								onChange={(e) => setRoleQuery(e.target.value)}>
+								<option value="">Search by Role</option>
+								{roles.map((role, key) => (
+									<option
+										key={key}
+										value="male">
+										{role.name}
+									</option>
+								))}
+							</select>
+						</div>
+						{/* Role End */}
 						{/* Date */}
 						{/* <div className="flex-grow-1">
 							<input
@@ -118,7 +137,7 @@ const index = (props) => {
 					<table className="table table-hover">
 						<thead>
 							<tr>
-								<th colSpan="7"></th>
+								<th colSpan="8"></th>
 								<th className="text-end">
 									<MyLink
 										linkTo="/admin/staff/create"
@@ -133,6 +152,7 @@ const index = (props) => {
 								<th>Email</th>
 								<th>Phone</th>
 								<th>Gender</th>
+								<th>Role</th>
 								<th>Date Joined</th>
 								<th>Action</th>
 							</tr>
@@ -168,6 +188,7 @@ const index = (props) => {
 										<td>{staff.email}</td>
 										<td>{staff.phone}</td>
 										<td className="text-capitalize">{staff.gender}</td>
+										<td>{staff.role}</td>
 										<td>{staff.createdAt}</td>
 										<td className="text-end">
 											<div className="d-flex">

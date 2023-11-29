@@ -105,7 +105,7 @@ const show = (props) => {
 									<span className="fs-4">{faculty.departments?.length}</span>
 									<h4>Total Departments</h4>
 								</div>
-								<div className="fs-1 py-3 px-4 bg-primary-subtle rounded-circle">
+								<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
 									<DepartmentSVG />
 								</div>
 							</div>
@@ -229,7 +229,7 @@ const show = (props) => {
 									<span className="fs-4">{faculty.professors?.length}</span>
 									<h4>Total Professors</h4>
 								</div>
-								<div className="fs-1 py-3 px-4 bg-primary-subtle rounded-circle">
+								<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
 									<PersonSVG />
 								</div>
 							</div>

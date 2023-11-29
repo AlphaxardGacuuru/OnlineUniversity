@@ -29,7 +29,7 @@ class ProfessorService extends Service
      */
     public function show($id)
     {
-        $professor = User::find($id);
+        $professor = User::findOrFail($id);
 
         return new ProfessorResource($professor);
     }
@@ -44,6 +44,7 @@ class ProfessorService extends Service
         $professor->email = $request->input("email");
         $professor->phone = $request->input("phone");
         $professor->gender = $request->input("gender");
+        $professor->education = $request->input("education");
         $professor->password = Hash::make($request->input("email"));
         $professor->account_type = "professor";
 
@@ -62,6 +63,22 @@ class ProfessorService extends Service
             $userDepartment->department_id = $request->input("departmentId");
             $userDepartment->save();
 
+            // Add UserCourse
+            if ($request->filled("courseId")) {
+                $userCourse = new UserCourse;
+                $userCourse->user_id = $professor->id;
+                $userCourse->course_id = $request->input("courseId");
+                $userCourse->save();
+            }
+
+            // Add UserUnit
+            if ($request->filled("unitId")) {
+                $userUnit = new UserUnit;
+                $userUnit->user_id = $professor->id;
+                $userUnit->unit_id = $request->input("unitId");
+                $userUnit->save();
+            }
+
             return $saved;
         });
 
@@ -75,7 +92,7 @@ class ProfessorService extends Service
      */
     public function update($request, $id)
     {
-        $professor = User::find($id);
+        $professor = User::findOrFail($id);
 
         if ($request->filled("name")) {
             $professor->name = $request->input("name");
@@ -93,30 +110,55 @@ class ProfessorService extends Service
             $professor->gender = $request->input("gender");
         }
 
+        if ($request->filled("education")) {
+            $professor->education = $request->input("education");
+        }
+
         if ($request->filled("password")) {
             $professor->password = Hash::make($request->input("email"));
         }
 
         if ($request->filled("facultyId")) {
             // Delete UserFaculty
-            UserFaculty::where("user_id", $id)->delete();
+            $doesntExist = UserFaculty::where("user_id", $id)
+                ->where("faculty_id", $request->input("facultyId"))
+                ->doesntExist();
 
             // Add UserFaculty
-            $userFaculty = new UserFaculty;
-            $userFaculty->user_id = $professor->id;
-            $userFaculty->faculty_id = $request->input("facultyId");
-            $userFaculty->save();
+            if ($doesntExist) {
+                $userFaculty = new UserFaculty;
+                $userFaculty->user_id = $professor->id;
+                $userFaculty->faculty_id = $request->input("facultyId");
+                $userFaculty->save();
+            }
         }
 
         if ($request->filled("departmentId")) {
+            // If user has opted to remove
+            if ($request->input("departmentId") == "remove") {
+                UserDepartment::where("user_id", $id)->delete();
+            }
+
             // Delete UserDepartment
-            UserDepartment::where("user_id", $id)->delete();
+            $doesntExist = UserDepartment::where("user_id", $id)
+                ->where("department_id", $request->input("departmentId"))
+                ->doesntExist();
 
             // Add UserDepartment
-            $userDepartment = new UserDepartment;
-            $userDepartment->user_id = $professor->id;
-            $userDepartment->department_id = $request->input("departmentId");
-            $userDepartment->save();
+            if ($doesntExist) {
+                $userDepartment = new UserDepartment;
+                $userDepartment->user_id = $professor->id;
+                $userDepartment->department_id = $request->input("departmentId");
+                $userDepartment->save();
+            }
+        }
+
+        // Add UserCourse
+        if ($request->filled("courseId")) {
+            $userCourse = new UserCourse;
+            $userCourse->user_id = $professor->id;
+            $userCourse->course_id = $request->input("courseId");
+            $userCourse->save();
         }
 
         $saved = $professor->save();
@@ -131,7 +173,7 @@ class ProfessorService extends Service
      */
     public function destroy($id)
     {
-        $professor = User::find($id);
+        $professor = User::findOrFail($id);
 
         $deleted = $professor->delete();
 
@@ -143,7 +185,7 @@ class ProfessorService extends Service
      */
     public function forceDestory($id)
     {
-        $professor = User::find($id);
+        $professor = User::findOrFail($id);
 
         // Get old thumbnail and delete it
         $oldThumbnail = substr($professor->thumbnail, 9);

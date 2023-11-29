@@ -29,7 +29,7 @@ class StudentService extends Service
      */
     public function show($id)
     {
-        $student = User::find($id);
+        $student = User::findOrFail($id);
 
         return new StudentResource($student);
     }
@@ -44,6 +44,8 @@ class StudentService extends Service
         $student->email = $request->input("email");
         $student->phone = $request->input("phone");
         $student->gender = $request->input("gender");
+        $student->current_location = $request->input("currentLocation");
+        $student->origin_location = $request->input("originLocation");
         $student->password = Hash::make($request->input("email"));
         $student->account_type = "student";
 
@@ -75,7 +77,7 @@ class StudentService extends Service
      */
     public function update($request, $id)
     {
-        $student = User::find($id);
+        $student = User::findOrFail($id);
 
         if ($request->filled("name")) {
             $student->name = $request->input("name");
@@ -91,6 +93,14 @@ class StudentService extends Service
 
         if ($request->filled("gender")) {
             $student->gender = $request->input("gender");
+        }
+
+        if ($request->filled("currentLocation")) {
+            $student->current_location = $request->input("currentLocation");
+        }
+
+        if ($request->filled("originLocation")) {
+            $student->origin_location = $request->input("originLocation");
         }
 
         if ($request->filled("password")) {
@@ -131,7 +141,7 @@ class StudentService extends Service
      */
     public function destroy($id)
     {
-        $student = User::find($id);
+        $student = User::findOrFail($id);
 
         $deleted = $student->delete();
 
@@ -143,7 +153,7 @@ class StudentService extends Service
      */
     public function forceDestory($id)
     {
-        $student = User::find($id);
+        $student = User::findOrFail($id);
 
         // Get old thumbnail and delete it
         $oldThumbnail = substr($student->thumbnail, 9);

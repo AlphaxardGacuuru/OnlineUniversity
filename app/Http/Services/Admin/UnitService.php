@@ -4,7 +4,6 @@ namespace App\Http\Services\Admin;
 
 use App\Http\Resources\UnitResource;
 use App\Http\Services\Service;
-use App\Models\Professor;
 use App\Models\Unit;
 use App\Models\UserUnit;
 
@@ -15,7 +14,7 @@ class UnitService extends Service
      */
     public function index()
     {
-        $units = Unit::orderBy("id", "DESC")->paginate();
+        $units = Unit::orderBy("id", "DESC")->paginate(20);
 
         return UnitResource::collection($units);
     }
@@ -25,7 +24,7 @@ class UnitService extends Service
      */
     public function show($id)
     {
-        $unit = Unit::find($id);
+        $unit = Unit::findOrFail($id);
 
         return new UnitResource($unit);
     }
@@ -41,7 +40,7 @@ class UnitService extends Service
         $unit->credits = $request->input("credits");
         $unit->course_id = $request->input("courseId");
 
-		$saved = $unit->save();
+        $saved = $unit->save();
 
         if ($request->filled("professorId")) {
             $userUnit = new UserUnit;
@@ -60,7 +59,7 @@ class UnitService extends Service
      */
     public function update($request, $id)
     {
-        $unit = Unit::find($id);
+        $unit = Unit::findOrFail($id);
 
         if ($request->filled("name")) {
             $unit->name = $request->input("name");
@@ -75,12 +74,12 @@ class UnitService extends Service
         }
 
         if ($request->filled("credits")) {
-			$unit->credits = $request->input("credits");
+            $unit->credits = $request->input("credits");
         }
-		
-		if ($request->filled("courseId")) {
-			$unit->course_id = $request->input("courseId");
-		}
+
+        if ($request->filled("courseId")) {
+            $unit->course_id = $request->input("courseId");
+        }
 
         $saved = $unit->save();
 
@@ -94,7 +93,7 @@ class UnitService extends Service
      */
     public function destory($id)
     {
-        $unit = Unit::find($id);
+        $unit = Unit::findOrFail($id);
 
         $deleted = $unit->delete();
 

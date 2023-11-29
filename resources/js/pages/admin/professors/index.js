@@ -9,6 +9,8 @@ import PersonSVG from "@/svgs/PersonSVG"
 const index = (props) => {
 	// Get Professors
 	const [professors, setProfessors] = useState([])
+	const [faculties, setFaculties] = useState([])
+	const [departments, setDepartments] = useState([])
 	const [loading, setLoading] = useState()
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
@@ -16,8 +18,10 @@ const index = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({name: "Professors", path: ["professors"]})
+		props.setPage({ name: "Professors", path: ["professors"] })
 		props.get("professors", setProfessors)
+		props.get("faculties", setFaculties)
+		props.get("departments", setDepartments)
 	}, [])
 
 	/*
@@ -43,7 +47,7 @@ const index = (props) => {
 				props.getErrors(err)
 			})
 	}
-	
+
 	return (
 		<div className="row">
 			<div className="col-sm-12">
@@ -56,7 +60,7 @@ const index = (props) => {
 								<span className="fs-4">{professors.length}</span>
 								<h4>Total Professors</h4>
 							</div>
-							<div className="fs-1 py-3 px-4 bg-primary-subtle rounded-circle">
+							<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
 								<PersonSVG />
 							</div>
 						</div>
@@ -82,6 +86,41 @@ const index = (props) => {
 							/>
 						</div>
 						{/* Name End */}
+						{/* Gender */}
+						<div className="flex-grow-1 me-2 mb-2">
+							<select
+								id=""
+								type="text"
+								name="name"
+								placeholder="Search by Gender"
+								className="form-control me-2"
+								onChange={(e) => setGenderQuery(e.target.value)}>
+								<option value="">Search by Gender</option>
+								<option value="male">Male</option>
+								<option value="female">Female</option>
+							</select>
+						</div>
+						{/* Gender End */}
+						{/* Faculty */}
+						<div className="flex-grow-1 me-2 mb-2">
+							<select
+								id=""
+								type="text"
+								name="name"
+								placeholder="Search by Faculty"
+								className="form-control me-2"
+								onChange={(e) => setFacultyQuery(e.target.value)}>
+								<option value="">Search by Faculty</option>
+								{faculties.map((faculty, key) => (
+									<option
+										key={key}
+										value="male">
+										{faculty.name}
+									</option>
+								))}
+							</select>
+						</div>
+						{/* Faculty End */}
 						{/* Gender */}
 						<div className="flex-grow-1 me-2 mb-2">
 							<select

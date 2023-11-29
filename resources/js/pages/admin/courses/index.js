@@ -42,7 +42,7 @@ const index = (props) => {
 				props.getErrors(err)
 			})
 	}
-	
+
 	return (
 		<div className="row">
 			<div className="col-sm-12">
@@ -55,7 +55,7 @@ const index = (props) => {
 								<span className="fs-4">{courses.length}</span>
 								<h4>Total Courses</h4>
 							</div>
-							<div className="fs-1 py-3 px-4 bg-primary-subtle rounded-circle">
+							<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
 								<CourseSVG />
 							</div>
 						</div>
@@ -98,7 +98,9 @@ const index = (props) => {
 									<td>{course.departmentName}</td>
 									<td>{course.facultyName}</td>
 									<td>{course.duration}</td>
-									<td className="text-success">{course.price}</td>
+									<td className="text-success">
+										{parseFloat(course.price).toLocaleString()}
+									</td>
 									<td className="text-end">
 										<div className="d-flex">
 											<MyLink

@@ -18,7 +18,7 @@ class NotificationService extends Service
         // Check if user is logged in
         $notifications = auth('sanctum')->user()->notifications;
 
-		return NotificationResource::collection($notifications);
+        return NotificationResource::collection($notifications);
     }
 
     /**
@@ -44,7 +44,7 @@ class NotificationService extends Service
         if ($id == 0) {
             auth('sanctum')->user()->notifications()->delete();
         } else {
-            auth("sanctum")->user()->notifications()->find($id)->delete();
+            auth("sanctum")->user()->notifications()->findOrFail($id)->delete();
         }
     }
 }

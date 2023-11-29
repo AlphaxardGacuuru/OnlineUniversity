@@ -149,9 +149,9 @@ const index = (props) => {
 		<>
 			<div className="row">
 				<div className="col-sm-12">
-					<div className="d-flex flex-wrap justify-content-center">
+					<div className="d-flex flex-wrap justify-content-between">
 						{/* Customers */}
-						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card">
+						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card flex-fill">
 							<div className="d-flex justify-content-between align-items-center">
 								<div className="px-4">
 									<h4>Instructors</h4>
@@ -195,7 +195,7 @@ const index = (props) => {
 						</div>
 						{/* Customers End */}
 						{/* Students */}
-						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card">
+						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card flex-fill">
 							<div className="d-flex justify-content-between align-items-center">
 								<div className="px-4">
 									<h4>Students</h4>
@@ -239,7 +239,7 @@ const index = (props) => {
 						</div>
 						{/* Students End */}
 						{/* Staff */}
-						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card">
+						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card flex-fill">
 							<div className="d-flex justify-content-between align-items-center">
 								<div className="px-4">
 									<h4>Staff</h4>
@@ -290,7 +290,7 @@ const index = (props) => {
 				<div className="col-sm-12">
 					<div className="d-flex flex-wrap justify-content-center">
 						{/* Faculties */}
-						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card">
+						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card flex-fill">
 							<div className="d-flex justify-content-between align-items-center">
 								<div className="px-4">
 									<h4>Faculties</h4>
@@ -334,7 +334,7 @@ const index = (props) => {
 						</div>
 						{/* Faculties End */}
 						{/* Departments */}
-						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card">
+						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card flex-fill">
 							<div className="d-flex justify-content-between align-items-center">
 								<div className="px-4">
 									<h4>Departments</h4>
@@ -378,7 +378,7 @@ const index = (props) => {
 						</div>
 						{/* Students End */}
 						{/* Courses */}
-						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card">
+						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card flex-fill">
 							<div className="d-flex justify-content-between align-items-center">
 								<div className="px-4">
 									<h4>Courses</h4>

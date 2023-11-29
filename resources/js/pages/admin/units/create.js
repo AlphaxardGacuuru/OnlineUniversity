@@ -12,17 +12,15 @@ const create = (props) => {
 	var history = useHistory()
 
 	const [name, setName] = useState()
+	const [code, setCode] = useState()
 	const [description, setDescription] = useState()
-	const [professorId, setProfessorId] = useState()
 	const [credits, setCredits] = useState()
-	const [professors, setProfessors] = useState([])
 	const [loading, setLoading] = useState()
 
 	// Get Professors
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Create Unit", path: ["units", "create"] })
-		props.get("professors", setProfessors)
 	}, [])
 
 	/*
@@ -34,8 +32,8 @@ const create = (props) => {
 		setLoading(true)
 		Axios.post("/api/units", {
 			name: name,
+			code: code,
 			description: description,
-			professorId: professorId,
 			courseId: id,
 			credits: credits,
 		})
@@ -67,6 +65,15 @@ const create = (props) => {
 						required={true}
 					/>
 
+					<input
+						type="text"
+						name="code"
+						placeholder="Code"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setCode(e.target.value)}
+						required={true}
+					/>
+
 					<textarea
 						type="text"
 						name="description"
@@ -74,21 +81,6 @@ const create = (props) => {
 						className="form-control mb-2 me-2"
 						onChange={(e) => setDescription(e.target.value)}
 						required={true}></textarea>
-
-					<select
-						name="professorId"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setProfessorId(e.target.value)}
-						required={true}>
-						<option value="">Select Professor</option>
-						{professors.map((professor, key) => (
-							<option
-								key={key}
-								value={professor.id}>
-								{professor.name}
-							</option>
-						))}
-					</select>
 
 					<input
 						type="number"
