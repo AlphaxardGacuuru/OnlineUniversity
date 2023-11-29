@@ -14,8 +14,12 @@ const edit = (props) => {
 	const [gender, setGender] = useState()
 	const [facultyId, setFacultyId] = useState()
 	const [departmentId, setDepartmentId] = useState()
+	const [courseId, setCourseId] = useState()
+	const [unitId, setUnitId] = useState()
 	const [faculties, setFaculties] = useState([])
 	const [departments, setDepartments] = useState([])
+	const [courses, setCourses] = useState([])
+	const [units, setUnits] = useState([])
 	const [loading, setLoading] = useState()
 
 	// Get Faculties and Departments
@@ -29,6 +33,8 @@ const edit = (props) => {
 		})
 		props.get("faculties", setFaculties)
 		props.get("departments", setDepartments)
+		props.get("courses", setCourses)
+		props.get("units", setUnits)
 	}, [])
 
 	/*
@@ -130,6 +136,40 @@ const edit = (props) => {
 									value={department.id}
 									selected={professor.departmentId == department.id}>
 									{department.name}
+								</option>
+							))}
+					</select>
+
+					<select
+						name="courseId"
+						className="form-control mb-3 me-2"
+						onChange={(e) => setCourseId(e.target.value)}>
+						<option value="">Select Course</option>
+						{courses
+							.filter((course) => course.departmentId == departmentId)
+							.map((course, key) => (
+								<option
+									key={key}
+									value={course.id}
+									selected={professor.courseId == course.id}>
+									{course.name}
+								</option>
+							))}
+					</select>
+
+					<select
+						name="unitId"
+						className="form-control mb-3 me-2"
+						onChange={(e) => setUnitId(e.target.value)}>
+						<option value="">Select Unit</option>
+						{units
+							.filter((unit) => unit.courseId == courseId)
+							.map((unit, key) => (
+								<option
+									key={key}
+									value={unit.id}
+									selected={professor.unitId == unit.id}>
+									{unit.name}
 								</option>
 							))}
 					</select>

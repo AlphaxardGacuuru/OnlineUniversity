@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 
 import Img from "@/components/Core/Img"
@@ -7,25 +7,24 @@ import ChevronUpSVG from "@/svgs/ChevronUpSVG"
 
 const Footer = () => {
 	const location = useLocation()
-	
-	// Listen for scroll events
-	window.addEventListener("scroll", function () {
-		// Calculate the document height
-		const docHeight = document.body.scrollHeight
+	const [isVisible, setIsVisible] = useState(false)
 
-		// Calculate the current scroll position
-		const scrollPosition =
-			window.scrollY || window.pageYOffset || document.documentElement.scrollTop
-
-		// Calculate the 50% scroll position
-		const halfwayScroll = docHeight * 0.5
-
-		// Check if the scroll position is beyond 50%
-		if (scrollPosition > halfwayScroll) {
-			console.log("Scrolled down to 50% of the page.")
-			// Perform actions when scrolled down to 50%
+	// Show button when page is scrolled down to a certain point
+	const toggleVisibility = () => {
+		if (window.pageYOffset > 300) {
+			setIsVisible(true)
+		} else {
+			setIsVisible(false)
 		}
-	})
+	}
+
+	// Set scroll event listener
+	useEffect(() => {
+		window.addEventListener("scroll", toggleVisibility)
+		return () => {
+			window.removeEventListener("scroll", toggleVisibility)
+		}
+	}, [])
 
 	const onScroll = () => {
 		// Smooth scroll to top
@@ -160,11 +159,13 @@ const Footer = () => {
 			</footer>
 			{/* footer section end */}
 
-			<div
-				id="scrollUpBtn"
-				onClick={onScroll}>
-				<ChevronUpSVG />
-			</div>
+			{isVisible && (
+				<div
+					id="scrollUpBtn"
+					onClick={onScroll}>
+					<ChevronUpSVG />
+				</div>
+			)}
 		</React.Fragment>
 	)
 }

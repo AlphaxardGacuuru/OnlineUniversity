@@ -118,14 +118,14 @@ class User extends Authenticatable
             ->first();
     }
 
-    public function courses()
+    public function course()
     {
         return $this->userCourses()
             ->get()
             ->map(fn($userCourse) => $userCourse->course);
     }
 
-    public function units()
+    public function unit()
     {
         return $this->userUnits()
             ->get()
