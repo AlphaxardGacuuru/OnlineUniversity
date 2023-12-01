@@ -37,7 +37,7 @@ const InstructorMenu = (props) => {
 		// Handle Redirects for Instructor
 		if (isInInstructorPage) {
 			if (props.auth.accountType != "professor") {
-				setTimeout(() => router.push("/instructor/login"), 4000)
+				setTimeout(() => router.push("/instructor/login"), 2000)
 			}
 		}
 	}, [props.location])
@@ -261,6 +261,18 @@ const InstructorMenu = (props) => {
 									</Link>
 								</li>
 								{/* Profile Link End */}
+								{/* My Units Link */}
+								<li className="nav-item">
+									<Link
+										to={`/instructor/units`}
+										className={`nav-link ${active("/instructor/units")}`}>
+										<div className="nav-link-icon">
+											<UnitSVG />
+										</div>
+										<div className="nav-link-text">My Units</div>
+									</Link>
+								</li>
+								{/* My Units Link End */}
 							</ul>
 						</nav>
 					</div>

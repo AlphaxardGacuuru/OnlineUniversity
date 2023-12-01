@@ -62,7 +62,7 @@ const index = (props) => {
 						)}`}
 						style={{ cursor: "pointer" }}
 						onClick={() => setTab("units")}>
-						My Units
+						Units
 					</div>
 				</div>
 				{/* Tabs End */}
@@ -78,7 +78,7 @@ const index = (props) => {
 									<span className="fs-4">{props.auth.courses?.length}</span>
 									<h4>Total Courses</h4>
 								</div>
-								<div className="fs-1 py-3 px-4 bg-danger-subtle rounded-circle">
+								<div className="fs-1 py-3 px-4 bg-danger-subtle text-danger rounded-circle">
 									<CourseSVG />
 								</div>
 							</div>
@@ -99,9 +99,8 @@ const index = (props) => {
 									<th>Description</th>
 									<th>Department</th>
 									<th>Faculty</th>
-									<th>Duration (M0nths)</th>
+									<th>Duration (Months)</th>
 									<th>Price (KES)</th>
-									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -113,7 +112,9 @@ const index = (props) => {
 										<td>{course.departmentName}</td>
 										<td>{course.facultyName}</td>
 										<td>{course.duration}</td>
-										<td className="text-success">{course.price}</td>
+										<td className="text-success">
+											{parseFloat(course.price).toLocaleString()}
+										</td>
 									</tr>
 								))}
 							</tbody>
@@ -134,7 +135,7 @@ const index = (props) => {
 									<span className="fs-4">{props.auth.units?.length}</span>
 									<h4>Total Units</h4>
 								</div>
-								<div className="fs-1 py-3 px-4 bg-danger-subtle rounded-circle">
+								<div className="fs-1 py-3 px-4 bg-danger-subtle text-danger rounded-circle">
 									<UnitSVG />
 								</div>
 							</div>
@@ -155,23 +156,27 @@ const index = (props) => {
 									<td>Credits</td>
 									<td>Action</td>
 								</tr>
-								{props.auth.units?.map((unit, key) => (
-									<tr key={key}>
-										<td>{key + 1}</td>
-										<td>{unit.name}</td>
-										<td>{unit.description}</td>
-										<td>{unit.professorName}</td>
-										<td>{unit.credits}</td>
-										<td>
-											<div className="d-flex justify-content-end">
-												<MyLink
-													linkTo={`/instructor/units/${unit.id}/show`}
-													text="view"
-													className="btn-sm me-2"
-												/>
-											</div>
-										</td>
-									</tr>
+								{props.auth.courses?.map((course, key) => (
+									<React.Fragment key={key}>
+										{course.units.map((unit, key) => (
+											<tr key={key}>
+												<td>{key + 1}</td>
+												<td>{unit.name}</td>
+												<td>{unit.description}</td>
+												<td>{unit.professorName}</td>
+												<td>{unit.credits}</td>
+												<td>
+													<div className="d-flex justify-content-end">
+														<MyLink
+															linkTo={`/instructor/units/${unit.id}/show`}
+															text="view"
+															className="btn-sm me-2"
+														/>
+													</div>
+												</td>
+											</tr>
+										))}
+									</React.Fragment>
 								))}
 							</thead>
 						</table>

@@ -155,7 +155,7 @@ const edit = (props) => {
 
 					<center>
 						<MyLink
-							linkTo={`/instructor/units/${material.unitId}/show`}
+							linkTo={`/admin/units/${material.unitId}/show`}
 							text="back to unit"
 						/>
 					</center>

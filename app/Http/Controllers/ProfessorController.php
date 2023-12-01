@@ -37,10 +37,10 @@ class ProfessorController extends Controller
             "phone" => "string|unique:users",
             "gender" => "required|string",
             "education" => "required|string",
-            "facultyId" => "required|string",
-            "departmentId" => "required|string",
-            "courseId" => "required|string",
-            "unitId" => "required|string",
+            "facultyId" => "nullable|string",
+            "departmentId" => "nullable|string",
+            "courseId" => "nullable|string",
+            "unitId" => "nullable|string",
         ]);
 
         [$saved, $message, $professor] = $this->service->store($request);
@@ -80,8 +80,8 @@ class ProfessorController extends Controller
             "education" => "nullable|string",
             "facultyId" => "nullable|string",
             "departmentId" => "nullable|string",
-            "courseId" => "required|string",
-            "unitId" => "required|string",
+            "courseId" => "nullable|string",
+            "unitId" => "nullable|string",
         ]);
 
         [$saved, $message, $professor] = $this->service->update($request, $id);

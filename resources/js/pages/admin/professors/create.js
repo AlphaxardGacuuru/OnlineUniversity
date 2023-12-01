@@ -14,8 +14,12 @@ const create = (props) => {
 	const [education, setEducation] = useState()
 	const [facultyId, setFacultyId] = useState()
 	const [departmentId, setDepartmentId] = useState()
+	const [courseId, setCourseId] = useState()
+	const [unitId, setUnitId] = useState()
 	const [faculties, setFaculties] = useState([])
 	const [departments, setDepartments] = useState([])
+	const [courses, setCourses] = useState([])
+	const [units, setUnits] = useState([])
 	const [loading, setLoading] = useState()
 
 	var educationList = ["phd", " masters", "degree", "certificate"]
@@ -26,6 +30,8 @@ const create = (props) => {
 		props.setPage({ name: "Create Professor", path: ["professors", "create"] })
 		props.get("faculties", setFaculties)
 		props.get("departments", setDepartments)
+		props.get("courses?idAndName=true", setCourses)
+		props.get("units?idAndName=true", setUnits)
 	}, [])
 
 	/*
@@ -43,6 +49,8 @@ const create = (props) => {
 			education: education,
 			facultyId: facultyId,
 			departmentId: departmentId,
+			courseId: courseId,
+			unitId: unitId,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -117,8 +125,7 @@ const create = (props) => {
 					<select
 						name="facultyId"
 						className="form-control mb-3 me-2"
-						onChange={(e) => setFacultyId(e.target.value)}
-						required={true}>
+						onChange={(e) => setFacultyId(e.target.value)}>
 						<option value="">Select Faculty</option>
 						{faculties.map((faculty, key) => (
 							<option
@@ -132,8 +139,7 @@ const create = (props) => {
 					<select
 						name="departmentId"
 						className="form-control mb-3 me-2"
-						onChange={(e) => setDepartmentId(e.target.value)}
-						required={true}>
+						onChange={(e) => setDepartmentId(e.target.value)}>
 						<option value="">Select Department</option>
 						{departments
 							.filter((department) => department.facultyId == facultyId)
@@ -142,6 +148,38 @@ const create = (props) => {
 									key={key}
 									value={department.id}>
 									{department.name}
+								</option>
+							))}
+					</select>
+
+					<select
+						name="courseId"
+						className="form-control mb-3 me-2"
+						onChange={(e) => setCourseId(e.target.value)}>
+						<option value="">Select Course</option>
+						{courses
+							.filter((course) => course.departmentId == departmentId)
+							.map((course, key) => (
+								<option
+									key={key}
+									value={course.id}>
+									{course.name}
+								</option>
+							))}
+					</select>
+
+					<select
+						name="unitId"
+						className="form-control mb-3 me-2"
+						onChange={(e) => setUnitId(e.target.value)}>
+						<option value="">Select Unit</option>
+						{units
+							.filter((unit) => unit.courseId == courseId)
+							.map((unit, key) => (
+								<option
+									key={key}
+									value={unit.id}>
+									{unit.code}
 								</option>
 							))}
 					</select>

@@ -17,9 +17,10 @@ class UnitResource extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->name,
+            "code" => $this->code,
             "description" => $this->description,
-            "courseId" => $this->course_id,
             "credits" => $this->credits,
+            "courseId" => $this->course_id,
             "professors" => $this->professors(),
 			"materials" => $this->materials
         ];

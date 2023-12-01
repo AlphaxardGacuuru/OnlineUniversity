@@ -2015,13 +2015,14 @@ ol {
 
 @media only screen and (max-width: 767px) {
 	.header-area .menu-content-area .header-social-area a {
-		padding: 0 5px;
+		padding: 10px 5px;
 		font-size: 14px;
 	}
 }
 
 @media only screen and (max-width: 767px) {
 	.header-area .menu-content-area .header-social-area {
+		padding: 10px 5px;
 		margin-right: 0px;
 	}
 }
@@ -2063,6 +2064,8 @@ ol {
 
 .left-main {
 	margin-left: 50px;
+	-webkit-transition-duration: 800ms;
+	transition-duration: 800ms;
 }
 
 .leftMenu .nav-link-icon {

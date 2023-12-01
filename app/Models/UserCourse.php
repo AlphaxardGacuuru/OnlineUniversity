@@ -20,6 +20,6 @@ class UserCourse extends Model
 	
 	public function course()
 	{
-		return $this->belongsTo(Department::class);
+		return $this->belongsTo(Course::class);
 	}
 }

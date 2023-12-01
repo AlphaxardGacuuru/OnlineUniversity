@@ -12,8 +12,18 @@ class UnitService extends Service
     /*
      * Get All Units
      */
-    public function index()
+    public function index($request)
     {
+        if ($request->filled("idAndName")) {
+            $units = Unit::select("id", "name", "code", "course_id as courseId")
+                ->orderBy("id", "DESC")
+                ->get();
+
+            return response([
+                "data" => $units,
+            ], 200);
+        }
+
         $units = Unit::orderBy("id", "DESC")->paginate(20);
 
         return UnitResource::collection($units);
@@ -36,6 +46,7 @@ class UnitService extends Service
     {
         $unit = new Unit;
         $unit->name = $request->input("name");
+        $unit->code = $request->input("code");
         $unit->description = $request->input("description");
         $unit->credits = $request->input("credits");
         $unit->course_id = $request->input("courseId");
@@ -63,6 +74,10 @@ class UnitService extends Service
 
         if ($request->filled("name")) {
             $unit->name = $request->input("name");
+        }
+
+        if ($request->filled("code")) {
+            $unit->code = $request->input("code");
         }
 
         if ($request->filled("description")) {

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom/cjs/react-router-dom.min"
+import {
+	useHistory,
+	useParams,
+} from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
@@ -30,10 +33,10 @@ registerPlugin(
 	FilePondPluginFileValidateSize
 )
 
-const edit = (props) => {
+const create = (props) => {
 	var { id } = useParams()
+	var history = useHistory()
 
-	const [material, setMaterial] = useState({})
 	const [name, setName] = useState()
 	const [description, setDescription] = useState()
 	const [type, setType] = useState()
@@ -43,11 +46,7 @@ const edit = (props) => {
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Edit Material", path: ["materials", "edit"] })
-
-		Axios.get(`/api/materials/${id}`).then((res) => {
-			setMaterial(res.data.data)
-		})
+		props.setPage({ name: "Create Material", path: ["materials", "create"] })
 	}, [])
 
 	/*
@@ -57,7 +56,7 @@ const edit = (props) => {
 		e.preventDefault()
 
 		setLoading(true)
-		Axios.put(`/api/materials/${id}`, {
+		Axios.post("/api/materials", {
 			name: name,
 			description: description,
 			type: type,
@@ -68,8 +67,8 @@ const edit = (props) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
-				// Reload
-				window.location.reload()
+				// Redirect to Profile
+				setTimeout(() => history.push(`/admin/units/${id}/show`), 500)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -86,39 +85,29 @@ const edit = (props) => {
 					<input
 						type="text"
 						name="name"
-						placeholder={material.name}
+						placeholder="Name"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
+						required={true}
 					/>
 					<input
 						type="text"
 						name="description"
-						placeholder={material.description}
+						placeholder="Description"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setDescription(e.target.value)}
+						required={true}
 					/>
 
 					<select
-						name="gender"
+						name="type"
 						className="form-control mb-3 me-2"
 						onChange={(e) => setType(e.target.value)}
 						required={true}>
 						<option value="">Select Type</option>
-						<option
-							value="file"
-							selected={material.type == "file"}>
-							File
-						</option>
-						<option
-							value="image"
-							selected={material.type == "image"}>
-							Image
-						</option>
-						<option
-							value="video"
-							selected={material.type == "video"}>
-							Video
-						</option>
+						<option value="file">File</option>
+						<option value="image">Image</option>
+						<option value="video">Video</option>
 					</select>
 
 					<div className="card shadow-sm p-2">
@@ -146,20 +135,19 @@ const edit = (props) => {
 					<br />
 					<br />
 
-					<div className="d-flex justify-content-end mb-2">
+					<div className="d-flex justify-content-end">
 						<Btn
-							btnText="update"
+							btnText="create"
 							loading={loading}
 						/>
 					</div>
 
-					<center>
+					<div className="d-flex justify-content-center">
 						<MyLink
-							linkTo={`/instructor/units/${material.unitId}/show`}
+							linkTo={`/admin/units/${id}/show`}
 							text="back to unit"
 						/>
-					</center>
-
+					</div>
 					<div className="col-sm-4"></div>
 				</form>
 			</div>
@@ -167,4 +155,4 @@ const edit = (props) => {
 	)
 }
 
-export default edit
+export default create

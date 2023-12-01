@@ -9,15 +9,22 @@ import StudentSVG from "@/svgs/StudentSVG"
 const index = (props) => {
 	// Get Students
 	const [students, setStudents] = useState([])
+	const [faculties, setFaculties] = useState([])
+	const [departments, setDepartments] = useState([])
 	const [loading, setLoading] = useState()
+	
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
+	const [facultyQuery, setFacultyQuery] = useState("")
+	const [departmentQuery, setDepartmentQuery] = useState("")
 	const [dateQuery, setDateQuery] = useState("")
 
 	useEffect(() => {
 		// Set page
-		props.setPage({name: "Students", path: ["students"]})
+		props.setPage({ name: "Students", path: ["students"] })
 		props.get("students", setStudents)
+		props.get("faculties", setFaculties)
+		props.get("departments", setDepartments)
 	}, [])
 
 	/*
@@ -33,9 +40,7 @@ const index = (props) => {
 				// Toggle loader
 				setLoading(true)
 				// Delete rows
-				setStudents(
-					students.filter((student) => student.id != studentId)
-				)
+				setStudents(students.filter((student) => student.id != studentId))
 			})
 			.catch((err) => {
 				// Toggle loader
@@ -96,6 +101,46 @@ const index = (props) => {
 							</select>
 						</div>
 						{/* Gender End */}
+						{/* Faculty */}
+						<div className="flex-grow-1 me-2 mb-2">
+							<select
+								id=""
+								type="text"
+								name="name"
+								placeholder="Search by Faculty"
+								className="form-control me-2"
+								onChange={(e) => setFacultyQuery(e.target.value)}>
+								<option value="">Search by Faculty</option>
+								{faculties.map((faculty, key) => (
+									<option
+										key={key}
+										value={faculty.id}>
+										{faculty.name}
+									</option>
+								))}
+							</select>
+						</div>
+						{/* Faculty End */}
+						{/* Department */}
+						<div className="flex-grow-1 me-2 mb-2">
+							<select
+								id=""
+								type="text"
+								name="name"
+								placeholder="Search by Gender"
+								className="form-control me-2"
+								onChange={(e) => setDepartmentQuery(e.target.value)}>
+								<option value="">Search by Department</option>
+								{departments.map((department, key) => (
+									<option
+										key={key}
+										value={department.id}>
+										{department.name}
+									</option>
+								))}
+							</select>
+						</div>
+						{/* Department End */}
 						{/* Date */}
 						{/* <div className="flex-grow-1">
 							<input
@@ -147,9 +192,23 @@ const index = (props) => {
 
 									return name.match(query)
 								})
-								.filter((student) => {
+								.filter((professor) => {
 									if (genderQuery) {
-										return student.gender == genderQuery
+										return professor.gender == genderQuery
+									} else {
+										return true
+									}
+								})
+								.filter((professor) => {
+									if (facultyQuery) {
+										return professor.facultyId == facultyQuery
+									} else {
+										return true
+									}
+								})
+								.filter((professor) => {
+									if (departmentQuery) {
+										return professor.departmentId == departmentQuery
 									} else {
 										return true
 									}

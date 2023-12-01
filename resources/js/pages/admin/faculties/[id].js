@@ -60,7 +60,7 @@ const show = (props) => {
 	return (
 		<div className="row">
 			<div className="col-sm-4">
-				<div className="card mb-2 p-4 text-center">
+				<div className="card mb-2 p-4 text-center shadow">
 					<h4>{faculty.name}</h4>
 				</div>
 			</div>
@@ -68,7 +68,7 @@ const show = (props) => {
 				{/* Tabs */}
 				<div className="d-flex justify-content-between flex-wrap mb-2">
 					<div
-						className={`card flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
 							"departments"
 						)}`}
 						style={{ cursor: "pointer" }}
@@ -76,7 +76,7 @@ const show = (props) => {
 						Departments
 					</div>
 					<div
-						className={`card flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
 							"professors"
 						)}`}
 						style={{ cursor: "pointer" }}
@@ -138,12 +138,6 @@ const show = (props) => {
 										<td>{department.name}</td>
 										<td>
 											<div className="d-flex justify-content-end">
-												<MyLink
-													linkTo={`/admin/departments/${department.id}`}
-													text="view"
-													className="btn-sm me-2"
-												/>
-
 												<MyLink
 													linkTo={`/admin/departments/${department.id}/edit`}
 													text="edit"

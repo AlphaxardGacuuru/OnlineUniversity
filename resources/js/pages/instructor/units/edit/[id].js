@@ -32,14 +32,13 @@ const edit = (props) => {
 			name: name,
 			code: code,
 			description: description,
+			courseId: id,
 			credits: credits,
 		})
 			.then((res) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
-				// Reload Window
-				window.location.reload()
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -64,9 +63,10 @@ const edit = (props) => {
 					<input
 						type="text"
 						name="code"
-						placeholder={unit.code}
+						placeholder="Code"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setCode(e.target.value)}
+						required={true}
 					/>
 
 					<textarea
@@ -74,14 +74,16 @@ const edit = (props) => {
 						name="description"
 						placeholder={unit.description}
 						className="form-control mb-2 me-2"
-						onChange={(e) => setDescription(e.target.value)}></textarea>
+						onChange={(e) => setDescription(e.target.value)}
+						required={true}></textarea>
 
 					<input
 						type="number"
 						name="credtis"
-						placeholder={unit.credits}
+						placeholder="Credits"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setCredits(e.target.value)}
+						required={true}
 					/>
 
 					<div className="d-flex justify-content-end mb-2">

@@ -20,6 +20,6 @@ class UserUnit extends Model
 	
 	public function unit()
 	{
-		return $this->belongsTo(Department::class);
+		return $this->belongsTo(Unit::class);
 	}
 }

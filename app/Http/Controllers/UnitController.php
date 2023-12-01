@@ -17,9 +17,9 @@ class UnitController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->service->index();
+        return $this->service->index($request);
     }
 
     /**
@@ -33,6 +33,7 @@ class UnitController extends Controller
         $this->validate($request, [
             "name" => "required|string",
             "description" => "required|string",
+            "code" => "required|string",
             "professorId" => "nullable|string",
             "credits" => "nullable|string",
             "courseId" => "required|string",
@@ -68,11 +69,12 @@ class UnitController extends Controller
 	public function update(Request $request, $id)
     {
 		$this->validate($request, [
-			"name" => "required|string",
-            "description" => "required|string",
+			"name" => "nullable|string",
+            "description" => "nullable|string",
+            "code" => "nullable|string",
             "professorId" => "nullable|string",
             "credits" => "nullable|string",
-			"courseId" => "required|string",
+			"courseId" => "nullable|string",
         ]);
 
         [$saved, $message, $unit] = $this->service->update($request, $id);

@@ -40,7 +40,7 @@ const edit = (props) => {
 		props.get("faculties", setFaculties)
 		props.get("departments", setDepartments)
 		props.get("courses?idAndName=true", setCourses)
-		props.get("units", setUnits)
+		props.get("units?idAndName=true", setUnits)
 	}, [])
 
 	/*
@@ -198,7 +198,7 @@ const edit = (props) => {
 									key={key}
 									value={unit.id}
 									selected={professor.unitId == unit.id}>
-									{unit.name}
+									{unit.code}
 								</option>
 							))}
 					</select>

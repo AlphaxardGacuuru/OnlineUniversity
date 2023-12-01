@@ -5,8 +5,10 @@ namespace App\Http\Services\Admin;
 use App\Http\Resources\ProfessorResource;
 use App\Http\Services\Service;
 use App\Models\User;
+use App\Models\UserCourse;
 use App\Models\UserDepartment;
 use App\Models\UserFaculty;
+use App\Models\UserUnit;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -52,16 +54,20 @@ class ProfessorService extends Service
             $saved = $professor->save();
 
             // Add UserFaculty
-            $userFaculty = new UserFaculty;
-            $userFaculty->user_id = $professor->id;
-            $userFaculty->faculty_id = $request->input("facultyId");
-            $userFaculty->save();
+            if ($request->filled("facultyId")) {
+                $userFaculty = new UserFaculty;
+                $userFaculty->user_id = $professor->id;
+                $userFaculty->faculty_id = $request->input("facultyId");
+                $userFaculty->save();
+            }
 
             // Add UserDepartment
-            $userDepartment = new UserDepartment;
-            $userDepartment->user_id = $professor->id;
-            $userDepartment->department_id = $request->input("departmentId");
-            $userDepartment->save();
+            if ($request->filled("departmentId")) {
+                $userDepartment = new UserDepartment;
+                $userDepartment->user_id = $professor->id;
+                $userDepartment->department_id = $request->input("departmentId");
+                $userDepartment->save();
+            }
 
             // Add UserCourse
             if ($request->filled("courseId")) {
@@ -119,6 +125,11 @@ class ProfessorService extends Service
         }
 
         if ($request->filled("facultyId")) {
+            // If user has opted to remove
+            if ($request->input("facultyId") == "remove") {
+                UserFaculty::where("user_id", $id)->delete();
+            }
+
             // Delete UserFaculty
             $doesntExist = UserFaculty::where("user_id", $id)
                 ->where("faculty_id", $request->input("facultyId"))
@@ -155,10 +166,44 @@ class ProfessorService extends Service
 
         // Add UserCourse
         if ($request->filled("courseId")) {
-            $userCourse = new UserCourse;
-            $userCourse->user_id = $professor->id;
-            $userCourse->course_id = $request->input("courseId");
-            $userCourse->save();
+            // If user has opted to remove
+            if ($request->input("courseId") == "remove") {
+                UserCourse::where("user_id", $id)->delete();
+            }
+
+            // Delete UserCourse
+            $doesntExist = UserCourse::where("user_id", $id)
+                ->where("course_id", $request->input("courseId"))
+                ->doesntExist();
+
+            // Add UserCourse
+            if ($doesntExist) {
+                $userCourseId = new UserCourse;
+                $userCourseId->user_id = $professor->id;
+                $userCourseId->course_id = $request->input("courseId");
+                $userCourseId->save();
+            }
+        }
+
+        // Update Unit
+        if ($request->filled("unitId")) {
+            // If user has opted to remove
+            if ($request->input("unitId") == "remove") {
+                UserUnit::where("user_id", $id)->delete();
+            }
+
+            // Delete UserUnit
+            $doesntExist = UserUnit::where("user_id", $id)
+                ->where("unit_id", $request->input("unitId"))
+                ->doesntExist();
+
+            // Add UserUnit
+            if ($doesntExist) {
+                $userUnit = new UserUnit;
+                $userUnit->user_id = $professor->id;
+                $userUnit->unit_id = $request->input("unitId");
+                $userUnit->save();
+            }
         }
 
         $saved = $professor->save();

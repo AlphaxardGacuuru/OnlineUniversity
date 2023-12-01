@@ -12,8 +12,11 @@ const index = (props) => {
 	const [faculties, setFaculties] = useState([])
 	const [departments, setDepartments] = useState([])
 	const [loading, setLoading] = useState()
+	
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
+	const [facultyQuery, setFacultyQuery] = useState("")
+	const [departmentQuery, setDepartmentQuery] = useState("")
 	const [dateQuery, setDateQuery] = useState("")
 
 	useEffect(() => {
@@ -114,14 +117,14 @@ const index = (props) => {
 								{faculties.map((faculty, key) => (
 									<option
 										key={key}
-										value="male">
+										value={faculty.id}>
 										{faculty.name}
 									</option>
 								))}
 							</select>
 						</div>
 						{/* Faculty End */}
-						{/* Gender */}
+						{/* Department */}
 						<div className="flex-grow-1 me-2 mb-2">
 							<select
 								id=""
@@ -129,13 +132,18 @@ const index = (props) => {
 								name="name"
 								placeholder="Search by Gender"
 								className="form-control me-2"
-								onChange={(e) => setGenderQuery(e.target.value)}>
-								<option value="">Search by Gender</option>
-								<option value="male">Male</option>
-								<option value="female">Female</option>
+								onChange={(e) => setDepartmentQuery(e.target.value)}>
+								<option value="">Search by Department</option>
+								{departments.map((department, key) => (
+									<option
+										key={key}
+										value={department.id}>
+										{department.name}
+									</option>
+								))}
 							</select>
 						</div>
-						{/* Gender End */}
+						{/* Department End */}
 						{/* Date */}
 						{/* <div className="flex-grow-1">
 							<input
@@ -190,6 +198,20 @@ const index = (props) => {
 								.filter((professor) => {
 									if (genderQuery) {
 										return professor.gender == genderQuery
+									} else {
+										return true
+									}
+								})
+								.filter((professor) => {
+									if (facultyQuery) {
+										return professor.facultyId == facultyQuery
+									} else {
+										return true
+									}
+								})
+								.filter((professor) => {
+									if (departmentQuery) {
+										return professor.departmentId == departmentQuery
 									} else {
 										return true
 									}

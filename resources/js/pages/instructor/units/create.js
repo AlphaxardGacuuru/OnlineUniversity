@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom/cjs/react-router-dom.min"
+import {
+	useHistory,
+	useParams,
+} from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 
-const edit = (props) => {
+const create = (props) => {
 	var { id } = useParams()
+	var history = useHistory()
 
-	const [unit, setUnit] = useState({})
 	const [name, setName] = useState()
 	const [code, setCode] = useState()
 	const [description, setDescription] = useState()
 	const [credits, setCredits] = useState()
 	const [loading, setLoading] = useState()
 
-	// Get Units and Departments
+	// Get Professors
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Edit Unit", path: ["units", "edit"] })
-		props.get(`units/${id}`, setUnit)
+		props.setPage({ name: "Create Unit", path: ["units", "create"] })
 	}, [])
 
 	/*
@@ -28,18 +30,19 @@ const edit = (props) => {
 		e.preventDefault()
 
 		setLoading(true)
-		Axios.put(`/api/units/${id}`, {
+		Axios.post("/api/units", {
 			name: name,
 			code: code,
 			description: description,
+			courseId: id,
 			credits: credits,
 		})
 			.then((res) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
-				// Reload Window
-				window.location.reload()
+				// Redirect to Units
+				setTimeout(() => history.push(`/admin/courses/${id}/show`), 500)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -56,48 +59,51 @@ const edit = (props) => {
 					<input
 						type="text"
 						name="name"
-						placeholder={unit.name}
+						placeholder="Name"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
+						required={true}
 					/>
 
 					<input
 						type="text"
 						name="code"
-						placeholder={unit.code}
+						placeholder="Code"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setCode(e.target.value)}
+						required={true}
 					/>
 
 					<textarea
 						type="text"
 						name="description"
-						placeholder={unit.description}
+						placeholder="Description"
 						className="form-control mb-2 me-2"
-						onChange={(e) => setDescription(e.target.value)}></textarea>
+						onChange={(e) => setDescription(e.target.value)}
+						required={true}></textarea>
 
 					<input
 						type="number"
 						name="credtis"
-						placeholder={unit.credits}
+						placeholder="Credits"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setCredits(e.target.value)}
+						required={true}
 					/>
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							btnText="update"
+							btnText="create"
 							loading={loading}
 						/>
 					</div>
 
-					<center>
+					<div className="d-flex justify-content-center">
 						<MyLink
-							linkTo={`/admin/courses/${unit.courseId}/show`}
+							linkTo={`/admin/courses/${id}/show`}
 							text="back to course"
 						/>
-					</center>
-
+					</div>
 					<div className="col-sm-4"></div>
 				</form>
 			</div>
@@ -105,4 +111,4 @@ const edit = (props) => {
 	)
 }
 
-export default edit
+export default create
