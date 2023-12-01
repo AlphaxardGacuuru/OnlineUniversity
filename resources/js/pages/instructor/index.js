@@ -28,7 +28,7 @@ const index = (props) => {
 	return (
 		<div className="row">
 			<div className="col-sm-4">
-				<div className="card mb-2 p-4 text-center">
+				<div className="card shadow mb-2 p-4 text-center">
 					<div className="m-3">
 						<Img
 							src={props.auth.avatar}
@@ -49,7 +49,7 @@ const index = (props) => {
 				{/* Tabs */}
 				<div className="d-flex justify-content-between flex-wrap mb-2">
 					<div
-						className={`card flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
 							"courses"
 						)}`}
 						style={{ cursor: "pointer" }}
@@ -57,7 +57,7 @@ const index = (props) => {
 						My Courses
 					</div>
 					<div
-						className={`card flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
 							"units"
 						)}`}
 						style={{ cursor: "pointer" }}

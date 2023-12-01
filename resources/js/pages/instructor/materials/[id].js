@@ -62,7 +62,6 @@ const edit = (props) => {
 			description: description,
 			type: type,
 			media: media,
-			unitId: id,
 		})
 			.then((res) => {
 				setLoading(false)

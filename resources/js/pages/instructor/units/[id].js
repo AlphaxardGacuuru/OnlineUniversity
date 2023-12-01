@@ -48,7 +48,7 @@ const show = (props) => {
 	return (
 		<div className="row">
 			<div className="col-sm-4">
-				<div className="card mb-2 p-4 text-center">
+				<div className="card shadow mb-2 p-4 text-center">
 					<h4>{unit.name}</h4>
 				</div>
 			</div>
@@ -56,7 +56,7 @@ const show = (props) => {
 				{/* Tabs */}
 				<div className="d-flex justify-content-between flex-wrap mb-2">
 					<div
-						className={`card flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
 							"materials"
 						)}`}
 						style={{ cursor: "pointer" }}
@@ -64,7 +64,7 @@ const show = (props) => {
 						Materials
 					</div>
 					<div
-						className={`card flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
 							"students"
 						)}`}
 						style={{ cursor: "pointer" }}
@@ -85,7 +85,7 @@ const show = (props) => {
 									<span className="fs-4">{unit.materials?.length}</span>
 									<h4>Total Materials</h4>
 								</div>
-								<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
+								<div className="fs-1 py-3 px-4 bg-danger-subtle text-danger rounded-circle">
 									<MaterialSVG />
 								</div>
 							</div>
@@ -121,8 +121,8 @@ const show = (props) => {
 										<td>
 											<div className="d-flex justify-content-end">
 												<MyLink
-													linkTo={`/instructor/materials/${material.id}`}
-													text="view"
+													linkTo={`/instructor/materials/${material.id}/download`}
+													text="download"
 													className="btn-sm me-2"
 												/>
 
@@ -211,7 +211,7 @@ const show = (props) => {
 									<span className="fs-4">{unit.students?.length}</span>
 									<h4>Total Students</h4>
 								</div>
-								<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
+								<div className="fs-1 py-3 px-4 bg-danger-subtle text-danger rounded-circle">
 									<StudentSVG />
 								</div>
 							</div>
@@ -321,7 +321,7 @@ const show = (props) => {
 											<td>
 												<div className="d-flex justify-content-end">
 													<MyLink
-														linkTo={`/admin/students/${student.id}/edit`}
+														linkTo={`/instructor/students/${student.id}/edit`}
 														text="edit"
 														className="btn-sm"
 													/>

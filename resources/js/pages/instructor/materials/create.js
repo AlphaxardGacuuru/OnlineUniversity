@@ -110,7 +110,7 @@ const create = (props) => {
 						<option value="video">Video</option>
 					</select>
 
-					<div className="card shadow p-2">
+					<div className="card shadow-sm p-2">
 						<FilePond
 							name="filepond-thumbnail"
 							labelIdle='Drag & Drop your Image or <span class="filepond--label-action text-dark"> Browse </span>'
