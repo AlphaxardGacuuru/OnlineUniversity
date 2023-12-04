@@ -119,99 +119,107 @@ const TopNav = (props) => {
 											{/* Student */}
 											{props.auth.accountType == "student" && (
 												<Link
-													to="/student"
+													to="/login"
 													className="site-btn btn-dark hidden">
 													STUDENT
 												</Link>
 											)}
 											{/* Student End */}
 										</div>
-										<div className="header-social-area d-flex align-items-center">
-											{/* Avatar Dropdown */}
-											<div className="dropdown-center">
-												{/* Avatar */}
-												<a
-													href="#"
-													role="button"
-													className="hidden"
-													data-bs-toggle="dropdown"
-													aria-expanded="false">
-													<Img
-														src={props.auth?.avatar}
-														className="rounded-circle bg-light p-1"
-														width="40px"
-														height="40px"
-														alt="Avatar"
-													/>
-												</a>
-												{/* For small screens */}
-												<span
-													className="anti-hidden me-2"
-													onClick={() => {
-														setBottomMenu(bottomMenu ? "" : "menu-open")
-														setAvatarVisibility("block")
-													}}>
-													<Img
-														src={props.auth?.avatar}
-														className="rounded-circle bg-light p-1"
-														width="40px"
-														height="40px"
-														alt="Avatar"
-													/>
-												</span>
-												{/* Avatar End */}
-												<div className="dropdown-menu rounded-0 m-0 p-0 bg-white">
-													<Link
-														to={`/admin/staff/edit/${props.auth.id}`}
-														className="p-2 px-3 pt-3 dropdown-item">
-														<div className="d-flex">
-															<div className="align-items-center">
-																<Img
-																	src={props.auth?.avatar}
-																	className="rounded-circle"
-																	width="25px"
-																	height="25px"
-																	alt="Avatar"
-																/>
-															</div>
-															<div className="ps-2">
-																<h6 className="text-wrap fs-6">
-																	{props.auth?.name}
-																</h6>
-																<p className="text-wrap text-capitalize mb-0">
-																	{props.auth?.accountType}
-																</p>
-															</div>
-														</div>
-													</Link>
-													<Link
-														to="/download"
-														className="p-2 px-3 dropdown-item"
-														style={{
-															display: props.downloadLink ? "block" : "none",
+										{props.auth.name == "Guest" ? (
+											<Link
+												to="/login"
+												className="site-btn btn-dark hidden">
+												LOGIN
+											</Link>
+										) : (
+											<div className="header-social-area d-flex align-items-center">
+												{/* Avatar Dropdown */}
+												<div className="dropdown-center">
+													{/* Avatar */}
+													<a
+														href="#"
+														role="button"
+														className="hidden"
+														data-bs-toggle="dropdown"
+														aria-expanded="false">
+														<Img
+															src={props.auth?.avatar}
+															className="rounded-circle bg-light p-1"
+															width="40px"
+															height="40px"
+															alt="Avatar"
+														/>
+													</a>
+													{/* For small screens */}
+													<span
+														className="anti-hidden me-2"
+														onClick={() => {
+															setBottomMenu(bottomMenu ? "" : "menu-open")
+															setAvatarVisibility("block")
 														}}>
-														<h6>
-															<span className="me-2">
-																<DownloadSVG />
-															</span>
-															Get App
-														</h6>
-													</Link>
-													<Link
-														to="#"
-														className="p-2 px-3 dropdown-item"
-														onClick={(e) => logout(e)}>
-														<h6 className="fs-6">
-															<span className="me-2">
-																<LogoutSVG />
-															</span>
-															Logout
-														</h6>
-													</Link>
+														<Img
+															src={props.auth?.avatar}
+															className="rounded-circle bg-light p-1"
+															width="40px"
+															height="40px"
+															alt="Avatar"
+														/>
+													</span>
+													{/* Avatar End */}
+													<div className="dropdown-menu rounded-0 m-0 p-0 bg-white">
+														<Link
+															to={`/admin/staff/edit/${props.auth.id}`}
+															className="p-2 px-3 pt-3 dropdown-item">
+															<div className="d-flex">
+																<div className="align-items-center">
+																	<Img
+																		src={props.auth?.avatar}
+																		className="rounded-circle"
+																		width="25px"
+																		height="25px"
+																		alt="Avatar"
+																	/>
+																</div>
+																<div className="ps-2">
+																	<h6 className="text-wrap fs-6">
+																		{props.auth?.name}
+																	</h6>
+																	<p className="text-wrap text-capitalize mb-0">
+																		{props.auth?.accountType}
+																	</p>
+																</div>
+															</div>
+														</Link>
+														<Link
+															to="/download"
+															className="p-2 px-3 dropdown-item"
+															style={{
+																display: props.downloadLink ? "block" : "none",
+															}}>
+															<h6>
+																<span className="me-2">
+																	<DownloadSVG />
+																</span>
+																Get App
+															</h6>
+														</Link>
+														<Link
+															to="#"
+															className="p-2 px-3 dropdown-item"
+															onClick={(e) => logout(e)}>
+															<h6 className="fs-6">
+																<span className="me-2">
+																	<LogoutSVG />
+																</span>
+																Logout
+															</h6>
+														</Link>
+													</div>
 												</div>
+												{/* Avatar Dropdown End */}
 											</div>
-											{/* Avatar Dropdown End */}
-										</div>
+										)}
 										{/* Top Nav Links Area End */}
 										{/* <!-- Menu Icon --> */}
 										<a
