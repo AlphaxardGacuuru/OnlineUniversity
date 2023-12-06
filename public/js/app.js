@@ -107128,40 +107128,48 @@ var edit = function edit(props) {
     setEducation = _useState12[1];
   var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState14 = _slicedToArray(_useState13, 2),
-    facultyId = _useState14[0],
-    setFacultyId = _useState14[1];
+    originLocation = _useState14[0],
+    setOriginLocation = _useState14[1];
   var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState16 = _slicedToArray(_useState15, 2),
-    departmentId = _useState16[0],
-    setDepartmentId = _useState16[1];
+    currentLocation = _useState16[0],
+    setCurrentLocation = _useState16[1];
   var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState18 = _slicedToArray(_useState17, 2),
-    courseId = _useState18[0],
-    setCourseId = _useState18[1];
+    facultyId = _useState18[0],
+    setFacultyId = _useState18[1];
   var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState20 = _slicedToArray(_useState19, 2),
-    unitId = _useState20[0],
-    setUnitId = _useState20[1];
-  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    departmentId = _useState20[0],
+    setDepartmentId = _useState20[1];
+  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState22 = _slicedToArray(_useState21, 2),
-    faculties = _useState22[0],
-    setFaculties = _useState22[1];
-  var _useState23 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    courseId = _useState22[0],
+    setCourseId = _useState22[1];
+  var _useState23 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState24 = _slicedToArray(_useState23, 2),
-    departments = _useState24[0],
-    setDepartments = _useState24[1];
+    unitId = _useState24[0],
+    setUnitId = _useState24[1];
   var _useState25 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState26 = _slicedToArray(_useState25, 2),
-    courses = _useState26[0],
-    setCourses = _useState26[1];
+    faculties = _useState26[0],
+    setFaculties = _useState26[1];
   var _useState27 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState28 = _slicedToArray(_useState27, 2),
-    units = _useState28[0],
-    setUnits = _useState28[1];
-  var _useState29 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    departments = _useState28[0],
+    setDepartments = _useState28[1];
+  var _useState29 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState30 = _slicedToArray(_useState29, 2),
-    loading = _useState30[0],
-    setLoading = _useState30[1];
+    courses = _useState30[0],
+    setCourses = _useState30[1];
+  var _useState31 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState32 = _slicedToArray(_useState31, 2),
+    units = _useState32[0],
+    setUnits = _useState32[1];
+  var _useState33 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState34 = _slicedToArray(_useState33, 2),
+    loading = _useState34[0],
+    setLoading = _useState34[1];
   var educationList = ["phd", " masters", "degree", "certificate"];
 
   // Get Faculties and Departments
@@ -107195,6 +107203,8 @@ var edit = function edit(props) {
       phone: phone,
       gender: gender,
       education: education,
+      originLocation: originLocation,
+      currentLocation: currentLocation,
       facultyId: facultyId,
       departmentId: departmentId,
       courseId: courseId,
@@ -107211,14 +107221,14 @@ var edit = function edit(props) {
       props.getErrors(err);
     });
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    onSubmit: onSubmit
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-sm-4"
+    className: "col-sm-2"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    onSubmit: onSubmit
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     name: "name",
@@ -107257,7 +107267,27 @@ var edit = function edit(props) {
   }, "Male"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: "female",
     selected: instructor.gender == "female"
-  }, "Female")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+  }, "Female")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    name: "nationality",
+    placeholder: instructor.originLocation,
+    className: "form-control mb-2 me-2",
+    onChange: function onChange(e) {
+      return setOriginLocation(e.target.value);
+    },
+    required: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    name: "currentLocation",
+    placeholder: instructor.currentLocation,
+    className: "form-control mb-2 me-2",
+    onChange: function onChange(e) {
+      return setCurrentLocation(e.target.value);
+    },
+    required: true
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     name: "education",
     className: "form-control mb-3 me-2 text-capitalize",
     onChange: function onChange(e) {
@@ -107336,18 +107366,16 @@ var edit = function edit(props) {
       value: unit.id,
       selected: instructor.unitId == unit.id
     }, unit.code);
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-end mb-2"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-2"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", {
+    className: "mt-4 mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     btnText: "update",
     loading: loading
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", {
-    className: "mb-5"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
     linkTo: "/admin/instructors",
     text: "back to instructors"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-sm-4"
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (edit);
@@ -107403,40 +107431,48 @@ var create = function create(props) {
     setEducation = _useState10[1];
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState12 = _slicedToArray(_useState11, 2),
-    facultyId = _useState12[0],
-    setFacultyId = _useState12[1];
+    originLocation = _useState12[0],
+    setOriginLocation = _useState12[1];
   var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState14 = _slicedToArray(_useState13, 2),
-    departmentId = _useState14[0],
-    setDepartmentId = _useState14[1];
+    currentLocation = _useState14[0],
+    setCurrentLocation = _useState14[1];
   var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState16 = _slicedToArray(_useState15, 2),
-    courseId = _useState16[0],
-    setCourseId = _useState16[1];
+    facultyId = _useState16[0],
+    setFacultyId = _useState16[1];
   var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState18 = _slicedToArray(_useState17, 2),
-    unitId = _useState18[0],
-    setUnitId = _useState18[1];
-  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    departmentId = _useState18[0],
+    setDepartmentId = _useState18[1];
+  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState20 = _slicedToArray(_useState19, 2),
-    faculties = _useState20[0],
-    setFaculties = _useState20[1];
-  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    courseId = _useState20[0],
+    setCourseId = _useState20[1];
+  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState22 = _slicedToArray(_useState21, 2),
-    departments = _useState22[0],
-    setDepartments = _useState22[1];
+    unitId = _useState22[0],
+    setUnitId = _useState22[1];
   var _useState23 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState24 = _slicedToArray(_useState23, 2),
-    courses = _useState24[0],
-    setCourses = _useState24[1];
+    faculties = _useState24[0],
+    setFaculties = _useState24[1];
   var _useState25 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState26 = _slicedToArray(_useState25, 2),
-    units = _useState26[0],
-    setUnits = _useState26[1];
-  var _useState27 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    departments = _useState26[0],
+    setDepartments = _useState26[1];
+  var _useState27 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState28 = _slicedToArray(_useState27, 2),
-    loading = _useState28[0],
-    setLoading = _useState28[1];
+    courses = _useState28[0],
+    setCourses = _useState28[1];
+  var _useState29 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState30 = _slicedToArray(_useState29, 2),
+    units = _useState30[0],
+    setUnits = _useState30[1];
+  var _useState31 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState32 = _slicedToArray(_useState31, 2),
+    loading = _useState32[0],
+    setLoading = _useState32[1];
   var educationList = ["phd", " masters", "degree", "certificate"];
 
   // Get Faculties and Departments
@@ -107464,6 +107500,8 @@ var create = function create(props) {
       phone: phone,
       gender: gender,
       education: education,
+      originLocation: originLocation,
+      currentLocation: currentLocation,
       facultyId: facultyId,
       departmentId: departmentId,
       courseId: courseId,
@@ -107482,14 +107520,14 @@ var create = function create(props) {
       props.getErrors(err);
     });
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    onSubmit: onSubmit
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-sm-4"
+    className: "col-sm-2"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    onSubmit: onSubmit
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     name: "name",
@@ -107530,7 +107568,27 @@ var create = function create(props) {
     value: "male"
   }, "Male"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: "female"
-  }, "Female")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+  }, "Female")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    name: "nationality",
+    placeholder: "Nationality",
+    className: "form-control mb-2 me-2",
+    onChange: function onChange(e) {
+      return setOriginLocation(e.target.value);
+    },
+    required: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    name: "currentLocation",
+    placeholder: "Current Location",
+    className: "form-control mb-2 me-2",
+    onChange: function onChange(e) {
+      return setCurrentLocation(e.target.value);
+    },
+    required: true
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     name: "education",
     className: "form-control mb-3 me-2",
     onChange: function onChange(e) {
@@ -107604,17 +107662,15 @@ var create = function create(props) {
       value: unit.id
     }, unit.code);
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-end"
+    className: "col-sm-4"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", {
+    className: "mt-4 mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     btnText: "add instructor",
     loading: loading
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-center mb-5"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
     linkTo: "/admin/instructors",
     text: "back to instructors"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-sm-4"
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (create);
@@ -107837,8 +107893,9 @@ var index = function index(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, key + 1), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_2__["default"], {
       src: instructor.avatar,
       className: "rounded-circle",
-      width: "25px",
-      height: "25px",
+      style: {
+        width: "7em"
+      },
       alt: "Avatar"
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, instructor.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, instructor.email), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, instructor.phone), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-capitalize"
@@ -109579,10 +109636,7 @@ var index = function index(props) {
     colSpan: "9"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-end"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    linkTo: "/admin/students/create",
-    text: "add student"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Email"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Gender"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Faculty"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Department"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Date Joined"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Action"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, students.filter(function (student) {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Email"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Gender"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Faculty"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Department"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Date Joined"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Action"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, students.filter(function (student) {
     var name = student.name.toLowerCase();
     var query = nameQuery.toLowerCase();
     return name.match(query);

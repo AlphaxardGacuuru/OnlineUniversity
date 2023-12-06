@@ -223,8 +223,7 @@ const index = (props) => {
 											<Img
 												src={instructor.avatar}
 												className="rounded-circle"
-												width="25px"
-												height="25px"
+												style={{ width: "7em" }}
 												alt="Avatar"
 											/>
 										</td>

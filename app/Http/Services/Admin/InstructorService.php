@@ -46,6 +46,8 @@ class InstructorService extends Service
         $instructor->email = $request->input("email");
         $instructor->phone = $request->input("phone");
         $instructor->gender = $request->input("gender");
+        $instructor->current_location = $request->input("currentLocation");
+        $instructor->origin_location = $request->input("originLocation");
         $instructor->education = $request->input("education");
         $instructor->password = Hash::make($request->input("email"));
         $instructor->account_type = "instructor";
@@ -114,6 +116,14 @@ class InstructorService extends Service
 
         if ($request->filled("gender")) {
             $instructor->gender = $request->input("gender");
+        }
+
+        if ($request->filled("originLocation")) {
+            $instructor->origin_location = $request->input("originLocation");
+        }
+
+        if ($request->filled("currentLocation")) {
+            $instructor->current_location = $request->input("currentLocation");
         }
 
         if ($request->filled("education")) {

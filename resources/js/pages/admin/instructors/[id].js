@@ -14,6 +14,8 @@ const edit = (props) => {
 	const [phone, setPhone] = useState()
 	const [gender, setGender] = useState()
 	const [education, setEducation] = useState()
+	const [originLocation, setOriginLocation] = useState()
+	const [currentLocation, setCurrentLocation] = useState()
 	const [facultyId, setFacultyId] = useState()
 	const [departmentId, setDepartmentId] = useState()
 	const [courseId, setCourseId] = useState()
@@ -56,6 +58,8 @@ const edit = (props) => {
 			phone: phone,
 			gender: gender,
 			education: education,
+			originLocation: originLocation,
+			currentLocation: currentLocation,
 			facultyId: facultyId,
 			departmentId: departmentId,
 			courseId: courseId,
@@ -76,150 +80,172 @@ const edit = (props) => {
 	}
 
 	return (
-		<div className="row">
-			<div className="col-sm-4"></div>
-			<div className="col-sm-4">
-				<form onSubmit={onSubmit}>
-					<input
-						type="text"
-						name="name"
-						placeholder={instructor.name}
-						className="form-control mb-2 me-2"
-						onChange={(e) => setName(e.target.value)}
-					/>
-					<input
-						type="text"
-						name="email"
-						placeholder={instructor.email}
-						className="form-control mb-2 me-2"
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-					<input
-						type="tel"
-						name="phone"
-						placeholder={instructor.phone}
-						className="form-control mb-2 me-2"
-						onChange={(e) => setPhone(e.target.value)}
-					/>
+		<div>
+			<form onSubmit={onSubmit}>
+				<div className="row">
+					<div className="col-sm-2"></div>
+					<div className="col-sm-4">
+						<input
+							type="text"
+							name="name"
+							placeholder={instructor.name}
+							className="form-control mb-2 me-2"
+							onChange={(e) => setName(e.target.value)}
+						/>
+						<input
+							type="text"
+							name="email"
+							placeholder={instructor.email}
+							className="form-control mb-2 me-2"
+							onChange={(e) => setEmail(e.target.value)}
+						/>
+						<input
+							type="tel"
+							name="phone"
+							placeholder={instructor.phone}
+							className="form-control mb-2 me-2"
+							onChange={(e) => setPhone(e.target.value)}
+						/>
 
-					<select
-						name="gender"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setGender(e.target.value)}>
-						<option value="">Select Gender</option>
-						<option
-							value="male"
-							selected={instructor.gender == "male"}>
-							Male
-						</option>
-						<option
-							value="female"
-							selected={instructor.gender == "female"}>
-							Female
-						</option>
-					</select>
-
-					<select
-						name="education"
-						className="form-control mb-3 me-2 text-capitalize"
-						onChange={(e) => setEducation(e.target.value)}>
-						<option value="">Select Education</option>
-						{educationList.map((education, key) => (
+						<select
+							name="gender"
+							className="form-control mb-3 me-2"
+							onChange={(e) => setGender(e.target.value)}>
+							<option value="">Select Gender</option>
 							<option
-								key={key}
-								value={education}
-								className="text-capitalize"
-								selected={instructor.education == education}>
-								{education}
+								value="male"
+								selected={instructor.gender == "male"}>
+								Male
 							</option>
-						))}
-					</select>
-
-					<select
-						name="facultyId"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setFacultyId(e.target.value)}
-						required={true}>
-						<option value="remove">Select Faculty</option>
-						{faculties.map((faculty, key) => (
 							<option
-								key={key}
-								value={faculty.id}
-								selected={instructor.facultyId == faculty.id}>
-								{faculty.name}
+								value="female"
+								selected={instructor.gender == "female"}>
+								Female
 							</option>
-						))}
-					</select>
+						</select>
 
-					<select
-						name="departmentId"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setDepartmentId(e.target.value)}
-						required={true}>
-						<option value="remove">Select Department</option>
-						{departments
-							.filter((department) => department.facultyId == facultyId)
-							.map((department, key) => (
-								<option
-									key={key}
-									value={department.id}
-									selected={instructor.departmentId == department.id}>
-									{department.name}
-								</option>
-							))}
-					</select>
+						<input
+							type="text"
+							name="nationality"
+							placeholder={instructor.originLocation}
+							className="form-control mb-2 me-2"
+							onChange={(e) => setOriginLocation(e.target.value)}
+							required={true}
+						/>
 
-					<select
-						name="courseId"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setCourseId(e.target.value)}>
-						<option value="remove">Select Course</option>
-						{courses
-							.filter((course) => course.departmentId == departmentId)
-							.map((course, key) => (
-								<option
-									key={key}
-									value={course.id}
-									selected={instructor.courseId == course.id}>
-									{course.name}
-								</option>
-							))}
-					</select>
-
-					<select
-						name="unitId"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setUnitId(e.target.value)}>
-						<option value="remove">Select Unit</option>
-						{units
-							.filter((unit) => unit.courseId == courseId)
-							.map((unit, key) => (
-								<option
-									key={key}
-									value={unit.id}
-									selected={instructor.unitId == unit.id}>
-									{unit.code}
-								</option>
-							))}
-					</select>
-
-					<div className="d-flex justify-content-end mb-2">
-						<Btn
-							btnText="update"
-							loading={loading}
+						<input
+							type="text"
+							name="currentLocation"
+							placeholder={instructor.currentLocation}
+							className="form-control mb-2 me-2"
+							onChange={(e) => setCurrentLocation(e.target.value)}
+							required={true}
 						/>
 					</div>
 
-					<center className="mb-5">
-						<MyLink
-							linkTo="/admin/instructors"
-							text="back to instructors"
-						/>
-					</center>
+					<div className="col-sm-4">
+						<select
+							name="education"
+							className="form-control mb-3 me-2 text-capitalize"
+							onChange={(e) => setEducation(e.target.value)}>
+							<option value="">Select Education</option>
+							{educationList.map((education, key) => (
+								<option
+									key={key}
+									value={education}
+									className="text-capitalize"
+									selected={instructor.education == education}>
+									{education}
+								</option>
+							))}
+						</select>
 
-					<div className="col-sm-4"></div>
-				</form>
-			</div>
+						<select
+							name="facultyId"
+							className="form-control mb-3 me-2"
+							onChange={(e) => setFacultyId(e.target.value)}
+							required={true}>
+							<option value="remove">Select Faculty</option>
+							{faculties.map((faculty, key) => (
+								<option
+									key={key}
+									value={faculty.id}
+									selected={instructor.facultyId == faculty.id}>
+									{faculty.name}
+								</option>
+							))}
+						</select>
+
+						<select
+							name="departmentId"
+							className="form-control mb-3 me-2"
+							onChange={(e) => setDepartmentId(e.target.value)}
+							required={true}>
+							<option value="remove">Select Department</option>
+							{departments
+								.filter((department) => department.facultyId == facultyId)
+								.map((department, key) => (
+									<option
+										key={key}
+										value={department.id}
+										selected={instructor.departmentId == department.id}>
+										{department.name}
+									</option>
+								))}
+						</select>
+
+						<select
+							name="courseId"
+							className="form-control mb-3 me-2"
+							onChange={(e) => setCourseId(e.target.value)}>
+							<option value="remove">Select Course</option>
+							{courses
+								.filter((course) => course.departmentId == departmentId)
+								.map((course, key) => (
+									<option
+										key={key}
+										value={course.id}
+										selected={instructor.courseId == course.id}>
+										{course.name}
+									</option>
+								))}
+						</select>
+
+						<select
+							name="unitId"
+							className="form-control mb-3 me-2"
+							onChange={(e) => setUnitId(e.target.value)}>
+							<option value="remove">Select Unit</option>
+							{units
+								.filter((unit) => unit.courseId == courseId)
+								.map((unit, key) => (
+									<option
+										key={key}
+										value={unit.id}
+										selected={instructor.unitId == unit.id}>
+										{unit.code}
+									</option>
+								))}
+						</select>
+					</div>
+					<div className="col-sm-2"></div>
+				</div>
+
+				<center className="mt-4 mb-5">
+					<Btn
+						btnText="update"
+						loading={loading}
+					/>
+
+					<br />
+					<br />
+
+					<MyLink
+						linkTo="/admin/instructors"
+						text="back to instructors"
+					/>
+				</center>
+			</form>
 		</div>
 	)
 }

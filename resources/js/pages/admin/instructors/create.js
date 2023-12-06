@@ -12,6 +12,8 @@ const create = (props) => {
 	const [phone, setPhone] = useState()
 	const [gender, setGender] = useState()
 	const [education, setEducation] = useState()
+	const [originLocation, setOriginLocation] = useState()
+	const [currentLocation, setCurrentLocation] = useState()
 	const [facultyId, setFacultyId] = useState()
 	const [departmentId, setDepartmentId] = useState()
 	const [courseId, setCourseId] = useState()
@@ -50,6 +52,8 @@ const create = (props) => {
 			phone: phone,
 			gender: gender,
 			education: education,
+			originLocation: originLocation,
+			currentLocation: currentLocation,
 			facultyId: facultyId,
 			departmentId: departmentId,
 			courseId: courseId,
@@ -70,139 +74,162 @@ const create = (props) => {
 	}
 
 	return (
-		<div className="row">
-			<div className="col-sm-4"></div>
-			<div className="col-sm-4">
-				<form onSubmit={onSubmit}>
-					<input
-						type="text"
-						name="name"
-						placeholder="Name"
-						className="form-control mb-2 me-2"
-						onChange={(e) => setName(e.target.value)}
-						required={true}
-					/>
-					<input
-						type="text"
-						name="email"
-						placeholder="Email"
-						className="form-control mb-2 me-2"
-						onChange={(e) => setEmail(e.target.value)}
-						required={true}
-					/>
-					<input
-						type="tel"
-						name="phone"
-						placeholder="Phone"
-						className="form-control mb-2 me-2"
-						onChange={(e) => setPhone(e.target.value)}
-						required={true}
-					/>
+		<div>
+			<form onSubmit={onSubmit}>
+				<div className="row">
+					<div className="col-sm-2"></div>
+					<div className="col-sm-4">
+						<input
+							type="text"
+							name="name"
+							placeholder="Name"
+							className="form-control mb-2 me-2"
+							onChange={(e) => setName(e.target.value)}
+							required={true}
+						/>
+						<input
+							type="text"
+							name="email"
+							placeholder="Email"
+							className="form-control mb-2 me-2"
+							onChange={(e) => setEmail(e.target.value)}
+							required={true}
+						/>
+						<input
+							type="tel"
+							name="phone"
+							placeholder="Phone"
+							className="form-control mb-2 me-2"
+							onChange={(e) => setPhone(e.target.value)}
+							required={true}
+						/>
 
-					<select
-						name="gender"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setGender(e.target.value)}
-						required={true}>
-						<option value="">Select Gender</option>
-						<option value="male">Male</option>
-						<option value="female">Female</option>
-					</select>
+						<select
+							name="gender"
+							className="form-control mb-3 me-2"
+							onChange={(e) => setGender(e.target.value)}
+							required={true}>
+							<option value="">Select Gender</option>
+							<option value="male">Male</option>
+							<option value="female">Female</option>
+						</select>
 
-					<select
-						name="education"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setEducation(e.target.value)}
-						required={true}>
-						<option value="">Select Education</option>
-						{educationList.map((education, key) => (
-							<option
-								key={key}
-								value={education}
-								className="text-capitalize">
-								{education}
-							</option>
-						))}
-					</select>
+						<input
+							type="text"
+							name="nationality"
+							placeholder="Nationality"
+							className="form-control mb-2 me-2"
+							onChange={(e) => setOriginLocation(e.target.value)}
+							required={true}
+						/>
 
-					<select
-						name="facultyId"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setFacultyId(e.target.value)}>
-						<option value="">Select Faculty</option>
-						{faculties.map((faculty, key) => (
-							<option
-								key={key}
-								value={faculty.id}>
-								{faculty.name}
-							</option>
-						))}
-					</select>
-
-					<select
-						name="departmentId"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setDepartmentId(e.target.value)}>
-						<option value="">Select Department</option>
-						{departments
-							.filter((department) => department.facultyId == facultyId)
-							.map((department, key) => (
-								<option
-									key={key}
-									value={department.id}>
-									{department.name}
-								</option>
-							))}
-					</select>
-
-					<select
-						name="courseId"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setCourseId(e.target.value)}>
-						<option value="">Select Course</option>
-						{courses
-							.filter((course) => course.departmentId == departmentId)
-							.map((course, key) => (
-								<option
-									key={key}
-									value={course.id}>
-									{course.name}
-								</option>
-							))}
-					</select>
-
-					<select
-						name="unitId"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setUnitId(e.target.value)}>
-						<option value="">Select Unit</option>
-						{units
-							.filter((unit) => unit.courseId == courseId)
-							.map((unit, key) => (
-								<option
-									key={key}
-									value={unit.id}>
-									{unit.code}
-								</option>
-							))}
-					</select>
-
-					<div className="d-flex justify-content-end">
-						<Btn
-							btnText="add instructor"
-							loading={loading}
+						<input
+							type="text"
+							name="currentLocation"
+							placeholder="Current Location"
+							className="form-control mb-2 me-2"
+							onChange={(e) => setCurrentLocation(e.target.value)}
+							required={true}
 						/>
 					</div>
 
-					<div className="d-flex justify-content-center mb-5">
-						<MyLink
-							linkTo="/admin/instructors"
-							text="back to instructors"
-						/>
+					<div className="col-sm-4">
+						<select
+							name="education"
+							className="form-control mb-3 me-2"
+							onChange={(e) => setEducation(e.target.value)}
+							required={true}>
+							<option value="">Select Education</option>
+							{educationList.map((education, key) => (
+								<option
+									key={key}
+									value={education}
+									className="text-capitalize">
+									{education}
+								</option>
+							))}
+						</select>
+
+						<select
+							name="facultyId"
+							className="form-control mb-3 me-2"
+							onChange={(e) => setFacultyId(e.target.value)}>
+							<option value="">Select Faculty</option>
+							{faculties.map((faculty, key) => (
+								<option
+									key={key}
+									value={faculty.id}>
+									{faculty.name}
+								</option>
+							))}
+						</select>
+
+						<select
+							name="departmentId"
+							className="form-control mb-3 me-2"
+							onChange={(e) => setDepartmentId(e.target.value)}>
+							<option value="">Select Department</option>
+							{departments
+								.filter((department) => department.facultyId == facultyId)
+								.map((department, key) => (
+									<option
+										key={key}
+										value={department.id}>
+										{department.name}
+									</option>
+								))}
+						</select>
+
+						<select
+							name="courseId"
+							className="form-control mb-3 me-2"
+							onChange={(e) => setCourseId(e.target.value)}>
+							<option value="">Select Course</option>
+							{courses
+								.filter((course) => course.departmentId == departmentId)
+								.map((course, key) => (
+									<option
+										key={key}
+										value={course.id}>
+										{course.name}
+									</option>
+								))}
+						</select>
+
+						<select
+							name="unitId"
+							className="form-control mb-3 me-2"
+							onChange={(e) => setUnitId(e.target.value)}>
+							<option value="">Select Unit</option>
+							{units
+								.filter((unit) => unit.courseId == courseId)
+								.map((unit, key) => (
+									<option
+										key={key}
+										value={unit.id}>
+										{unit.code}
+									</option>
+								))}
+						</select>
+						<div className="col-sm-4"></div>
 					</div>
-					<div className="col-sm-4"></div>
-				</form>
-			</div>
+				</div>
+
+				<center className="mt-4 mb-5">
+					<Btn
+						btnText="add instructor"
+						loading={loading}
+					/>
+
+					<br />
+					<br />
+
+					<MyLink
+						linkTo="/admin/instructors"
+						text="back to instructors"
+					/>
+				</center>
+			</form>
 		</div>
 	)
 }

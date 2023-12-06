@@ -165,10 +165,10 @@ const index = (props) => {
 							<tr>
 								<th colSpan="9"></th>
 								<th className="text-end">
-									<MyLink
+									{/* <MyLink
 										linkTo="/admin/students/create"
 										text="add student"
-									/>
+									/> */}
 								</th>
 							</tr>
 							<tr>
