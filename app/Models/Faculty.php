@@ -61,12 +61,12 @@ class Faculty extends Model
             ->map(fn($department) => $department->course);
     }
 
-    public function professors()
+    public function instructors()
     {
         return $this->userFaculties
             ->map(fn($userFaculty) => $userFaculty
                     ->user()
-                    ->where("account_type", "professor")
+                    ->where("account_type", "instructor")
                     ->first())
             ->filter(fn($item) => $item)
             ->all();

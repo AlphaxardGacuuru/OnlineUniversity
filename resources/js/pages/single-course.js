@@ -1,6 +1,6 @@
 import React from "react"
 
-const [id] = () => {
+const show = (props) => {
 	return (
 		<div>
 			{/* Page Preloder */}
@@ -320,4 +320,4 @@ const [id] = () => {
 	)
 }
 
-export default [id]
+export default show

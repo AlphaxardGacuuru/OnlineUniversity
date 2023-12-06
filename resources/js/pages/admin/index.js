@@ -28,14 +28,14 @@ const index = (props) => {
 		props.setPage({ name: "Dashboard", path: ["/"] })
 
 		Axios.get("/api/admin").then((res) => setDashboard(res.data))
-		props.get("professors", setInstructors)
+		props.get("instructors", setInstructors)
 		props.get("students", setStudents)
 		props.get("staff", setStaff)
 	}, [])
 
 	var barGraphDatasets1 = [
 		{
-			label: "Professors this month",
+			label: "Instructors this month",
 			data: dashboard.instructors?.lastMonth?.data,
 			backgroundColor: "rgba(54, 162, 235, 1)",
 			borderColor: "rgb(255, 255, 255)",
@@ -67,8 +67,8 @@ const index = (props) => {
 		{
 			label: "Last Week",
 			data: dashboard.instructors?.lastWeek,
-			// backgroundColor: "rgba(255, 99, 132, 1)",
-			// borderColor: "rgb(255, 99, 132)",
+			backgroundColor: "rgba(54, 162, 235, 1)",
+			borderColor: "rgb(54, 162, 235)",
 			// borderWidth: 1,
 		},
 	]

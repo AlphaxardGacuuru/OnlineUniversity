@@ -74,7 +74,7 @@ const index = (props) => {
 								<th className="text-end">
 									<MyLink
 										linkTo="/admin/units/create"
-										text="create"
+										text="add unit"
 									/>
 								</th>
 							</tr>
@@ -82,7 +82,7 @@ const index = (props) => {
 								<td>#</td>
 								<td>Name</td>
 								<td>Description</td>
-								<td>Professor</td>
+								<td>Instructor</td>
 								<td>Credits</td>
 								<td>Action</td>
 							</tr>
@@ -95,7 +95,7 @@ const index = (props) => {
 											<td>{key + 1}</td>
 											<td>{unit.name}</td>
 											<td>{unit.description}</td>
-											<td>{unit.professorName}</td>
+											<td>{unit.instructorName}</td>
 											<td>{unit.credits}</td>
 											<td>
 												<div className="d-flex justify-content-end">

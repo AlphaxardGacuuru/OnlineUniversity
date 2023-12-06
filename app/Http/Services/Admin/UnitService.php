@@ -53,9 +53,9 @@ class UnitService extends Service
 
         $saved = $unit->save();
 
-        if ($request->filled("professorId")) {
+        if ($request->filled("instructorId")) {
             $userUnit = new UserUnit;
-            $userUnit->user_id = $request->input("professorId");
+            $userUnit->user_id = $request->input("instructorId");
             $userUnit->unit_id = $unit->id;
             $userUnit->save();
         }
@@ -84,8 +84,8 @@ class UnitService extends Service
             $unit->description = $request->input("description");
         }
 
-        if ($request->filled("professorId")) {
-            $unit->user_id = $request->input("professorId");
+        if ($request->filled("instructorId")) {
+            $unit->user_id = $request->input("instructorId");
         }
 
         if ($request->filled("credits")) {

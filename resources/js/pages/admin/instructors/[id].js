@@ -8,7 +8,7 @@ import PlusSVG from "@/svgs/PlusSVG"
 const edit = (props) => {
 	var { id } = useParams()
 
-	const [professor, setProfessor] = useState({})
+	const [instructor, setInstructor] = useState({})
 	const [name, setName] = useState()
 	const [email, setEmail] = useState()
 	const [phone, setPhone] = useState()
@@ -29,10 +29,10 @@ const edit = (props) => {
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Edit Professor", path: ["professors", "edit"] })
+		props.setPage({ name: "Edit Instructor", path: ["instructors", "edit"] })
 
-		Axios.get(`/api/professors/${id}`).then((res) => {
-			setProfessor(res.data.data)
+		Axios.get(`/api/instructors/${id}`).then((res) => {
+			setInstructor(res.data.data)
 			setFacultyId(res.data.data.facultyId.toString())
 			setDepartmentId(res.data.data.departmentId.toString())
 			setCourseId(res.data.data.courseId.toString())
@@ -50,7 +50,7 @@ const edit = (props) => {
 		e.preventDefault()
 
 		setLoading(true)
-		Axios.put(`/api/professors/${id}`, {
+		Axios.put(`/api/instructors/${id}`, {
 			name: name,
 			email: email,
 			phone: phone,
@@ -83,21 +83,21 @@ const edit = (props) => {
 					<input
 						type="text"
 						name="name"
-						placeholder={professor.name}
+						placeholder={instructor.name}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
 					/>
 					<input
 						type="text"
 						name="email"
-						placeholder={professor.email}
+						placeholder={instructor.email}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setEmail(e.target.value)}
 					/>
 					<input
 						type="tel"
 						name="phone"
-						placeholder={professor.phone}
+						placeholder={instructor.phone}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setPhone(e.target.value)}
 					/>
@@ -109,12 +109,12 @@ const edit = (props) => {
 						<option value="">Select Gender</option>
 						<option
 							value="male"
-							selected={professor.gender == "male"}>
+							selected={instructor.gender == "male"}>
 							Male
 						</option>
 						<option
 							value="female"
-							selected={professor.gender == "female"}>
+							selected={instructor.gender == "female"}>
 							Female
 						</option>
 					</select>
@@ -129,7 +129,7 @@ const edit = (props) => {
 								key={key}
 								value={education}
 								className="text-capitalize"
-								selected={professor.education == education}>
+								selected={instructor.education == education}>
 								{education}
 							</option>
 						))}
@@ -145,7 +145,7 @@ const edit = (props) => {
 							<option
 								key={key}
 								value={faculty.id}
-								selected={professor.facultyId == faculty.id}>
+								selected={instructor.facultyId == faculty.id}>
 								{faculty.name}
 							</option>
 						))}
@@ -163,7 +163,7 @@ const edit = (props) => {
 								<option
 									key={key}
 									value={department.id}
-									selected={professor.departmentId == department.id}>
+									selected={instructor.departmentId == department.id}>
 									{department.name}
 								</option>
 							))}
@@ -180,7 +180,7 @@ const edit = (props) => {
 								<option
 									key={key}
 									value={course.id}
-									selected={professor.courseId == course.id}>
+									selected={instructor.courseId == course.id}>
 									{course.name}
 								</option>
 							))}
@@ -197,7 +197,7 @@ const edit = (props) => {
 								<option
 									key={key}
 									value={unit.id}
-									selected={professor.unitId == unit.id}>
+									selected={instructor.unitId == unit.id}>
 									{unit.code}
 								</option>
 							))}
@@ -210,10 +210,10 @@ const edit = (props) => {
 						/>
 					</div>
 
-					<center>
+					<center className="mb-5">
 						<MyLink
-							linkTo="/admin/professors"
-							text="back to professors"
+							linkTo="/admin/instructors"
+							text="back to instructors"
 						/>
 					</center>
 

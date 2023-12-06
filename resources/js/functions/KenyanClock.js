@@ -18,7 +18,7 @@ const KenyanClock = (props) => {
 				hour: "2-digit",
 				minute: "2-digit",
 				second: "2-digit",
-				hour12: false,
+				hour12: true,
 			})
 
 			setKenyanTime(formattedTime)
@@ -31,7 +31,12 @@ const KenyanClock = (props) => {
 		return () => clearInterval(interval)
 	}, [])
 
-	return <Btn btnClass={props.className} btnText={kenyanTime} />
+	return (
+		<Btn
+			btnClass={props.className}
+			btnText={kenyanTime + " East African Time(EAT) GMT+3"}
+		/>
+	)
 }
 
 export default KenyanClock

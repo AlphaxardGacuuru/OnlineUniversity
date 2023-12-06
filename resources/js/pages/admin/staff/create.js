@@ -85,10 +85,10 @@ const create = (props) => {
 						<option value="male">Male</option>
 						<option value="female">Female</option>
 					</select>
-					
+
 					<div className="d-flex justify-content-end">
 						<Btn
-							btnText="create"
+							btnText="add staff"
 							loading={loading}
 						/>
 					</div>

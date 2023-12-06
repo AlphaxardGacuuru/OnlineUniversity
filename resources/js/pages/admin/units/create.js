@@ -17,7 +17,7 @@ const create = (props) => {
 	const [credits, setCredits] = useState()
 	const [loading, setLoading] = useState()
 
-	// Get Professors
+	// Get Instructors
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Create Unit", path: ["units", "create"] })
@@ -93,7 +93,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							btnText="create"
+							btnText="add units"
 							loading={loading}
 						/>
 					</div>

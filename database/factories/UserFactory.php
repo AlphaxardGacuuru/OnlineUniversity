@@ -84,7 +84,7 @@ class UserFactory extends Factory
             'password' => Hash::make('gacuuruwakarenge@gmail.com'),
             'remember_token' => Str::random(10),
             'gender' => 'male',
-            'account_type' => 'professor',
+            'account_type' => 'instructor',
         ]);
     }
 }

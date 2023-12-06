@@ -7,12 +7,12 @@ import MyLink from "@/components/Core/MyLink"
 import PersonSVG from "@/svgs/PersonSVG"
 
 const index = (props) => {
-	// Get Professors
-	const [professors, setProfessors] = useState([])
+	// Get Instructors
+	const [instructors, setInstructors] = useState([])
 	const [faculties, setFaculties] = useState([])
 	const [departments, setDepartments] = useState([])
 	const [loading, setLoading] = useState()
-	
+
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
 	const [facultyQuery, setFacultyQuery] = useState("")
@@ -21,8 +21,8 @@ const index = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Professors", path: ["professors"] })
-		props.get("professors", setProfessors)
+		props.setPage({ name: "Instructors", path: ["instructors"] })
+		props.get("instructors", setInstructors)
 		props.get("faculties", setFaculties)
 		props.get("departments", setDepartments)
 	}, [])
@@ -30,18 +30,18 @@ const index = (props) => {
 	/*
 	 * Delete
 	 */
-	const onDelete = (professorId) => {
+	const onDelete = (instructorId) => {
 		// Toggle loader
 		setLoading(true)
 
-		Axios.delete(`/api/professors/${professorId}`)
+		Axios.delete(`/api/instructors/${instructorId}`)
 			.then((res) => {
 				props.setMessages([res.data.message])
 				// Toggle loader
 				setLoading(true)
 				// Delete rows
-				setProfessors(
-					professors.filter((professor) => professor.id != professorId)
+				setInstructors(
+					instructors.filter((instructor) => instructor.id != instructorId)
 				)
 			})
 			.catch((err) => {
@@ -60,8 +60,8 @@ const index = (props) => {
 						{/* Total */}
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 							<div>
-								<span className="fs-4">{professors.length}</span>
-								<h4>Total Professors</h4>
+								<span className="fs-4">{instructors.length}</span>
+								<h4>Total Instructors</h4>
 							</div>
 							<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
 								<PersonSVG />
@@ -169,8 +169,8 @@ const index = (props) => {
 								<th colSpan="9"></th>
 								<th className="text-end">
 									<MyLink
-										linkTo="/admin/professors/create"
-										text="create"
+										linkTo="/admin/instructors/create"
+										text="add instructor"
 									/>
 								</th>
 							</tr>
@@ -188,57 +188,57 @@ const index = (props) => {
 							</tr>
 						</thead>
 						<tbody>
-							{professors
-								.filter((professor) => {
-									var name = professor.name.toLowerCase()
+							{instructors
+								.filter((instructor) => {
+									var name = instructor.name.toLowerCase()
 									var query = nameQuery.toLowerCase()
 
 									return name.match(query)
 								})
-								.filter((professor) => {
+								.filter((instructor) => {
 									if (genderQuery) {
-										return professor.gender == genderQuery
+										return instructor.gender == genderQuery
 									} else {
 										return true
 									}
 								})
-								.filter((professor) => {
+								.filter((instructor) => {
 									if (facultyQuery) {
-										return professor.facultyId == facultyQuery
+										return instructor.facultyId == facultyQuery
 									} else {
 										return true
 									}
 								})
-								.filter((professor) => {
+								.filter((instructor) => {
 									if (departmentQuery) {
-										return professor.departmentId == departmentQuery
+										return instructor.departmentId == departmentQuery
 									} else {
 										return true
 									}
 								})
-								.map((professor, key) => (
+								.map((instructor, key) => (
 									<tr key={key}>
 										<td>{key + 1}</td>
 										<td>
 											<Img
-												src={professor.avatar}
+												src={instructor.avatar}
 												className="rounded-circle"
 												width="25px"
 												height="25px"
 												alt="Avatar"
 											/>
 										</td>
-										<td>{professor.name}</td>
-										<td>{professor.email}</td>
-										<td>{professor.phone}</td>
-										<td className="text-capitalize">{professor.gender}</td>
-										<td>{professor.facultyName}</td>
-										<td>{professor.departmentName}</td>
-										<td>{professor.createdAt}</td>
+										<td>{instructor.name}</td>
+										<td>{instructor.email}</td>
+										<td>{instructor.phone}</td>
+										<td className="text-capitalize">{instructor.gender}</td>
+										<td>{instructor.facultyName}</td>
+										<td>{instructor.departmentName}</td>
+										<td>{instructor.createdAt}</td>
 										<td className="text-end">
 											<div className="d-flex">
 												<MyLink
-													linkTo={`/admin/professors/${professor.id}/edit`}
+													linkTo={`/admin/instructors/${instructor.id}/edit`}
 													text="edit"
 													className="btn-sm"
 												/>
@@ -257,7 +257,7 @@ const index = (props) => {
 																	<h1
 																		id="deleteModalLabel"
 																		className="modal-title fs-5 text-danger">
-																		Delete Professor
+																		Delete Instructor
 																	</h1>
 																	<button
 																		type="button"
@@ -267,7 +267,7 @@ const index = (props) => {
 																</div>
 																<div className="modal-body text-wrap">
 																	Are you sure you want to delete{" "}
-																	{professor.name}.
+																	{instructor.name}.
 																</div>
 																<div className="modal-footer justify-content-between">
 																	<button
@@ -280,7 +280,7 @@ const index = (props) => {
 																		type="button"
 																		className="btn btn-danger rounded-pill"
 																		data-bs-dismiss="modal"
-																		onClick={() => onDelete(professor.id)}>
+																		onClick={() => onDelete(instructor.id)}>
 																		Delete
 																	</button>
 																</div>

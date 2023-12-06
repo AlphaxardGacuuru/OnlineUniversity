@@ -41,10 +41,20 @@ const login = () => {
 									<Link
 										to="/instructor/login"
 										className="site-btn btn-dark">
-										Professor
+										Instructor
 									</Link>
 								</div>
 								{/* Links to Other Portals End */}
+
+								<br />
+
+								<center>
+									<Link
+										to="/"
+										className="site-btn btn-dark">
+										Back
+									</Link>
+								</center>
 							</form>
 						</div>
 					</div>

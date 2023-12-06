@@ -9,13 +9,13 @@ class Unit extends Model
 {
     use HasFactory;
 
-	/*
-	* Relationships
-	*/ 
-	public function course()
-	{
-		return belongsTo(Course::class);
-	}
+    /*
+     * Relationships
+     */
+    public function course()
+    {
+        return belongsTo(Course::class);
+    }
 
     public function userUnits()
     {
@@ -31,12 +31,12 @@ class Unit extends Model
      * Custom functions
      */
 
-    public function professors()
+    public function instructors()
     {
         return $this->userUnits
             ->map(fn($userUnit) => $userUnit
                     ->user()
-                    ->where("account_type", "professor")
+                    ->where("account_type", "instructor")
                     ->first())
             ->filter(fn($item) => $item)
             ->all();

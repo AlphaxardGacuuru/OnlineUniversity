@@ -15,9 +15,9 @@ import InstructorNav from "@/components/Layouts/InstructorNav"
 import AdminLogin from "@/pages/admin/login"
 import AdminDashboard from "@/pages/admin/index"
 
-import AdminProfessors from "@/pages/admin/professors/index"
-import AdminProfessorCreate from "@/pages/admin/professors/create"
-import AdminProfessorEdit from "@/pages/admin/professors/[id]"
+import AdminInstructors from "@/pages/admin/instructors/index"
+import AdminInstructorCreate from "@/pages/admin/instructors/create"
+import AdminInstructorEdit from "@/pages/admin/instructors/[id]"
 
 import AdminStudents from "@/pages/admin/students/index"
 import AdminStudentCreate from "@/pages/admin/students/create"
@@ -102,16 +102,16 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminDashboard {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/professors",
-			component: <AdminProfessors {...GLOBAL_STATE} />,
+			path: "/admin/instructors",
+			component: <AdminInstructors {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/professors/create",
-			component: <AdminProfessorCreate {...GLOBAL_STATE} />,
+			path: "/admin/instructors/create",
+			component: <AdminInstructorCreate {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/professors/:id/edit",
-			component: <AdminProfessorEdit {...GLOBAL_STATE} />,
+			path: "/admin/instructors/:id/edit",
+			component: <AdminInstructorEdit {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/students",

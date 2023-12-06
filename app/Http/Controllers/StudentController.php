@@ -41,12 +41,12 @@ class StudentController extends Controller
             "departmentId" => "required|string",
         ]);
 
-        [$saved, $message, $professor] = $this->service->store($request);
+        [$saved, $message, $student] = $this->service->store($request);
 
         return response([
             "status" => $saved,
             "message" => $message,
-            "data" => $professor,
+            "data" => $student,
         ], 200);
     }
 
@@ -81,12 +81,12 @@ class StudentController extends Controller
             "departmentId" => "nullable|string",
         ]);
 
-        [$saved, $message, $professor] = $this->service->update($request, $id);
+        [$saved, $message, $student] = $this->service->update($request, $id);
 
         return response([
             "status" => $saved,
             "message" => $message,
-            "data" => $professor,
+            "data" => $student,
         ], 200);
     }
 
@@ -98,12 +98,12 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        [$deleted, $message, $professor] = $this->service->destroy($id);
+        [$deleted, $message, $student] = $this->service->destroy($id);
 
         return response([
             "status" => $deleted,
             "message" => $message,
-            "data" => $professor,
+            "data" => $student,
         ], 200);
     }
 }

@@ -103,7 +103,7 @@ const show = (props) => {
 									<th className="text-end">
 										<MyLink
 											linkTo={`/admin/materials/${id}/create`}
-											text="create"
+											text="add material"
 										/>
 									</th>
 								</tr>

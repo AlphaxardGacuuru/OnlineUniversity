@@ -47,22 +47,30 @@ const TopNav = (props) => {
 
 	// Show Admin Nav based on Location
 	const showTopNav =
+		!location.pathname.match("/login") &&
 		!location.pathname.match("/admin") &&
 		!location.pathname.match("/instructor")
 			? "d-block"
 			: "d-none"
 
 	// Function for showing active color
+	const active = (check) => {
+		return location.pathname.match(check) && "shadow rounded-pill py-2 px-5"
+	}
+
+	const activeStrict = (check) => {
+		return location.pathname == check && "shadow rounded-pill py-2 px-5"
+	}
 
 	// Function for showing active color
-	const active = (check) => {
+	const active2 = (check) => {
 		return {
 			color: location.pathname.match(check) ? "#0077B6" : "#232323",
 		}
 	}
 
 	// Function for showing active color
-	const activeStrict = (check) => {
+	const activeStrict2 = (check) => {
 		return {
 			color: location.pathname == check ? "#0077B6" : "#232323",
 		}
@@ -95,6 +103,61 @@ const TopNav = (props) => {
 										</div>
 									</div>
 
+									{/* Nav Links */}
+									<div className="d-flex align-items-center justify-content-between">
+										<div className="hidden">
+											<Link
+												to="/"
+												className={`nav-link text-light mx-4 ${activeStrict(
+													"/"
+												)}`}
+												onClick={() => setMenu("")}>
+												Home
+											</Link>
+										</div>
+										<div className="hidden">
+											<Link
+												to="/about"
+												className={`nav-link text-light mx-4 ${activeStrict(
+													"/about"
+												)}`}
+												onClick={() => setMenu("")}>
+												About
+											</Link>
+										</div>
+										<div className="hidden">
+											<Link
+												to="/courses"
+												className={`nav-link text-light mx-4 ${active(
+													"/courses"
+												)}`}
+												onClick={() => setMenu("")}>
+												Courses
+											</Link>
+										</div>
+										<div className="hidden">
+											<Link
+												to="/blog"
+												className={`nav-link text-light mx-4 ${active(
+													"/blog"
+												)}`}
+												onClick={() => setMenu("")}>
+												Blog
+											</Link>
+										</div>
+										<div className="hidden">
+											<Link
+												to="/contact"
+												className={`nav-link text-light mx-4 ${active(
+													"/contact"
+												)}`}
+												onClick={() => setMenu("")}>
+												Contact
+											</Link>
+										</div>
+									</div>
+									{/* Nav Links End */}
+
 									{/* Top Nav Links Area */}
 									<div className="menu-content-area d-flex align-items-center">
 										<div className="d-flex align-items-center justify-content-between">
@@ -102,7 +165,7 @@ const TopNav = (props) => {
 											{props.auth.accountType == "admin" && (
 												<Link
 													to="/admin"
-													className="site-btn btn-dark hidden">
+													className="site-btn btn-dark dropdown-item">
 													ADMIN
 												</Link>
 											)}
@@ -111,7 +174,7 @@ const TopNav = (props) => {
 											{props.auth.accountType == "instructor" && (
 												<Link
 													to="/instructor"
-													className="site-btn btn-dark hidden">
+													className="site-btn btn-dark dropdown-item">
 													INSTRUCTOR
 												</Link>
 											)}
@@ -120,18 +183,48 @@ const TopNav = (props) => {
 											{props.auth.accountType == "student" && (
 												<Link
 													to="/login"
-													className="site-btn btn-dark hidden">
+													className="site-btn btn-dark dropdown-item">
 													STUDENT
 												</Link>
 											)}
 											{/* Student End */}
 										</div>
+
 										{props.auth.name == "Guest" ? (
-											<Link
-												to="/login"
-												className="site-btn btn-dark hidden">
-												LOGIN
-											</Link>
+											<div className="dropdown">
+												{/* Login Dropdown */}
+												<button
+													className="site-btn btn-dark dropdown-toggle"
+													type="button"
+													data-bs-toggle="dropdown"
+													aria-expanded="false">
+													Login
+												</button>
+												<ul className="dropdown-menu p-0">
+													<li>
+														<Link
+															to="/login"
+															className="site-btn btn-dark dropdown-item">
+															ADMIN
+														</Link>
+													</li>
+													<li>
+														<Link
+															to="/login"
+															className="site-btn btn-dark dropdown-item">
+															INSTRUCTOR
+														</Link>
+													</li>
+													<li>
+														<Link
+															to="/login"
+															className="site-btn btn-dark dropdown-item">
+															STUDENT
+														</Link>
+													</li>
+												</ul>
+												{/* Login Dropdown End */}
+											</div>
 										) : (
 											<div className="header-social-area d-flex align-items-center">
 												{/* Avatar Dropdown */}
@@ -272,7 +365,7 @@ const TopNav = (props) => {
 								<li className="nav-item active">
 									<Link
 										to="/"
-										style={activeStrict("/")}
+										style={activeStrict2("/")}
 										className="nav-link text-white"
 										onClick={() => setMenu("")}>
 										Home
@@ -281,7 +374,7 @@ const TopNav = (props) => {
 								<li className="nav-item active">
 									<Link
 										to="/about"
-										style={activeStrict("/about")}
+										style={activeStrict2("/about")}
 										className="nav-link text-white"
 										onClick={() => setMenu("")}>
 										About Us
@@ -290,7 +383,7 @@ const TopNav = (props) => {
 								<li className="nav-item active">
 									<Link
 										to="/courses"
-										style={activeStrict("/courses")}
+										style={activeStrict2("/courses")}
 										className="nav-link text-white"
 										onClick={() => setMenu("")}>
 										Courses
@@ -299,7 +392,7 @@ const TopNav = (props) => {
 								<li className="nav-item active">
 									<Link
 										to="/news"
-										style={activeStrict("/news")}
+										style={activeStrict2("/news")}
 										className="nav-link text-white"
 										onClick={() => setMenu("")}>
 										News
@@ -308,7 +401,7 @@ const TopNav = (props) => {
 								<li className="nav-item active">
 									<Link
 										to="/contact"
-										style={activeStrict("/contact")}
+										style={activeStrict2("/contact")}
 										className="nav-link text-white"
 										onClick={() => setMenu("")}>
 										Contact

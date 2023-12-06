@@ -45,10 +45,10 @@ const show = (props) => {
 	}
 
 	/*
-	 * Delete Professor
+	 * Delete Instructor
 	 */
-	const onDeleteProfessor = (professorId) => {
-		Axios.delete(`/api/professors/${professorId}`)
+	const onDeleteInstructor = (instructorId) => {
+		Axios.delete(`/api/instructors/${instructorId}`)
 			.then((res) => {
 				props.setMessages([res.data.message])
 				// Remove row
@@ -77,11 +77,11 @@ const show = (props) => {
 					</div>
 					<div
 						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
-							"professors"
+							"instructors"
 						)}`}
 						style={{ cursor: "pointer" }}
-						onClick={() => setTab("professors")}>
-						Professors
+						onClick={() => setTab("instructors")}>
+						Instructors
 					</div>
 					<div
 						className={`card flex-grow-1 text-center mb-2 py-2 px-4 ${active(
@@ -123,7 +123,7 @@ const show = (props) => {
 									<th className="text-end">
 										<MyLink
 											linkTo={`/admin/departments/${id}/create`}
-											text="create"
+											text="add department"
 										/>
 									</th>
 								</tr>
@@ -212,16 +212,16 @@ const show = (props) => {
 				</div>
 				{/* Departments Tab End */}
 
-				{/* Professors Tab */}
-				<div className={activeTab("professors")}>
+				{/* Instructors Tab */}
+				<div className={activeTab("instructors")}>
 					{/* Data */}
 					<div className="card shadow-sm p-2">
 						<div className="d-flex justify-content-between">
 							{/* Total */}
 							<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 								<div>
-									<span className="fs-4">{faculty.professors?.length}</span>
-									<h4>Total Professors</h4>
+									<span className="fs-4">{faculty.instructors?.length}</span>
+									<h4>Total Instructors</h4>
 								</div>
 								<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
 									<PersonSVG />
@@ -289,8 +289,8 @@ const show = (props) => {
 									<th colSpan="8"></th>
 									<th className="text-end">
 										<MyLink
-											linkTo="/admin/professors/create"
-											text="create"
+											linkTo="/admin/instructors/create"
+											text="add instructor"
 										/>
 									</th>
 								</tr>
@@ -307,42 +307,42 @@ const show = (props) => {
 								</tr>
 							</thead>
 							<tbody>
-								{faculty.professors
-									?.filter((professor) => {
-										var name = professor.name.toLowerCase()
+								{faculty.instructors
+									?.filter((instructor) => {
+										var name = instructor.name.toLowerCase()
 										var query = nameQuery.toLowerCase()
 
 										return name.match(query)
 									})
-									.filter((professor) => {
+									.filter((instructor) => {
 										if (genderQuery) {
-											return professor.gender == genderQuery
+											return instructor.gender == genderQuery
 										} else {
 											return true
 										}
 									})
-									.map((professor, key) => (
+									.map((instructor, key) => (
 										<tr key={key}>
 											<td>{key + 1}</td>
 											<td>
 												<Img
-													src={professor.avatar}
+													src={instructor.avatar}
 													className="rounded-circle"
 													width="25px"
 													height="25px"
 													alt="Avatar"
 												/>
 											</td>
-											<td>{professor.name}</td>
-											<td>{professor.email}</td>
-											<td>{professor.phone}</td>
-											<td className="text-capitalize">{professor.gender}</td>
-											<td>{professor.departmentName}</td>
-											<td>{professor.createdAt}</td>
+											<td>{instructor.name}</td>
+											<td>{instructor.email}</td>
+											<td>{instructor.phone}</td>
+											<td className="text-capitalize">{instructor.gender}</td>
+											<td>{instructor.departmentName}</td>
+											<td>{instructor.createdAt}</td>
 											<td>
 												<div className="d-flex justify-content-end">
 													<MyLink
-														linkTo={`/admin/professors/${professor.id}/edit`}
+														linkTo={`/admin/instructors/${instructor.id}/edit`}
 														text="edit"
 														className="btn-sm"
 													/>
@@ -351,7 +351,7 @@ const show = (props) => {
 														{/* Confirm Delete Modal End */}
 														<div
 															className="modal fade"
-															id={`deleteProfessorModal${key}`}
+															id={`deleteInstructorModal${key}`}
 															tabIndex="-1"
 															aria-labelledby="deleteModalLabel"
 															aria-hidden="true">
@@ -361,7 +361,7 @@ const show = (props) => {
 																		<h1
 																			id="deleteModalLabel"
 																			className="modal-title fs-5 text-danger">
-																			Delete Professor
+																			Delete Instructor
 																		</h1>
 																		<button
 																			type="button"
@@ -371,7 +371,7 @@ const show = (props) => {
 																	</div>
 																	<div className="modal-body text-wrap text-start">
 																		Are you sure you want to delete{" "}
-																		{professor.name}.
+																		{instructor.name}.
 																	</div>
 																	<div className="modal-footer justify-content-between">
 																		<button
@@ -385,7 +385,7 @@ const show = (props) => {
 																			className="btn btn-danger rounded-pill"
 																			data-bs-dismiss="modal"
 																			onClick={() =>
-																				onDeleteProfessor(professor.id)
+																				onDeleteInstructor(instructor.id)
 																			}>
 																			Delete
 																		</button>
@@ -400,7 +400,7 @@ const show = (props) => {
 															type="button"
 															className="btn btn-sm btn-outline-danger rounded-pill"
 															data-bs-toggle="modal"
-															data-bs-target={`#deleteProfessorModal${key}`}>
+															data-bs-target={`#deleteInstructorModal${key}`}>
 															Delete
 														</button>
 													</div>
@@ -412,7 +412,7 @@ const show = (props) => {
 						</table>
 					</div>
 				</div>
-				{/* Professors Tab End */}
+				{/* Instructors Tab End */}
 
 				{/* Students Tab */}
 				<div className={activeTab("students")}>
@@ -423,7 +423,7 @@ const show = (props) => {
 							<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 								<div>
 									<span className="fs-4">{faculty.students?.length}</span>
-									<h4>Total Professors</h4>
+									<h4>Total Instructors</h4>
 								</div>
 								<div className="fs-1 py-3 px-4 bg-primary-subtle rounded-circle">
 									<PersonSVG />
@@ -492,7 +492,7 @@ const show = (props) => {
 									<th className="text-end">
 										<MyLink
 											linkTo="/admin/students/create"
-											text="create"
+											text="add student"
 										/>
 									</th>
 								</tr>
@@ -587,7 +587,7 @@ const show = (props) => {
 																			className="btn btn-danger rounded-pill"
 																			data-bs-dismiss="modal"
 																			onClick={() =>
-																				onDeleteProfessor(student.id)
+																				onDeleteInstructor(student.id)
 																			}>
 																			Delete
 																		</button>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Admin;
 
-use App\Http\Resources\ProfessorResource;
+use App\Http\Resources\InstructorResource;
 use App\Http\Services\Service;
 use App\Models\Course;
 use App\Models\Department;
@@ -35,7 +35,7 @@ class AdminService extends Service
      */
     public function instructors()
     {
-        $instructorQuery = User::where("account_type", "professor");
+        $instructorQuery = User::where("account_type", "instructor");
 
         $total = $instructorQuery->count();
 
@@ -52,7 +52,7 @@ class AdminService extends Service
         $endDate = Carbon::now()->subWeek()->endOfWeek();
 
         $getInstructorsLastWeek = User::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
-            ->where("account_type", "professor")
+            ->where("account_type", "instructor")
             ->whereBetween('created_at', [$startDate, $endDate])
             ->groupBy(DB::raw('DATE(users.created_at)'))
             ->get()
@@ -60,7 +60,7 @@ class AdminService extends Service
 
         $instructors = $instructorQuery->orderBy("id", "DESC")->paginate(20);
 
-        $instructors = ProfessorResource::collection($instructors);
+        $instructors = instructorResource::collection($instructors);
 
         return [
             "total" => $total,
@@ -101,7 +101,7 @@ class AdminService extends Service
 
         $students = $studentQuery->orderBy("id", "DESC")->paginate(20);
 
-        $students = ProfessorResource::collection($students);
+        $students = instructorResource::collection($students);
 
         return [
             "total" => $total,
@@ -142,7 +142,7 @@ class AdminService extends Service
 
         $staff = $staffQuery->orderBy("id", "DESC")->paginate(20);
 
-        $staff = ProfessorResource::collection($staff);
+        $staff = instructorResource::collection($staff);
 
         return [
             "total" => $total,
@@ -282,7 +282,7 @@ class AdminService extends Service
         $endDate = Carbon::now()->endOfMonth();
 
         $getInstructorsLastWeek = User::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
-            ->where("account_type", "professor")
+            ->where("account_type", "instructor")
             ->whereBetween('created_at', [$startDate, $endDate])
             ->groupBy(DB::raw('DATE(users.created_at)'))
             ->get()

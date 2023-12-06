@@ -3,9 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ProfessorSeeder extends Seeder
+class InstructorSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,6 +17,6 @@ class ProfessorSeeder extends Seeder
     {
         User::factory()
             ->count(20)
-            ->create(["account_type" => "professor"]);
+            ->create(["account_type" => "instructor"]);
     }
 }

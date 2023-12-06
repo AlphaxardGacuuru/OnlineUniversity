@@ -31,12 +31,12 @@ class Course extends Model
      * Custom functions
      */
 
-    public function professors()
+    public function instructors()
     {
         return $this->userCourses
             ->map(fn($userCourse) => $userCourse
                     ->user()
-                    ->where("account_type", "professor")
+                    ->where("account_type", "instructor")
                     ->first())
             ->filter(fn($item) => $item)
             ->all();

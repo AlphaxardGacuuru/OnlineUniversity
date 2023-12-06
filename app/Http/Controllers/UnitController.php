@@ -34,15 +34,15 @@ class UnitController extends Controller
             "name" => "required|string",
             "description" => "required|string",
             "code" => "required|string",
-            "professorId" => "nullable|string",
+            "instructorId" => "nullable|string",
             "credits" => "nullable|string",
             "courseId" => "required|string",
         ]);
-		
+
         [$saved, $message, $unit] = $this->service->store($request);
-		
+
         return response([
-			"status" => $saved,
+            "status" => $saved,
             "message" => $message,
             "data" => $unit,
         ], 200);
@@ -63,18 +63,18 @@ class UnitController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-	 * @param  \App\Models\Unit  $unit
-	 * @return \Illuminate\Http\Response
+     * @param  \App\Models\Unit  $unit
+     * @return \Illuminate\Http\Response
      */
-	public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
-		$this->validate($request, [
-			"name" => "nullable|string",
+        $this->validate($request, [
+            "name" => "nullable|string",
             "description" => "nullable|string",
             "code" => "nullable|string",
-            "professorId" => "nullable|string",
+            "instructorId" => "nullable|string",
             "credits" => "nullable|string",
-			"courseId" => "nullable|string",
+            "courseId" => "nullable|string",
         ]);
 
         [$saved, $message, $unit] = $this->service->update($request, $id);

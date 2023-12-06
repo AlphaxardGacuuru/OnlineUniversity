@@ -31,12 +31,13 @@ const InstructorMenu = (props) => {
 	useEffect(() => {
 		var isInInstructorPage =
 			location.pathname.match("/instructor") &&
+			!location.pathname.match("/admin/instructor") &&
 			!location.pathname.match("/instructor/login") &&
 			!location.pathname.match("/instructor/register")
 
 		// Handle Redirects for Instructor
 		if (isInInstructorPage) {
-			if (props.auth.accountType != "professor") {
+			if (props.auth.accountType != "instructor") {
 				setTimeout(() => router.push("/instructor/login"), 2000)
 			}
 		}
@@ -64,6 +65,7 @@ const InstructorMenu = (props) => {
 	// Show Instructor Nav based on Location
 	const showInstructorNav =
 		location.pathname.match("/instructor") &&
+		!location.pathname.match("/admin/instructor") &&
 		!location.pathname.match("/instructor/login") &&
 		!location.pathname.match("/instructor/register")
 			? "d-block"

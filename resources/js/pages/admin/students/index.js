@@ -12,7 +12,7 @@ const index = (props) => {
 	const [faculties, setFaculties] = useState([])
 	const [departments, setDepartments] = useState([])
 	const [loading, setLoading] = useState()
-	
+
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
 	const [facultyQuery, setFacultyQuery] = useState("")
@@ -167,7 +167,7 @@ const index = (props) => {
 								<th className="text-end">
 									<MyLink
 										linkTo="/admin/students/create"
-										text="create"
+										text="add student"
 									/>
 								</th>
 							</tr>
@@ -192,23 +192,23 @@ const index = (props) => {
 
 									return name.match(query)
 								})
-								.filter((professor) => {
+								.filter((instructor) => {
 									if (genderQuery) {
-										return professor.gender == genderQuery
+										return instructor.gender == genderQuery
 									} else {
 										return true
 									}
 								})
-								.filter((professor) => {
+								.filter((instructor) => {
 									if (facultyQuery) {
-										return professor.facultyId == facultyQuery
+										return instructor.facultyId == facultyQuery
 									} else {
 										return true
 									}
 								})
-								.filter((professor) => {
+								.filter((instructor) => {
 									if (departmentQuery) {
-										return professor.departmentId == departmentQuery
+										return instructor.departmentId == departmentQuery
 									} else {
 										return true
 									}

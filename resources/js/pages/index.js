@@ -3,7 +3,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom"
 
 import Img from "@/components/Core/Img"
 
-const index = () => {
+const index = (props) => {
 	return (
 		<div>
 			{/* <!-- Hero section --> */}

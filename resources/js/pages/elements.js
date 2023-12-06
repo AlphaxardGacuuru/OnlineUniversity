@@ -2,7 +2,7 @@ import React from "react"
 
 import Img from "@/components/Core/Img"
 
-const elements = () => {
+const elements = (props) => {
 	return (
 		<div>
 			{/* Page Preloder */}

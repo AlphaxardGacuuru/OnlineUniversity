@@ -74,7 +74,7 @@ const index = (props) => {
 								<th className="text-end">
 									<MyLink
 										linkTo="/admin/faculties/create"
-										text="create"
+										text="add faculty"
 									/>
 								</th>
 							</tr>

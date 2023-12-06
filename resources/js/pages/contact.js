@@ -1,6 +1,7 @@
 import React from "react"
+import { Link } from "react-router-dom/cjs/react-router-dom.min"
 
-const contact = () => {
+const contact = (props) => {
 	return (
 		<div>
 			{/* Page Preloder */}
@@ -146,11 +147,11 @@ const contact = () => {
 						</p>
 					</div>
 					<div className="text-center pt-5">
-						<a
-							href="#"
+						<Link
+							to="/login"
 							className="site-btn">
 							Register Now
-						</a>
+						</Link>
 					</div>
 				</div>
 			</section>
