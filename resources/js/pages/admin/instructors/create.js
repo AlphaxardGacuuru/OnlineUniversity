@@ -4,6 +4,8 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 
+import Countries from "@/components/Core/Countries"
+
 const create = (props) => {
 	var history = useHistory()
 
@@ -30,7 +32,7 @@ const create = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({
-			name: "Create Instructor",
+			name: "Add Instructor",
 			path: ["instructors", "create"],
 		})
 		props.get("faculties", setFaculties)
@@ -114,23 +116,37 @@ const create = (props) => {
 							<option value="female">Female</option>
 						</select>
 
-						<input
+						<select
 							type="text"
 							name="nationality"
-							placeholder="Nationality"
 							className="form-control mb-2 me-2"
 							onChange={(e) => setOriginLocation(e.target.value)}
-							required={true}
-						/>
+							required={true}>
+							<option value="">Nationality</option>
+							{Countries().map((country, key) => (
+								<option
+									key={key}
+									value={country}>
+									{country}
+								</option>
+							))}
+						</select>
 
-						<input
+						<select
 							type="text"
 							name="currentLocation"
-							placeholder="Current Location"
 							className="form-control mb-2 me-2"
 							onChange={(e) => setCurrentLocation(e.target.value)}
-							required={true}
-						/>
+							required={true}>
+							<option value="">Current Country</option>
+							{Countries().map((country, key) => (
+								<option
+									key={key}
+									value={country}>
+									{country}
+								</option>
+							))}
+						</select>
 					</div>
 
 					<div className="col-sm-4">

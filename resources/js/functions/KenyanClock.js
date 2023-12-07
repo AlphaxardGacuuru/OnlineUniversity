@@ -4,6 +4,7 @@ import Btn from "@/components/Core/Btn"
 
 const KenyanClock = (props) => {
 	const [kenyanTime, setKenyanTime] = useState("")
+	const [kenyanTime2, setKenyanTime2] = useState("")
 
 	useEffect(() => {
 		// Function for Kenyann Clock
@@ -15,6 +16,18 @@ const KenyanClock = (props) => {
 
 			const formattedTime = kenyan.toLocaleTimeString("en-KE", {
 				timeZone: "Africa/Nairobi",
+				day: "numeric",
+				weekday: "short",
+				month: "short",
+				year: "numeric",
+				hour: "2-digit",
+				minute: "2-digit",
+				second: "2-digit",
+				hour12: true,
+			})
+
+			const formattedTime2 = kenyan.toLocaleTimeString("en-KE", {
+				timeZone: "Africa/Nairobi",
 				hour: "2-digit",
 				minute: "2-digit",
 				second: "2-digit",
@@ -22,6 +35,7 @@ const KenyanClock = (props) => {
 			})
 
 			setKenyanTime(formattedTime)
+			setKenyanTime2(formattedTime2)
 		}
 
 		// Update the time every second
@@ -32,10 +46,16 @@ const KenyanClock = (props) => {
 	}, [])
 
 	return (
-		<Btn
-			btnClass={props.className}
-			btnText={kenyanTime + " East African Time(EAT) GMT+3"}
-		/>
+		<React.Fragment>
+			<Btn
+				btnClass={`${props.className} fs-6 hidden`}
+				btnText={`Web Uni, ${kenyanTime} (EAT-GMT+3)`}
+			/>
+			<Btn
+				btnClass={`${props.className} fs-6 anti-hidden`}
+				btnText={kenyanTime2}
+			/>
+		</React.Fragment>
 	)
 }
 

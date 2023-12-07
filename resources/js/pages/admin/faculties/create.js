@@ -13,7 +13,7 @@ const create = (props) => {
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Create Faculty", path: ["faculties", "create"] })
+		props.setPage({ name: "Add Faculty", path: ["faculties", "create"] })
 	}, [])
 
 	/*

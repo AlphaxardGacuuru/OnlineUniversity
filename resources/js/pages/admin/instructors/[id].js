@@ -5,6 +5,8 @@ import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 import PlusSVG from "@/svgs/PlusSVG"
 
+import Countries from "@/components/Core/Countries"
+
 const edit = (props) => {
 	var { id } = useParams()
 
@@ -124,23 +126,39 @@ const edit = (props) => {
 							</option>
 						</select>
 
-						<input
+						<select
 							type="text"
 							name="nationality"
-							placeholder={instructor.originLocation}
 							className="form-control mb-2 me-2"
 							onChange={(e) => setOriginLocation(e.target.value)}
-							required={true}
-						/>
+							required={true}>
+							<option value="">Nationality</option>
+							{Countries().map((country, key) => (
+								<option
+									key={key}
+									value={country}
+									selected={instructor.originLocation == country}>
+									{country}
+								</option>
+							))}
+						</select>
 
-						<input
+						<select
 							type="text"
 							name="currentLocation"
-							placeholder={instructor.currentLocation}
 							className="form-control mb-2 me-2"
 							onChange={(e) => setCurrentLocation(e.target.value)}
-							required={true}
-						/>
+							required={true}>
+							<option value="">Current Country</option>
+							{Countries().map((country, key) => (
+								<option
+									key={key}
+									value={country}
+									selected={instructor.currentLocation == country}>
+									{country}
+								</option>
+							))}
+						</select>
 					</div>
 
 					<div className="col-sm-4">

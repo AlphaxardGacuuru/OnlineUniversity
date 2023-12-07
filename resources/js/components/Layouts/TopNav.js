@@ -203,14 +203,14 @@ const TopNav = (props) => {
 												<ul className="dropdown-menu p-0">
 													<li>
 														<Link
-															to="/login"
+															to="/admin/login"
 															className="site-btn btn-dark dropdown-item">
 															ADMIN
 														</Link>
 													</li>
 													<li>
 														<Link
-															to="/login"
+															to="/instructor/login"
 															className="site-btn btn-dark dropdown-item">
 															INSTRUCTOR
 														</Link>

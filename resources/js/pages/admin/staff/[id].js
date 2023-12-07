@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 
+import Countries from "@/components/Core/Countries"
+
 const edit = (props) => {
 	var { id } = useParams()
 
@@ -12,6 +14,8 @@ const edit = (props) => {
 	const [email, setEmail] = useState()
 	const [phone, setPhone] = useState()
 	const [gender, setGender] = useState()
+	const [originLocation, setOriginLocation] = useState()
+	const [currentLocation, setCurrentLocation] = useState()
 	const [loading, setLoading] = useState()
 
 	// Get Faculties and Departments
@@ -21,7 +25,6 @@ const edit = (props) => {
 
 		Axios.get(`/api/staff/${id}`).then((res) => {
 			setStaff(res.data.data)
-			setFacultyId(res.data.data.facultyId.toString())
 		})
 	}, [])
 
@@ -37,6 +40,8 @@ const edit = (props) => {
 			email: email,
 			phone: phone,
 			gender: gender,
+			originLocation: originLocation,
+			currentLocation: currentLocation,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -92,6 +97,40 @@ const edit = (props) => {
 							selected={staff.gender == "female"}>
 							Female
 						</option>
+					</select>
+
+					<select
+						type="text"
+						name="nationality"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setOriginLocation(e.target.value)}
+						required={true}>
+						<option value="">Nationality</option>
+						{Countries().map((country, key) => (
+							<option
+								key={key}
+								value={country}
+								selected={staff.originLocation == country}>
+								{country}
+							</option>
+						))}
+					</select>
+
+					<select
+						type="text"
+						name="currentLocation"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setCurrentLocation(e.target.value)}
+						required={true}>
+						<option value="">Current Country</option>
+						{Countries().map((country, key) => (
+							<option
+								key={key}
+								value={country}
+								selected={staff.currentLocation == country}>
+								{country}
+							</option>
+						))}
 					</select>
 
 					<div className="d-flex justify-content-end mb-2">

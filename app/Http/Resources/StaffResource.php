@@ -17,10 +17,12 @@ class StaffResource extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->name,
+            "avatar" => $this->avatar,
             "email" => $this->email,
             "phone" => $this->phone,
             "gender" => $this->gender,
-            "avatar" => $this->avatar,
+            "originLocation" => $this->origin_location,
+            "currentLocation" => $this->current_location,
             "createdAt" => $this->created_at,
         ];
     }

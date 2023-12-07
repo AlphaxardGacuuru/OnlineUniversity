@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min"
+import {
+	useHistory,
+	useParams,
+} from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
@@ -13,7 +16,7 @@ const create = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Create Department", path: ["departments", "create"] })
+		props.setPage({ name: "Add Department", path: ["departments", "create"] })
 	}, [])
 
 	/*
@@ -25,7 +28,7 @@ const create = (props) => {
 		setLoading(true)
 		Axios.post("/api/departments", {
 			name: name,
-			facultyId: id
+			facultyId: id,
 		})
 			.then((res) => {
 				setLoading(false)

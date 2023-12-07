@@ -127,8 +127,8 @@ const AdminMenu = (props) => {
 											{/* Main Site Link */}
 											<Link
 												to="/"
-												className="btn btn-outline-light rounded-pill text-uppercase mx-3 hidden">
-												visit website
+												className="btn btn-outline-light rounded-pill mx-3 hidden">
+												Visit Website
 											</Link>
 											{/* Main Site Link End */}
 											{/* Kenyan Clock */}

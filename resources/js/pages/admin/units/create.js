@@ -20,7 +20,7 @@ const create = (props) => {
 	// Get Instructors
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Create Unit", path: ["units", "create"] })
+		props.setPage({ name: "Add Unit", path: ["units", "create"] })
 	}, [])
 
 	/*

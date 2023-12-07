@@ -41,6 +41,8 @@ class StaffService extends Service
         $staff->email = $request->input("email");
         $staff->phone = $request->input("phone");
         $staff->gender = $request->input("gender");
+        $staff->current_location = $request->input("currentLocation");
+        $staff->origin_location = $request->input("originLocation");
         $staff->password = Hash::make($request->input("email"));
         $staff->account_type = "staff";
 
@@ -72,6 +74,14 @@ class StaffService extends Service
 
         if ($request->filled("gender")) {
             $staff->gender = $request->input("gender");
+        }
+
+        if ($request->filled("originLocation")) {
+            $staff->origin_location = $request->input("originLocation");
+        }
+
+        if ($request->filled("currentLocation")) {
+            $staff->current_location = $request->input("currentLocation");
         }
 
         if ($request->filled("password")) {
