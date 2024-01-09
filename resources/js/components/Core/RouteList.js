@@ -17,7 +17,7 @@ import AdminDashboard from "@/pages/admin/index"
 
 import AdminInstructors from "@/pages/admin/instructors/index"
 import AdminInstructorCreate from "@/pages/admin/instructors/create"
-import AdminInstructorEdit from "@/pages/admin/instructors/[id]"
+import AdminInstructorEdit from "@/pages/admin/instructors/edit/[id]"
 
 import AdminStudents from "@/pages/admin/students/index"
 import AdminStudentCreate from "@/pages/admin/students/create"
@@ -54,7 +54,7 @@ import InstructorUnits from "@/pages/instructor/units/index"
 import InstructorUnitShow from "@/pages/instructor/units/[id]"
 
 import InstructorMaterialCreate from "@/pages/instructor/materials/create"
-import InstructorMaterialEdit from "@/pages/instructor/materials/[id]"
+import InstructorMaterialEdit from "@/pages/instructor/materials/edit/[id]"
 
 const RouteList = ({ GLOBAL_STATE }) => {
 	const authRoutes = [

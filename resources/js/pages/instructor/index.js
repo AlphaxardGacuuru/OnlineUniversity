@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
-import MyLink from "@/components/Core/MyLink"
+import MyLink2 from "@/components/Core/MyLink2"
 import Img from "@/components/Core/Img"
 
 import UnitSVG from "@/svgs/UnitSVG"
@@ -167,7 +167,7 @@ const index = (props) => {
 												<td>{unit.credits}</td>
 												<td>
 													<div className="d-flex justify-content-end">
-														<MyLink
+														<MyLink2
 															linkTo={`/instructor/units/${unit.id}/show`}
 															text="view"
 															className="btn-sm me-2"

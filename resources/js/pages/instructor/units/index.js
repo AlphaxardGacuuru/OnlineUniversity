@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 
-import Btn from "@/components/Core/Btn"
+import Btn2 from "@/components/Core/Btn2"
 import Img from "@/components/Core/Img"
-import MyLink from "@/components/Core/MyLink"
+import MyLink2 from "@/components/Core/MyLink2"
 
 import PersonSVG from "@/svgs/PersonSVG"
 import UnitSVG from "@/svgs/UnitSVG"
@@ -72,7 +72,7 @@ const index = (props) => {
 							<tr>
 								<th colSpan="5"></th>
 								<th className="text-end">
-									<MyLink
+									<MyLink2
 										linkTo="/admin/units/create"
 										text="add unit"
 									/>
@@ -99,7 +99,7 @@ const index = (props) => {
 											<td>{unit.credits}</td>
 											<td>
 												<div className="d-flex justify-content-end">
-													<MyLink
+													<MyLink2
 														linkTo={`/instructor/units/${unit.id}/show`}
 														text="view"
 														className="btn-sm me-2"

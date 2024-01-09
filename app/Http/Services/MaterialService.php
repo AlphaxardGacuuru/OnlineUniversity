@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Resources\MaterialResource;
 use App\Models\Material;
+use Illuminate\Support\Facades\Storage;
 
 class MaterialService extends Service
 {
@@ -56,6 +57,12 @@ class MaterialService extends Service
         }
 
         if ($request->input("media")) {
+
+            // Get old media and delete it
+            $oldMedia = substr($material->media, 9);
+
+            Storage::disk("public")->delete($oldMedia);
+
             $material->media = $request->input("media");
         }
 

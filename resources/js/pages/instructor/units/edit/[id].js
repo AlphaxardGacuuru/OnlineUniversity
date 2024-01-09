@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
-import Btn from "@/components/Core/Btn"
-import MyLink from "@/components/Core/MyLink"
+import Btn2 from "@/components/Core/Btn2"
+import MyLink2 from "@/components/Core/MyLink2"
 
 const edit = (props) => {
 	var { id } = useParams()
@@ -87,14 +87,14 @@ const edit = (props) => {
 					/>
 
 					<div className="d-flex justify-content-end mb-2">
-						<Btn
+						<Btn2
 							btnText="update"
 							loading={loading}
 						/>
 					</div>
 
 					<center>
-						<MyLink
+						<MyLink2
 							linkTo={`/admin/courses/${unit.courseId}/show`}
 							text="back to course"
 						/>

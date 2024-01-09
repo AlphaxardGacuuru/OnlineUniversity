@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
-import MyLink from "@/components/Core/MyLink"
+import MyLink2 from "@/components/Core/MyLink2"
 import Img from "@/components/Core/Img"
 
 import MaterialSVG from "@/svgs/MaterialSVG"
@@ -101,9 +101,9 @@ const show = (props) => {
 								<tr>
 									<th colSpan="3">Materials</th>
 									<th className="text-end">
-										<MyLink
+										<MyLink2
 											linkTo={`/instructor/materials/${id}/create`}
-											text="add unit"
+											text="add material"
 										/>
 									</th>
 								</tr>
@@ -120,13 +120,13 @@ const show = (props) => {
 										<td>{material.description}</td>
 										<td>
 											<div className="d-flex justify-content-end">
-												<MyLink
+												<MyLink2
 													linkTo={`/instructor/materials/${material.id}/download`}
 													text="download"
 													className="btn-sm me-2"
 												/>
 
-												<MyLink
+												<MyLink2
 													linkTo={`/instructor/materials/${material.id}/edit`}
 													text="edit"
 													className="btn-sm"
@@ -320,7 +320,7 @@ const show = (props) => {
 											<td>{student.createdAt}</td>
 											<td>
 												<div className="d-flex justify-content-end">
-													<MyLink
+													<MyLink2
 														linkTo={`/instructor/students/${student.id}/edit`}
 														text="edit"
 														className="btn-sm"

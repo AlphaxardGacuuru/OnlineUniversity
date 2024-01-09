@@ -7,6 +7,7 @@ use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\FilePondController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UnitController;
@@ -36,6 +37,7 @@ Route::apiResources([
     "departments" => DepartmentController::class,
     "faculties" => FacultyController::class,
     "instructors" => InstructorController::class,
+	"resources" => ResourceController::class,
     "staff" => StaffController::class,
     "students" => StudentController::class,
     "units" => UnitController::class,
@@ -55,5 +57,9 @@ Route::prefix('filepond')->group(function () {
     Route::controller(FilePondController::class)->group(function () {
         // User
         Route::post('avatar/{id}', 'updateAvatar');
+
+		// Material
+		Route::post("materials", "storeMaterial");
+		Route::delete("materials/{id}", "destoryMaterial");
     });
 });

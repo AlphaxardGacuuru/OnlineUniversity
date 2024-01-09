@@ -4,8 +4,8 @@ import {
 	useParams,
 } from "react-router-dom/cjs/react-router-dom.min"
 
-import Btn from "@/components/Core/Btn"
-import MyLink from "@/components/Core/MyLink"
+import Btn2 from "@/components/Core/Btn2"
+import MyLink2 from "@/components/Core/MyLink2"
 
 const create = (props) => {
 	var { id } = useParams()
@@ -92,14 +92,14 @@ const create = (props) => {
 					/>
 
 					<div className="d-flex justify-content-end mb-2">
-						<Btn
+						<Btn2
 							btnText="add unit"
 							loading={loading}
 						/>
 					</div>
 
 					<div className="d-flex justify-content-center">
-						<MyLink
+						<MyLink2
 							linkTo={`/admin/courses/${id}/show`}
 							text="back to course"
 						/>

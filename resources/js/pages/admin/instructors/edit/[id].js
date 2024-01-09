@@ -130,8 +130,7 @@ const edit = (props) => {
 							type="text"
 							name="nationality"
 							className="form-control mb-2 me-2"
-							onChange={(e) => setOriginLocation(e.target.value)}
-							required={true}>
+							onChange={(e) => setOriginLocation(e.target.value)}>
 							<option value="">Nationality</option>
 							{Countries().map((country, key) => (
 								<option
@@ -147,8 +146,7 @@ const edit = (props) => {
 							type="text"
 							name="currentLocation"
 							className="form-control mb-2 me-2"
-							onChange={(e) => setCurrentLocation(e.target.value)}
-							required={true}>
+							onChange={(e) => setCurrentLocation(e.target.value)}>
 							<option value="">Current Country</option>
 							{Countries().map((country, key) => (
 								<option
@@ -181,8 +179,7 @@ const edit = (props) => {
 						<select
 							name="facultyId"
 							className="form-control mb-3 me-2"
-							onChange={(e) => setFacultyId(e.target.value)}
-							required={true}>
+							onChange={(e) => setFacultyId(e.target.value)}>
 							<option value="remove">Select Faculty</option>
 							{faculties.map((faculty, key) => (
 								<option
@@ -197,8 +194,7 @@ const edit = (props) => {
 						<select
 							name="departmentId"
 							className="form-control mb-3 me-2"
-							onChange={(e) => setDepartmentId(e.target.value)}
-							required={true}>
+							onChange={(e) => setDepartmentId(e.target.value)}>
 							<option value="remove">Select Department</option>
 							{departments
 								.filter((department) => department.facultyId == facultyId)

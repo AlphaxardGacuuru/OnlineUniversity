@@ -4,8 +4,8 @@ import {
 	useParams,
 } from "react-router-dom/cjs/react-router-dom.min"
 
-import Btn from "@/components/Core/Btn"
-import MyLink from "@/components/Core/MyLink"
+import Btn2 from "@/components/Core/Btn2"
+import MyLink2 from "@/components/Core/MyLink2"
 
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond"
@@ -40,7 +40,7 @@ const create = (props) => {
 	const [name, setName] = useState()
 	const [description, setDescription] = useState()
 	const [type, setType] = useState()
-	const [media, setMedia] = useState("media")
+	const [media, setMedia] = useState("")
 	const [loading, setLoading] = useState()
 
 	// Get Faculties and Departments
@@ -48,6 +48,22 @@ const create = (props) => {
 		// Set page
 		props.setPage({ name: "Add Material", path: ["materials", "create"] })
 	}, [])
+
+	/*
+	* Set Filepond Type
+	*/
+	var filepondType = () => {
+		switch (type) {
+			case "image":
+				return ["image/*"]
+
+			case "video":
+				return ["video/*"]
+
+			default:
+				return ["application/pdf", ".docx", ".pptx"]
+		}
+	}
 
 	/*
 	 * Submit Form
@@ -112,21 +128,21 @@ const create = (props) => {
 
 					<div className="card shadow-sm p-2">
 						<FilePond
-							name="filepond-thumbnail"
+							name="filepond-material"
 							labelIdle='Drag & Drop your Image or <span class="filepond--label-action text-dark"> Browse </span>'
 							imageCropAspectRatio="16:9"
-							// acceptedFileTypes={["*"]}
+							acceptedFileTypes={filepondType()}
 							// stylePanelAspectRatio="16:9"
 							allowRevert={true}
 							server={{
-								url: `${props.url}/api/filepond`,
+								url: `/api/filepond`,
 								process: {
-									url: "/materials",
+									url: `/materials`,
 									onload: (res) => setMedia(res),
 									onerror: (err) => console.log(err.response.data),
 								},
 								revert: {
-									url: `/materials/${media.substr(17)}`,
+									url: `/materials/${media.substr(10)}`,
 									onload: (res) => props.setMessages([res]),
 								},
 							}}
@@ -135,15 +151,15 @@ const create = (props) => {
 					<br />
 					<br />
 
-					<div className="d-flex justify-content-end">
-						<Btn
+					<div className="d-flex justify-content-end mb-2">
+						<Btn2
 							btnText="add materials"
 							loading={loading}
 						/>
 					</div>
 
 					<div className="d-flex justify-content-center">
-						<MyLink
+						<MyLink2
 							linkTo={`/instructor/units/${id}/show`}
 							text="back to unit"
 						/>
