@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Services\Admin\FacultyService;
+use App\Http\Services\FacultyService;
 use Illuminate\Http\Request;
 
 class FacultyController extends Controller

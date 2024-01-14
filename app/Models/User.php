@@ -123,10 +123,10 @@ class User extends Authenticatable
         return $this->userCourses()
             ->get()
             ->map(function ($userCourse) {
-				$course = $userCourse->course;
-				$course->units = $userCourse->course->units;
-				return $course;
-			});
+                $course = $userCourse->course;
+                $course->units = $userCourse->course->units;
+                return $course;
+            });
     }
 
     public function course()
@@ -135,6 +135,14 @@ class User extends Authenticatable
             ->get()
             ->map(fn($userCourse) => $userCourse->course)
             ->first();
+    }
+
+    public function units()
+    {
+        return $this->userUnits()
+            ->orderBy("id", "DESC")
+            ->get()
+            ->map(fn($userUnit) => $userUnit->unit);
     }
 
     public function unit()

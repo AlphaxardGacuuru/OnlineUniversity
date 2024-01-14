@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Services\Admin\InstructorService;
+use App\Http\Services\InstructorService;
 use App\Models\Instructor;
 use Illuminate\Http\Request;
 
@@ -18,9 +18,9 @@ class InstructorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->service->index();
+        return $this->service->index($request);
     }
 
     /**

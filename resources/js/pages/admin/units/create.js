@@ -6,22 +6,43 @@ import {
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
+import CloseSVG from "@/svgs/CloseSVG"
 
 const create = (props) => {
 	var { id } = useParams()
 	var history = useHistory()
 
 	const [name, setName] = useState()
+	const [instructors, setInstructors] = useState([])
+
 	const [code, setCode] = useState()
 	const [description, setDescription] = useState()
 	const [credits, setCredits] = useState()
+	const [instructorIds, setInstructorIds] = useState([])
 	const [loading, setLoading] = useState()
 
 	// Get Instructors
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Add Unit", path: ["units", "create"] })
+		// Fetch Instructors
+		props.get(`instructors?idAndName=true&courseId=${id}`, setInstructors)
 	}, [])
+
+	/*
+	 * Handle Instructor selects
+	 */
+	const handleInstructorIds = (id) => {
+		if (id) {
+			var exists = instructorIds.includes(id)
+
+			var newInstructorIds = exists
+				? instructorIds.filter((item) => item != id)
+				: [...instructorIds, id]
+
+			setInstructorIds(newInstructorIds)
+		}
+	}
 
 	/*
 	 * Submit Form
@@ -34,8 +55,9 @@ const create = (props) => {
 			name: name,
 			code: code,
 			description: description,
-			courseId: id,
 			credits: credits,
+			instructorIds: instructorIds,
+			courseId: id,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -91,9 +113,77 @@ const create = (props) => {
 						required={true}
 					/>
 
+					<div className="d-flex">
+						<select
+							name="instructorId"
+							className="form-control mb-3 me-2"
+							onChange={(e) =>
+								handleInstructorIds(Number.parseInt(e.target.value))
+							}
+							disabled={instructorIds.length > 0}>
+							<option value="">Select Instructor</option>
+							{instructors.map((instructor, key) => (
+								<option
+									key={key}
+									value={instructor.id}
+									className="text-primary">
+									{instructor.name}
+								</option>
+							))}
+						</select>
+						{/* Close Icon */}
+						<span
+							className="text-primary"
+							style={{ cursor: "pointer" }}
+							onClick={() => setInstructorIds(instructorIds.slice(0, 0))}>
+							<CloseSVG />
+						</span>
+						{/* Close Icon End */}
+					</div>
+
+					{instructorIds.map((input, key) => (
+						<div
+							className="d-flex"
+							key={key}>
+							<select
+								name="instructorId"
+								className="form-control mb-3 me-2"
+								onChange={(e) =>
+									handleInstructorIds(Number.parseInt(e.target.value))
+								}
+								disabled={instructorIds.length > key + 1}>
+								<option value="">Select Instructor</option>
+								{instructors.map((instructor, key) => (
+									<option
+										key={key}
+										value={
+											!instructorIds.includes(instructor.id) && instructor.id
+										}
+										className={
+											instructorIds.includes(instructor.id)
+												? "text-secondary"
+												: "text-primary"
+										}>
+										{instructor.name}
+									</option>
+								))}
+							</select>
+							{/* Close Icon */}
+							<span
+								className={key == instructorIds.length - 1 ? "invisible" : "text-primary"}
+								style={{ cursor: "pointer" }}
+								onClick={() =>
+									setInstructorIds(instructorIds.slice(0, key - 1))
+								}>
+								<CloseSVG />
+							</span>
+							{/* Close Icon End */}
+						</div>
+					))}
+
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							btnText="add units"
+							btnText="add unit"
 							loading={loading}
 						/>
 					</div>

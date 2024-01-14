@@ -20,7 +20,7 @@ class ResourceController extends Controller
      */
     public function index()
     {
-        //
+        return $this->service->index();
     }
 
     /**
@@ -31,7 +31,18 @@ class ResourceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+			"name" => "required|string",
+			"link" => "required|string",
+		]);
+
+		[$saved, $message, $resource] = $this->service->store($request);
+
+		return response([
+			"status" => $saved,
+			"message" => $message,
+			"data" => $resource
+		], 200);
     }
 
     /**
@@ -40,9 +51,9 @@ class ResourceController extends Controller
      * @param  \App\Models\Resource  $resource
      * @return \Illuminate\Http\Response
      */
-    public function show(Resource $resource)
+    public function show($id)
     {
-        //
+        return $this->service->show($id);
     }
 
     /**
@@ -52,9 +63,20 @@ class ResourceController extends Controller
      * @param  \App\Models\Resource  $resource
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Resource $resource)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+			"name" => "nullable|string",
+			"link" => "nullable|string",
+		]);
+
+		[$saved, $message, $resource] = $this->service->update($request, $id);
+
+		return response([
+			"status" => $saved,
+			"message" => $message,
+			"data" => $resource
+		], 200);
     }
 
     /**
@@ -63,8 +85,14 @@ class ResourceController extends Controller
      * @param  \App\Models\Resource  $resource
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Resource $resource)
+    public function destroy($id)
     {
-        //
+        [$deleted, $message, $resource] = $this->service->destory($id); 
+
+		return response([
+			"status" => $deleted,
+			"message" => $message,
+			"data" => $resource
+		], 200);
     }
 }

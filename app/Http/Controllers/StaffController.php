@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Services\Admin\StaffService;
+use App\Http\Services\StaffService;
 use Illuminate\Http\Request;
 
 class StaffController extends Controller

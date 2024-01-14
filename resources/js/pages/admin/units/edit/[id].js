@@ -3,23 +3,55 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
+import CloseSVG from "@/svgs/CloseSVG"
 
 const edit = (props) => {
 	var { id } = useParams()
 
 	const [unit, setUnit] = useState({})
+	const [instructors, setInstructors] = useState([])
+
 	const [name, setName] = useState()
 	const [code, setCode] = useState()
 	const [description, setDescription] = useState()
 	const [credits, setCredits] = useState()
+	const [instructorIds, setInstructorIds] = useState([])
 	const [loading, setLoading] = useState()
 
-	// Get Units and Departments
+	// Get Units
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Edit Unit", path: ["units", "edit"] })
-		props.get(`units/${id}`, setUnit)
+		// Fetch Unit
+		Axios.get(`/api/units/${id}`).then((res) => {
+			var unit = res.data.data
+
+			setUnit(unit)
+			setInstructorIds(unit.instructors.map((instructor) => instructor.id))
+
+			// Fetch Instructors
+			props.get(
+				`instructors?idAndName=true&courseId=${unit.courseId}`,
+				setInstructors
+			)
+		})
 	}, [])
+
+	/*
+	 * Handle Instructor selects
+	 */
+	const handleInstructorIds = (id) => {
+		if (id) {
+			var exists = instructorIds.includes(id)
+
+			var newInstructorIds = exists
+				? instructorIds.filter((item) => item != id)
+				: [...instructorIds, id]
+
+			setInstructorIds(newInstructorIds)
+		}
+	}
+	console.log(instructorIds)
 
 	/*
 	 * Submit Form
@@ -33,6 +65,7 @@ const edit = (props) => {
 			code: code,
 			description: description,
 			credits: credits,
+			instructorIds: instructorIds,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -83,6 +116,80 @@ const edit = (props) => {
 						className="form-control mb-2 me-2"
 						onChange={(e) => setCredits(e.target.value)}
 					/>
+
+					<div className="d-flex">
+						<select
+							name="instructorId"
+							className="form-control mb-3 me-2"
+							onChange={(e) =>
+								handleInstructorIds(Number.parseInt(e.target.value))
+							}
+							disabled={instructorIds.length > 0}>
+							<option value="">Select Instructor</option>
+							{instructors.map((instructor, key) => (
+								<option
+									key={key}
+									value={instructor.id}
+									className="text-primary"
+									selected={instructor.id == instructorIds[0]}>
+									{instructor.name}
+								</option>
+							))}
+						</select>
+						{/* Close Icon */}
+						<span
+							className="text-primary"
+							style={{ cursor: "pointer" }}
+							onClick={() => setInstructorIds(instructorIds.slice(0, 0))}>
+							<CloseSVG />
+						</span>
+						{/* Close Icon End */}
+					</div>
+
+					{instructorIds.map((input, key1) => (
+						<div
+							className="d-flex"
+							key={key1}>
+							<select
+								name="instructorId"
+								className="form-control mb-3 me-2"
+								onChange={(e) =>
+									handleInstructorIds(Number.parseInt(e.target.value))
+								}
+								disabled={instructorIds.length > key1 + 1}>
+								<option value="">Select Instructor</option>
+								{instructors.map((instructor, key2) => (
+									<option
+										key={key2}
+										value={
+											!instructorIds.includes(instructor.id) && instructor.id
+										}
+										className={
+											instructorIds.includes(instructor.id)
+												? "text-secondary"
+												: "text-primary"
+										}
+										selected={instructor.id == instructorIds[key1 + 1]}>
+										{instructor.name}
+									</option>
+								))}
+							</select>
+							{/* Close Icon */}
+							<span
+								className={
+									key1 == instructorIds.length - 1
+										? "invisible text-primary"
+										: "text-primary"
+								}
+								style={{ cursor: "pointer" }}
+								onClick={() =>
+									setInstructorIds(instructorIds.slice(0, key1 - 1))
+								}>
+								<CloseSVG />
+							</span>
+							{/* Close Icon End */}
+						</div>
+					))}
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn

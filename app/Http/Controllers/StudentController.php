@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Services\Admin\StudentService;
+use App\Http\Services\StudentService;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller

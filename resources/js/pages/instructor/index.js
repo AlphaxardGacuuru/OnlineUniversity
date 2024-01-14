@@ -42,7 +42,7 @@ const index = (props) => {
 					<h6>{props.auth.email}</h6>
 					<h6>{props.auth.phone}</h6>
 					<h6>{props.auth.gender}</h6>
-					<h6 className="text-capitalize">{props.auth.accountType}</h6>
+					{/* <h6 className="text-capitalize">{props.auth.accountType}</h6> */}
 				</div>
 			</div>
 			<div className="col-sm-8">
@@ -149,34 +149,32 @@ const index = (props) => {
 						<table className="table table-hover">
 							<thead>
 								<tr>
-									<td>#</td>
-									<td>Name</td>
-									<td>Description</td>
-									<td>Instructor</td>
-									<td>Credits</td>
-									<td>Action</td>
+									<th>#</th>
+									<th>Name</th>
+									<th>Description</th>
+									<th>Instructor</th>
+									<th>Credits</th>
+									<th>Action</th>
 								</tr>
-								{props.auth.courses?.map((course, key) => (
-									<React.Fragment key={key}>
-										{course.units.map((unit, key) => (
-											<tr key={key}>
-												<td>{key + 1}</td>
-												<td>{unit.name}</td>
-												<td>{unit.description}</td>
-												<td>{unit.instructorName}</td>
-												<td>{unit.credits}</td>
-												<td>
-													<div className="d-flex justify-content-end">
-														<MyLink2
-															linkTo={`/instructor/units/${unit.id}/show`}
-															text="view"
-															className="btn-sm me-2"
-														/>
-													</div>
-												</td>
-											</tr>
-										))}
-									</React.Fragment>
+								{props.auth.units?.map((unit, key) => (
+									<tr
+										key={key}
+										className={key == 0 ? "table-danger" : ""}>
+										<td>{key + 1}</td>
+										<td>{unit.name}</td>
+										<td>{unit.description}</td>
+										<td>{unit.instructorName}</td>
+										<td>{unit.credits}</td>
+										<td>
+											<div className="d-flex justify-content-end">
+												<MyLink2
+													linkTo={`/instructor/units/${unit.id}/show`}
+													text="view"
+													className="btn-sm me-2"
+												/>
+											</div>
+										</td>
+									</tr>
 								))}
 							</thead>
 						</table>

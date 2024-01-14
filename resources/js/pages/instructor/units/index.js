@@ -10,38 +10,12 @@ import UnitSVG from "@/svgs/UnitSVG"
 const index = (props) => {
 	// Get Units
 	const [units, setUnits] = useState([])
-	const [loading, setLoading] = useState()
-	const [nameQuery, setNameQuery] = useState("")
-	const [genderQuery, setGenderQuery] = useState("")
-	const [dateQuery, setDateQuery] = useState("")
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Units", path: ["units"] })
-		props.get("units", setUnits)
+		props.get(`units/by-user-id/${props.auth.id}`, setUnits)
 	}, [])
-
-	/*
-	 * Delete
-	 */
-	const onDelete = (unitId) => {
-		// Toggle loader
-		setLoading(true)
-
-		Axios.delete(`/api/units/${unitId}`)
-			.then((res) => {
-				props.setMessages([res.data.message])
-				// Toggle loader
-				setLoading(true)
-				// Delete rows
-				setUnits(units.filter((unit) => unit.id != unitId))
-			})
-			.catch((err) => {
-				// Toggle loader
-				setLoading(true)
-				props.getErrors(err)
-			})
-	}
 
 	return (
 		<div className="row">

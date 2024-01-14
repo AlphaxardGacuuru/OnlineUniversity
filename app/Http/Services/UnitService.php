@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services\Admin;
+namespace App\Http\Services;
 
 use App\Http\Resources\UnitResource;
 use App\Http\Services\Service;
@@ -53,11 +53,13 @@ class UnitService extends Service
 
         $saved = $unit->save();
 
-        if ($request->filled("instructorId")) {
-            $userUnit = new UserUnit;
-            $userUnit->user_id = $request->input("instructorId");
-            $userUnit->unit_id = $unit->id;
-            $userUnit->save();
+        if ($request->filled("instructorIds")) {
+            foreach ($request->instructorIds as $instructorId) {
+                $userUnit = new UserUnit;
+                $userUnit->user_id = $instructorId;
+                $userUnit->unit_id = $unit->id;
+                $userUnit->save();
+            }
         }
 
         $message = $unit->name . " created successfully";
@@ -84,16 +86,33 @@ class UnitService extends Service
             $unit->description = $request->input("description");
         }
 
-        if ($request->filled("instructorId")) {
-            $unit->user_id = $request->input("instructorId");
-        }
-
         if ($request->filled("credits")) {
             $unit->credits = $request->input("credits");
         }
 
-        if ($request->filled("courseId")) {
-            $unit->course_id = $request->input("courseId");
+        if (count($request->instructorIds) > 0) {
+            foreach ($request->instructorIds as $instructorId) {
+                // Check if instructor already exists
+                $userUnitDoesntExist = UserUnit::where("unit_id", $unit->id)
+                    ->where("user_id", $instructorId)
+                    ->doesntExist();
+
+                if ($userUnitDoesntExist) {
+                    $userUnit = new UserUnit;
+                    $userUnit->user_id = $instructorId;
+                    $userUnit->unit_id = $unit->id;
+                    $userUnit->save();
+                } else {
+                    // Remove instructors not included
+                    UserUnit::where("unit_id", $unit->id)
+                        ->whereNotIn("user_id", $request->instructorIds)
+                        ->delete();
+                }
+            }
+        } else {
+            // Remove instructors not included
+            UserUnit::where("unit_id", $unit->id)
+                ->delete();
         }
 
         $saved = $unit->save();
@@ -115,5 +134,13 @@ class UnitService extends Service
         $message = $unit->name . " deleted successfully";
 
         return [$deleted, $message, $unit];
+    }
+
+    /*
+     * By User ID
+     */
+    public function byUserId($id)
+    {
+
     }
 }

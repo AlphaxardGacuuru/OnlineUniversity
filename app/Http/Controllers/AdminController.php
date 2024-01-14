@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Services\Admin\AdminService;
+use App\Http\Services\AdminService;
 
 class AdminController extends Controller
 {

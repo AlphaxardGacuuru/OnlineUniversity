@@ -65,14 +65,14 @@ const edit = (props) => {
 			facultyId: facultyId,
 			departmentId: departmentId,
 			courseId: courseId,
-			unitId: unitId,
+			// unitId: unitId,
 		})
 			.then((res) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
 				// Reload page
-				window.location.reload()
+				// window.location.reload()
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -225,7 +225,7 @@ const edit = (props) => {
 								))}
 						</select>
 
-						<select
+						{/* <select
 							name="unitId"
 							className="form-control mb-3 me-2"
 							onChange={(e) => setUnitId(e.target.value)}>
@@ -240,7 +240,7 @@ const edit = (props) => {
 										{unit.code}
 									</option>
 								))}
-						</select>
+						</select> */}
 					</div>
 					<div className="col-sm-2"></div>
 				</div>

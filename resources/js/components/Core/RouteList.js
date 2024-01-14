@@ -56,6 +56,10 @@ import InstructorUnitShow from "@/pages/instructor/units/[id]"
 import InstructorMaterialCreate from "@/pages/instructor/materials/create"
 import InstructorMaterialEdit from "@/pages/instructor/materials/edit/[id]"
 
+import InstructorResources from "@/pages/instructor/resources/index"
+import InstructorResourceCreate from "@/pages/instructor/resources/create"
+import InstructorResourceEdit from "@/pages/instructor/resources/edit/[id]"
+
 const RouteList = ({ GLOBAL_STATE }) => {
 	const authRoutes = [
 		{
@@ -219,6 +223,18 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/instructor/materials/:id/edit",
 			component: <InstructorMaterialEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/instructor/resources",
+			component: <InstructorResources {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/instructor/resources/create",
+			component: <InstructorResourceCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/instructor/resources/:id/edit",
+			component: <InstructorResourceEdit {...GLOBAL_STATE} />,
 		},
 	]
 

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\FacultyController;
@@ -44,6 +44,9 @@ Route::apiResources([
     "users" => UserController::class,
     "materials" => MaterialController::class,
 ]);
+
+// Unit Routes
+Route::get("units/by-user-id/{id}", [UnitController::class, "byUserId"]);
 
 /*
 * Admin Dashboard

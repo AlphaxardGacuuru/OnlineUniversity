@@ -212,7 +212,7 @@ const create = (props) => {
 								))}
 						</select>
 
-						<select
+						{/* <select
 							name="unitId"
 							className="form-control mb-3 me-2"
 							onChange={(e) => setUnitId(e.target.value)}>
@@ -226,7 +226,7 @@ const create = (props) => {
 										{unit.code}
 									</option>
 								))}
-						</select>
+						</select> */}
 						<div className="col-sm-4"></div>
 					</div>
 				</div>

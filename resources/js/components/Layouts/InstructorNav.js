@@ -20,6 +20,8 @@ import StudentSVG from "@/svgs/StudentSVG"
 import ChevronRightSVG from "@/svgs/ChevronRightSVG"
 import UnitSVG from "@/svgs/UnitSVG"
 import KenyanClock from "@/functions/KenyanClock"
+import ResourceSVG from "@/svgs/ResourceSVG"
+import LinkSVG from "@/svgs/LinkSVG"
 
 const InstructorMenu = (props) => {
 	const location = useLocation()
@@ -275,6 +277,87 @@ const InstructorMenu = (props) => {
 									</Link>
 								</li>
 								{/* My Units Link End */}
+								{/* Resources Link */}
+								<li className="nav-item">
+									<Link
+										to={`/instructor/resources`}
+										className={`nav-link ${active("/instructor/resources")}`}>
+										<div className="nav-link-icon">
+											<ResourceSVG />
+										</div>
+										<div className="nav-link-text">Resources</div>
+									</Link>
+								</li>
+								{/* Resources Link End */}
+								{/* Quick Links */}
+								<li className="nav-item">
+									<a
+										href="#"
+										className={`nav-link accordion-button ${active(
+											"/admin/club/"
+										)}`}
+										data-bs-toggle="collapse"
+										data-bs-target="#collapseLink"
+										aria-expanded="false"
+										aria-controls="collapseLink">
+										<span>
+											<LinkSVG />
+										</span>
+										Links
+									</a>
+
+									{/* Collapse */}
+									<div
+										className="collapse"
+										id="collapseLink">
+										<ol>
+											<li className="nav-item">
+												<Link
+													to="/admin/club"
+													className={`nav-link ${active("/admin/club")}`}>
+													About Us
+												</Link>
+											</li>
+											<li className="nav-item">
+												<Link
+													to="/admin/club"
+													className={`nav-link ${active("/admin/club")}`}>
+													Policies
+												</Link>
+											</li>
+											<li className="nav-item">
+												<Link
+													to="/admin/club"
+													className={`nav-link ${active("/admin/club")}`}>
+													University Catalog
+												</Link>
+											</li>
+											<li className="nav-item">
+												<Link
+													to="/admin/club"
+													className={`nav-link ${active("/admin/club")}`}>
+													Support
+												</Link>
+											</li>
+											<li className="nav-item">
+												<Link
+													to="/admin/club"
+													className={`nav-link ${active("/admin/club")}`}>
+													Student Portal
+												</Link>
+											</li>
+											<li className="nav-item">
+												<Link
+													to="/admin/club"
+													className={`nav-link ${active("/admin/club")}`}>
+													Contact Info
+												</Link>
+											</li>
+										</ol>
+									</div>
+								</li>
+								{/* Collapse End */}
+								{/* Quick Links End */}
 							</ul>
 						</nav>
 					</div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services\Admin;
+namespace App\Http\Services;
 
 use App\Http\Resources\StaffResource;
 use App\Http\Services\Service;

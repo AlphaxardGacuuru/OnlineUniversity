@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services\Admin;
+namespace App\Http\Services;
 
 use App\Http\Resources\InstructorResource;
 use App\Http\Services\Service;
@@ -17,8 +17,22 @@ class InstructorService extends Service
     /*
      * Get All Instructors
      */
-    public function index()
+    public function index($request)
     {
+        if ($request->filled("idAndName")) {
+            $instructors = User::where("account_type", "instructor")
+                ->orderBy("id", "DESC")
+                ->get()
+                ->filter(fn($instructor) => $instructor
+                        ->courses()
+                        ->contains('id', $request->input("courseId")))
+                ->values();
+
+            return response([
+                "data" => $instructors,
+            ], 200);
+        }
+
         $instructors = User::where("account_type", "instructor")
             ->orderBy("id", "DESC")
             ->paginate(20);

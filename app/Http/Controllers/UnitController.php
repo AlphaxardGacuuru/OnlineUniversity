@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Services\Admin\UnitService;
+use App\Http\Services\UnitService;
 use Illuminate\Http\Request;
 
 class UnitController extends Controller
@@ -34,9 +34,9 @@ class UnitController extends Controller
             "name" => "required|string",
             "description" => "required|string",
             "code" => "required|string",
-            "instructorId" => "nullable|string",
             "credits" => "nullable|string",
             "courseId" => "required|string",
+            "instructorIds" => "nullable|array",
         ]);
 
         [$saved, $message, $unit] = $this->service->store($request);
@@ -72,9 +72,9 @@ class UnitController extends Controller
             "name" => "nullable|string",
             "description" => "nullable|string",
             "code" => "nullable|string",
-            "instructorId" => "nullable|string",
             "credits" => "nullable|string",
             "courseId" => "nullable|string",
+            "instructorIds" => "nullable|array",
         ]);
 
         [$saved, $message, $unit] = $this->service->update($request, $id);
@@ -102,4 +102,12 @@ class UnitController extends Controller
             "data" => $unit,
         ], 200);
     }
+
+	/*
+	* By User ID
+	*/ 
+	public function byUserId($id)
+	{
+		return $this->service->byUserId($id);	
+	}
 }

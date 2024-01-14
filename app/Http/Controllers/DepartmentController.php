@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Services\Admin\DepartmentService;
+use App\Http\Services\DepartmentService;
 use App\Models\Department;
 use Illuminate\Http\Request;
 

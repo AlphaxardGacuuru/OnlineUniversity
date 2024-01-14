@@ -50,6 +50,11 @@ const show = (props) => {
 			<div className="col-sm-4">
 				<div className="card shadow mb-2 p-4 text-center">
 					<h4>{unit.name}</h4>
+					<h6>{unit.description}</h6>
+					<h6>{unit.credits}</h6>
+					{unit.instructors?.map((instructor, key) => (
+						<h6 key={key}>{instructor.name}</h6>
+					))}
 				</div>
 			</div>
 			<div className="col-sm-8">
