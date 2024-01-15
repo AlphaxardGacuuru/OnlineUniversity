@@ -10,13 +10,6 @@ import LogoutSVG from "@/svgs/LogoutSVG"
 import DownloadSVG from "@/svgs/DownloadSVG"
 import MenuSVG from "@/svgs/MenuSVG"
 import PersonSVG from "@/svgs/PersonSVG"
-import HomeSVG from "@/svgs/HomeSVG"
-import PeopleSVG from "@/svgs/PeopleSVG"
-import FacultySVG from "@/svgs/FacultySVG"
-import DepartmentSVG from "@/svgs/DepartmentSVG"
-import CourseSVG from "@/svgs/CourseSVG"
-import StaffSVG from "@/svgs/StaffSVG"
-import StudentSVG from "@/svgs/StudentSVG"
 import ChevronRightSVG from "@/svgs/ChevronRightSVG"
 import UnitSVG from "@/svgs/UnitSVG"
 import KenyanClock from "@/functions/KenyanClock"
@@ -33,7 +26,6 @@ const InstructorMenu = (props) => {
 	useEffect(() => {
 		var isInInstructorPage =
 			location.pathname.match("/instructor") &&
-			!location.pathname.match("/admin/instructor") &&
 			!location.pathname.match("/instructor/login") &&
 			!location.pathname.match("/instructor/register")
 
@@ -313,7 +305,7 @@ const InstructorMenu = (props) => {
 										<ol>
 											<li className="nav-item">
 												<Link
-													to="/admin/club"
+													to="/about"
 													className={`nav-link ${active("/admin/club")}`}>
 													About Us
 												</Link>

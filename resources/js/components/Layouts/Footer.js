@@ -35,10 +35,11 @@ const Footer = () => {
 	}
 
 	const hide =
-		location.pathname.match("/login") ||
-		location.pathname.match("/register") ||
+		location.pathname.match("/student") ||
+		location.pathname.match("/instructor") ||
 		location.pathname.match("/admin") ||
-		location.pathname.match("/instructor")
+		location.pathname.match("/register") ||
+		location.pathname.match("/login")
 			? "d-none"
 			: ""
 

@@ -108,7 +108,7 @@ const login = (props) => {
 
 								<div className="d-flex justify-content-between">
 									<Link
-										to="/login"
+										to="/student/login"
 										className="site-btn btn-dark">
 										Back
 									</Link>

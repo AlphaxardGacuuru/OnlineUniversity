@@ -51,6 +51,7 @@ function App() {
 	const [auth, setAuth] = useState(getLocalStorageAuth("auth"))
 	const [adminMenu, setAdminMenu] = useState("left-open")
 	const [instructorMenu, setInstructorMenu] = useState("left-open")
+	const [studentMenu, setStudentMenu] = useState("left-open")
 	const [page, setPage] = useState({ name: "/", path: [] })
 
 	// Function for fetching data from API
@@ -99,6 +100,8 @@ function App() {
 		setAdminMenu,
 		instructorMenu,
 		setInstructorMenu,
+		studentMenu,
+		setStudentMenu,
 		page,
 		setPage,
 	}

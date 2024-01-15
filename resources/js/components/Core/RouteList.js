@@ -1,8 +1,6 @@
 import React from "react"
 import { Route } from "react-router-dom"
 
-import Login from "@/pages/auth/login"
-
 import Index from "@/pages/index"
 import Blog from "@/pages/blog"
 import Contact from "@/pages/contact"
@@ -11,6 +9,7 @@ import Elements from "@/pages/elements"
 
 import AdminNav from "@/components/Layouts/AdminNav"
 import InstructorNav from "@/components/Layouts/InstructorNav"
+import StudentNav from "@/components/Layouts/StudentNav"
 
 import AdminLogin from "@/pages/admin/login"
 import AdminDashboard from "@/pages/admin/index"
@@ -60,11 +59,14 @@ import InstructorResources from "@/pages/instructor/resources/index"
 import InstructorResourceCreate from "@/pages/instructor/resources/create"
 import InstructorResourceEdit from "@/pages/instructor/resources/edit/[id]"
 
+import StudentLogin from "@/pages/student/login"
+import Student from "@/pages/student/index"
+
 const RouteList = ({ GLOBAL_STATE }) => {
 	const authRoutes = [
 		{
-			path: "/login",
-			component: <Login {...GLOBAL_STATE} />,
+			path: "/student/login",
+			component: <StudentLogin {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/login",
@@ -238,6 +240,13 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		},
 	]
 
+	const studentRoutes = [
+		{
+			path: "/student",
+			component: <Student {...GLOBAL_STATE} />,
+		},
+	]
+
 	return (
 		<React.Fragment>
 			{/* Auth Routes */}
@@ -287,6 +296,19 @@ const RouteList = ({ GLOBAL_STATE }) => {
 				))}
 			</InstructorNav>
 			{/* Instructor Routes End */}
+
+			{/* Student Routes */}
+			<StudentNav {...GLOBAL_STATE}>
+				{studentRoutes.map((route, key) => (
+					<Route
+						key={key}
+						path={route.path}
+						exact
+						render={() => route.component}
+					/>
+				))}
+			</StudentNav>
+			{/* Student Routes End */}
 		</React.Fragment>
 	)
 }

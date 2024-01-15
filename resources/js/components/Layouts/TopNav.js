@@ -9,15 +9,6 @@ import CloseSVG from "@/svgs/CloseSVG"
 import LogoutSVG from "@/svgs/LogoutSVG"
 import DownloadSVG from "@/svgs/DownloadSVG"
 import MenuSVG from "@/svgs/MenuSVG"
-import PersonSVG from "@/svgs/PersonSVG"
-import HomeSVG from "@/svgs/HomeSVG"
-import PeopleSVG from "@/svgs/PeopleSVG"
-import FacultySVG from "@/svgs/FacultySVG"
-import DepartmentSVG from "@/svgs/DepartmentSVG"
-import CourseSVG from "@/svgs/CourseSVG"
-import StaffSVG from "@/svgs/StaffSVG"
-import StudentSVG from "@/svgs/StudentSVG"
-import ChevronRightSVG from "@/svgs/ChevronRightSVG"
 
 const TopNav = (props) => {
 	const location = useLocation()
@@ -47,7 +38,7 @@ const TopNav = (props) => {
 
 	// Show Admin Nav based on Location
 	const showTopNav =
-		!location.pathname.match("/login") &&
+		!location.pathname.match("/student") &&
 		!location.pathname.match("/admin") &&
 		!location.pathname.match("/instructor")
 			? "d-block"
@@ -182,7 +173,7 @@ const TopNav = (props) => {
 											{/* Student */}
 											{props.auth.accountType == "student" && (
 												<Link
-													to="/login"
+													to="/student"
 													className="site-btn btn-dark dropdown-item">
 													STUDENT
 												</Link>
@@ -217,7 +208,7 @@ const TopNav = (props) => {
 													</li>
 													<li>
 														<Link
-															to="/login"
+															to="/student/login"
 															className="site-btn btn-dark dropdown-item">
 															STUDENT
 														</Link>

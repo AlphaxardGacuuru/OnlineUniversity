@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink2 from "@/components/Core/MyLink2"
 import Img from "@/components/Core/Img"
@@ -9,8 +8,6 @@ import CourseSVG from "@/svgs/CourseSVG"
 
 const index = (props) => {
 	const [tab, setTab] = useState("courses")
-
-	const [dateQuery, setDateQuery] = useState("")
 
 	useEffect(() => {
 		// Set page
