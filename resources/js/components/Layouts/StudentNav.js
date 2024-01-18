@@ -15,6 +15,7 @@ import UnitSVG from "@/svgs/UnitSVG"
 import KenyanClock from "@/functions/KenyanClock"
 import ResourceSVG from "@/svgs/ResourceSVG"
 import LinkSVG from "@/svgs/LinkSVG"
+import CourseSVG from "@/svgs/CourseSVG"
 
 const StudentMenu = (props) => {
 	const location = useLocation()
@@ -26,7 +27,7 @@ const StudentMenu = (props) => {
 	useEffect(() => {
 		var isInStudentPage =
 			location.pathname.match("/student") &&
-			!location.pathname.match("/admin/student") &&
+			!location.pathname.match("/admin/students") &&
 			!location.pathname.match("/student/login") &&
 			!location.pathname.match("/student/register")
 
@@ -60,6 +61,7 @@ const StudentMenu = (props) => {
 	// Show Student Nav based on Location
 	const showStudentNav =
 		location.pathname.match("/student") &&
+		!location.pathname.match("/admin/students") &&
 		!location.pathname.match("/student/login") &&
 		!location.pathname.match("/student/register")
 			? "d-block"
@@ -257,6 +259,18 @@ const StudentMenu = (props) => {
 									</Link>
 								</li>
 								{/* Profile Link End */}
+								{/* Courses Link */}
+								<li className="nav-item">
+									<Link
+										to={`/student/courses`}
+										className={`nav-link ${active("/student/courses")}`}>
+										<div className="nav-link-icon">
+											<CourseSVG />
+										</div>
+										<div className="nav-link-text">Courses</div>
+									</Link>
+								</li>
+								{/* Courses Link End */}
 								{/* My Units Link */}
 								<li className="nav-item">
 									<Link
@@ -265,7 +279,7 @@ const StudentMenu = (props) => {
 										<div className="nav-link-icon">
 											<UnitSVG />
 										</div>
-										<div className="nav-link-text">My Units</div>
+										<div className="nav-link-text">My Course Units</div>
 									</Link>
 								</li>
 								{/* My Units Link End */}
@@ -292,10 +306,10 @@ const StudentMenu = (props) => {
 										data-bs-target="#collapseLink"
 										aria-expanded="false"
 										aria-controls="collapseLink">
-										<span>
+										<div className="nav-link-icon">
 											<LinkSVG />
-										</span>
-										Links
+										</div>
+										<div className="nav-link-text">Links</div>
 									</a>
 
 									{/* Collapse */}

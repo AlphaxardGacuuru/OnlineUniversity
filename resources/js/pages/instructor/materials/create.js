@@ -39,7 +39,6 @@ const create = (props) => {
 
 	const [name, setName] = useState()
 	const [description, setDescription] = useState()
-	const [type, setType] = useState()
 	const [media, setMedia] = useState("")
 	const [loading, setLoading] = useState()
 
@@ -48,22 +47,6 @@ const create = (props) => {
 		// Set page
 		props.setPage({ name: "Add Material", path: ["materials", "create"] })
 	}, [])
-
-	/*
-	* Set Filepond Type
-	*/
-	var filepondType = () => {
-		switch (type) {
-			case "image":
-				return ["image/*"]
-
-			case "video":
-				return ["video/*"]
-
-			default:
-				return ["application/pdf", ".docx", ".pptx"]
-		}
-	}
 
 	/*
 	 * Submit Form
@@ -75,7 +58,6 @@ const create = (props) => {
 		Axios.post("/api/materials", {
 			name: name,
 			description: description,
-			type: type,
 			media: media,
 			unitId: id,
 		})
@@ -115,24 +97,11 @@ const create = (props) => {
 						required={true}
 					/>
 
-					<select
-						name="type"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setType(e.target.value)}
-						required={true}>
-						<option value="">Select Type</option>
-						<option value="file">File</option>
-						<option value="image">Image</option>
-						<option value="video">Video</option>
-					</select>
-
 					<div className="card shadow-sm p-2">
 						<FilePond
 							name="filepond-material"
 							labelIdle='Drag & Drop your Image or <span class="filepond--label-action text-dark"> Browse </span>'
 							imageCropAspectRatio="16:9"
-							acceptedFileTypes={filepondType()}
-							// stylePanelAspectRatio="16:9"
 							allowRevert={true}
 							server={{
 								url: `/api/filepond`,

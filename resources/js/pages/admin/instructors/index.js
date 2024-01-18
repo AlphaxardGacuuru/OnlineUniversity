@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
+import PaginationLinks from "@/components/Core/PaginationLinks"
 
 import PersonSVG from "@/svgs/PersonSVG"
 
@@ -17,12 +18,11 @@ const index = (props) => {
 	const [genderQuery, setGenderQuery] = useState("")
 	const [facultyQuery, setFacultyQuery] = useState("")
 	const [departmentQuery, setDepartmentQuery] = useState("")
-	const [dateQuery, setDateQuery] = useState("")
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Instructors", path: ["instructors"] })
-		props.get("instructors", setInstructors)
+		props.getPaginated("instructors", setInstructors)
 		props.get("faculties", setFaculties)
 		props.get("departments", setDepartments)
 	}, [])
@@ -41,7 +41,9 @@ const index = (props) => {
 				setLoading(true)
 				// Delete rows
 				setInstructors(
-					instructors.filter((instructor) => instructor.id != instructorId)
+					instructors.data?.filter(
+						(instructor) => instructor.id != instructorId
+					)
 				)
 			})
 			.catch((err) => {
@@ -60,7 +62,7 @@ const index = (props) => {
 						{/* Total */}
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 							<div>
-								<span className="fs-4">{instructors.length}</span>
+								<span className="fs-4">{instructors.meta?.total}</span>
 								<h4>Total Instructors</h4>
 							</div>
 							<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
@@ -162,7 +164,7 @@ const index = (props) => {
 
 				<br />
 
-				<div className="table-responsive">
+				<div className="table-responsive mb-5">
 					<table className="table table-hover">
 						<thead>
 							<tr>
@@ -188,8 +190,8 @@ const index = (props) => {
 							</tr>
 						</thead>
 						<tbody>
-							{instructors
-								.filter((instructor) => {
+							{instructors.data
+								?.filter((instructor) => {
 									var name = instructor.name.toLowerCase()
 									var query = nameQuery.toLowerCase()
 
@@ -218,7 +220,7 @@ const index = (props) => {
 								})
 								.map((instructor, key) => (
 									<tr key={key}>
-										<td>{key + 1}</td>
+										<td>{props.iterator(key, instructors)}</td>
 										<td>
 											<Img
 												src={instructor.avatar}
@@ -303,6 +305,13 @@ const index = (props) => {
 								))}
 						</tbody>
 					</table>
+					{/* Pagination Links */}
+					<PaginationLinks
+						list={instructors}
+						getPaginated={props.getPaginated}
+						setState={setInstructors}
+					/>
+					{/* Pagination Links End */}
 				</div>
 			</div>
 		</div>

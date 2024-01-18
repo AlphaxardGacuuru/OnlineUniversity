@@ -48,6 +48,8 @@ class UnitService extends Service
         $unit->name = $request->input("name");
         $unit->code = $request->input("code");
         $unit->description = $request->input("description");
+        $unit->year = $request->input("year");
+        $unit->semester = $request->input("semester");
         $unit->credits = $request->input("credits");
         $unit->course_id = $request->input("courseId");
 
@@ -84,6 +86,14 @@ class UnitService extends Service
 
         if ($request->filled("description")) {
             $unit->description = $request->input("description");
+        }
+
+        if ($request->filled("year")) {
+            $unit->year = $request->input("year");
+        }
+
+        if ($request->filled("semester")) {
+            $unit->semester = $request->input("semester");
         }
 
         if ($request->filled("credits")) {

@@ -119,7 +119,7 @@ const show = (props) => {
 						<table className="table table-hover">
 							<thead>
 								<tr>
-									<th colSpan="4">Units</th>
+									<th colSpan="7">Units</th>
 									<th className="text-end">
 										<MyLink
 											linkTo={`/admin/units/${id}/create`}
@@ -129,16 +129,22 @@ const show = (props) => {
 								</tr>
 								<tr>
 									<td>#</td>
+									<td>Code</td>
 									<td>Name</td>
 									<td>Description</td>
+									<td>Year</td>
+									<td>Sem</td>
 									<td>Credits</td>
 									<td>Action</td>
 								</tr>
 								{course.units?.map((unit, key) => (
 									<tr key={key}>
 										<td>{key + 1}</td>
+										<td>{unit.code}</td>
 										<td>{unit.name}</td>
 										<td>{unit.description}</td>
+										<td>{unit.year}</td>
+										<td>{unit.semester}</td>
 										<td>{unit.credits}</td>
 										<td>
 											<div className="d-flex justify-content-end">

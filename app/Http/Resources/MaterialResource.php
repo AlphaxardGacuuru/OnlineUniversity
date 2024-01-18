@@ -18,7 +18,6 @@ class MaterialResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "description" => $this->description,
-            "type" => $this->type,
             "unitId" => $this->unit_id,
             "createdAt" => $this->created_at,
         ];

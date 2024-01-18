@@ -65,6 +65,22 @@ function App() {
 			.catch(() => errors && setErrors([`Failed to fetch ${endpoint}`]))
 	}
 
+	// Function for fetching data from API
+	const getPaginated = (endpoint, setState, storage = null, errors = true) => {
+		Axios.get(`/api/${endpoint}`)
+			.then((res) => {
+				var data = res.data ? res.data : []
+				setState(data)
+				storage && setLocalStorage(storage, data)
+			})
+			.catch(() => errors && setErrors([`Failed to fetch ${endpoint}`]))
+	}
+
+	// Function for showing iteration
+	const iterator = (key, list) => {
+		return key + 1 + list.meta.per_page * (list.meta.current_page - 1)
+	}
+
 	// Function for getting errors from responses
 	const getErrors = (err, message = false) => {
 		const resErrors = err.response.data.errors
@@ -91,6 +107,8 @@ function App() {
 		errors,
 		setErrors,
 		get,
+		getPaginated,
+		iterator,
 		getErrors,
 		login,
 		setLogin,

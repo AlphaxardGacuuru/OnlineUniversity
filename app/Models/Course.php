@@ -33,23 +33,21 @@ class Course extends Model
 
     public function instructors()
     {
-        return $this->userCourses
-            ->map(fn($userCourse) => $userCourse
-                    ->user()
+        return $this->userCourses()
+            ->get()
+            ->map(fn($userCourse) => $userCourse->user()
                     ->where("account_type", "instructor")
                     ->first())
-            ->filter(fn($item) => $item)
-            ->all();
+            ->filter();
     }
 
     public function students()
     {
-        return $this->userCourses
-            ->map(fn($userCourse) => $userCourse
-                    ->user()
+        return $this->userCourses()
+            ->get()
+            ->map(fn($userCourse) => $userCourse->user()
                     ->where("account_type", "student")
                     ->first())
-            ->filter(fn($item) => $item)
-            ->all();
+            ->filter();
     }
 }

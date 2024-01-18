@@ -49,7 +49,6 @@ import AdminMaterialEdit from "@/pages/admin/materials/[id]"
 import InstructorLogin from "@/pages/instructor/login"
 import Instructor from "@/pages/instructor/index"
 
-import InstructorUnits from "@/pages/instructor/units/index"
 import InstructorUnitShow from "@/pages/instructor/units/[id]"
 
 import InstructorMaterialCreate from "@/pages/instructor/materials/create"
@@ -61,6 +60,9 @@ import InstructorResourceEdit from "@/pages/instructor/resources/edit/[id]"
 
 import StudentLogin from "@/pages/student/login"
 import Student from "@/pages/student/index"
+
+import StudentCourses from "@/pages/student/courses/index"
+import StudentCourseShow from "@/pages/student/courses/[id]"
 
 const RouteList = ({ GLOBAL_STATE }) => {
 	const authRoutes = [
@@ -211,10 +213,6 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <Instructor {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/instructor/units",
-			component: <InstructorUnits {...GLOBAL_STATE} />,
-		},
-		{
 			path: "/instructor/units/:id/show",
 			component: <InstructorUnitShow {...GLOBAL_STATE} />,
 		},
@@ -244,6 +242,14 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/student",
 			component: <Student {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/student/courses",
+			component: <StudentCourses {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/student/courses/:id/show",
+			component: <StudentCourseShow {...GLOBAL_STATE} />,
 		},
 	]
 

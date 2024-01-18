@@ -14,6 +14,8 @@ const edit = (props) => {
 	const [name, setName] = useState()
 	const [code, setCode] = useState()
 	const [description, setDescription] = useState()
+	const [year, setYear] = useState()
+	const [semester, setSemester] = useState()
 	const [credits, setCredits] = useState()
 	const [instructorIds, setInstructorIds] = useState([])
 	const [loading, setLoading] = useState()
@@ -64,6 +66,8 @@ const edit = (props) => {
 			name: name,
 			code: code,
 			description: description,
+			year: year,
+			semester: semester,
 			credits: credits,
 			instructorIds: instructorIds,
 		})
@@ -108,6 +112,22 @@ const edit = (props) => {
 						placeholder={unit.description}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setDescription(e.target.value)}></textarea>
+
+					<input
+						type="number"
+						name="year"
+						placeholder={unit.year}
+						className="form-control mb-2 me-2"
+						onChange={(e) => setYear(e.target.value)}
+					/>
+
+					<input
+						type="number"
+						name="semester"
+						placeholder={unit.semester}
+						className="form-control mb-2 me-2"
+						onChange={(e) => setSemester(e.target.value)}
+					/>
 
 					<input
 						type="number"

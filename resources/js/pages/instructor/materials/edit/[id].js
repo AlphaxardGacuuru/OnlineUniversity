@@ -36,7 +36,6 @@ const edit = (props) => {
 	const [material, setMaterial] = useState({})
 	const [name, setName] = useState()
 	const [description, setDescription] = useState()
-	const [type, setType] = useState()
 	const [media, setMedia] = useState("media")
 	const [loading, setLoading] = useState()
 
@@ -52,22 +51,6 @@ const edit = (props) => {
 	}, [])
 
 	/*
-	 * Set Filepond Type
-	 */
-	var filepondType = () => {
-		switch (type) {
-			case "image":
-				return ["image/*"]
-
-			case "video":
-				return ["video/*"]
-
-			default:
-				return ["application/pdf", ".docx", ".pptx"]
-		}
-	}
-
-	/*
 	 * Submit Form
 	 */
 	const onSubmit = (e) => {
@@ -77,7 +60,6 @@ const edit = (props) => {
 		Axios.put(`/api/materials/${id}`, {
 			name: name,
 			description: description,
-			type: type,
 			media: media,
 		})
 			.then((res) => {

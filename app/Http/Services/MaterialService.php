@@ -26,7 +26,6 @@ class MaterialService extends Service
         $material = new Material;
         $material->name = $request->input("name");
         $material->description = $request->input("description");
-        $material->type = $request->input("type");
         $material->media = $request->input("media");
         $material->unit_id = $request->input("unitId");
 
@@ -50,10 +49,6 @@ class MaterialService extends Service
 
         if ($request->input("description")) {
             $material->description = $request->input("description");
-        }
-
-        if ($request->input("type")) {
-            $material->type = $request->input("type");
         }
 
         if ($request->input("media")) {
@@ -83,6 +78,11 @@ class MaterialService extends Service
     public function destroy($id)
     {
         $material = Material::findOrFail($id);
+
+        // Delete Media
+        $media = substr($material->media, 8);
+
+        Storage::disk("public")->delete($media);
 
         $deleted = $material->delete();
 

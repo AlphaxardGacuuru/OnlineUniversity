@@ -34,7 +34,6 @@ class MaterialController extends Controller
         $this->validate($request, [
 			"name" => "required|string",
 			"description" => "required|string",
-			"type" => "required|string",
 			"media" => "required|string",
 			"unitId" => "required|string"
 		]);
@@ -71,7 +70,6 @@ class MaterialController extends Controller
         $this->validate($request, [
 			"name" => "nullable|string",
 			"description" => "nullable|string",
-			"type" => "nullable|string",
 			"media" => "nullable|string",
 			"unitId" => "nullable|string"
 		]);

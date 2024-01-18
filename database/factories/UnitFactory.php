@@ -19,7 +19,9 @@ class UnitFactory extends Factory
         return [
             "name" => fake()->catchPhrase(),
             "description" => fake()->realText($maxNbChars = 20, $indexSize = 2),
-			"credits" => rand(0, 9)
+            "credits" => rand(0, 9),
+            "year" => rand(1, 4),
+            "semester" => rand(1, 3),
         ];
     }
 }

@@ -69,7 +69,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Add Alphaxard Account
+     * Add Gacuuru Account
      *
      * @return static
      */
@@ -85,6 +85,26 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'gender' => 'male',
             'account_type' => 'instructor',
+        ]);
+    }
+
+    /**
+     * Add Ciku Account
+     *
+     * @return static
+     */
+    public function ciku()
+    {
+        return $this->state(fn(array $attributes) => [
+            'name' => 'Wanjiku Muhandi',
+            'email' => 'cikumuhandi@gmail.com',
+            'email_verified_at' => now(),
+            'avatar' => 'avatars/male-avatar.png',
+            'phone' => '0721721357',
+            'password' => Hash::make('cikumuhandi@gmail.com'),
+            'remember_token' => Str::random(10),
+            'gender' => 'male',
+            'account_type' => 'student',
         ]);
     }
 }

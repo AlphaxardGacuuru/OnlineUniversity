@@ -52,9 +52,6 @@ const show = (props) => {
 					<h4>{unit.name}</h4>
 					<h6>{unit.description}</h6>
 					<h6>{unit.credits}</h6>
-					{unit.instructors?.map((instructor, key) => (
-						<h6 key={key}>{instructor.name}</h6>
-					))}
 				</div>
 			</div>
 			<div className="col-sm-8">

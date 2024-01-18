@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('code');
             $table->string('description');
+            $table->string('year')->nullable();
+            $table->string('semester')->nullable();
 			$table->decimal('credits', 5, 2)->nullable();
             $table->foreignId('course_id')
                 ->constrained()

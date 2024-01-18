@@ -26,6 +26,7 @@ const InstructorMenu = (props) => {
 	useEffect(() => {
 		var isInInstructorPage =
 			location.pathname.match("/instructor") &&
+			!location.pathname.match("/admin/instructors") &&
 			!location.pathname.match("/instructor/login") &&
 			!location.pathname.match("/instructor/register")
 
@@ -59,7 +60,7 @@ const InstructorMenu = (props) => {
 	// Show Instructor Nav based on Location
 	const showInstructorNav =
 		location.pathname.match("/instructor") &&
-		!location.pathname.match("/admin/instructor") &&
+		!location.pathname.match("/admin/instructors") &&
 		!location.pathname.match("/instructor/login") &&
 		!location.pathname.match("/instructor/register")
 			? "d-block"
@@ -257,18 +258,6 @@ const InstructorMenu = (props) => {
 									</Link>
 								</li>
 								{/* Profile Link End */}
-								{/* My Units Link */}
-								<li className="nav-item">
-									<Link
-										to={`/instructor/units`}
-										className={`nav-link ${active("/instructor/units")}`}>
-										<div className="nav-link-icon">
-											<UnitSVG />
-										</div>
-										<div className="nav-link-text">My Units</div>
-									</Link>
-								</li>
-								{/* My Units Link End */}
 								{/* Resources Link */}
 								<li className="nav-item">
 									<Link
