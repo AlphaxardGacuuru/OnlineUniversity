@@ -127,7 +127,7 @@ const StudentMenu = (props) => {
 										<div className="d-flex align-items-center justify-content-between">
 											<Link
 												to="/"
-												className="btn btn-outline-light rounded-pill mx-3 hidden">
+												className="btn btn-outline-light rounded-pill mx-2 hidden">
 												Visit Website
 											</Link>
 											{/* Kenyan Clock */}

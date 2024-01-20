@@ -48,9 +48,16 @@ const KenyanClock = (props) => {
 	return (
 		<React.Fragment>
 			<Btn
-				btnClass={`${props.className} fs-6 hidden`}
-				btnText={`Web Uni, ${kenyanTime} (EAT-GMT+3)`}
+				btnClass={`${props.className} my-1 fs-6 hidden`}
+				btnText={
+					<div style={{ fontSize: "0.6em" }}>
+						<div>Web Uni</div>
+						<div>{kenyanTime}</div>
+						<div>(EAT-GMT+3)</div>
+					</div>
+				}
 			/>
+
 			<Btn
 				btnClass={`${props.className} fs-6 anti-hidden`}
 				btnText={kenyanTime2}

@@ -48,6 +48,9 @@ Route::apiResources([
 // Unit Routes
 Route::get("units/by-user-id/{id}", [UnitController::class, "byUserId"]);
 
+// Material Routes
+Route::get("materials/by-unit-id/{id}", [MaterialController::class, "byUnitId"]);
+
 /*
 * Admin Dashboard
 */ 

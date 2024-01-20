@@ -125,7 +125,7 @@ const AdminMenu = (props) => {
 											{/* Main Site Link */}
 											<Link
 												to="/"
-												className="btn btn-outline-light rounded-pill mx-3 hidden">
+												className="btn btn-outline-light rounded-pill mx-2 hidden">
 												Visit Website
 											</Link>
 											{/* Main Site Link End */}

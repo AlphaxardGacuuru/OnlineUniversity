@@ -146,18 +146,6 @@ const index = (props) => {
 							</select>
 						</div>
 						{/* Department End */}
-						{/* Date */}
-						{/* <div className="flex-grow-1">
-							<input
-								id=""
-								type="date"
-								name="daterange"
-								placeholder="Search by Date Joined"
-								className="form-control"
-								onChange={(e) => setDateQuery(e.target.value)}
-							/>
-						</div> */}
-						{/* Date End */}
 					</div>
 				</div>
 				{/* Filters End */}

@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('title');
             $table->string('description');
-            $table->string('media');
+            $table->unsignedInteger('week');
             $table->foreignId('unit_id')
                 ->constrained()
                 ->onUpdate('cascade')

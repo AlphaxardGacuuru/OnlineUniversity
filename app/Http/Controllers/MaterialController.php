@@ -32,7 +32,7 @@ class MaterialController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			"name" => "required|string",
+			"title" => "required|string",
 			"description" => "required|string",
 			"media" => "required|string",
 			"unitId" => "required|string"
@@ -68,7 +68,7 @@ class MaterialController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			"name" => "nullable|string",
+			"title" => "nullable|string",
 			"description" => "nullable|string",
 			"media" => "nullable|string",
 			"unitId" => "nullable|string"
@@ -99,4 +99,12 @@ class MaterialController extends Controller
 			"data" => $material
 		], 200);
     }
+
+	/*
+	* Get Materials By Unit
+	*/ 
+	public function byUnitId($id)
+	{
+		return $this->service->byUnitId($id);
+	}
 }

@@ -24,14 +24,14 @@ class MaterialService extends Service
     public function store($request)
     {
         $material = new Material;
-        $material->name = $request->input("name");
+        $material->title = $request->input("title");
         $material->description = $request->input("description");
         $material->media = $request->input("media");
         $material->unit_id = $request->input("unitId");
 
         $saved = $material->save();
 
-        $message = $material->name . " saved successfully";
+        $message = $material->title . " saved successfully";
 
         return [$saved, $message, $material];
     }
@@ -43,8 +43,8 @@ class MaterialService extends Service
     {
         $material = Material::findOrFail($id);
 
-        if ($request->input("name")) {
-            $material->name = $request->input("name");
+        if ($request->input("title")) {
+            $material->title = $request->input("title");
         }
 
         if ($request->input("description")) {
@@ -67,7 +67,7 @@ class MaterialService extends Service
 
         $saved = $material->save();
 
-        $message = $material->name . " saved successfully";
+        $message = $material->title . " saved successfully";
 
         return [$saved, $message, $material];
     }
@@ -86,8 +86,28 @@ class MaterialService extends Service
 
         $deleted = $material->delete();
 
-        $message = $material->name . " saved successfully";
+        $message = $material->title . " deleted successfully";
 
         return [$deleted, $message, $material];
+    }
+
+    /*
+     * Get Materials By Unit
+     */
+    public function byUnitId($id)
+    {
+        $materials = Material::where('unit_id', $id)
+            ->orderBy("week")
+            ->get()
+            ->groupBy('week')
+            ->map(function ($materials, $week) {
+                return ["week" => "Week " . $week, "materials" => $materials];
+            })
+            ->values()
+            ->all();
+
+        return response([
+			"data" => $materials
+		], 200);
     }
 }
