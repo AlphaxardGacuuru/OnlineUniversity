@@ -19,7 +19,7 @@ class UnitSeeder extends Seeder
 
         foreach ($courses as $course) {
             Unit::factory()
-                ->count(50)
+                ->count(rand(40, 50))
                 ->create([
                     "code" => substr($course->department->name, 0, 3) . "-" . rand(100, 999),
                     "course_id" => $course->id,

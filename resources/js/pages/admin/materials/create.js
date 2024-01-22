@@ -3,6 +3,8 @@ import {
 	useHistory,
 	useParams,
 } from "react-router-dom/cjs/react-router-dom.min"
+import ReactQuill from "react-quill"
+import "react-quill/dist/quill.snow.css"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
@@ -37,9 +39,10 @@ const create = (props) => {
 	var { id } = useParams()
 	var history = useHistory()
 
-	const [name, setName] = useState()
+	const [title, setTitle] = useState()
 	const [description, setDescription] = useState()
-	const [type, setType] = useState()
+	const [week, setWeek] = useState()
+	const [richText, setRichText] = useState("")
 	const [media, setMedia] = useState("media")
 	const [loading, setLoading] = useState()
 
@@ -57,9 +60,10 @@ const create = (props) => {
 
 		setLoading(true)
 		Axios.post("/api/materials", {
-			name: name,
+			title: title,
 			description: description,
-			type: type,
+			week: week,
+			richText: richText,
 			media: media,
 			unitId: id,
 		})
@@ -79,17 +83,20 @@ const create = (props) => {
 
 	return (
 		<div className="row">
-			<div className="col-sm-4"></div>
-			<div className="col-sm-4">
-				<form onSubmit={onSubmit}>
+			<div className="col-sm-2"></div>
+			<div className="col-sm-8">
+				<form
+					onSubmit={onSubmit}
+					className="mb-5">
 					<input
 						type="text"
-						name="name"
-						placeholder="Name"
+						name="title"
+						placeholder="Title"
 						className="form-control mb-2 me-2"
-						onChange={(e) => setName(e.target.value)}
+						onChange={(e) => setTitle(e.target.value)}
 						required={true}
 					/>
+
 					<input
 						type="text"
 						name="description"
@@ -99,17 +106,23 @@ const create = (props) => {
 						required={true}
 					/>
 
-					<select
-						name="type"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setType(e.target.value)}
-						required={true}>
-						<option value="">Select Type</option>
-						<option value="file">File</option>
-						<option value="image">Image</option>
-						<option value="video">Video</option>
-					</select>
+					<input
+						type="number"
+						name="week"
+						placeholder="Week"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setWeek(e.target.value)}
+					/>
 
+					<div className="bg-white">
+						<ReactQuill
+							theme="snow"
+							value={richText}
+							onChange={setRichText}
+						/>
+					</div>
+
+					<h6 className="p-2">Add Media</h6>
 					<div className="card shadow-sm p-2">
 						<FilePond
 							name="filepond-thumbnail"
@@ -135,20 +148,19 @@ const create = (props) => {
 					<br />
 					<br />
 
-					<div className="d-flex justify-content-end">
+					<div className="d-flex justify-content-end mb-2">
 						<Btn
 							btnText="add material"
 							loading={loading}
 						/>
 					</div>
-
 					<div className="d-flex justify-content-center">
 						<MyLink
 							linkTo={`/admin/units/${id}/show`}
 							text="back to unit"
 						/>
 					</div>
-					<div className="col-sm-4"></div>
+					<div className="col-sm-2"></div>
 				</form>
 			</div>
 		</div>

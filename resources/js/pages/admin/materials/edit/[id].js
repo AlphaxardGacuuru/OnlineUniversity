@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
+import ReactQuill from "react-quill"
+import "react-quill/dist/quill.snow.css"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
@@ -34,20 +36,24 @@ const edit = (props) => {
 	var { id } = useParams()
 
 	const [material, setMaterial] = useState({})
-	const [name, setName] = useState()
+	const [title, setTitle] = useState()
 	const [description, setDescription] = useState()
-	const [type, setType] = useState()
+	const [week, setWeek] = useState("")
+	const [richText, setRichText] = useState("")
 	const [media, setMedia] = useState("media")
 	const [loading, setLoading] = useState()
 
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Edit Material", path: ["materials", "edit"] })
-
-		Axios.get(`/api/materials/${id}`).then((res) => {
-			setMaterial(res.data.data)
-		})
+		props.setPage({ name: "Edit Material", path: ["materials", "create"] })
+		// Fetch Material
+		Axios.get(`/api/materials/${id}`)
+			.then((res) => {
+				setMaterial(res.data.data)
+				setRichText(res.data.data.richText)
+			})
+			.catch((err) => props.getErrors(err))
 	}, [])
 
 	/*
@@ -58,9 +64,10 @@ const edit = (props) => {
 
 		setLoading(true)
 		Axios.put(`/api/materials/${id}`, {
-			name: name,
+			title: title,
 			description: description,
-			type: type,
+			week: week,
+			richText: richText,
 			media: media,
 			unitId: id,
 		})
@@ -68,8 +75,8 @@ const edit = (props) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
-				// Reload
-				window.location.reload()
+				// Reload page
+				window.reload()
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -80,16 +87,19 @@ const edit = (props) => {
 
 	return (
 		<div className="row">
-			<div className="col-sm-4"></div>
-			<div className="col-sm-4">
-				<form onSubmit={onSubmit}>
+			<div className="col-sm-2"></div>
+			<div className="col-sm-8">
+				<form
+					onSubmit={onSubmit}
+					className="mb-5">
 					<input
 						type="text"
-						name="name"
-						placeholder={material.name}
+						name="title"
+						placeholder={material.title}
 						className="form-control mb-2 me-2"
-						onChange={(e) => setName(e.target.value)}
+						onChange={(e) => setTitle(e.target.value)}
 					/>
+
 					<input
 						type="text"
 						name="description"
@@ -98,29 +108,23 @@ const edit = (props) => {
 						onChange={(e) => setDescription(e.target.value)}
 					/>
 
-					<select
-						name="gender"
-						className="form-control mb-3 me-2"
-						onChange={(e) => setType(e.target.value)}
-						required={true}>
-						<option value="">Select Type</option>
-						<option
-							value="file"
-							selected={material.type == "file"}>
-							File
-						</option>
-						<option
-							value="image"
-							selected={material.type == "image"}>
-							Image
-						</option>
-						<option
-							value="video"
-							selected={material.type == "video"}>
-							Video
-						</option>
-					</select>
+					<input
+						type="number"
+						name="week"
+						placeholder={material.week}
+						className="form-control mb-2 me-2"
+						onChange={(e) => setWeek(e.target.value)}
+					/>
 
+					<div className="bg-white">
+						<ReactQuill
+							theme="snow"
+							value={richText}
+							onChange={setRichText}
+						/>
+					</div>
+
+					<h6 className="p-2">Add Media</h6>
 					<div className="card shadow-sm p-2">
 						<FilePond
 							name="filepond-thumbnail"
@@ -148,19 +152,17 @@ const edit = (props) => {
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							btnText="update"
+							btnText="update material"
 							loading={loading}
 						/>
 					</div>
-
-					<center>
+					<div className="d-flex justify-content-center">
 						<MyLink
-							linkTo={`/admin/units/${material.unitId}/show`}
+							linkTo={`/admin/units/${id}/show`}
 							text="back to unit"
 						/>
-					</center>
-
-					<div className="col-sm-4"></div>
+					</div>
+					<div className="col-sm-2"></div>
 				</form>
 			</div>
 		</div>

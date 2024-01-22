@@ -44,7 +44,7 @@ import AdminUnitShow from "@/pages/admin/units/[id]"
 import AdminUnitEdit from "@/pages/admin/units/edit/[id]"
 
 import AdminMaterialCreate from "@/pages/admin/materials/create"
-import AdminMaterialEdit from "@/pages/admin/materials/[id]"
+import AdminMaterialEdit from "@/pages/admin/materials/edit/[id]"
 
 import InstructorLogin from "@/pages/instructor/login"
 import Instructor from "@/pages/instructor/index"

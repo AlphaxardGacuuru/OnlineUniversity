@@ -26,6 +26,8 @@ class MaterialService extends Service
         $material = new Material;
         $material->title = $request->input("title");
         $material->description = $request->input("description");
+        $material->week = $request->input("week");
+        $material->rich_text = $request->input("richText");
         $material->media = $request->input("media");
         $material->unit_id = $request->input("unitId");
 
@@ -51,6 +53,14 @@ class MaterialService extends Service
             $material->description = $request->input("description");
         }
 
+        if ($request->input("week")) {
+            $material->week = $request->input("week");
+        }
+
+        if ($request->input("richText")) {
+            $material->rich_text = $request->input("richText");
+        }
+
         if ($request->input("media")) {
 
             // Get old media and delete it
@@ -67,7 +77,7 @@ class MaterialService extends Service
 
         $saved = $material->save();
 
-        $message = $material->title . " saved successfully";
+        $message = $material->title . " updated successfully";
 
         return [$saved, $message, $material];
     }
@@ -101,13 +111,13 @@ class MaterialService extends Service
             ->get()
             ->groupBy('week')
             ->map(function ($materials, $week) {
-                return ["week" => "Week " . $week, "materials" => $materials];
+                return ["week" => "Week " . $week, "materials" => MaterialResource::collection($materials)];
             })
             ->values()
             ->all();
 
         return response([
-			"data" => $materials
-		], 200);
+            "data" => $materials,
+        ], 200);
     }
 }

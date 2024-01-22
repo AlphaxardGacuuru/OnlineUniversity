@@ -15,7 +15,9 @@ class MaterialSeeder extends Seeder
      */
     public function run()
     {
-        $units = Unit::orderBy("id", "DESC")->first();
+        $units = Unit::orderBy("id", "DESC")
+            ->limit(1)
+            ->get();
 
         $weeks = rand(14, 16);
 

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink from "@/components/Core/MyLink"
 import Img from "@/components/Core/Img"
+import Btn from "@/components/Core/Btn"
 
 import MaterialSVG from "@/svgs/MaterialSVG"
 import PersonSVG from "@/svgs/PersonSVG"
@@ -14,6 +15,7 @@ const show = (props) => {
 	const [unit, setUnit] = useState({})
 	const [syllabus, setSyllabus] = useState([])
 	const [tab, setTab] = useState("materials")
+	const [richText, setRichText] = useState("")
 
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
@@ -104,7 +106,7 @@ const show = (props) => {
 					{/* Data End */}
 
 					{/* Weeks */}
-					<div className="card mb-2">
+					<div className="card shadow mb-2">
 						<div className="d-flex justify-content-between p-2 px-4 align-items-center">
 							<h5>Materials</h5>
 							<div>
@@ -148,10 +150,12 @@ const show = (props) => {
 															<td>{material.title}</td>
 															<td>
 																<div className="d-flex justify-content-end">
-																	<MyLink
-																		linkTo={`/admin/materials/${material.id}/download`}
-																		text="view"
-																		className="btn-sm me-2"
+																	<Btn
+																		btnText="view"
+																		btnClass="btn-outline-primary  btn-sm me-1"
+																		onClick={() =>
+																			setRichText(material.richText)
+																		}
 																	/>
 
 																	<MyLink
@@ -264,6 +268,21 @@ const show = (props) => {
 					</div>
 				</div>
 				{/* Tabs End */}
+
+				{/* Materials Tab */}
+				<div className={activeTab("materials")}>
+					<div className="card shadow-sm mb-2 p-2">
+						{richText ? (
+							<div
+								dangerouslySetInnerHTML={{ __html: richText }}
+								className="px-5"
+							/>
+						) : (
+							<div className="d-flex justify-content-center p-5 text-muted">Nothing to show</div>
+						)}
+					</div>
+				</div>
+				{/* Materials Tab End */}
 
 				{/* Instructors Tab */}
 				<div className={activeTab("instructors")}>
