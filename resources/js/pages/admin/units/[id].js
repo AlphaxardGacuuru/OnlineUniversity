@@ -15,6 +15,7 @@ const show = (props) => {
 	const [unit, setUnit] = useState({})
 	const [syllabus, setSyllabus] = useState([])
 	const [tab, setTab] = useState("materials")
+	const [materialTab, setMaterialTab] = useState("Discussion Forum")
 	const [richText, setRichText] = useState("")
 
 	const [nameQuery, setNameQuery] = useState("")
@@ -31,8 +32,33 @@ const show = (props) => {
 		return activeTab == tab ? "bg-light" : "bg-secondary-subtle"
 	}
 
+	const materialActive = (activeTab) => {
+		return activeTab == materialTab ? "bg-light" : "bg-secondary-subtle"
+	}
+
 	const activeTab = (activeTab) => {
 		return activeTab == tab ? "d-block" : "d-none"
+	}
+
+	/*
+	 * Handle Material Change
+	 */
+	const handleMaterialTab = (title, richText) => {
+		console.log(title)
+		console.log(richText)
+		// Check Type of material clicked
+		if (title == "Learning Guide") {
+			setMaterialTab("Learning Guide")
+			setRichText(richText)
+		} else if (title == "Discussion Forum") {
+			setMaterialTab("Discussion Forum")
+		} else if (title == "Written Assignment") {
+			setMaterialTab("Written Assignment")
+			setRichText(richText)
+		} else if (title == "Learning Reflection") {
+			setMaterialTab("Learning Reflection")
+			setRichText(richText)
+		}
 	}
 
 	/*
@@ -132,7 +158,7 @@ const show = (props) => {
 										data-bs-target={`#panelsStayOpen-${key}`}
 										aria-expanded="true"
 										aria-controls={`panelsStayOpen-${key}`}>
-										{syllabus.week}
+										{syllabus.week} {materialTab}
 									</button>
 								</h2>
 								<div
@@ -154,7 +180,10 @@ const show = (props) => {
 																		btnText="view"
 																		btnClass="btn-outline-primary  btn-sm me-1"
 																		onClick={() =>
-																			setRichText(material.richText)
+																			handleMaterialTab(
+																				material.title,
+																				material.richText
+																			)
 																		}
 																	/>
 
@@ -271,14 +300,45 @@ const show = (props) => {
 
 				{/* Materials Tab */}
 				<div className={activeTab("materials")}>
-					<div className="card shadow-sm mb-2 p-2">
+					{/* Material Tabs */}
+					<div className="d-flex justify-content-between flex-wrap mb-2">
+						<div
+							className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${materialActive(
+								"Learning Guide"
+							)}`}>
+							Learning Guide
+						</div>
+						<div
+							className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${materialActive(
+								"Discussion Forum"
+							)}`}>
+							Discussion Forum
+						</div>
+						<div
+							className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${materialActive(
+								"Written Assignment"
+							)}`}>
+							Written Assignment
+						</div>
+						<div
+							className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${materialActive(
+								"Learning Reflection"
+							)}`}>
+							Learning Reflection
+						</div>
+					</div>
+					{/* Material Tabs End */}
+
+					<div className="card shadow-sm mb-2 py-5 p-2">
 						{richText ? (
 							<div
 								dangerouslySetInnerHTML={{ __html: richText }}
 								className="px-5"
 							/>
 						) : (
-							<div className="d-flex justify-content-center p-5 text-muted">Nothing to show</div>
+							<div className="d-flex justify-content-center p-5 text-muted">
+								Nothing to show
+							</div>
 						)}
 					</div>
 				</div>

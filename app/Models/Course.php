@@ -12,6 +12,12 @@ class Course extends Model
     /*
      * Relationships
      */
+
+    public function courses()
+    {
+        return $this->belongsToMany(User::class, 'user_courses');
+    }
+
     public function department()
     {
         return $this->belongsTo(Department::class);

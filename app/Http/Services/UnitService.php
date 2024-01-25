@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Http\Resources\UnitResource;
 use App\Http\Services\Service;
 use App\Models\Unit;
+use App\Models\User;
 use App\Models\UserUnit;
 
 class UnitService extends Service
@@ -151,6 +152,12 @@ class UnitService extends Service
      */
     public function byUserId($id)
     {
+        // Retrieve the user by ID with its associated units
+        $user = User::with('units')->find($id);
 
+        // Access the units related to the user
+        $units = $user->units;
+
+        return UnitResource::collection($units);
     }
 }

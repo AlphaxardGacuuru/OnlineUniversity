@@ -78,6 +78,16 @@ class User extends Authenticatable
      * Relationships
      */
 
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'user_courses');
+    }
+
+    public function units()
+    {
+        return $this->belongsToMany(Unit::class, 'user_units');
+    }
+
     public function userFaculties()
     {
         return $this->hasMany(UserFaculty::class);
@@ -118,31 +128,12 @@ class User extends Authenticatable
             ->first();
     }
 
-    public function courses()
-    {
-        return $this->userCourses()
-            ->get()
-            ->map(function ($userCourse) {
-                $course = $userCourse->course;
-                $course->units = $userCourse->course->units;
-                return $course;
-            });
-    }
-
     public function course()
     {
         return $this->userCourses()
             ->get()
             ->map(fn($userCourse) => $userCourse->course)
             ->first();
-    }
-
-    public function units()
-    {
-        return $this->userUnits()
-            ->orderBy("id", "DESC")
-            ->get()
-            ->map(fn($userUnit) => $userUnit->unit);
     }
 
     public function unit()

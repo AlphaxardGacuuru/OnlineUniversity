@@ -12,6 +12,12 @@ class Unit extends Model
     /*
      * Relationships
      */
+	
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_units');
+    }
+
     public function course()
     {
         return belongsTo(Course::class);

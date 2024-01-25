@@ -71,10 +71,6 @@ class MaterialService extends Service
             $material->media = $request->input("media");
         }
 
-        if ($request->input("unitId")) {
-            $material->unit_id = $request->input("unitId");
-        }
-
         $saved = $material->save();
 
         $message = $material->title . " updated successfully";

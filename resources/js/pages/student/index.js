@@ -61,7 +61,7 @@ const index = (props) => {
 						)}`}
 						style={{ cursor: "pointer" }}
 						onClick={() => setTab("units")}>
-						Units
+						My Units
 					</div>
 				</div>
 				{/* Tabs End */}

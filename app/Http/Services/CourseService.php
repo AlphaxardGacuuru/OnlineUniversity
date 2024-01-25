@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Http\Resources\CourseResource;
 use App\Http\Services\Service;
 use App\Models\Course;
+use App\Models\User;
 
 class CourseService extends Service
 {
@@ -103,5 +104,19 @@ class CourseService extends Service
         $message = $course->name . " deleted successfully";
 
         return [$deleted, $message, $course];
+    }
+
+    /*
+     * By User ID
+     */
+    public function byUserId($id)
+    {
+        // Retrieve the user by ID with its associated courses
+        $user = User::with('courses')->find($id);
+
+        // Access the courses related to the user
+        $courses = $user->courses;
+
+        return CourseResource::collection($courses);
     }
 }

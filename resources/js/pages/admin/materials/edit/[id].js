@@ -40,7 +40,7 @@ const edit = (props) => {
 	const [description, setDescription] = useState()
 	const [week, setWeek] = useState("")
 	const [richText, setRichText] = useState("")
-	const [media, setMedia] = useState("media")
+	const [media, setMedia] = useState("")
 	const [loading, setLoading] = useState()
 
 	// Get Faculties and Departments
@@ -63,20 +63,20 @@ const edit = (props) => {
 		e.preventDefault()
 
 		setLoading(true)
+
 		Axios.put(`/api/materials/${id}`, {
 			title: title,
 			description: description,
 			week: week,
 			richText: richText,
 			media: media,
-			unitId: id,
 		})
 			.then((res) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
 				// Reload page
-				window.reload()
+				window.location.reload()
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -92,13 +92,34 @@ const edit = (props) => {
 				<form
 					onSubmit={onSubmit}
 					className="mb-5">
-					<input
+					<select
 						type="text"
 						name="title"
-						placeholder={material.title}
+						placeholder="Title"
 						className="form-control mb-2 me-2"
-						onChange={(e) => setTitle(e.target.value)}
-					/>
+						onChange={(e) => setTitle(e.target.value)}>
+						<option value="">Choose Material</option>
+						<option
+							value="Learning Guide"
+							selected={material.title == "Learning Guide" && true}>
+							Learning Guide
+						</option>
+						<option
+							value="Discussion Forum"
+							selected={material.title == "Discussion Forum" && true}>
+							Discussion Forum
+						</option>
+						<option
+							value="Written Assignment"
+							selected={material.title == "Written Assignment" && true}>
+							Written Assignment
+						</option>
+						<option
+							value="Learning Reflection"
+							selected={material.title == "Learning Reflection" && true}>
+							Learning Reflection
+						</option>
+					</select>
 
 					<input
 						type="text"
@@ -158,7 +179,7 @@ const edit = (props) => {
 					</div>
 					<div className="d-flex justify-content-center">
 						<MyLink
-							linkTo={`/admin/units/${id}/show`}
+							linkTo={`/admin/units/${material.unitId}/show`}
 							text="back to unit"
 						/>
 					</div>

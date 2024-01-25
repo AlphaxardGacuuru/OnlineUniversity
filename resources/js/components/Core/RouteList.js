@@ -49,17 +49,16 @@ import AdminMaterialEdit from "@/pages/admin/materials/edit/[id]"
 import InstructorLogin from "@/pages/instructor/login"
 import Instructor from "@/pages/instructor/index"
 
+import InstructorCourseShow from "@/pages/instructor/courses/[id]"
+
 import InstructorUnitShow from "@/pages/instructor/units/[id]"
 
-import InstructorMaterialCreate from "@/pages/instructor/materials/create"
-import InstructorMaterialEdit from "@/pages/instructor/materials/edit/[id]"
-
 import InstructorResources from "@/pages/instructor/resources/index"
-import InstructorResourceCreate from "@/pages/instructor/resources/create"
-import InstructorResourceEdit from "@/pages/instructor/resources/edit/[id]"
 
 import StudentLogin from "@/pages/student/login"
 import Student from "@/pages/student/index"
+
+import StudentUnitShow from "@/pages/student/units/[id]"
 
 import StudentCourses from "@/pages/student/courses/index"
 import StudentCourseShow from "@/pages/student/courses/[id]"
@@ -213,28 +212,16 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <Instructor {...GLOBAL_STATE} />,
 		},
 		{
+			path: "/instructor/courses/:id/show",
+			component: <InstructorCourseShow {...GLOBAL_STATE} />,
+		},
+		{
 			path: "/instructor/units/:id/show",
 			component: <InstructorUnitShow {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/instructor/materials/:id/create",
-			component: <InstructorMaterialCreate {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/instructor/materials/:id/edit",
-			component: <InstructorMaterialEdit {...GLOBAL_STATE} />,
-		},
-		{
 			path: "/instructor/resources",
 			component: <InstructorResources {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/instructor/resources/create",
-			component: <InstructorResourceCreate {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/instructor/resources/:id/edit",
-			component: <InstructorResourceEdit {...GLOBAL_STATE} />,
 		},
 	]
 
@@ -250,6 +237,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/student/courses/:id/show",
 			component: <StudentCourseShow {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/student/units/:id/show",
+			component: <StudentUnitShow {...GLOBAL_STATE} />,
 		},
 	]
 

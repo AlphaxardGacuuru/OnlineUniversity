@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink3 from "@/components/Core/MyLink3"
 import Img from "@/components/Core/Img"
+import Btn3 from "@/components/Core/Btn3"
 
 import UnitSVG from "@/svgs/UnitSVG"
 import PersonSVG from "@/svgs/PersonSVG"
@@ -13,6 +14,7 @@ const show = (props) => {
 
 	const [course, setCourse] = useState({})
 	const [tab, setTab] = useState("units")
+	const [loading, setLoading] = useState()
 
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
@@ -32,29 +34,25 @@ const show = (props) => {
 	}
 
 	/*
-	 * Delete Unit
+	 * Self Enroll
 	 */
-	const onDeleteUnit = (unitId) => {
-		Axios.delete(`/api/units/${unitId}`)
-			.then((res) => {
-				props.setMessages([res.data.message])
-				// Remove row
-				props.get(`courses/${id}`, setCourse)
-			})
-			.catch((err) => props.getErrors(err))
-	}
+	const selfEnroll = () => {
+		// Show loader
+		setLoading(true)
 
-	/*
-	 * Delete Instructor
-	 */
-	const onDeleteInstructor = (instructorId) => {
-		Axios.delete(`/api/instructors/${instructorId}`)
+		Axios.put(`/api/students/${props.auth.id}`, {
+			courseId: id,
+		})
 			.then((res) => {
+				setLoading(false)
 				props.setMessages([res.data.message])
-				// Remove row
-				props.get(`courses/${id}`, setCourse)
+				// Reload window
+				window.location.reload()
 			})
-			.catch((err) => props.getErrors(err))
+			.catch((err) => {
+				setLoading(false)
+				props.getErrors(err)
+			})
 	}
 
 	return (
@@ -62,6 +60,14 @@ const show = (props) => {
 			<div className="col-sm-4">
 				<div className="card mb-2 p-4 text-center shadow">
 					<h4>{course.name}</h4>
+					{props.auth.courseId != id && (
+						<Btn3
+							btnText="self enroll"
+							btnClass="btn-outline-success mt-2"
+							onClick={selfEnroll}
+							loading={loading}
+						/>
+					)}
 				</div>
 			</div>
 			<div className="col-sm-8">
@@ -122,6 +128,8 @@ const show = (props) => {
 									<td>#</td>
 									<td>Name</td>
 									<td>Description</td>
+									<td>Year</td>
+									<td>Sem</td>
 									<td>Credits</td>
 									<td className="text-end">Action</td>
 								</tr>
@@ -130,15 +138,19 @@ const show = (props) => {
 										<td>{key + 1}</td>
 										<td>{unit.name}</td>
 										<td>{unit.description}</td>
+										<td>{unit.year}</td>
+										<td>{unit.semester}</td>
 										<td>{unit.credits}</td>
 										<td>
-											<div className="d-flex justify-content-end">
-												<MyLink3
-													linkTo={`/student/units/${unit.id}/show`}
-													text="view"
-													className="btn-sm me-2"
-												/>
-											</div>
+											{props.auth.courseId == id && (
+												<div className="d-flex justify-content-end">
+													<MyLink3
+														linkTo={`/student/units/${unit.id}/show`}
+														text="view"
+														className="btn-sm me-2"
+													/>
+												</div>
+											)}
 										</td>
 									</tr>
 								))}

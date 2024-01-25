@@ -88,14 +88,19 @@ const create = (props) => {
 				<form
 					onSubmit={onSubmit}
 					className="mb-5">
-					<input
+					<select
 						type="text"
 						name="title"
 						placeholder="Title"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setTitle(e.target.value)}
-						required={true}
-					/>
+						required={true}>
+						<option value="">Choose Material</option>
+						<option value="Learning Guide">Learning Guide</option>
+						<option value="Discussion Forum">Discussion Forum</option>
+						<option value="Written Assignment">Written Assignment</option>
+						<option value="Learning Reflection">Learning Reflection</option>
+					</select>
 
 					<input
 						type="text"

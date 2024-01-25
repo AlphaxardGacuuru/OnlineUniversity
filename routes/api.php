@@ -45,10 +45,13 @@ Route::apiResources([
     "materials" => MaterialController::class,
 ]);
 
-// Unit Routes
+// Course
+Route::get("courses/by-user-id/{id}", [CourseController::class, "byUserId"]);
+
+// Unit
 Route::get("units/by-user-id/{id}", [UnitController::class, "byUserId"]);
 
-// Material Routes
+// Material
 Route::get("materials/by-unit-id/{id}", [MaterialController::class, "byUnitId"]);
 
 /*

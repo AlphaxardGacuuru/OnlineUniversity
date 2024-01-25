@@ -25,6 +25,10 @@ class CourseResource extends JsonResource
             "departmentId" => $this->department_id,
             "departmentName" => $this->department?->name,
             "units" => $this->units,
+            // "units" => $this->units()
+                // ->orderBy("year")
+                // ->orderBy("semester")
+                // ->get(),
             "instructors" => UserResource::collection($this->instructors()),
             "students" => UserResource::collection($this->students()),
         ];

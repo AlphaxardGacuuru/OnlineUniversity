@@ -271,18 +271,6 @@ const StudentMenu = (props) => {
 									</Link>
 								</li>
 								{/* Courses Link End */}
-								{/* My Units Link */}
-								<li className="nav-item">
-									<Link
-										to={`/student/units`}
-										className={`nav-link ${active("/student/units")}`}>
-										<div className="nav-link-icon">
-											<UnitSVG />
-										</div>
-										<div className="nav-link-text">My Course Units</div>
-									</Link>
-								</li>
-								{/* My Units Link End */}
 								{/* Resources Link */}
 								<li className="nav-item">
 									<Link

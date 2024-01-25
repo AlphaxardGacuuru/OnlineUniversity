@@ -28,10 +28,6 @@ class InstructorResource extends JsonResource
             "facultyName" => $this->faculty()?->name,
             "departmentId" => $this->department()?->id,
             "departmentName" => $this->department()?->name,
-            "courseId" => $this->course()?->id,
-            "courseName" => $this->course()?->name,
-            "unitId" => $this->unit()?->id,
-            "unitName" => $this->unit()?->name,
             "createdAt" => $this->created_at,
         ];
     }

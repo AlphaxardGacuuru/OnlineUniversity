@@ -5,8 +5,10 @@ namespace App\Http\Services;
 use App\Http\Resources\StudentResource;
 use App\Http\Services\Service;
 use App\Models\User;
+use App\Models\UserCourse;
 use App\Models\UserDepartment;
 use App\Models\UserFaculty;
+use App\Models\UserUnit;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -127,6 +129,28 @@ class StudentService extends Service
             $userDepartment->user_id = $student->id;
             $userDepartment->department_id = $request->input("departmentId");
             $userDepartment->save();
+        }
+
+        if ($request->filled("courseId")) {
+            // Delete UserCourse
+            UserCourse::where("user_id", $id)->delete();
+
+            // Add UserCourse
+            $userCourse = new UserCourse;
+            $userCourse->user_id = $student->id;
+            $userCourse->course_id = $request->input("courseId");
+            $userCourse->save();
+        }
+
+        if ($request->filled("unitId")) {
+            // Delete UserUnit
+            UserUnit::where("user_id", $id)->delete();
+
+            // Add UserUnit
+            $userUnit = new UserUnit;
+            $userUnit->user_id = $student->id;
+            $userUnit->unit_id = $request->input("unitId");
+            $userUnit->save();
         }
 
         $saved = $student->save();
