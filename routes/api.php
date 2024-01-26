@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AcademicSessionController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DepartmentController;
@@ -43,6 +44,7 @@ Route::apiResources([
     "units" => UnitController::class,
     "users" => UserController::class,
     "materials" => MaterialController::class,
+	"sessions" => AcademicSessionController::class
 ]);
 
 // Course

@@ -15,14 +15,9 @@ return new class extends Migration
     {
         Schema::create('user_units', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->foreignId('unit_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('unit_id')->constrained();
+            $table->foreignId('academic_session_id')->constrained();
             $table->timestamps();
         });
     }

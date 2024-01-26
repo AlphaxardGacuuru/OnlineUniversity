@@ -15,7 +15,23 @@ return new class extends Migration
     {
         Schema::create('discussion_forums', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('academic_session_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('user_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('to');
+            $table->string('text');
             $table->timestamps();
+
+            $table->foreign('to')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

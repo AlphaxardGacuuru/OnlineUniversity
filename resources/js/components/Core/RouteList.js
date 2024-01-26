@@ -46,6 +46,10 @@ import AdminUnitEdit from "@/pages/admin/units/edit/[id]"
 import AdminMaterialCreate from "@/pages/admin/materials/create"
 import AdminMaterialEdit from "@/pages/admin/materials/edit/[id]"
 
+import AdminSessions from "@/pages/admin/sessions/index"
+import AdminSessionCreate from "@/pages/admin/sessions/create"
+import AdminSessionEdit from "@/pages/admin/sessions/edit/[id]"
+
 import InstructorLogin from "@/pages/instructor/login"
 import Instructor from "@/pages/instructor/index"
 
@@ -203,6 +207,18 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/materials/:id/edit",
 			component: <AdminMaterialEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/sessions",
+			component: <AdminSessions {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/sessions/create",
+			component: <AdminSessionCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/sessions/:id/edit",
+			component: <AdminSessionEdit {...GLOBAL_STATE} />,
 		},
 	]
 

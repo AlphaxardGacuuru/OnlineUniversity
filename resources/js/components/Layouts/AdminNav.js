@@ -17,6 +17,7 @@ import StaffSVG from "@/svgs/StaffSVG"
 import StudentSVG from "@/svgs/StudentSVG"
 import ChevronRightSVG from "@/svgs/ChevronRightSVG"
 import KenyanClock from "@/functions/KenyanClock"
+import SessionSVG from "@/svgs/SessionSVG"
 
 const AdminMenu = (props) => {
 	const location = useLocation()
@@ -312,6 +313,20 @@ const AdminMenu = (props) => {
 									</Link>
 								</li>
 								{/* Courses Link End */}
+								{/* Sessions Link */}
+								<li className="nav-item">
+									<Link
+										to={`/admin/sessions`}
+										className={`nav-link ${active(
+											"/admin/sessions"
+										)}`}>
+										<div className="nav-link-icon">
+											<SessionSVG />
+										</div>
+										<div className="nav-link-text">Sessions</div>
+									</Link>
+								</li>
+								{/* Sessions Link End */}
 								{/* Staff Links */}
 								<li className="nav-item">
 									<Link
