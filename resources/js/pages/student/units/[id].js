@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
-import MyLink2 from "@/components/Core/MyLink2"
+import MyLink3 from "@/components/Core/MyLink3"
 import Img from "@/components/Core/Img"
 import Btn3 from "@/components/Core/Btn3"
 
@@ -199,7 +199,7 @@ const show = (props) => {
 					<div className="card shadow-sm mb-2 py-5 p-2">
 						{richText ? (
 							<div
-								successouslySetInnerHTML={{ __html: richText }}
+								dangerouslySetInnerHTML={{ __html: richText }}
 								className="px-5"
 							/>
 						) : (

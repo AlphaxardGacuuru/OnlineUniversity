@@ -31,32 +31,6 @@ const show = (props) => {
 		return activeTab == tab ? "d-block" : "d-none"
 	}
 
-	/*
-	 * Delete Unit
-	 */
-	const onDeleteUnit = (unitId) => {
-		Axios.delete(`/api/units/${unitId}`)
-			.then((res) => {
-				props.setMessages([res.data.message])
-				// Remove row
-				props.get(`courses/${id}`, setCourse)
-			})
-			.catch((err) => props.getErrors(err))
-	}
-
-	/*
-	 * Delete Instructor
-	 */
-	const onDeleteInstructor = (instructorId) => {
-		Axios.delete(`/api/instructors/${instructorId}`)
-			.then((res) => {
-				props.setMessages([res.data.message])
-				// Remove row
-				props.get(`courses/${id}`, setCourse)
-			})
-			.catch((err) => props.getErrors(err))
-	}
-
 	return (
 		<div className="row">
 			<div className="col-sm-4">
@@ -136,13 +110,15 @@ const show = (props) => {
 										<td>{unit.semester}</td>
 										<td>{unit.credits}</td>
 										<td>
-											{props.auth.unitIds.includes(unit.id) && <div className="d-flex justify-content-end">
-												<MyLink2
-													linkTo={`/instructor/units/${unit.id}/show`}
-													text="view"
-													className="btn-sm me-2"
-												/>
-											</div>}
+											{props.auth.unitIds.includes(unit.id) && (
+												<div className="d-flex justify-content-end">
+													<MyLink2
+														linkTo={`/instructor/units/${unit.id}/show`}
+														text="view"
+														className="btn-sm me-2"
+													/>
+												</div>
+											)}
 										</td>
 									</tr>
 								))}

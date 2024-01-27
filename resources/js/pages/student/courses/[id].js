@@ -13,6 +13,7 @@ const show = (props) => {
 	var { id } = useParams()
 
 	const [course, setCourse] = useState({})
+	const [session, setSession] = useState({})
 	const [tab, setTab] = useState("units")
 	const [loading, setLoading] = useState()
 
@@ -23,6 +24,10 @@ const show = (props) => {
 		// Set page
 		props.setPage({ name: "View Course", path: ["courses", "view"] })
 		props.get(`courses/${id}`, setCourse)
+		// Fetch Session
+		Axios.get(`api/sessions/by-course-id/${id}`)
+			.then((res) => setSession(res.data.data))
+			.catch((err) => props.getErrors(err))
 	}, [])
 
 	const active = (activeTab) => {
@@ -36,7 +41,30 @@ const show = (props) => {
 	/*
 	 * Self Enroll
 	 */
-	const selfEnroll = () => {
+	const selfEnrollUnit = (unitId) => {
+		// Show loader
+		setLoading(true)
+
+		Axios.put(`/api/students/${props.auth.id}`, {
+			unitId: unitId,
+			sessionId: session.id,
+		})
+			.then((res) => {
+				setLoading(false)
+				props.setMessages([res.data.message])
+				// Fetch Auth
+				props.get("auth", props.setAuth, "auth")
+			})
+			.catch((err) => {
+				setLoading(false)
+				props.getErrors(err)
+			})
+	}
+
+	/*
+	 * Self Enroll
+	 */
+	const selfEnrollCourse = () => {
 		// Show loader
 		setLoading(true)
 
@@ -46,8 +74,8 @@ const show = (props) => {
 			.then((res) => {
 				setLoading(false)
 				props.setMessages([res.data.message])
-				// Reload window
-				window.location.reload()
+				// Fetch Auth
+				props.get("auth", props.setAuth, "auth")
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -63,8 +91,8 @@ const show = (props) => {
 					{props.auth.courseId != id && (
 						<Btn3
 							btnText="self enroll"
-							btnClass="btn-outline-success mt-2"
-							onClick={selfEnroll}
+							btnClass="btn-success mt-2"
+							onClick={selfEnrollCourse}
 							loading={loading}
 						/>
 					)}
@@ -126,23 +154,25 @@ const show = (props) => {
 							<thead>
 								<tr>
 									<td>#</td>
+									<td>Code</td>
 									<td>Name</td>
 									<td>Description</td>
 									<td>Year</td>
 									<td>Sem</td>
 									<td>Credits</td>
-									<td className="text-end">Action</td>
+									<td>Action</td>
 								</tr>
 								{course.units?.map((unit, key) => (
 									<tr key={key}>
 										<td>{key + 1}</td>
+										<td>{unit.code}</td>
 										<td>{unit.name}</td>
 										<td>{unit.description}</td>
 										<td>{unit.year}</td>
 										<td>{unit.semester}</td>
 										<td>{unit.credits}</td>
 										<td>
-											{props.auth.courseId == id && (
+											{props.auth.unitIds?.includes(unit.id) ? (
 												<div className="d-flex justify-content-end">
 													<MyLink3
 														linkTo={`/student/units/${unit.id}/show`}
@@ -150,6 +180,21 @@ const show = (props) => {
 														className="btn-sm me-2"
 													/>
 												</div>
+											) : (
+												<React.Fragment>
+													{props.auth.courseId == id &&
+														unit.year == session.year &&
+														unit.semester == session.semester && (
+															<div className="d-flex justify-content-end">
+																<Btn3
+																	btnText="self enroll"
+																	btnClass="btn-sm btn-success me-2"
+																	onClick={() => selfEnrollUnit(unit.id)}
+																	loading={loading}
+																/>
+															</div>
+														)}
+												</React.Fragment>
 											)}
 										</td>
 									</tr>

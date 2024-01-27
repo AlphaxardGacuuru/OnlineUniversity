@@ -72,7 +72,7 @@ const edit = (props) => {
 				// Show messages
 				props.setMessages([res.data.message])
 				// Reload page
-				// window.location.reload()
+				window.location.reload()
 			})
 			.catch((err) => {
 				setLoading(false)

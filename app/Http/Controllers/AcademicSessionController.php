@@ -32,9 +32,9 @@ class AcademicSessionController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            "courseId" => "required|string",
-            "year" => "required|string",
-            "semester" => "required|string",
+            "courseId" => "required|integer",
+            "year" => "required|integer",
+            "semester" => "required|integer",
             "startsAt" => "required|date",
             "endsAt" => "required|date",
         ]);
@@ -69,9 +69,9 @@ class AcademicSessionController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            "courseId" => "nullable|string",
-            "year" => "nullable|string",
-            "semester" => "nullable|string",
+            "courseId" => "nullable|integer",
+            "year" => "nullable|integer",
+            "semester" => "nullable|integer",
             "startsAt" => "nullable|date",
             "endsAt" => "nullable|date",
         ]);
@@ -100,5 +100,13 @@ class AcademicSessionController extends Controller
             "message" => $message,
             "data" => $instructor,
         ], 200);
+    }
+
+    /*
+     * By Course Id
+     */
+    public function byCourseId(Request $request, $id)
+    {
+        return $this->service->byCourseId($id);
     }
 }

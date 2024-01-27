@@ -23,9 +23,8 @@ class InstructorService extends Service
             $instructors = User::where("account_type", "instructor")
                 ->orderBy("id", "DESC")
                 ->get()
-                ->filter(fn($instructor) => $instructor
-                        ->courses()
-                        ->contains('id', $request->input("courseId")))
+                ->filter(fn($instructor) => collect($instructor->courses())
+                        ->contains("id", $request->input("courseId")))
                 ->values();
 
             return response([

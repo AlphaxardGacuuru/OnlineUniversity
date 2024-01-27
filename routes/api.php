@@ -56,6 +56,9 @@ Route::get("units/by-user-id/{id}", [UnitController::class, "byUserId"]);
 // Material
 Route::get("materials/by-unit-id/{id}", [MaterialController::class, "byUnitId"]);
 
+// Academic Session
+Route::get("sessions/by-course-id/{id}", [AcademicSessionController::class, "byCourseId"]);
+
 /*
 * Admin Dashboard
 */ 

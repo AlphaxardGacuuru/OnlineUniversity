@@ -72,7 +72,7 @@ const create = (props) => {
 							aria-expanded="false">
 							Select Course
 						</button>
-						<div className="dropdown-menu">
+						<div className="dropdown-menu w-100 mt-2">
 							<div className="border-bottom px-2">
 								<input
 									type="text"
@@ -94,8 +94,9 @@ const create = (props) => {
 											<span
 												key={key}
 												className="dropdown-item"
+												style={{ cursor: "pointer" }}
 												onClick={() =>
-													setCourse({ id: course.id.toString(), name: course.name })
+													setCourse({ id: course.id, name: course.name })
 												}>
 												{course.name}
 											</span>
@@ -112,7 +113,7 @@ const create = (props) => {
 						name="year"
 						placeholder="Year"
 						className="form-control mb-2 me-2"
-						onChange={(e) => setYear(e.target.value)}
+						onChange={(e) => setYear(parseInt(e.target.value))}
 					/>
 
 					<input
@@ -120,7 +121,7 @@ const create = (props) => {
 						name="semester"
 						placeholder="Semester"
 						className="form-control mb-2 me-2"
-						onChange={(e) => setSemester(e.target.value)}
+						onChange={(e) => setSemester(parseInt(e.target.value))}
 					/>
 
 					<label

@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Resources\AcademicSessionResource;
 use App\Models\AcademicSession;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AcademicSessionService extends Service
 {
@@ -92,5 +93,26 @@ class AcademicSessionService extends Service
         $message = "Session deleted";
 
         return [$deleted, $message, $academicSession];
+    }
+
+    /*
+     * By Course Id
+     */
+    public function byCourseId($id)
+    {
+        $academicSession = AcademicSession::where("course_id", $id)
+            ->where("starts_at", "<=", now())
+            ->where("ends_at", ">=", now())
+            ->orderBy("id", "DESC")
+            ->first();
+
+        // Check if exists
+        if (!$academicSession) {
+			return response([
+				"errors" => ["Course doesn't have an ongoing Session"]
+			], 422);
+        }
+
+        return new AcademicSessionResource($academicSession);
     }
 }

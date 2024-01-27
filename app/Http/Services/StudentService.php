@@ -143,13 +143,10 @@ class StudentService extends Service
         }
 
         if ($request->filled("unitId")) {
-            // Delete UserUnit
-            UserUnit::where("user_id", $id)->delete();
-
-            // Add UserUnit
             $userUnit = new UserUnit;
             $userUnit->user_id = $student->id;
             $userUnit->unit_id = $request->input("unitId");
+            $userUnit->academic_session_id = $request->input("sessionId");
             $userUnit->save();
         }
 

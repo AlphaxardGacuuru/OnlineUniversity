@@ -30,7 +30,7 @@ const edit = (props) => {
 		// Get Course
 		Axios.get(`api/sessions/${id}`).then((res) => {
 			setSession(res.data.data)
-			setCourse({ id: res.data.data.courseId, name: res.data.data.courseName })
+			setCourse({ id: res.data.data.courseId.toString(), name: res.data.data.courseName })
 		})
 		// Get Courses
 		props.get("courses?idAndName=true", setCourses)
@@ -78,7 +78,7 @@ const edit = (props) => {
 							aria-expanded="false">
 							Select Course
 						</button>
-						<div className="dropdown-menu">
+						<div className="dropdown-menu w-100 mt-2">
 							<div className="border-bottom px-2">
 								<input
 									type="text"
@@ -100,9 +100,10 @@ const edit = (props) => {
 											<span
 												key={key}
 												className="dropdown-item"
+												style={{ cursor: "pointer" }}
 												onClick={() =>
 													setCourse({
-														id: course.id.toString(),
+														id: course.id,
 														name: course.name,
 													})
 												}>
@@ -121,7 +122,7 @@ const edit = (props) => {
 						name="year"
 						placeholder={session.year}
 						className="form-control mb-2 me-2"
-						onChange={(e) => setYear(e.target.value)}
+						onChange={(e) => setYear(parseInt(e.target.value))}
 					/>
 
 					<input
@@ -129,7 +130,7 @@ const edit = (props) => {
 						name="semester"
 						placeholder={session.semester}
 						className="form-control mb-2 me-2"
-						onChange={(e) => setSemester(e.target.value)}
+						onChange={(e) => setSemester(parseInt(e.target.value))}
 					/>
 
 					<label
@@ -140,7 +141,7 @@ const edit = (props) => {
 					<input
 						type="datetime-local"
 						name="startsAt"
-						value={session.startsAt}
+						defaultValue={session.startsAt}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setStartsAt(e.target.value)}
 					/>
@@ -153,7 +154,7 @@ const edit = (props) => {
 					<input
 						type="datetime-local"
 						name="endsAt"
-						value={session.endsAt}
+						defaultValue={session.endsAt}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setEndsAt(e.target.value)}
 					/>

@@ -79,8 +79,9 @@ class StudentController extends Controller
 			"originLocation" => "nullable|string",
             "facultyId" => "nullable|string",
             "departmentId" => "nullable|string",
-            "courseId" => "nullable|string",
-            "unitId" => "nullable|string",
+            "courseId" => "nullable|integer",
+            "unitId" => "nullable|integer",
+            "sessionId" => "nullable|integer",
         ]);
 
         [$saved, $message, $student] = $this->service->update($request, $id);
