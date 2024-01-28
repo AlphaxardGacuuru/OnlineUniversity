@@ -15,7 +15,7 @@ const show = (props) => {
 	const [unit, setUnit] = useState({})
 	const [syllabus, setSyllabus] = useState([])
 	const [tab, setTab] = useState("materials")
-	const [materialTab, setMaterialTab] = useState("Discussion Forum")
+	const [materialTab, setMaterialTab] = useState("Learning Guide")
 	const [richText, setRichText] = useState("")
 
 	const [nameQuery, setNameQuery] = useState("")
@@ -44,8 +44,6 @@ const show = (props) => {
 	 * Handle Material Change
 	 */
 	const handleMaterialTab = (title, richText) => {
-		console.log(title)
-		console.log(richText)
 		// Check Type of material clicked
 		if (title == "Learning Guide") {
 			setMaterialTab("Learning Guide")

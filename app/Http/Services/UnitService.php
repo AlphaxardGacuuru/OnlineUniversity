@@ -112,6 +112,7 @@ class UnitService extends Service
                     $userUnit = new UserUnit;
                     $userUnit->user_id = $instructorId;
                     $userUnit->unit_id = $unit->id;
+                    $userUnit->academic_session_id = $request->input("sessionId");
                     $userUnit->save();
                 } else {
                     // Remove instructors not included

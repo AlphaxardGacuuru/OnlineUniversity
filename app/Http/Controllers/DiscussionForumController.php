@@ -25,7 +25,19 @@ class DiscussionForumController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+			"sessionId" => "required|integer",
+			"unitId" => "required|integer",
+			"text" => "required|string",
+		]);
+
+		[$saved, $message, $discussionForum] = $this->service->store($request);
+
+		return response([
+			"status" => $saved,
+			"message" => $message,
+			"data" => $discussionForum
+		], 200);
     }
 
     /**

@@ -10,6 +10,7 @@ const edit = (props) => {
 
 	const [unit, setUnit] = useState({})
 	const [instructors, setInstructors] = useState([])
+	const [session, setSession] = useState({})
 
 	const [name, setName] = useState()
 	const [code, setCode] = useState()
@@ -36,6 +37,11 @@ const edit = (props) => {
 				`instructors?idAndName=true&courseId=${unit.courseId}`,
 				setInstructors
 			)
+
+			// Fetch Session
+			Axios.get(`api/sessions/by-course-id/${unit.courseId}`)
+				.then((res) => setSession(res.data.data))
+				.catch((err) => props.getErrors(err))
 		})
 	}, [])
 
@@ -53,7 +59,6 @@ const edit = (props) => {
 			setInstructorIds(newInstructorIds)
 		}
 	}
-	console.log(instructorIds)
 
 	/*
 	 * Submit Form
@@ -64,12 +69,13 @@ const edit = (props) => {
 		setLoading(true)
 		Axios.put(`/api/units/${id}`, {
 			name: name,
-			code: code,
+			code: parseInt(code),
 			description: description,
-			year: year,
-			semester: semester,
+			year: parseInt(year),
+			semester: parseInt(semester),
 			credits: credits,
 			instructorIds: instructorIds,
+			sessionId: session.id,
 		})
 			.then((res) => {
 				setLoading(false)

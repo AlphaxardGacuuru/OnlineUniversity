@@ -55,12 +55,12 @@ const create = (props) => {
 		setLoading(true)
 		Axios.post("/api/units", {
 			name: name,
-			code: code,
+			code: parseInt(code),
 			description: description,
-			year: year,
-			semester: semester,
+			year: parseInt(year),
+			semester: parseInt(semester),
 			credits: credits,
-			instructorIds: instructorIds,
+			// instructorIds: instructorIds,
 			courseId: id,
 		})
 			.then((res) => {
@@ -133,7 +133,7 @@ const create = (props) => {
 						required={true}
 					/>
 
-					<div className="d-flex">
+					{/* <div className="d-flex">
 						<select
 							name="instructorId"
 							className="form-control mb-3 me-2"
@@ -151,17 +151,15 @@ const create = (props) => {
 								</option>
 							))}
 						</select>
-						{/* Close Icon */}
 						<span
 							className="text-primary"
 							style={{ cursor: "pointer" }}
 							onClick={() => setInstructorIds(instructorIds.slice(0, 0))}>
 							<CloseSVG />
 						</span>
-						{/* Close Icon End */}
-					</div>
+					</div> */}
 
-					{instructorIds.map((input, key) => (
+					{/* {instructorIds.map((input, key) => (
 						<div
 							className="d-flex"
 							key={key}>
@@ -188,7 +186,6 @@ const create = (props) => {
 									</option>
 								))}
 							</select>
-							{/* Close Icon */}
 							<span
 								className={
 									key == instructorIds.length - 1 ? "invisible" : "text-primary"
@@ -199,9 +196,8 @@ const create = (props) => {
 								}>
 								<CloseSVG />
 							</span>
-							{/* Close Icon End */}
 						</div>
-					))}
+					))} */}
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn

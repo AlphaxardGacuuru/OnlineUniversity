@@ -15,6 +15,7 @@ const show = (props) => {
 	const [unit, setUnit] = useState({})
 	const [syllabus, setSyllabus] = useState([])
 	const [tab, setTab] = useState("materials")
+	const [materialTab, setMaterialTab] = useState("Discussion Forum")
 	const [richText, setRichText] = useState("")
 
 	const [nameQuery, setNameQuery] = useState("")
@@ -27,51 +28,35 @@ const show = (props) => {
 		props.get(`materials/by-unit-id/${id}`, setSyllabus)
 	}, [])
 
+	/*
+	 * Handle Material Change
+	 */
+	const handleMaterialTab = (title, richText) => {
+		// Check Type of material clicked
+		if (title == "Learning Guide") {
+			setMaterialTab("Learning Guide")
+			setRichText(richText)
+		} else if (title == "Discussion Forum") {
+			setMaterialTab("Discussion Forum")
+		} else if (title == "Written Assignment") {
+			setMaterialTab("Written Assignment")
+			setRichText(richText)
+		} else if (title == "Learning Reflection") {
+			setMaterialTab("Learning Reflection")
+			setRichText(richText)
+		}
+	}
+
 	const active = (activeTab) => {
 		return activeTab == tab ? "bg-light" : "bg-secondary-subtle"
 	}
 
+	const materialActive = (activeTab) => {
+		return activeTab == materialTab ? "bg-light" : "bg-secondary-subtle"
+	}
+
 	const activeTab = (activeTab) => {
 		return activeTab == tab ? "d-block" : "d-none"
-	}
-
-	/*
-	 * Delete Instructor
-	 */
-	const onDeleteInstructor = (instructorId) => {
-		Axios.delete(`/api/instructors/${instructorId}`)
-			.then((res) => {
-				props.setMessages([res.data.message])
-				// Remove row
-				props.get(`units/${id}`, setUnit)
-			})
-			.catch((err) => props.getErrors(err))
-	}
-
-	/*
-	 * Delete Student
-	 */
-	const onDeleteStudent = (studentId) => {
-		Axios.delete(`/api/students/${studentId}`)
-			.then((res) => {
-				props.setMessages([res.data.message])
-				// Remove row
-				props.get(`units/${id}`, setUnit)
-			})
-			.catch((err) => props.getErrors(err))
-	}
-
-	/*
-	 * Delete Material
-	 */
-	const onDeleteMaterial = (materialId) => {
-		Axios.delete(`/api/materials/${materialId}`)
-			.then((res) => {
-				props.setMessages([res.data.message])
-				// Remove row
-				props.get(`materials/by-unit-id/${id}`, setSyllabus)
-			})
-			.catch((err) => props.getErrors(err))
 	}
 
 	return (
@@ -143,7 +128,10 @@ const show = (props) => {
 																		btnText="view"
 																		btnClass="btn-outline-danger  btn-sm me-1"
 																		onClick={() =>
-																			setRichText(material.richText)
+																			handleMaterialTab(
+																				material.title,
+																				material.richText
+																			)
 																		}
 																	/>
 																</div>
@@ -196,6 +184,36 @@ const show = (props) => {
 
 				{/* Materials Tab */}
 				<div className={activeTab("materials")}>
+					{/* Material Tabs */}
+					<div className="d-flex justify-content-between flex-wrap mb-2">
+						<div
+							className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${materialActive(
+								"Learning Guide"
+							)}`}>
+							Learning Guide
+						</div>
+						<div
+							className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${materialActive(
+								"Discussion Forum"
+							)}`}>
+							Discussion Forum
+						</div>
+						<div
+							className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${materialActive(
+								"Written Assignment"
+							)}`}>
+							Written Assignment
+						</div>
+						<div
+							className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${materialActive(
+								"Learning Reflection"
+							)}`}>
+							Learning Reflection
+						</div>
+					</div>
+					{/* Material Tabs End */}
+
+				{/* Materials Tab */}
 					<div className="card shadow-sm mb-2 py-5 p-2">
 						{richText ? (
 							<div

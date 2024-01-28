@@ -13,8 +13,6 @@ class DiscussionForumService extends Service
     {
         $getDiscussionForum = DiscussionForum::where("user_id", $this->id)
             ->where("to", $id)
-            ->orWhere("user_id", $id)
-            ->where("to", $this->id)
             ->orderBy('id', 'ASC')
             ->paginate(10);
 
@@ -28,15 +26,15 @@ class DiscussionForumService extends Service
     public function store($request)
     {
         /* Create new post */
-        $chat = new DiscussionForum;
-        $chat->user_id = $this->id;
-        $chat->to = $request->input('to');
-        $chat->text = $request->input('text');
-        $chat->media = $request->input('media');
+        $discussionForum = new DiscussionForum;
+        $discussionForum->academic_id = $request->input("academic_id");
+        $discussionForum->unit_id = $request->input("unit_id");
+        $discussionForum->user_id = $this->id;
+        $discussionForum->text = $request->input('text');
 		
-        $saved = $chat->save();
+        $saved = $discussionForum->save();
 
-        return [$saved, "DiscussionForum sent", $chat];
+        return [$saved, "Chat sent", $discussionForum];
     }
 
     /**

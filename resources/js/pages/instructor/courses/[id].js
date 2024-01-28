@@ -110,7 +110,7 @@ const show = (props) => {
 										<td>{unit.semester}</td>
 										<td>{unit.credits}</td>
 										<td>
-											{props.auth.unitIds.includes(unit.id) && (
+											{props.auth.unitIds?.includes(unit.id) && (
 												<div className="d-flex justify-content-end">
 													<MyLink2
 														linkTo={`/instructor/units/${unit.id}/show`}

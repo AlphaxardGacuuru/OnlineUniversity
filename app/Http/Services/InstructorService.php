@@ -19,13 +19,16 @@ class InstructorService extends Service
      */
     public function index($request)
     {
+        $courseId = $request->input("courseId");
+
         if ($request->filled("idAndName")) {
-            $instructors = User::where("account_type", "instructor")
+            $instructors = User::with("courses")
+                ->where("account_type", "instructor")
+                ->whereHas("courses", function ($query) use ($courseId) {
+                    $query->where("course_id", $courseId);
+                })
                 ->orderBy("id", "DESC")
-                ->get()
-                ->filter(fn($instructor) => collect($instructor->courses())
-                        ->contains("id", $request->input("courseId")))
-                ->values();
+                ->get();
 
             return response([
                 "data" => $instructors,
