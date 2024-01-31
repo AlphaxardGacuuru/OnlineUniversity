@@ -27,7 +27,9 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->integer('week');
             $table->string('text');
+            $table->string('attachment')->nullable();
             $table->timestamps();
         });
     }

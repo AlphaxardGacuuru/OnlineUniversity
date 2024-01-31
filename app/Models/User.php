@@ -143,4 +143,22 @@ class User extends Authenticatable
             ->map(fn($userUnit) => $userUnit->unit)
             ->first();
     }
+
+    public function unitSessions()
+    {
+        $data = $this->userUnits
+            ->map(fn($userUnit) => $userUnit->academicSession()
+                    ->where("ends_at", ">=", now())
+                    ->where("starts_at", "<=", now())
+                    ->get()
+                    ->map(fn($academicSession) => [
+                        "sessionId" => $academicSession->id,
+                        "unitId" => $userUnit->unit_id,
+                    ]))
+            ->filter() // Remove empty arrays
+            ->flatten(1) // Flatten the array of arrays into a single array
+            ->all(); // Convert the collection to a plain array
+
+        return $data;
+    }
 }

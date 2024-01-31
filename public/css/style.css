@@ -269,7 +269,7 @@ ol {
 	top: 0;
 	left: 0;
 	padding-top: 60px;
-		z-index: 999;
+	z-index: 999;
 }
 
 .site-logo {
@@ -2531,3 +2531,43 @@ ol {
 .menu-open .mainMenu {
 	right: 0;
 }
+
+/* Chat */
+.chat div {
+	margin: 2px 0px;
+	max-width: 90%;
+	word-wrap: break-word;
+	cursor: pointer;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.chat div:hover {
+	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.chat-item {
+	color: #FFF;
+	background-color: #d82a4e;
+	border-top-left-radius: 30px;
+	border-bottom-left-radius: 30px;
+	padding: 5px 5px 0px 20px;
+	border-right: 1px solid #FFF;
+}
+
+.chat-item-reverse {
+	color: #232323;
+	background-color: #FFFFFF;
+	border-top-right-radius: 30px;
+	border-bottom-right-radius: 30px;
+	padding: 5px 20px 0px 5px;
+}
+
+.chat-item-trash {
+	color: #FFFFFF;
+	background-color: #d82a4e;
+	border-radius: 0px;
+	margin: 2px 0px;
+	padding: 10px 5px 0px 5px;
+}
+
+/* Chat End */

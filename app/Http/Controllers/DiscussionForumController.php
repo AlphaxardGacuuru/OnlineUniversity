@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\DiscussionForumChatCreatedEvent;
+use App\Http\Services\DiscussionForumService;
 use App\Models\DiscussionForum;
 use Illuminate\Http\Request;
 
 class DiscussionForumController extends Controller
 {
+	public function __construct(protected DiscussionForumService $service)
+	{
+		// 
+	}
+
     /**
      * Display a listing of the resource.
      *
@@ -26,12 +33,16 @@ class DiscussionForumController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			"sessionId" => "required|integer",
-			"unitId" => "required|integer",
+			"id" => "required|integer",
+			"to" => "required|integer",
 			"text" => "required|string",
+			"attachment" => "nullable|string",
+			"week" => "required|integer"
 		]);
 
 		[$saved, $message, $discussionForum] = $this->service->store($request);
+
+		DiscussionForumChatCreatedEvent::dispatchIf($saved, $discussionForum);
 
 		return response([
 			"status" => $saved,
@@ -46,9 +57,9 @@ class DiscussionForumController extends Controller
      * @param  \App\Models\DiscussionForum  $discussionForum
      * @return \Illuminate\Http\Response
      */
-    public function show(DiscussionForum $discussionForum)
+    public function show(Request $request, $id)
     {
-        //
+        return $this->service->show($request, $id);
     }
 
     /**
@@ -69,8 +80,15 @@ class DiscussionForumController extends Controller
      * @param  \App\Models\DiscussionForum  $discussionForum
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DiscussionForum $discussionForum)
+    public function destroy($id)
     {
-        //
+        [$deleted, $message] = $this->service->destroy($id);
+
+        DiscussionForumChatCreatedEvent::dispatchIf($deleted, $id);
+
+        return response([
+            "status" => $deleted,
+            "message" => $message,
+        ], 200);
     }
 }

@@ -60,4 +60,33 @@ class FilePondController extends Controller
 
         return response("Material deleted", 200);
     }
+
+    /*
+     * Discussion Forum
+     */
+
+    /*
+     * Handle Attachment Upload */
+    public function storeAttachment(Request $request)
+    {
+        $this->validate($request, [
+            'filepond-attachment' => 'required|file',
+        ]);
+
+        // Store Attachment
+        $attachment = $request->file('filepond-attachment')->store('public/attachments');
+
+        $attachment = substr($attachment, 7);
+
+        return $attachment;
+    }
+
+    /*
+     * Handle Attachment Delete */
+    public function destoryAttachment($id)
+    {
+        Storage::delete('public/attachments/' . $id);
+
+        return response("Attachment deleted", 200);
+    }
 }

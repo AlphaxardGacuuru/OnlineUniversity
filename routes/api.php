@@ -4,6 +4,7 @@ use App\Http\Controllers\AcademicSessionController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DiscussionForumController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\FilePondController;
 use App\Http\Controllers\MaterialController;
@@ -44,7 +45,8 @@ Route::apiResources([
     "units" => UnitController::class,
     "users" => UserController::class,
     "materials" => MaterialController::class,
-	"sessions" => AcademicSessionController::class
+	"sessions" => AcademicSessionController::class,
+	"discussion-forums" => DiscussionForumController::class
 ]);
 
 // Course
@@ -75,5 +77,12 @@ Route::prefix('filepond')->group(function () {
 		// Material
 		Route::post("materials", "storeMaterial");
 		Route::delete("materials/{id}", "destoryMaterial");
+
+		// Attachment
+		Route::post("discussion-forums", "storeAttachment");
+		Route::delete("discussion-forums/{id}", "destoryAttachment");
     });
 });
+
+// Broadcast Routes
+Broadcast::routes(['middleware' => ['auth:sanctum']]);

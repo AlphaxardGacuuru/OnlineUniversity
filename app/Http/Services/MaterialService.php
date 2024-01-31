@@ -107,7 +107,7 @@ class MaterialService extends Service
             ->get()
             ->groupBy('week')
             ->map(function ($materials, $week) {
-                return ["week" => "Week " . $week, "materials" => MaterialResource::collection($materials)];
+                return ["week" => $week, "materials" => MaterialResource::collection($materials)];
             })
             ->values()
             ->all();

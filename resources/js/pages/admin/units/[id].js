@@ -156,7 +156,7 @@ const show = (props) => {
 										data-bs-target={`#panelsStayOpen-${key}`}
 										aria-expanded="true"
 										aria-controls={`panelsStayOpen-${key}`}>
-										{syllabus.week} {materialTab}
+										Week {syllabus.week}
 									</button>
 								</h2>
 								<div

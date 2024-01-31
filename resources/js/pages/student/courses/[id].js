@@ -88,7 +88,7 @@ const show = (props) => {
 			<div className="col-sm-4">
 				<div className="card mb-2 p-4 text-center shadow">
 					<h4>{course.name}</h4>
-					{props.auth.courseId != id && (
+					{props.auth.courseId != id && session.id && (
 						<Btn3
 							btnText="self enroll"
 							btnClass="btn-success mt-2"

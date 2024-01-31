@@ -2,19 +2,20 @@
 
 namespace App\Http\Services;
 
+use App\Http\Resources\DiscussionForumResource;
 use App\Models\DiscussionForum;
+use Illuminate\Support\Facades\Storage;
 
 class DiscussionForumService extends Service
 {
-	/*
-	* Get Discussion Forum
-	*/ 
-    public function show($id)
+    /*
+     * Get Discussion Forum
+     */
+    public function show($request, $id)
     {
-        $getDiscussionForum = DiscussionForum::where("user_id", $this->id)
-            ->where("to", $id)
-            ->orderBy('id', 'ASC')
-            ->paginate(10);
+        $getDiscussionForum = DiscussionForum::where("unit_id", $id)
+            ->where("academic_session_id", $request->input("sessionId"))
+            ->get();
 
         return DiscussionForumResource::collection($getDiscussionForum);
     }
@@ -27,11 +28,13 @@ class DiscussionForumService extends Service
     {
         /* Create new post */
         $discussionForum = new DiscussionForum;
-        $discussionForum->academic_id = $request->input("academic_id");
-        $discussionForum->unit_id = $request->input("unit_id");
+        $discussionForum->academic_session_id = $request->input("id");
+        $discussionForum->unit_id = $request->input("to");
+        $discussionForum->week = $request->input("week");
         $discussionForum->user_id = $this->id;
         $discussionForum->text = $request->input('text');
-		
+        $discussionForum->attachment = $request->input("attachment");
+
         $saved = $discussionForum->save();
 
         return [$saved, "Chat sent", $discussionForum];
@@ -43,14 +46,15 @@ class DiscussionForumService extends Service
      */
     public function destroy($id)
     {
-        $chatItem = DiscussionForum::find($id);
+        $discussionForum = DiscussionForum::find($id);
 
-        $media = substr($chatItem->media, 9);
+        // Delete Media
+        $attachment = substr($discussionForum->attachment, 8);
 
-        Storage::delete('public/' . $media);
+        Storage::disk("public")->delete($attachment);
 
-        $deleted = DiscussionForum::find($id)->delete();
+        $deleted = $discussionForum->delete();
 
-        return [$deleted, "DiscussionForum deleted"];
+        return [$deleted, "Chat deleted"];
     }
 }

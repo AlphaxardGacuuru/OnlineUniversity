@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
-import MyLink3 from "@/components/Core/MyLink3"
 import Img from "@/components/Core/Img"
 import Btn3 from "@/components/Core/Btn3"
+import DiscussionForum from "@/components/Unit/DiscussionForum"
 
 import MaterialSVG from "@/svgs/MaterialSVG"
 import PersonSVG from "@/svgs/PersonSVG"
@@ -17,9 +17,14 @@ const show = (props) => {
 	const [tab, setTab] = useState("materials")
 	const [materialTab, setMaterialTab] = useState("Discussion Forum")
 	const [richText, setRichText] = useState("")
+	const [week, setWeek] = useState("")
 
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
+
+	const [unitSession] = (props.auth?.unitSessions || [{}])
+		.filter((unitSession) => unitSession.unitId == id)
+		.map((unitSession) => unitSession)
 
 	useEffect(() => {
 		// Set page
@@ -31,13 +36,15 @@ const show = (props) => {
 	/*
 	 * Handle Material Change
 	 */
-	const handleMaterialTab = (title, richText) => {
+	const handleMaterialTab = (title, richText, syllabusWeek) => {
 		// Check Type of material clicked
 		if (title == "Learning Guide") {
 			setMaterialTab("Learning Guide")
 			setRichText(richText)
 		} else if (title == "Discussion Forum") {
 			setMaterialTab("Discussion Forum")
+			setRichText(richText)
+			setWeek(syllabusWeek)
 		} else if (title == "Written Assignment") {
 			setMaterialTab("Written Assignment")
 			setRichText(richText)
@@ -106,7 +113,7 @@ const show = (props) => {
 										data-bs-target={`#panelsStayOpen-${key}`}
 										aria-expanded="true"
 										aria-controls={`panelsStayOpen-${key}`}>
-										{syllabus.week}
+										Week {syllabus.week}
 									</button>
 								</h2>
 								<div
@@ -130,7 +137,8 @@ const show = (props) => {
 																		onClick={() =>
 																			handleMaterialTab(
 																				material.title,
-																				material.richText
+																				material.richText,
+																				syllabus.week
 																			)
 																		}
 																	/>
@@ -226,6 +234,18 @@ const show = (props) => {
 							</div>
 						)}
 					</div>
+
+					{/* Discussion Forum */}
+
+					{materialTab == "Discussion Forum" && (
+						<DiscussionForum
+							{...props}
+							sessionId={unitSession?.sessionId}
+							unitId={unitSession?.unitId}
+							week={week}
+						/>
+					)}
+					{/* Discussion Forum End */}
 				</div>
 				{/* Materials Tab End */}
 

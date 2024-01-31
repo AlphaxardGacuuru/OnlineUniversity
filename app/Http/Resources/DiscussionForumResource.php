@@ -14,6 +14,16 @@ class DiscussionForumResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+			"id" => $this->id,
+			"sessionId" => $this->academic_session_id,
+			"unitId" => $this->unit_id,
+			"week" => $this->week,
+			"userId" => $this->user_id,
+			"text" => $this->text,
+			"attachment" => $this->attachment,
+			"updatedAt" => $this->updated_at,
+			"createdAt" => $this->created_at,
+		];
     }
 }

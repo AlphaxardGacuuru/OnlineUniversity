@@ -7,12 +7,42 @@ import Button from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
 
 import EmojiSVG from "@/svgs/EmojiSVG"
+import AttachmentSVG from "@/svgs/AttachmentSVG"
+
+// Import React FilePond
+import { FilePond, registerPlugin } from "react-filepond"
+
+// Import FilePond styles
+import "filepond/dist/filepond.min.css"
+
+// Import the Image EXIF Orientation and Image Preview plugins
+// Note: These need to be installed separately
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation"
+import FilePondPluginImagePreview from "filepond-plugin-image-preview"
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type"
+import FilePondPluginImageCrop from "filepond-plugin-image-crop"
+import FilePondPluginImageTransform from "filepond-plugin-image-transform"
+import FilePondPluginFileValidateSize from "filepond-plugin-file-validate-size"
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+
+// Register the plugins
+registerPlugin(
+	FilePondPluginImageExifOrientation,
+	FilePondPluginImagePreview,
+	FilePondPluginFileValidateType,
+	FilePondPluginImageCrop,
+	FilePondPluginImageTransform,
+	FilePondPluginFileValidateSize
+)
 
 const SocialMediaInput = (props) => {
 	const history = useHistory()
 
 	const [text, setText] = useState(props.text ? props.text : "")
+	const [attachment, setAttachment] = useState("")
+
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+	const [showAttachmentPicker, setShowAttachmentPicker] = useState(false)
 	const [loading, setLoading] = useState(false)
 
 	const onEmojiClick = (event, emojiObject) => {
@@ -28,8 +58,10 @@ const SocialMediaInput = (props) => {
 		// Add form data to FormData object
 		const formData = new FormData()
 		text && formData.append("text", text)
+		attachment && formData.append("attachment", attachment)
 		props.id && formData.append("id", props.id)
 		props.to && formData.append("to", props.to)
+		props.week && formData.append("week", props.week)
 		props.editing && formData.append("_method", "PUT")
 
 		// Get csrf cookie from Laravel inorder to send a POST request
@@ -39,12 +71,15 @@ const SocialMediaInput = (props) => {
 				setLoading(false)
 				// Messages
 				props.setMessages([res.data.message])
+				// Clear Attachment
+				setAttachment("")
 				// Update State
 				props.stateToUpdate && props.stateToUpdate()
 				// Clear text unless editing
 				!props.editing && setText("")
 				// Hide Pickers
 				setShowEmojiPicker(false)
+				setShowAttachmentPicker(false)
 				// Redirect
 				props.redirect && history.push(props.redirect)
 			})
@@ -92,13 +127,33 @@ const SocialMediaInput = (props) => {
 					{/* Emoji icon */}
 					<div className="pt-2 px-2">
 						<div
-							className="fs-5"
+							className={`fs-5 ${showEmojiPicker && "text-primary"}`}
 							style={{ cursor: "pointer" }}
-							onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+							onClick={() => {
+								if (!attachment) {
+									setShowEmojiPicker(!showEmojiPicker)
+									setShowAttachmentPicker(true && false)
+								}
+							}}>
 							<EmojiSVG />
 						</div>
 					</div>
 					{/* Emoji icon End */}
+					{/* Attachment icon */}
+					<div className="pt-2 px-2">
+						<div
+							className={`fs-5 ${showAttachmentPicker && "text-primary"}`}
+							style={{ cursor: "pointer" }}
+							onClick={() => {
+								if (!attachment) {
+									setShowEmojiPicker(true && false)
+									setShowAttachmentPicker(!showAttachmentPicker)
+								}
+							}}>
+							<AttachmentSVG />
+						</div>
+					</div>
+					{/* Attachment icon End */}
 					{/* Button */}
 					<div className="p-1">
 						<Button
@@ -127,6 +182,35 @@ const SocialMediaInput = (props) => {
 					</div>
 				)}
 				{/* Show Emoji Picker End */}
+
+				{/* Show Attachment Filepond */}
+				{showAttachmentPicker && (
+					<div>
+						<FilePond
+							name="filepond-attachment"
+							className="m-2"
+							labelIdle='Drag & Drop your File or <span class="filepond--label-action text-dark"> Browse </span>'
+							acceptedFileTypes={["application/pdf"]}
+							allowRevert={true}
+							server={{
+								url: `/api/filepond/`,
+								process: {
+									url: props.urlTo,
+									onload: (res) => setAttachment(res),
+								},
+								revert: {
+									url: props.urlTo + "/" + attachment.substr(11),
+									onload: (res) => {
+										props.setMessages([res])
+										setAttachment("")
+									},
+								},
+							}}
+						/>
+						<br />
+					</div>
+				)}
+				{/* Show Image Filepond End */}
 			</center>
 		</form>
 	)

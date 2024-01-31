@@ -34,7 +34,7 @@ class MaterialController extends Controller
         $this->validate($request, [
 			"title" => "required|string",
 			"description" => "required|string",
-			"week" => "nullable|string",
+			"week" => "nullable|integer",
 			"richText" => "nullable|string",
 			"media" => "nullable|string",
 			"unitId" => "required|string"
@@ -72,7 +72,7 @@ class MaterialController extends Controller
         $this->validate($request, [
 			"title" => "nullable|string",
 			"description" => "nullable|string",
-			"week" => "nullable|string",
+			"week" => "nullable|integer",
 			"richText" => "nullable|string",
 			"media" => "nullable|string",
 			"unitId" => "nullable|string"

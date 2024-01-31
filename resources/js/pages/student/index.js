@@ -8,10 +8,14 @@ import CourseSVG from "@/svgs/CourseSVG"
 
 const index = (props) => {
 	const [tab, setTab] = useState("courses")
+	const [courses, setCourses] = useState([])
+	const [units, setUnits] = useState([])
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Student", path: ["student"] })
+		props.get(`courses/by-user-id/${props.auth.id}`, setCourses)
+		props.get(`units/by-user-id/${props.auth.id}`, setUnits)
 	}, [])
 
 	const active = (activeTab) => {
@@ -74,7 +78,7 @@ const index = (props) => {
 							{/* Total */}
 							<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 								<div>
-									<span className="fs-4">{props.auth.courses?.length}</span>
+									<span className="fs-4">{courses.length}</span>
 									<h4>Total Courses</h4>
 								</div>
 								<div className="fs-1 py-3 px-4 bg-success-subtle text-success rounded-circle">
@@ -100,10 +104,11 @@ const index = (props) => {
 									<th>Faculty</th>
 									<th>Duration (Months)</th>
 									<th>Price (KES)</th>
+									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								{props.auth.courses?.map((course, key) => (
+								{courses.map((course, key) => (
 									<tr key={key}>
 										<td>{key + 1}</td>
 										<td>{course.name}</td>
@@ -113,6 +118,15 @@ const index = (props) => {
 										<td>{course.duration}</td>
 										<td className="text-success">
 											{parseFloat(course.price).toLocaleString()}
+										</td>
+										<td className="text-end">
+											<div className="d-flex">
+												<MyLink3
+													linkTo={`/student/courses/${course.id}/show`}
+													text="view"
+													className="btn-sm me-2"
+												/>
+											</div>
 										</td>
 									</tr>
 								))}
@@ -131,7 +145,7 @@ const index = (props) => {
 							{/* Total */}
 							<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 								<div>
-									<span className="fs-4">{props.auth.units?.length}</span>
+									<span className="fs-4">{units.length}</span>
 									<h4>Total Units</h4>
 								</div>
 								<div className="fs-1 py-3 px-4 bg-success-subtle text-success rounded-circle">
@@ -155,7 +169,7 @@ const index = (props) => {
 									<th>Credits</th>
 									<th>Action</th>
 								</tr>
-								{props.auth.units?.map((unit, key) => (
+								{units.map((unit, key) => (
 									<tr key={key}>
 										<td>{key + 1}</td>
 										<td>{unit.name}</td>
