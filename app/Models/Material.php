@@ -23,6 +23,20 @@ class Material extends Model
         );
     }
 
+    protected function startsAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value ? Carbon::parse($value)->format('Y-m-d') : null,
+        );
+    }
+
+    protected function endsAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value ? Carbon::parse($value)->format('Y-m-d') : null,
+        );
+    }
+
     protected function updatedAt(): Attribute
     {
         return Attribute::make(

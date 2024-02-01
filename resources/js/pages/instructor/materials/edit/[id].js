@@ -39,6 +39,8 @@ const edit = (props) => {
 	const [title, setTitle] = useState()
 	const [description, setDescription] = useState()
 	const [week, setWeek] = useState("")
+	const [startsAt, setStartsAt] = useState()
+	const [endsAt, setEndsAt] = useState()
 	const [type, setType] = useState()
 	const [richText, setRichText] = useState("")
 	const [media, setMedia] = useState("")
@@ -84,6 +86,8 @@ const edit = (props) => {
 			title: title,
 			description: description,
 			week: week,
+			startsAt: startsAt,
+			endsAt: endsAt,
 			type: type,
 			richText: richText,
 			media: media,
@@ -140,6 +144,22 @@ const edit = (props) => {
 						placeholder={material.week}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setWeek(e.target.value)}
+					/>
+
+					<input
+						type="date"
+						name="startsAt"
+						defaultValue={material.startsAt}
+						className="form-control mb-2 me-2"
+						onChange={(e) => setStartsAt(e.target.value)}
+					/>
+
+					<input
+						type="date"
+						name="endsAt"
+						defaultValue={material.endsAt}
+						className="form-control mb-2 me-2"
+						onChange={(e) => setEndsAt(e.target.value)}
 					/>
 
 					<select

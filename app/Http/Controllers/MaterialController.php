@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 
 class MaterialController extends Controller
 {
-	public function __construct(protected MaterialService $service)
-	{
-		// 
-	}
+    public function __construct(protected MaterialService $service)
+    {
+        //
+    }
 
     /**
      * Display a listing of the resource.
@@ -32,22 +32,24 @@ class MaterialController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			"title" => "required|string",
-			"description" => "required|string",
-			"week" => "nullable|integer",
-			"type" => "nullable|string",
-			"richText" => "nullable|string",
-			"media" => "nullable|string",
-			"unitId" => "required|string"
-		]);
+            "title" => "required|string",
+            "description" => "required|string",
+            "week" => "required|integer",
+            "startsAt" => "required|date",
+            "endsAt" => "required|date",
+            "type" => "nullable|string",
+            "richText" => "nullable|string",
+            "media" => "nullable|string",
+            "unitId" => "required|string",
+        ]);
 
-		[$saved, $message, $material] = $this->service->store($request);
+        [$saved, $message, $material] = $this->service->store($request);
 
-		return response([
-			"status" => $saved,
-			"message" => $message,
-			"data" => $material
-		], 200);
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $material,
+        ], 200);
     }
 
     /**
@@ -71,22 +73,24 @@ class MaterialController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			"title" => "nullable|string",
-			"description" => "nullable|string",
-			"week" => "nullable|integer",
-			"type" => "nullable|string",
-			"richText" => "nullable|string",
-			"media" => "nullable|string",
-			"unitId" => "nullable|string"
-		]);
+            "title" => "nullable|string",
+            "description" => "nullable|string",
+            "week" => "nullable|integer",
+            "startsAt" => "nullable|date",
+            "endsAt" => "nullable|date",
+            "type" => "nullable|string",
+            "richText" => "nullable|string",
+            "media" => "nullable|string",
+            "unitId" => "nullable|string",
+        ]);
 
-		[$saved, $message, $material] = $this->service->update($request, $id);
+        [$saved, $message, $material] = $this->service->update($request, $id);
 
-		return response([
-			"status" => $saved,
-			"message" => $message,
-			"data" => $material
-		], 200);
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $material,
+        ], 200);
     }
 
     /**
@@ -99,18 +103,18 @@ class MaterialController extends Controller
     {
         [$deleted, $message, $material] = $this->service->destroy($id);
 
-		return response([
-			"status" => $deleted,
-			"message" => $message,
-			"data" => $material
-		], 200);
+        return response([
+            "status" => $deleted,
+            "message" => $message,
+            "data" => $material,
+        ], 200);
     }
 
-	/*
-	* Get Materials By Unit
-	*/ 
-	public function byUnitId($id)
-	{
-		return $this->service->byUnitId($id);
-	}
+    /*
+     * Get Materials By Unit
+     */
+    public function byUnitId($id)
+    {
+        return $this->service->byUnitId($id);
+    }
 }

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->unsignedInteger('week');
+            $table->timestamp('starts_at')->nullable();
+            $table->timestamp('ends_at')->nullable();
             $table->string('type')->nullable();
             $table->longText('rich_text')->nullable();
             $table->string('media')->nullable();

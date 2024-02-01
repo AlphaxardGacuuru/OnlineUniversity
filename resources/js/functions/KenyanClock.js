@@ -50,9 +50,9 @@ const KenyanClock = (props) => {
 			<Btn
 				btnClass={`${props.className} my-1 fs-6 hidden`}
 				btnText={
-					<div style={{ fontSize: "0.8em" }}>
-						<b>{kenyanTime}</b>
-						<div>(EAT-GMT+3)</div>
+					<div>
+						<div style={{ fontSize: "1em" }}>{kenyanTime}</div>
+						<div style={{ fontSize: "0.8em" }}>EAT-GMT+3</div>
 					</div>
 				}
 			/>

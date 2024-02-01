@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Http\Resources\MaterialResource;
 use App\Models\Material;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class MaterialService extends Service
 {
@@ -27,6 +28,8 @@ class MaterialService extends Service
         $material->title = $request->input("title");
         $material->description = $request->input("description");
         $material->week = $request->input("week");
+        $material->starts_at = $request->input("startsAt");
+        $material->ends_at = $request->input("endsAt");
         $material->type = $request->input("type");
         $material->rich_text = $request->input("richText");
         $material->media = $request->input("media");
@@ -56,6 +59,14 @@ class MaterialService extends Service
 
         if ($request->input("week")) {
             $material->week = $request->input("week");
+        }
+
+        if ($request->input("startsAt")) {
+            $material->starts_at = $request->input("startsAt");
+        }
+
+        if ($request->input("endsAt")) {
+            $material->ends_at = $request->input("endsAt");
         }
 
         if ($request->input("type")) {
@@ -112,7 +123,15 @@ class MaterialService extends Service
             ->get()
             ->groupBy('week')
             ->map(function ($materials, $week) {
-                return ["week" => $week, "materials" => MaterialResource::collection($materials)];
+                // Format Date
+                $startsAt = Carbon::parse($materials->first()->starts_at)->format('d M Y');
+                $endsAt = Carbon::parse($materials->first()->ends_at)->format('d M Y');
+
+                return [
+                    "week" => $week,
+                    "range" => $startsAt . " - " . $endsAt,
+                    "materials" => MaterialResource::collection($materials),
+                ];
             })
             ->values()
             ->all();

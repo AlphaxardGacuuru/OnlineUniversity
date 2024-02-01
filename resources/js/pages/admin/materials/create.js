@@ -42,6 +42,8 @@ const create = (props) => {
 	const [title, setTitle] = useState()
 	const [description, setDescription] = useState()
 	const [week, setWeek] = useState()
+	const [startsAt, setStartsAt] = useState()
+	const [endsAt, setEndsAt] = useState()
 	const [type, setType] = useState()
 	const [richText, setRichText] = useState("")
 	const [media, setMedia] = useState("media")
@@ -79,6 +81,8 @@ const create = (props) => {
 			title: title,
 			description: description,
 			week: week,
+			startsAt: startsAt,
+			endsAt: endsAt,
 			type: type,
 			richText: richText,
 			media: media,
@@ -105,7 +109,6 @@ const create = (props) => {
 				<form
 					onSubmit={onSubmit}
 					className="mb-5">
-
 					<select
 						type="text"
 						name="title"
@@ -138,6 +141,23 @@ const create = (props) => {
 						placeholder="Week"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setWeek(e.target.value)}
+						required={true}
+					/>
+
+					<input
+						type="date"
+						name="startsAt"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setStartsAt(e.target.value)}
+						required={true}
+					/>
+
+					<input
+						type="date"
+						name="endsAt"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setEndsAt(e.target.value)}
+						required={true}
 					/>
 
 					<select

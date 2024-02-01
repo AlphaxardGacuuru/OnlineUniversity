@@ -156,7 +156,10 @@ const show = (props) => {
 										data-bs-target={`#panelsStayOpen-${key}`}
 										aria-expanded="true"
 										aria-controls={`panelsStayOpen-${key}`}>
-										Week {syllabus.week}
+										<div className="d-flex justify-content-between w-100 me-2">
+											<div>Week {syllabus.week}</div>
+											<div>{syllabus.range}</div>
+										</div>
 									</button>
 								</h2>
 								<div
