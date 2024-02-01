@@ -44,13 +44,16 @@ const show = (props) => {
 			setRichText(richText)
 		} else if (title == "Discussion Forum") {
 			setMaterialTab("Discussion Forum")
+			setRichText(richText)
 			setWeek(syllabusWeek)
 		} else if (title == "Written Assignment") {
 			setMaterialTab("Written Assignment")
 			setRichText(richText)
+			setWeek(syllabusWeek)
 		} else if (title == "Learning Reflection") {
 			setMaterialTab("Learning Reflection")
 			setRichText(richText)
+			setWeek(syllabusWeek)
 		}
 	}
 
@@ -64,6 +67,19 @@ const show = (props) => {
 
 	const activeTab = (activeTab) => {
 		return activeTab == tab ? "d-block" : "d-none"
+	}
+
+	/*
+	 * Delete Material
+	 */
+	const onDeleteMaterial = (materialId) => {
+		Axios.delete(`/api/materials/${materialId}`)
+			.then((res) => {
+				props.setMessages([res.data.message])
+				// Remove row
+				props.get(`materials/by-unit-id/${id}`, setSyllabus)
+			})
+			.catch((err) => props.getErrors(err))
 	}
 
 	return (
@@ -98,6 +114,18 @@ const show = (props) => {
 					{/* Data End */}
 
 					{/* Weeks */}
+					<div className="card shadow mb-2">
+						<div className="d-flex justify-content-between p-2 px-4 align-items-center">
+							<h5>Materials</h5>
+							<div>
+								<MyLink2
+									linkTo={`/instructor/materials/${id}/create`}
+									text="add material"
+								/>
+							</div>
+						</div>
+					</div>
+
 					<div
 						className="accordion shadow mb-5"
 						id="accordionPanelsStayOpenExample">
@@ -142,6 +170,70 @@ const show = (props) => {
 																			)
 																		}
 																	/>
+
+																	<MyLink2
+																		linkTo={`/instructor/materials/${material.id}/edit`}
+																		text="edit"
+																		className="btn-sm"
+																	/>
+
+																	<div className="mx-1">
+																		{/* Confirm Delete Modal End */}
+																		<div
+																			className="modal fade"
+																			id={`deleteMaterialModal${material.id}`}
+																			tabIndex="-1"
+																			aria-labelledby="deleteModalLabel"
+																			aria-hidden="true">
+																			<div className="modal-dialog">
+																				<div className="modal-content">
+																					<div className="modal-header">
+																						<h1
+																							id="deleteModalLabel"
+																							className="modal-title fs-5 text-danger">
+																							Delete Material
+																						</h1>
+																						<button
+																							type="button"
+																							className="btn-close"
+																							data-bs-dismiss="modal"
+																							aria-label="Close"></button>
+																					</div>
+																					<div className="modal-body text-wrap">
+																						Are you sure you want to delete{" "}
+																						{material.title}.
+																					</div>
+																					<div className="modal-footer justify-content-between">
+																						<button
+																							type="button"
+																							className="btn btn-light rounded-pill"
+																							data-bs-dismiss="modal">
+																							Close
+																						</button>
+																						<button
+																							type="button"
+																							className="btn btn-danger rounded-pill"
+																							data-bs-dismiss="modal"
+																							onClick={() =>
+																								onDeleteMaterial(material.id)
+																							}>
+																							Delete
+																						</button>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																		{/* Confirm Delete Modal End */}
+
+																		{/* Button trigger modal */}
+																		<button
+																			type="button"
+																			className="btn btn-sm btn-outline-danger rounded-pill"
+																			data-bs-toggle="modal"
+																			data-bs-target={`#deleteMaterialModal${material.id}`}>
+																			Delete
+																		</button>
+																	</div>
 																</div>
 															</td>
 														</tr>
@@ -220,7 +312,6 @@ const show = (props) => {
 						</div>
 					</div>
 					{/* Material Tabs End */}
-
 					{/* Materials Tab */}
 					<div className="card shadow-sm mb-2 py-5 p-2">
 						{richText ? (
@@ -234,14 +325,15 @@ const show = (props) => {
 							</div>
 						)}
 					</div>
-
 					{/* Discussion Forum */}
-					<DiscussionForum
-						{...props}
-						sessionId={unitSession?.sessionId}
-						unitId={unitSession?.unitId}
-						week={week}
-					/>
+					{materialTab == "Discussion Forum" && (
+						<DiscussionForum
+							{...props}
+							sessionId={unitSession?.sessionId}
+							unitId={unitSession?.unitId}
+							week={week}
+						/>
+					)}
 					{/* Discussion Forum End */}
 				</div>
 				{/* Materials Tab End */}

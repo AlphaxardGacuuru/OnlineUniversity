@@ -27,6 +27,7 @@ class MaterialService extends Service
         $material->title = $request->input("title");
         $material->description = $request->input("description");
         $material->week = $request->input("week");
+        $material->type = $request->input("type");
         $material->rich_text = $request->input("richText");
         $material->media = $request->input("media");
         $material->unit_id = $request->input("unitId");
@@ -55,6 +56,10 @@ class MaterialService extends Service
 
         if ($request->input("week")) {
             $material->week = $request->input("week");
+        }
+
+        if ($request->input("type")) {
+            $material->type = $request->input("type");
         }
 
         if ($request->input("richText")) {

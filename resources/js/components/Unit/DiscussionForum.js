@@ -151,6 +151,7 @@ const DiscussionForum = (props) => {
 			<div className="sonar-call-to-action-area section-padding-0-100">
 				{chats
 					.filter((chat) => chat != {})
+					.filter((chat) => chat.week == props.week)
 					.filter((chat) => !deletedIds.includes(chat.id))
 					.map((chatItem, key) => (
 						<div
@@ -169,13 +170,30 @@ const DiscussionForum = (props) => {
 									</div>
 								)}
 							{/* Trash End */}
-
+							{/* Profile pic */}
+							<div
+								className="p-1"
+								style={{
+									backgroundColor:
+										chatItem.userId == props.auth.id ? "#d82a4e" : "#fff",
+									borderColor:
+										chatItem.userId == props.auth.id ? "#d82a4e" : "#ffffff",
+								}}>
+								<Img
+									src={chatItem.avatar}
+									className="rounded-circle"
+									width="25px"
+									height="25px"
+									alt="Avatar"
+								/>
+							</div>
+							{/* Profile pic End */}
 							{/* Chat */}
 							<div
 								className={
 									chatItem.userId == props.auth.id
-										? "chat-item"
-										: "chat-item-reverse"
+										? "chat-item border border-0"
+										: "chat-item-reverse border border-0"
 								}
 								onClick={() => {
 									if (chatItem.userId == props.auth.id) {
@@ -187,7 +205,7 @@ const DiscussionForum = (props) => {
 								{/* Media */}
 								<span className="d-block text-end mb-1">
 									{chatItem.attachment && (
-										<span className="d-flex justify-content-between border border-light rounded-pill">
+										<span className="d-flex justify-content-between rounded bg-dark">
 											<button
 												type="button"
 												className="btn btn-sm rounded-pill text-white"

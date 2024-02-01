@@ -42,6 +42,7 @@ const create = (props) => {
 	const [title, setTitle] = useState()
 	const [description, setDescription] = useState()
 	const [week, setWeek] = useState()
+	const [type, setType] = useState()
 	const [richText, setRichText] = useState("")
 	const [media, setMedia] = useState("media")
 	const [loading, setLoading] = useState()
@@ -51,6 +52,21 @@ const create = (props) => {
 		// Set page
 		props.setPage({ name: "Add Material", path: ["materials", "create"] })
 	}, [])
+
+	/*
+	 * Types
+	 */
+	const titles = [
+		"Learning Guide",
+		"Discussion Forum",
+		"Written Assignment",
+		"Learning Reflection",
+		"Self-Quiz",
+		"CAT 1",
+		"CAT 2",
+		"Review Quiz",
+		"Final Exam",
+	]
 
 	/*
 	 * Submit Form
@@ -63,6 +79,7 @@ const create = (props) => {
 			title: title,
 			description: description,
 			week: week,
+			type: type,
 			richText: richText,
 			media: media,
 			unitId: id,
@@ -88,6 +105,7 @@ const create = (props) => {
 				<form
 					onSubmit={onSubmit}
 					className="mb-5">
+
 					<select
 						type="text"
 						name="title"
@@ -96,10 +114,13 @@ const create = (props) => {
 						onChange={(e) => setTitle(e.target.value)}
 						required={true}>
 						<option value="">Choose Material</option>
-						<option value="Learning Guide">Learning Guide</option>
-						<option value="Discussion Forum">Discussion Forum</option>
-						<option value="Written Assignment">Written Assignment</option>
-						<option value="Learning Reflection">Learning Reflection</option>
+						{titles.map((title, key) => (
+							<option
+								key={key}
+								value={title}>
+								{title}
+							</option>
+						))}
 					</select>
 
 					<input
@@ -118,6 +139,15 @@ const create = (props) => {
 						className="form-control mb-2 me-2"
 						onChange={(e) => setWeek(e.target.value)}
 					/>
+
+					<select
+						type="text"
+						name="type"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setType(e.target.value)}>
+						<option value="">Choose Type</option>
+						<option value="">Multi-Choice</option>
+					</select>
 
 					<div className="bg-white">
 						<ReactQuill

@@ -20,6 +20,7 @@ class DiscussionForumResource extends JsonResource
 			"unitId" => $this->unit_id,
 			"week" => $this->week,
 			"userId" => $this->user_id,
+			"avatar" => $this->user->avatar,
 			"text" => $this->text,
 			"attachment" => $this->attachment,
 			"updatedAt" => $this->updated_at,

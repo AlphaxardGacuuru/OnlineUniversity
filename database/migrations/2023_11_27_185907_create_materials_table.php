@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->unsignedInteger('week');
+            $table->string('type')->nullable();
             $table->longText('rich_text')->nullable();
             $table->string('media')->nullable();
             $table->foreignId('unit_id')

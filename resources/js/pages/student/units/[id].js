@@ -9,13 +9,40 @@ import MaterialSVG from "@/svgs/MaterialSVG"
 import PersonSVG from "@/svgs/PersonSVG"
 import StudentSVG from "@/svgs/StudentSVG"
 
+// Import React FilePond
+import { FilePond, registerPlugin } from "react-filepond"
+
+// Import FilePond styles
+import "filepond/dist/filepond.min.css"
+
+// Import the Image EXIF Orientation and Image Preview plugins
+// Note: These need to be installed separately
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation"
+import FilePondPluginImagePreview from "filepond-plugin-image-preview"
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type"
+import FilePondPluginImageCrop from "filepond-plugin-image-crop"
+import FilePondPluginImageTransform from "filepond-plugin-image-transform"
+import FilePondPluginFileValidateSize from "filepond-plugin-file-validate-size"
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+
+// Register the plugins
+registerPlugin(
+	FilePondPluginImageExifOrientation,
+	FilePondPluginImagePreview,
+	FilePondPluginFileValidateType,
+	FilePondPluginImageCrop,
+	FilePondPluginImageTransform,
+	FilePondPluginFileValidateSize
+)
+
 const show = (props) => {
 	var { id } = useParams()
 
 	const [unit, setUnit] = useState({})
 	const [syllabus, setSyllabus] = useState([])
+
 	const [tab, setTab] = useState("materials")
-	const [materialTab, setMaterialTab] = useState("Discussion Forum")
+	const [materialTab, setMaterialTab] = useState("Learning Guide")
 	const [richText, setRichText] = useState("")
 	const [week, setWeek] = useState("")
 
@@ -48,9 +75,11 @@ const show = (props) => {
 		} else if (title == "Written Assignment") {
 			setMaterialTab("Written Assignment")
 			setRichText(richText)
+			setWeek(syllabusWeek)
 		} else if (title == "Learning Reflection") {
 			setMaterialTab("Learning Reflection")
 			setRichText(richText)
+			setWeek(syllabusWeek)
 		}
 	}
 
@@ -236,7 +265,6 @@ const show = (props) => {
 					</div>
 
 					{/* Discussion Forum */}
-
 					{materialTab == "Discussion Forum" && (
 						<DiscussionForum
 							{...props}
@@ -246,6 +274,30 @@ const show = (props) => {
 						/>
 					)}
 					{/* Discussion Forum End */}
+
+					{/* Submission */}
+					{(materialTab == "Written Assignment" ||
+						materialTab == "Learning Reflection") && (
+						<div className="card mb-5">
+							<FilePond
+								name="filepond-file"
+								className="m-2"
+								labelIdle='Drag & Drop your File or <span class="filepond--label-action text-dark"> Browse </span>'
+								acceptedFileTypes={["application/pdf"]}
+								allowRevert={true}
+								server={{
+									url: `/api/filepond/`,
+									process: {
+										url: `submissions/${unitSession?.sessionId}/${id}/${week}/${props.auth.id}/${materialTab}`,
+										onload: (res) => props.setMessages([res]),
+										onerror: (err) => console.log(err.response.data),
+									},
+								}}
+							/>
+							<br />
+						</div>
+					)}
+					{/* Submission End */}
 				</div>
 				{/* Materials Tab End */}
 

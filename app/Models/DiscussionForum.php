@@ -47,4 +47,13 @@ class DiscussionForum extends Model
             get: fn($value) => Carbon::parse($value)->format('d M Y H:ia'),
         );
     }
+
+	/*
+	* Relationships
+	*/ 
+	
+	public function user()
+	{
+		return $this->belongsTo(User::class);
+	}
 }

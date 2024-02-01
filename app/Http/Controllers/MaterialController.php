@@ -35,6 +35,7 @@ class MaterialController extends Controller
 			"title" => "required|string",
 			"description" => "required|string",
 			"week" => "nullable|integer",
+			"type" => "nullable|string",
 			"richText" => "nullable|string",
 			"media" => "nullable|string",
 			"unitId" => "required|string"
@@ -73,6 +74,7 @@ class MaterialController extends Controller
 			"title" => "nullable|string",
 			"description" => "nullable|string",
 			"week" => "nullable|integer",
+			"type" => "nullable|string",
 			"richText" => "nullable|string",
 			"media" => "nullable|string",
 			"unitId" => "nullable|string"

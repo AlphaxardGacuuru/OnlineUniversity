@@ -81,6 +81,9 @@ Route::prefix('filepond')->group(function () {
 		// Attachment
 		Route::post("discussion-forums", "storeAttachment");
 		Route::delete("discussion-forums/{id}", "destoryAttachment");
+		
+		// Submission
+		Route::post("submissions/{sessionId}/{unitId}/{week}/{userId}/{type}", "storeSubmission");
     });
 });
 

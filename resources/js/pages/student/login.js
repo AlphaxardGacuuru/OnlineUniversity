@@ -95,10 +95,10 @@ const login = (props) => {
 							<form
 								onSubmit={onSubmit}
 								className="signup-form">
-								<GoogleLoginButton
+								{/* <GoogleLoginButton
 									className="border-0 m-0 w-100 mb-4"
 									onClick={() => onSocial("google")}
-								/>
+								/> */}
 
 								<input
 									type="text"

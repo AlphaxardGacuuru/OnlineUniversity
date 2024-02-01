@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Submission;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -88,5 +89,57 @@ class FilePondController extends Controller
         Storage::delete('public/attachments/' . $id);
 
         return response("Attachment deleted", 200);
+    }
+
+    /*
+     * Store Submissions */
+    public function storeSubmission(Request $request, $sessionId, $unitId, $week, $userId, $type)
+    {
+        $this->validate($request, [
+            "filepond-file" => "required|file",
+        ]);
+
+        $attachment = $request
+            ->file('filepond-file')
+            ->store('public/submissions');
+
+        $attachment = substr($attachment, 7);
+
+        $submissionQuery = Submission::where("academic_session_id", $sessionId)
+            ->where("unit_id", $unitId)
+            ->where("week", $week)
+            ->where("user_id", $userId)
+            ->where("type", $type);
+
+        $submissionDoesntExist = $submissionQuery->doesntExist();
+
+        if ($submissionDoesntExist) {
+            // Add New Submission
+            $submission = new Submission;
+            $submission->academic_session_id = $sessionId;
+            $submission->unit_id = $unitId;
+            $submission->week = $week;
+            $submission->user_id = $userId;
+            $submission->type = $type;
+            $submission->attachment = $attachment;
+            $submission->save();
+
+            $message = $type . " saved";
+        } else {
+            $submission = $submissionQuery->first();
+
+            // Get old attachment and delete it
+            $oldAttachment = substr($submission->attachment, 8);
+
+            Storage::disk("public")->delete($oldAttachment);
+
+            // Update Submission
+            $submission->attachment = $attachment;
+            $submission->save();
+
+            $message = $type . " updated";
+        }
+
+        return response($message, 200);
     }
 }

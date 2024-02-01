@@ -57,6 +57,9 @@ import InstructorCourseShow from "@/pages/instructor/courses/[id]"
 
 import InstructorUnitShow from "@/pages/instructor/units/[id]"
 
+import InstructorMaterialCreate from "@/pages/instructor/materials/create"
+import InstructorMaterialEdit from "@/pages/instructor/materials/edit/[id]"
+
 import InstructorResources from "@/pages/instructor/resources/index"
 
 import StudentLogin from "@/pages/student/login"
@@ -234,6 +237,14 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/instructor/units/:id/show",
 			component: <InstructorUnitShow {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/instructor/materials/:id/create",
+			component: <InstructorMaterialCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/instructor/materials/:id/edit",
+			component: <InstructorMaterialEdit {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/instructor/resources",

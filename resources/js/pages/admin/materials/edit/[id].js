@@ -39,6 +39,7 @@ const edit = (props) => {
 	const [title, setTitle] = useState()
 	const [description, setDescription] = useState()
 	const [week, setWeek] = useState("")
+	const [type, setType] = useState()
 	const [richText, setRichText] = useState("")
 	const [media, setMedia] = useState("")
 	const [loading, setLoading] = useState()
@@ -57,6 +58,21 @@ const edit = (props) => {
 	}, [])
 
 	/*
+	 * Types
+	 */
+	const titles = [
+		"Learning Guide",
+		"Discussion Forum",
+		"Written Assignment",
+		"Learning Reflection",
+		"Self-Quiz",
+		"CAT 1",
+		"CAT 2",
+		"Review Quiz",
+		"Final Exam",
+	]
+
+	/*
 	 * Submit Form
 	 */
 	const onSubmit = (e) => {
@@ -68,6 +84,7 @@ const edit = (props) => {
 			title: title,
 			description: description,
 			week: week,
+			type: type,
 			richText: richText,
 			media: media,
 		})
@@ -99,26 +116,14 @@ const edit = (props) => {
 						className="form-control mb-2 me-2"
 						onChange={(e) => setTitle(e.target.value)}>
 						<option value="">Choose Material</option>
-						<option
-							value="Learning Guide"
-							selected={material.title == "Learning Guide" && true}>
-							Learning Guide
-						</option>
-						<option
-							value="Discussion Forum"
-							selected={material.title == "Discussion Forum" && true}>
-							Discussion Forum
-						</option>
-						<option
-							value="Written Assignment"
-							selected={material.title == "Written Assignment" && true}>
-							Written Assignment
-						</option>
-						<option
-							value="Learning Reflection"
-							selected={material.title == "Learning Reflection" && true}>
-							Learning Reflection
-						</option>
+						{titles.map((title, key) => (
+							<option
+								key={key}
+								value={title}
+								selected={material.title == title && true}>
+								{title}
+							</option>
+						))}
 					</select>
 
 					<input
@@ -136,6 +141,19 @@ const edit = (props) => {
 						className="form-control mb-2 me-2"
 						onChange={(e) => setWeek(e.target.value)}
 					/>
+
+					<select
+						type="text"
+						name="type"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setType(e.target.value)}>
+						<option value="">Choose Type</option>
+						<option
+							value="Multi-Choice"
+							selected={material.title == "Multi-Choice" && true}>
+							Multi-Choice
+						</option>
+					</select>
 
 					<div className="bg-white">
 						<ReactQuill
