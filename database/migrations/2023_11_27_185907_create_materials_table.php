@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
             $table->unsignedInteger('week');
             $table->timestamp('starts_at')->nullable();
             $table->timestamp('ends_at')->nullable();

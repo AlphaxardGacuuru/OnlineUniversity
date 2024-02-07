@@ -33,7 +33,7 @@ class CourseController extends Controller
     {
         $this->validate($request, [
 			"name" => "required|string|unique:courses",
-			"description" => "required|string",
+			"description" => "required|string|max:65535",
 			"duration" => "required|string",
 			"price" => "required|string",
 			"departmentId" => "nullable|string",
@@ -70,7 +70,7 @@ class CourseController extends Controller
     {
         $this->validate($request, [
 			"name" => "required|string|unique:courses",
-			"description" => "required|string",
+			"description" => "required|string|max:65535",
 			"duration" => "required|string",
 			"price" => "required|string",
 			"departmentId" => "nullable|string",

@@ -17,6 +17,7 @@ const index = (props) => {
 	const [nameQuery, setNameQuery] = useState("")
 	const [facultyQuery, setFacultyQuery] = useState("")
 	const [departmentQuery, setDepartmentQuery] = useState("")
+	const [loading, setLoading] = useState()
 
 	useEffect(() => {
 		// Set page
@@ -39,7 +40,7 @@ const index = (props) => {
 				// Toggle loader
 				setLoading(true)
 				// Delete rows
-				setCourses(courses.data?.filter((course) => course.id != courseId))
+				props.getPaginated("courses", setCourses)
 			})
 			.catch((err) => {
 				// Toggle loader

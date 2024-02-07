@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
-            $table->string('description');
+            $table->text('description');
             $table->integer('year')->nullable();
             $table->integer('semester')->nullable();
 			$table->decimal('credits', 5, 2)->nullable();

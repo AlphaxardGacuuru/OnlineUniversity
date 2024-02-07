@@ -33,7 +33,7 @@ class MaterialController extends Controller
     {
         $this->validate($request, [
             "title" => "required|string",
-            "description" => "required|string",
+            "description" => "required|string|max:65535",
             "week" => "required|integer",
             "startsAt" => "required|date",
             "endsAt" => "required|date",
@@ -74,7 +74,7 @@ class MaterialController extends Controller
     {
         $this->validate($request, [
             "title" => "nullable|string",
-            "description" => "nullable|string",
+            "description" => "nullable|string|max:65535",
             "week" => "nullable|integer",
             "startsAt" => "nullable|date",
             "endsAt" => "nullable|date",

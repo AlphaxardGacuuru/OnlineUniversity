@@ -4,8 +4,8 @@ namespace App\Http\Services;
 
 use App\Http\Resources\MaterialResource;
 use App\Models\Material;
-use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class MaterialService extends Service
 {
@@ -124,12 +124,19 @@ class MaterialService extends Service
             ->groupBy('week')
             ->map(function ($materials, $week) {
                 // Format Date
-                $startsAt = Carbon::parse($materials->first()->starts_at)->format('d M Y');
-                $endsAt = Carbon::parse($materials->first()->ends_at)->format('d M Y');
+                $startsAt = $materials->first()->starts_at;
+                $endsAt = $materials->first()->ends_at;
+
+                $startsAt = $startsAt ? Carbon::parse($startsAt)->format('d M Y') : null;
+                $endsAt = $endsAt ? Carbon::parse($endsAt)->format('d M Y') : null;
+
+                // Check if the current date is within the date range
+                $isWithinRange = Carbon::now()->between($startsAt, $endsAt);
 
                 return [
                     "week" => $week,
                     "range" => $startsAt . " - " . $endsAt,
+                    "isActive" => $isWithinRange,
                     "materials" => MaterialResource::collection($materials),
                 ];
             })

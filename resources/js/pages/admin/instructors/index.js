@@ -40,11 +40,7 @@ const index = (props) => {
 				// Toggle loader
 				setLoading(true)
 				// Delete rows
-				setInstructors(
-					instructors.data?.filter(
-						(instructor) => instructor.id != instructorId
-					)
-				)
+				props.getPaginated("instructors", setInstructors)
 			})
 			.catch((err) => {
 				// Toggle loader

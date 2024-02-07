@@ -32,7 +32,7 @@ class UnitController extends Controller
     {
         $this->validate($request, [
             "name" => "required|string",
-            "description" => "required|string",
+            "description" => "required|string|max:65535",
             "code" => "required|integer",
             "year" => "nullable|integer",
             "semester" => "nullable|integer",
@@ -72,7 +72,7 @@ class UnitController extends Controller
     {
         $this->validate($request, [
             "name" => "nullable|string",
-            "description" => "nullable|string",
+            "description" => "nullable|string|max:65535",
             "code" => "nullable|integer",
             "year" => "nullable|integer",
             "semester" => "nullable|integer",
