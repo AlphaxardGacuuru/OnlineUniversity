@@ -135,22 +135,31 @@ const show = (props) => {
 								className="accordion-item">
 								<h2 className="accordion-header">
 									<button
-										className={`accordion-button ${key > 0 && "collapsed"}`}
+										className={`accordion-button ${
+											!syllabus.isActive && "collapsed"
+										}`}
 										type="button"
 										data-bs-toggle="collapse"
 										data-bs-target={`#panelsStayOpen-${key}`}
 										aria-expanded="true"
 										aria-controls={`panelsStayOpen-${key}`}>
-										<div className="d-flex justify-content-between w-100 me-2">
-											<div>Week {syllabus.week}</div>
-											<div>{syllabus.range}</div>
+										<div className="d-flex justify-content-start w-100 me-2">
+											<div className="me-2">Week {syllabus.week}</div>
+											<div className="border border-danger rounded-pill text-danger me-2 px-2">
+												{syllabus.range}
+											</div>
+											{syllabus.isActive && (
+												<div className="border border-danger rounded-pill text-danger me-2 px-2">
+													Current
+												</div>
+											)}
 										</div>
 									</button>
 								</h2>
 								<div
 									id={`panelsStayOpen-${key}`}
 									className={`accordion-collapse collapse ${
-										key == 0 && "show"
+										syllabus.isActive && "show"
 									}`}>
 									<div className="accordion-body p-1">
 										{/* Table */}

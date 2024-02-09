@@ -8,6 +8,8 @@ import Img from "@/components/Core/Img"
 import TrashSVG from "@/svgs/TrashSVG"
 import SocialMediaInput from "@/components/Core/SocialMediaInput"
 import AttachmentSVG from "@/svgs/AttachmentSVG"
+import StarFilledSVG from "@/svgs/StarFilledSVG"
+import StarSVG from "@/svgs/StarSVG"
 
 const DiscussionForum = (props) => {
 	let { id } = useParams()
@@ -17,6 +19,8 @@ const DiscussionForum = (props) => {
 	const [attachment, setAttachment] = useState()
 	const [newChat, setNewChat] = useState({})
 	const [toDeleteIds, setToDeleteIds] = useState([])
+	const [showOptions, setShowOptions] = useState(false)
+	const [hasRated, setHasRated] = useState()
 	const [deletedIds, setDeletedIds] = useState([])
 
 	var modalBtn = useRef()
@@ -76,13 +80,38 @@ const DiscussionForum = (props) => {
 	}
 
 	/*
+	 * Add rating
+	 */
+	const onRate = (rating) => {
+		Axios.post(`api/discussion-forum-ratings`, {
+			discussionForumId: toDeleteIds[0],
+			rating: rating,
+		})
+			.then((res) => props.setMessages([res.data.message]))
+			.catch((err) => props.getErrors(err))
+	}
+
+	const ratings = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+
+	/*
 	 * Show Delete */
-	const showDelete = (id) => {
-		if (toDeleteIds.includes(id)) {
-			var newToDeleteIds = toDeleteIds.filter((toDeleteId) => toDeleteId != id)
+	const showDelete = (chat) => {
+		// Show Options
+		if (toDeleteIds.length == 0) {
+			setHasRated(chat.hasRated)
+			setShowOptions(!showOptions)
+		} else {
+			setShowOptions(false)
+		}
+
+		// Toggle Delete
+		if (toDeleteIds.includes(chat.id)) {
+			var newToDeleteIds = toDeleteIds.filter(
+				(toDeleteId) => toDeleteId != chat.id
+			)
 			setToDeleteIds(newToDeleteIds)
 		} else {
-			setToDeleteIds([...toDeleteIds, id])
+			setToDeleteIds([...toDeleteIds, chat.id])
 		}
 	}
 
@@ -148,7 +177,44 @@ const DiscussionForum = (props) => {
 			{/* View Attachment Modal End */}
 
 			{/* <!-- ***** Chats ***** --> */}
-			<div className="sonar-call-to-action-area section-padding-0-100">
+			<div
+				className="sonar-call-to-action-area section-padding-0-100"
+				style={{ height: "30em", overflowY: "scroll" }}>
+				{/* Options */}
+				{showOptions && (
+					<div className="d-flex justify-content-center bg-white shadow-sm mb-2 p-2">
+						{ratings.map((rating, key) => (
+							<div
+								key={key}
+								className="p-1"
+								style={{ cursor: "pointer" }}
+								onClick={() => {
+									// Check if rating exists
+									if (hasRated) {
+										setHasRated()
+									} else {
+										// Change UI
+										setHasRated(rating)
+									}
+									onRate(rating)
+								}}>
+								{hasRated == rating ? (
+									<span className="text-primary">
+										<StarFilledSVG />
+										<div className="m-0">{rating}</div>
+									</span>
+								) : (
+									<span>
+										<StarSVG />
+										<div className="m-0">{rating}</div>
+									</span>
+								)}
+							</div>
+						))}
+					</div>
+				)}
+				{/* Options End */}
+
 				{chats
 					.filter((chat) => chat != {})
 					.filter((chat) => chat.week == props.week)
@@ -192,15 +258,36 @@ const DiscussionForum = (props) => {
 							<div
 								className={
 									chatItem.userId == props.auth.id
-										? "chat-item border border-0"
-										: "chat-item-reverse border border-0"
+										? "chat-item border-0"
+										: "chat-item-reverse border-0"
 								}
 								onClick={() => {
 									if (chatItem.userId == props.auth.id) {
-										showDelete(chatItem.id)
+										showDelete(chatItem)
 									}
 								}}>
 								{chatItem.text}
+
+								{/* Rating */}
+								<span className="d-block m-0 p-0">
+									{ratings.map((rating, key) => (
+										<span
+											key={key}
+											className="px-1"
+											style={{ fontSize: "0.5em" }}>
+											{chatItem.rating >= rating ? (
+												<span className="text-primary">
+													<StarFilledSVG />
+												</span>
+											) : (
+												<span>
+													<StarSVG />
+												</span>
+											)}
+										</span>
+									))}
+								</span>
+								{/* Rating End */}
 
 								{/* Media */}
 								<span className="d-block text-end mb-1">
@@ -241,11 +328,9 @@ const DiscussionForum = (props) => {
 						</div>
 					))}
 			</div>
-			<br />
-			<br className="hidden" />
-			<br className="hidden" />
+
 			{/* Social Media Input */}
-			<div className="bottomNav mb-5">
+			<div className="bottomNav mt-2 mb-5">
 				<SocialMediaInput
 					{...props}
 					id={props.sessionId}

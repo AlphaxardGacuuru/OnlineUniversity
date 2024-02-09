@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DiscussionForumController;
+use App\Http\Controllers\DiscussionForumRatingController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\FilePondController;
 use App\Http\Controllers\MaterialController;
@@ -46,7 +47,8 @@ Route::apiResources([
     "users" => UserController::class,
     "materials" => MaterialController::class,
 	"sessions" => AcademicSessionController::class,
-	"discussion-forums" => DiscussionForumController::class
+	"discussion-forums" => DiscussionForumController::class,
+	"discussion-forum-ratings" => DiscussionForumRatingController::class
 ]);
 
 // Course

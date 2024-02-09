@@ -30,6 +30,7 @@ return new class extends Migration
             $table->integer('week');
             $table->string('text');
             $table->string('attachment')->nullable();
+            $table->integer('ratings')->default(0);
             $table->timestamps();
         });
     }
