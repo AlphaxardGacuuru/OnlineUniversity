@@ -5,6 +5,7 @@ import MyLink2 from "@/components/Core/MyLink2"
 import Img from "@/components/Core/Img"
 import Btn2 from "@/components/Core/Btn2"
 import DiscussionForum from "@/components/Unit/DiscussionForum"
+import Submission from "@/components/Unit/Submission"
 
 import MaterialSVG from "@/svgs/MaterialSVG"
 import PersonSVG from "@/svgs/PersonSVG"
@@ -19,6 +20,7 @@ const show = (props) => {
 	const [materialTab, setMaterialTab] = useState("Learning Guide")
 	const [richText, setRichText] = useState("")
 	const [week, setWeek] = useState("")
+	const [isActive, setIsActive] = useState()
 
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
@@ -37,7 +39,7 @@ const show = (props) => {
 	/*
 	 * Handle Material Change
 	 */
-	const handleMaterialTab = (title, richText, syllabusWeek) => {
+	const handleMaterialTab = (title, richText, syllabusWeek, isActive) => {
 		// Check Type of material clicked
 		if (title == "Learning Guide") {
 			setMaterialTab("Learning Guide")
@@ -46,14 +48,17 @@ const show = (props) => {
 			setMaterialTab("Discussion Forum")
 			setRichText(richText)
 			setWeek(syllabusWeek)
+			setIsActive(isActive)
 		} else if (title == "Written Assignment") {
 			setMaterialTab("Written Assignment")
 			setRichText(richText)
 			setWeek(syllabusWeek)
+			setIsActive(isActive)
 		} else if (title == "Learning Reflection") {
 			setMaterialTab("Learning Reflection")
 			setRichText(richText)
 			setWeek(syllabusWeek)
+			setIsActive(isActive)
 		}
 	}
 
@@ -67,19 +72,6 @@ const show = (props) => {
 
 	const activeTab = (activeTab) => {
 		return activeTab == tab ? "d-block" : "d-none"
-	}
-
-	/*
-	 * Delete Material
-	 */
-	const onDeleteMaterial = (materialId) => {
-		Axios.delete(`/api/materials/${materialId}`)
-			.then((res) => {
-				props.setMessages([res.data.message])
-				// Remove row
-				props.get(`materials/by-unit-id/${id}`, setSyllabus)
-			})
-			.catch((err) => props.getErrors(err))
 	}
 
 	return (
@@ -113,19 +105,6 @@ const show = (props) => {
 					</div>
 					{/* Data End */}
 
-					{/* Weeks */}
-					<div className="card shadow mb-2">
-						<div className="d-flex justify-content-between p-2 px-4 align-items-center">
-							<h5>Materials</h5>
-							<div>
-								<MyLink2
-									linkTo={`/instructor/materials/${id}/create`}
-									text="add material"
-								/>
-							</div>
-						</div>
-					</div>
-
 					<div
 						className="accordion shadow mb-5"
 						id="accordionPanelsStayOpenExample">
@@ -143,13 +122,13 @@ const show = (props) => {
 										data-bs-target={`#panelsStayOpen-${key}`}
 										aria-expanded="true"
 										aria-controls={`panelsStayOpen-${key}`}>
-										<div className="d-flex justify-content-start w-100 me-2">
-											<div className="me-2">Week {syllabus.week}</div>
-											<div className="border border-danger rounded-pill text-danger me-2 px-2">
+										<div className="d-flex justify-content-start flex-wrap w-100 me-2">
+											<div className="me-2 mb-1">Week {syllabus.week}</div>
+											<div className="border border-success rounded-pill text-success me-2 mb-1 px-2">
 												{syllabus.range}
 											</div>
 											{syllabus.isActive && (
-												<div className="border border-danger rounded-pill text-danger me-2 px-2">
+												<div className="border border-success rounded-pill text-success me-2 mb-1 px-2">
 													Current
 												</div>
 											)}
@@ -178,74 +157,11 @@ const show = (props) => {
 																			handleMaterialTab(
 																				material.title,
 																				material.richText,
-																				syllabus.week
+																				syllabus.week,
+																				syllabus.isActive
 																			)
 																		}
 																	/>
-
-																	<MyLink2
-																		linkTo={`/instructor/materials/${material.id}/edit`}
-																		text="edit"
-																		className="btn-sm"
-																	/>
-
-																	<div className="mx-1">
-																		{/* Confirm Delete Modal End */}
-																		<div
-																			className="modal fade"
-																			id={`deleteMaterialModal${material.id}`}
-																			tabIndex="-1"
-																			aria-labelledby="deleteModalLabel"
-																			aria-hidden="true">
-																			<div className="modal-dialog">
-																				<div className="modal-content">
-																					<div className="modal-header">
-																						<h1
-																							id="deleteModalLabel"
-																							className="modal-title fs-5 text-danger">
-																							Delete Material
-																						</h1>
-																						<button
-																							type="button"
-																							className="btn-close"
-																							data-bs-dismiss="modal"
-																							aria-label="Close"></button>
-																					</div>
-																					<div className="modal-body text-wrap">
-																						Are you sure you want to delete{" "}
-																						{material.title}.
-																					</div>
-																					<div className="modal-footer justify-content-between">
-																						<button
-																							type="button"
-																							className="btn btn-light rounded-pill"
-																							data-bs-dismiss="modal">
-																							Close
-																						</button>
-																						<button
-																							type="button"
-																							className="btn btn-danger rounded-pill"
-																							data-bs-dismiss="modal"
-																							onClick={() =>
-																								onDeleteMaterial(material.id)
-																							}>
-																							Delete
-																						</button>
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																		{/* Confirm Delete Modal End */}
-
-																		{/* Button trigger modal */}
-																		<button
-																			type="button"
-																			className="btn btn-sm btn-outline-danger rounded-pill"
-																			data-bs-toggle="modal"
-																			data-bs-target={`#deleteMaterialModal${material.id}`}>
-																			Delete
-																		</button>
-																	</div>
 																</div>
 															</td>
 														</tr>
@@ -338,7 +254,7 @@ const show = (props) => {
 						)}
 					</div>
 					{/* Discussion Forum */}
-					{materialTab == "Discussion Forum" && (
+					{materialTab == "Discussion Forum" && isActive && (
 						<DiscussionForum
 							{...props}
 							sessionId={unitSession?.sessionId}
@@ -347,6 +263,20 @@ const show = (props) => {
 						/>
 					)}
 					{/* Discussion Forum End */}
+
+					{/* Submission */}
+					{(materialTab == "Written Assignment" ||
+						materialTab == "Learning Reflection") &&
+						isActive && (
+							<Submission
+								{...props}
+								sessionId={unitSession?.sessionId}
+								unitId={id}
+								week={week}
+								materialTab={materialTab}
+							/>
+						)}
+					{/* Submission End */}
 				</div>
 				{/* Materials Tab End */}
 

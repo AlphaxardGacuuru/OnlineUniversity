@@ -127,11 +127,14 @@ class MaterialService extends Service
                 $startsAt = $materials->first()->starts_at;
                 $endsAt = $materials->first()->ends_at;
 
+                $endsAt2 = Carbon::parse($endsAt)->addDay();
+
                 $startsAt = $startsAt ? Carbon::parse($startsAt)->format('d M Y') : null;
+                $endsAt2 = $endsAt2 ? $endsAt2->format('d M Y') : null;
                 $endsAt = $endsAt ? Carbon::parse($endsAt)->format('d M Y') : null;
 
                 // Check if the current date is within the date range
-                $isWithinRange = Carbon::now()->between($startsAt, $endsAt);
+                $isWithinRange = Carbon::now()->between($startsAt, $endsAt2);
 
                 return [
                     "week" => $week,

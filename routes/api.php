@@ -8,11 +8,13 @@ use App\Http\Controllers\DiscussionForumController;
 use App\Http\Controllers\DiscussionForumRatingController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\FilePondController;
+use App\Http\Controllers\GradeController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -48,7 +50,9 @@ Route::apiResources([
     "materials" => MaterialController::class,
 	"sessions" => AcademicSessionController::class,
 	"discussion-forums" => DiscussionForumController::class,
-	"discussion-forum-ratings" => DiscussionForumRatingController::class
+	"discussion-forum-ratings" => DiscussionForumRatingController::class,
+	"submissions" => SubmissionController::class,
+	"grades" => GradeController::class
 ]);
 
 // Course

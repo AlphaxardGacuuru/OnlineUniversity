@@ -132,11 +132,11 @@ const show = (props) => {
 					{/* Weeks */}
 					<div className="card shadow mb-2">
 						<div className="d-flex justify-content-between p-2 px-4 align-items-center">
-							<h5>Materials</h5>
+							<h5>Learning Resources</h5>
 							<div>
 								<MyLink
 									linkTo={`/admin/materials/${id}/create`}
-									text="add material"
+									text="add learning resources"
 								/>
 							</div>
 						</div>
@@ -217,7 +217,7 @@ const show = (props) => {
 																						<h1
 																							id="deleteModalLabel"
 																							className="modal-title fs-5 text-danger">
-																							Delete Material
+																							Delete Learning Resource
 																						</h1>
 																						<button
 																							type="button"
@@ -287,7 +287,7 @@ const show = (props) => {
 						)}`}
 						style={{ cursor: "pointer" }}
 						onClick={() => setTab("materials")}>
-						Materials
+						Learning Resources
 					</div>
 					<div
 						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
@@ -394,7 +394,6 @@ const show = (props) => {
 									<th>Email</th>
 									<th>Phone</th>
 									<th>Gender</th>
-									<th>Material</th>
 									<th>Date Joined</th>
 									<th>Action</th>
 								</tr>
@@ -414,7 +413,6 @@ const show = (props) => {
 										<td>{instructor.email}</td>
 										<td>{instructor.phone}</td>
 										<td className="text-capitalize">{instructor.gender}</td>
-										<td>{instructor.materialName}</td>
 										<td>{instructor.createdAt}</td>
 										<td>
 											<div className="d-flex justify-content-end">
@@ -560,7 +558,6 @@ const show = (props) => {
 									<th>Email</th>
 									<th>Phone</th>
 									<th>Gender</th>
-									<th>Material</th>
 									<th>Date Joined</th>
 									<th>Action</th>
 								</tr>
@@ -596,7 +593,6 @@ const show = (props) => {
 											<td>{student.email}</td>
 											<td>{student.phone}</td>
 											<td className="text-capitalize">{student.gender}</td>
-											<td>{student.materialName}</td>
 											<td>{student.createdAt}</td>
 											<td>
 												<div className="d-flex justify-content-end">

@@ -52,7 +52,10 @@ const create = (props) => {
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Add Material", path: ["materials", "create"] })
+		props.setPage({
+			name: "Add Learning Resource",
+			path: ["materials", "create"],
+		})
 	}, [])
 
 	/*
@@ -116,7 +119,7 @@ const create = (props) => {
 						className="form-control mb-2 me-2"
 						onChange={(e) => setTitle(e.target.value)}
 						required={true}>
-						<option value="">Choose Material</option>
+						<option value="">Choose Learning Resource</option>
 						{titles.map((title, key) => (
 							<option
 								key={key}
@@ -205,7 +208,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							btnText="add material"
+							btnText="add learning resource"
 							loading={loading}
 						/>
 					</div>

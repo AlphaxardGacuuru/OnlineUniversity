@@ -4,36 +4,11 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 import Img from "@/components/Core/Img"
 import Btn3 from "@/components/Core/Btn3"
 import DiscussionForum from "@/components/Unit/DiscussionForum"
+import Submission from "@/components/Unit/Submission"
 
 import MaterialSVG from "@/svgs/MaterialSVG"
 import PersonSVG from "@/svgs/PersonSVG"
 import StudentSVG from "@/svgs/StudentSVG"
-
-// Import React FilePond
-import { FilePond, registerPlugin } from "react-filepond"
-
-// Import FilePond styles
-import "filepond/dist/filepond.min.css"
-
-// Import the Image EXIF Orientation and Image Preview plugins
-// Note: These need to be installed separately
-import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation"
-import FilePondPluginImagePreview from "filepond-plugin-image-preview"
-import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type"
-import FilePondPluginImageCrop from "filepond-plugin-image-crop"
-import FilePondPluginImageTransform from "filepond-plugin-image-transform"
-import FilePondPluginFileValidateSize from "filepond-plugin-file-validate-size"
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
-
-// Register the plugins
-registerPlugin(
-	FilePondPluginImageExifOrientation,
-	FilePondPluginImagePreview,
-	FilePondPluginFileValidateType,
-	FilePondPluginImageCrop,
-	FilePondPluginImageTransform,
-	FilePondPluginFileValidateSize
-)
 
 const show = (props) => {
 	var { id } = useParams()
@@ -45,6 +20,7 @@ const show = (props) => {
 	const [materialTab, setMaterialTab] = useState("Learning Guide")
 	const [richText, setRichText] = useState("")
 	const [week, setWeek] = useState("")
+	const [isActive, setIsActive] = useState()
 
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
@@ -63,7 +39,7 @@ const show = (props) => {
 	/*
 	 * Handle Material Change
 	 */
-	const handleMaterialTab = (title, richText, syllabusWeek) => {
+	const handleMaterialTab = (title, richText, syllabusWeek, isActive) => {
 		// Check Type of material clicked
 		if (title == "Learning Guide") {
 			setMaterialTab("Learning Guide")
@@ -72,14 +48,17 @@ const show = (props) => {
 			setMaterialTab("Discussion Forum")
 			setRichText(richText)
 			setWeek(syllabusWeek)
+			setIsActive(isActive)
 		} else if (title == "Written Assignment") {
 			setMaterialTab("Written Assignment")
 			setRichText(richText)
 			setWeek(syllabusWeek)
+			setIsActive(isActive)
 		} else if (title == "Learning Reflection") {
 			setMaterialTab("Learning Reflection")
 			setRichText(richText)
 			setWeek(syllabusWeek)
+			setIsActive(isActive)
 		}
 	}
 
@@ -144,13 +123,13 @@ const show = (props) => {
 										data-bs-target={`#panelsStayOpen-${key}`}
 										aria-expanded="true"
 										aria-controls={`panelsStayOpen-${key}`}>
-										<div className="d-flex justify-content-start w-100 me-2">
-											<div className="me-2">Week {syllabus.week}</div>
-											<div className="border border-success rounded-pill text-success me-2 px-2">
+										<div className="d-flex justify-content-start flex-wrap w-100 me-2">
+											<div className="me-2 mb-1">Week {syllabus.week}</div>
+											<div className="border border-success rounded-pill text-success me-2 mb-1 px-2">
 												{syllabus.range}
 											</div>
 											{syllabus.isActive && (
-												<div className="border border-success rounded-pill text-success me-2 px-2">
+												<div className="border border-success rounded-pill text-success me-2 mb-1 px-2">
 													Current
 												</div>
 											)}
@@ -179,7 +158,8 @@ const show = (props) => {
 																			handleMaterialTab(
 																				material.title,
 																				material.richText,
-																				syllabus.week
+																				syllabus.week,
+																				syllabus.isActive
 																			)
 																		}
 																	/>
@@ -277,7 +257,7 @@ const show = (props) => {
 					</div>
 
 					{/* Discussion Forum */}
-					{materialTab == "Discussion Forum" && (
+					{materialTab == "Discussion Forum" && isActive && (
 						<DiscussionForum
 							{...props}
 							sessionId={unitSession?.sessionId}
@@ -289,26 +269,16 @@ const show = (props) => {
 
 					{/* Submission */}
 					{(materialTab == "Written Assignment" ||
-						materialTab == "Learning Reflection") && (
-						<div className="card mb-5">
-							<FilePond
-								name="filepond-file"
-								className="m-2"
-								labelIdle='Drag & Drop your File or <span class="filepond--label-action text-dark"> Browse </span>'
-								acceptedFileTypes={["application/pdf"]}
-								allowRevert={true}
-								server={{
-									url: `/api/filepond/`,
-									process: {
-										url: `submissions/${unitSession?.sessionId}/${id}/${week}/${props.auth.id}/${materialTab}`,
-										onload: (res) => props.setMessages([res]),
-										onerror: (err) => console.log(err.response.data),
-									},
-								}}
+						materialTab == "Learning Reflection") &&
+						isActive && (
+							<Submission
+								{...props}
+								sessionId={unitSession?.sessionId}
+								unitId={id}
+								week={week}
+								materialTab={materialTab}
 							/>
-							<br />
-						</div>
-					)}
+						)}
 					{/* Submission End */}
 				</div>
 				{/* Materials Tab End */}

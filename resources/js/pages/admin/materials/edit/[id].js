@@ -49,7 +49,7 @@ const edit = (props) => {
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Edit Material", path: ["materials", "create"] })
+		props.setPage({ name: "Edit Learning Resource", path: ["materials", "create"] })
 		// Fetch Material
 		Axios.get(`/api/materials/${id}`)
 			.then((res) => {
@@ -119,7 +119,7 @@ const edit = (props) => {
 						placeholder="Title"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setTitle(e.target.value)}>
-						<option value="">Choose Material</option>
+						<option value="">Choose Learning Resource</option>
 						{titles.map((title, key) => (
 							<option
 								key={key}
@@ -211,7 +211,7 @@ const edit = (props) => {
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							btnText="update material"
+							btnText="update learning resource"
 							loading={loading}
 						/>
 					</div>

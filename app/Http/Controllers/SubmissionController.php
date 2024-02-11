@@ -2,19 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\SubmissionService;
 use App\Models\Submission;
 use Illuminate\Http\Request;
 
 class SubmissionController extends Controller
 {
+	public function __construct(protected SubmissionService $service)
+	{
+		// 
+	}
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return $this->service->index($request);
     }
 
     /**
