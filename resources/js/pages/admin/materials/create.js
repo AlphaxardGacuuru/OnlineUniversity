@@ -135,7 +135,6 @@ const create = (props) => {
 						placeholder="Description"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setDescription(e.target.value)}
-						required={true}
 					/>
 
 					<input

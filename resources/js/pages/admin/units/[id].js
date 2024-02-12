@@ -43,13 +43,14 @@ const show = (props) => {
 	/*
 	 * Handle Material Change
 	 */
-	const handleMaterialTab = (title, richText) => {
+	const handleMaterialTab = (title, richText, syllabusWeek, isActive) => {
 		// Check Type of material clicked
 		if (title == "Learning Guide") {
 			setMaterialTab("Learning Guide")
 			setRichText(richText)
 		} else if (title == "Discussion Forum") {
 			setMaterialTab("Discussion Forum")
+			setRichText(richText)
 		} else if (title == "Written Assignment") {
 			setMaterialTab("Written Assignment")
 			setRichText(richText)

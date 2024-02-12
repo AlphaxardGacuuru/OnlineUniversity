@@ -33,7 +33,7 @@ class MaterialController extends Controller
     {
         $this->validate($request, [
             "title" => "required|string",
-            "description" => "required|string|max:65535",
+            "description" => "nullable|string|max:65535",
             "week" => "required|integer",
             "startsAt" => "required|date",
             "endsAt" => "required|date",
