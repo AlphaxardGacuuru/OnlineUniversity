@@ -147,6 +147,11 @@ const create = (props) => {
 						required={true}
 					/>
 
+					<label
+						htmlFor=""
+						className="ms-1">
+						Week Start Date
+					</label>
 					<input
 						type="date"
 						name="startsAt"
@@ -155,6 +160,11 @@ const create = (props) => {
 						required={true}
 					/>
 
+					<label
+						htmlFor=""
+						className="ms-1">
+						Week End Date
+					</label>
 					<input
 						type="date"
 						name="endsAt"

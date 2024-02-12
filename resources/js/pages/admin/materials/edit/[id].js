@@ -49,7 +49,10 @@ const edit = (props) => {
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Edit Learning Resource", path: ["materials", "create"] })
+		props.setPage({
+			name: "Edit Learning Resource",
+			path: ["materials", "create"],
+		})
 		// Fetch Material
 		Axios.get(`/api/materials/${id}`)
 			.then((res) => {
@@ -146,6 +149,11 @@ const edit = (props) => {
 						onChange={(e) => setWeek(e.target.value)}
 					/>
 
+					<label
+						htmlFor=""
+						className="ms-1">
+						Week Start Date
+					</label>
 					<input
 						type="date"
 						name="startsAt"
@@ -154,6 +162,11 @@ const edit = (props) => {
 						onChange={(e) => setStartsAt(e.target.value)}
 					/>
 
+					<label
+						htmlFor=""
+						className="ms-1">
+						Week End Date
+					</label>
 					<input
 						type="date"
 						name="endsAt"
