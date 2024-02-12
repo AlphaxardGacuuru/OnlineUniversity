@@ -67,7 +67,7 @@ const edit = (props) => {
 					<input
 						type="text"
 						name="name"
-						placeholder={course.name}
+						defaultValue={course.name}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
 					/>
@@ -75,7 +75,7 @@ const edit = (props) => {
 					<textarea
 						type="text"
 						name="description"
-						placeholder={course.description}
+						defaultValue={course.description}
 						className="form-control mb-2 me-2"
 						rows="10"
 						onChange={(e) => setDescription(e.target.value)}></textarea>
@@ -83,7 +83,7 @@ const edit = (props) => {
 					<input
 						type="number"
 						name="duration"
-						placeholder={course.duration}
+						defaultValue={course.duration}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setDuration(e.target.value)}
 					/>
@@ -91,7 +91,7 @@ const edit = (props) => {
 					<input
 						type="number"
 						name="price"
-						placeholder={course.price}
+						defaultValue={course.price}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setPrice(e.target.value)}
 					/>

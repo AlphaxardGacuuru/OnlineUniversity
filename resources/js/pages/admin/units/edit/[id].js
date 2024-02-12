@@ -99,7 +99,7 @@ const edit = (props) => {
 					<input
 						type="text"
 						name="name"
-						placeholder={unit.name}
+						defaultValue={unit.name}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
 					/>
@@ -107,7 +107,7 @@ const edit = (props) => {
 					<input
 						type="text"
 						name="code"
-						placeholder={unit.code}
+						defaultValue={unit.code}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setCode(e.target.value)}
 					/>
@@ -115,14 +115,14 @@ const edit = (props) => {
 					<textarea
 						type="text"
 						name="description"
-						placeholder={unit.description}
+						defaultValue={unit.description}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setDescription(e.target.value)}></textarea>
 
 					<input
 						type="number"
 						name="year"
-						placeholder={unit.year}
+						defaultValue={unit.year}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setYear(e.target.value)}
 					/>
@@ -130,7 +130,7 @@ const edit = (props) => {
 					<input
 						type="number"
 						name="semester"
-						placeholder={unit.semester}
+						defaultValue={unit.semester}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setSemester(e.target.value)}
 					/>
@@ -138,7 +138,7 @@ const edit = (props) => {
 					<input
 						type="number"
 						name="credtis"
-						placeholder={unit.credits}
+						defaultValue={unit.credits}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setCredits(e.target.value)}
 					/>

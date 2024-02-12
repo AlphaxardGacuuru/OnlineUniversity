@@ -116,7 +116,7 @@ const edit = (props) => {
 					<select
 						type="text"
 						name="title"
-						placeholder="Title"
+						defaultValue="Title"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setTitle(e.target.value)}>
 						<option value="">Choose Learning Resource</option>
@@ -133,7 +133,7 @@ const edit = (props) => {
 					<input
 						type="text"
 						name="description"
-						placeholder={material.description}
+						defaultValue={material.description}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setDescription(e.target.value)}
 					/>
@@ -141,7 +141,7 @@ const edit = (props) => {
 					<input
 						type="number"
 						name="week"
-						placeholder={material.week}
+						defaultValue={material.week}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setWeek(e.target.value)}
 					/>

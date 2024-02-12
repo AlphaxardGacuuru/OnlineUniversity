@@ -90,21 +90,21 @@ const edit = (props) => {
 						<input
 							type="text"
 							name="name"
-							placeholder={instructor.name}
+							defaultValue={instructor.name}
 							className="form-control mb-2 me-2"
 							onChange={(e) => setName(e.target.value)}
 						/>
 						<input
 							type="text"
 							name="email"
-							placeholder={instructor.email}
+							defaultValue={instructor.email}
 							className="form-control mb-2 me-2"
 							onChange={(e) => setEmail(e.target.value)}
 						/>
 						<input
 							type="tel"
 							name="phone"
-							placeholder={instructor.phone}
+							defaultValue={instructor.phone}
 							className="form-control mb-2 me-2"
 							onChange={(e) => setPhone(e.target.value)}
 						/>

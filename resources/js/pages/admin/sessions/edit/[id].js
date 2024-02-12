@@ -82,7 +82,7 @@ const edit = (props) => {
 							<div className="border-bottom px-2">
 								<input
 									type="text"
-									placeholder="Search Name"
+									defaultValue="Search Name"
 									className="form-control rounded-pill mb-2"
 									onChange={(e) => setCourseNameQuery(e.target.value)}
 								/>
@@ -120,7 +120,7 @@ const edit = (props) => {
 					<input
 						type="number"
 						name="year"
-						placeholder={session.year}
+						defaultValue={session.year}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setYear(parseInt(e.target.value))}
 					/>
@@ -128,7 +128,7 @@ const edit = (props) => {
 					<input
 						type="number"
 						name="semester"
-						placeholder={session.semester}
+						defaultValue={session.semester}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setSemester(parseInt(e.target.value))}
 					/>

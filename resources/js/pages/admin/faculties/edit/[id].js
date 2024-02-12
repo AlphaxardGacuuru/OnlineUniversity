@@ -52,7 +52,7 @@ const edit = (props) => {
 					<input
 						type="text"
 						name="name"
-						placeholder={faculty.name}
+						defaultValue={faculty.name}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
 					/>
