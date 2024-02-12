@@ -25,6 +25,19 @@ const DiscussionForum = (props) => {
 
 	var modalBtn = useRef()
 
+	// Fetch Chats
+	const getChats = () => {
+		Axios.get(
+			`api/discussion-forums/${props.unitId}?sessionId=${props.sessionId}`
+		)
+			.then((res) => {
+				setChats(res.data.data)
+				// Recurse
+				setTimeout(() => getChats(), 2000)
+			})
+			.catch((err) => props.getErrors(err))
+	}
+
 	useEffect(() => {
 		// Listen to New Chats
 		Echo.private(`chat-created`).listen("NewChatEvent", (e) => {
@@ -42,14 +55,8 @@ const DiscussionForum = (props) => {
 		})
 
 		// Fetch Chats
-		Axios.get(
-			`api/discussion-forums/${props.unitId}?sessionId=${props.sessionId}`
-		)
-			.then((res) => {
-				// Remove loader
-				setChats(res.data.data)
-			})
-			.catch((err) => props.getErrors(err))
+		getChats()
+
 		// Fetch User
 		props.get(`users/${id}`, setUser)
 
