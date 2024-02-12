@@ -55,7 +55,7 @@ const create = (props) => {
 		setLoading(true)
 		Axios.post("/api/units", {
 			name: name,
-			code: parseInt(code),
+			code: code,
 			description: description,
 			year: parseInt(year),
 			semester: parseInt(semester),

@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-	public function __construct(protected CourseService $service)
-	{
-			// 
-	}
+    public function __construct(protected CourseService $service)
+    {
+        //
+    }
 
     /**
      * Display a listing of the resource.
@@ -32,20 +32,20 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			"name" => "required|string|unique:courses",
-			"description" => "required|string|max:65535",
-			"duration" => "required|string",
-			"price" => "required|string",
-			"departmentId" => "nullable|string",
-		]);
+            "name" => "required|string|unique:courses",
+            "description" => "required|string|max:65535",
+            "duration" => "required|string",
+            "price" => "required|string",
+            "departmentId" => "nullable|string",
+        ]);
 
-		[$saved, $message, $course] = $this->service->store($request);
+        [$saved, $message, $course] = $this->service->store($request);
 
-		return response([
-			"status" => $saved,
-			"message" => $message,
-			"data" => $course
-		], 200);
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $course,
+        ], 200);
     }
 
     /**
@@ -69,20 +69,20 @@ class CourseController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			"name" => "required|string|unique:courses",
-			"description" => "required|string|max:65535",
-			"duration" => "required|string",
-			"price" => "required|string",
-			"departmentId" => "nullable|string",
-		]);
+            "name" => "nullable|string|unique:courses",
+            "description" => "nullable|string|max:65535",
+            "duration" => "nullable|string",
+            "price" => "nullable|string",
+            "departmentId" => "nullable|string",
+        ]);
 
-		[$saved, $message, $course] = $this->service->update($request, $id);
+        [$saved, $message, $course] = $this->service->update($request, $id);
 
-		return response([
-			"status" => $saved,
-			"message" => $message,
-			"data" => $course
-		], 200);
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $course,
+        ], 200);
     }
 
     /**
@@ -95,18 +95,18 @@ class CourseController extends Controller
     {
         [$deleted, $message, $course] = $this->service->destory($id);
 
-		return response([
-			"status" => $deleted,
-			"message" => $message,
-			"data" => $course
-		], 200);
+        return response([
+            "status" => $deleted,
+            "message" => $message,
+            "data" => $course,
+        ], 200);
     }
 
-	/*
-	* By User ID
-	*/ 
-	public function byUserId($id)
-	{
-		return $this->service->byUserId($id);	
-	}
+    /*
+     * By User ID
+     */
+    public function byUserId($id)
+    {
+        return $this->service->byUserId($id);
+    }
 }
