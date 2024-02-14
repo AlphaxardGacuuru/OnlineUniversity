@@ -35,7 +35,7 @@ class DiscussionForumController extends Controller
         $this->validate($request, [
 			"id" => "required|integer",
 			"to" => "required|integer",
-			"text" => "required|string",
+			"text" => "required|string|max:65535",
 			"attachment" => "nullable|string",
 			"week" => "required|integer"
 		]);
