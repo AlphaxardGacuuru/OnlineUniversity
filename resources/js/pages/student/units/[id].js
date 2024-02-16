@@ -23,7 +23,6 @@ const show = (props) => {
 	const [isActive, setIsActive] = useState()
 
 	const [nameQuery, setNameQuery] = useState("")
-	const [genderQuery, setGenderQuery] = useState("")
 
 	const [unitSession] = (props.auth?.unitSessions || [{}])
 		.filter((unitSession) => unitSession.unitId == id)
@@ -312,8 +311,6 @@ const show = (props) => {
 									<th></th>
 									<th>Name</th>
 									<th>Email</th>
-									<th>Phone</th>
-									<th>Gender</th>
 									<th>Material</th>
 									<th>Date Joined</th>
 								</tr>
@@ -330,8 +327,6 @@ const show = (props) => {
 										</td>
 										<td>{instructor.name}</td>
 										<td>{instructor.email}</td>
-										<td>{instructor.phone}</td>
-										<td className="text-capitalize">{instructor.gender}</td>
 										<td>{instructor.materialName}</td>
 										<td>{instructor.createdAt}</td>
 									</tr>
@@ -380,21 +375,6 @@ const show = (props) => {
 								/>
 							</div>
 							{/* Name End */}
-							{/* Gender */}
-							<div className="flex-grow-1 me-2 mb-2">
-								<select
-									id=""
-									type="text"
-									name="name"
-									placeholder="Search by Gender"
-									className="form-control me-2"
-									onChange={(e) => setGenderQuery(e.target.value)}>
-									<option value="">Search by Gender</option>
-									<option value="male">Male</option>
-									<option value="female">Female</option>
-								</select>
-							</div>
-							{/* Gender End */}
 						</div>
 					</div>
 					{/* Filters End */}
@@ -409,8 +389,6 @@ const show = (props) => {
 									<th></th>
 									<th>Name</th>
 									<th>Email</th>
-									<th>Phone</th>
-									<th>Gender</th>
 									<th>Material</th>
 									<th>Date Joined</th>
 								</tr>
@@ -422,13 +400,6 @@ const show = (props) => {
 										var query = nameQuery.toLowerCase()
 
 										return name.match(query)
-									})
-									.filter((student) => {
-										if (genderQuery) {
-											return student.gender == genderQuery
-										} else {
-											return true
-										}
 									})
 									.map((student, key) => (
 										<tr key={key}>

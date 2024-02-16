@@ -15,7 +15,6 @@ const show = (props) => {
 	const [tab, setTab] = useState("units")
 
 	const [nameQuery, setNameQuery] = useState("")
-	const [genderQuery, setGenderQuery] = useState("")
 
 	useEffect(() => {
 		// Set page
@@ -159,8 +158,6 @@ const show = (props) => {
 									<th></th>
 									<th>Name</th>
 									<th>Email</th>
-									<th>Phone</th>
-									<th>Gender</th>
 									<th>Date Joined</th>
 								</tr>
 							</thead>
@@ -179,8 +176,6 @@ const show = (props) => {
 										</td>
 										<td>{instructor.name}</td>
 										<td>{instructor.email}</td>
-										<td>{instructor.phone}</td>
-										<td className="text-capitalize">{instructor.gender}</td>
 										<td>{instructor.createdAt}</td>
 									</tr>
 								))}
@@ -227,21 +222,6 @@ const show = (props) => {
 								/>
 							</div>
 							{/* Name End */}
-							{/* Gender */}
-							<div className="flex-grow-1 me-2 mb-2">
-								<select
-									id=""
-									type="text"
-									name="name"
-									placeholder="Search by Gender"
-									className="form-control me-2"
-									onChange={(e) => setGenderQuery(e.target.value)}>
-									<option value="">Search by Gender</option>
-									<option value="male">Male</option>
-									<option value="female">Female</option>
-								</select>
-							</div>
-							{/* Gender End */}
 						</div>
 					</div>
 					{/* Filters End */}
@@ -256,8 +236,6 @@ const show = (props) => {
 									<th></th>
 									<th>Name</th>
 									<th>Email</th>
-									<th>Phone</th>
-									<th>Gender</th>
 									<th>Date Joined</th>
 								</tr>
 							</thead>
@@ -268,13 +246,6 @@ const show = (props) => {
 										var query = nameQuery.toLowerCase()
 
 										return name.match(query)
-									})
-									.filter((student) => {
-										if (genderQuery) {
-											return student.gender == genderQuery
-										} else {
-											return true
-										}
 									})
 									.map((student, key) => (
 										<tr key={key}>
@@ -290,8 +261,6 @@ const show = (props) => {
 											</td>
 											<td>{student.name}</td>
 											<td>{student.email}</td>
-											<td>{student.phone}</td>
-											<td className="text-capitalize">{student.gender}</td>
 											<td>{student.createdAt}</td>
 										</tr>
 									))}

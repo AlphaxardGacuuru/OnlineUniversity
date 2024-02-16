@@ -88,7 +88,7 @@ const index = (props) => {
 								id=""
 								type="text"
 								name="name"
-								placeholder="Search by Gender"
+								placeholder="Search by Department"
 								className="form-control me-2"
 								onChange={(e) => setDepartmentQuery(e.target.value)}>
 								<option value="">Search by Department</option>

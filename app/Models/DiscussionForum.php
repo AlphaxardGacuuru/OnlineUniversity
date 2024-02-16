@@ -127,11 +127,11 @@ class DiscussionForum extends Model
                 ($threes * 30) +
                 ($fours * 40) +
                 ($fives * 50) +
-                ($sixes * 50) +
-                ($sevens * 50) +
-                ($eights * 50) +
-                ($nines * 50) +
-                ($tens * 50);
+                ($sixes * 60) +
+                ($sevens * 70) +
+                ($eights * 80) +
+                ($nines * 90) +
+                ($tens * 100);
 
             return round($rating / $total, 1);
         }

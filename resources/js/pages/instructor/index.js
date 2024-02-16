@@ -41,8 +41,6 @@ const index = (props) => {
 					</div>
 					<h4>{props.auth.name}</h4>
 					<h6>{props.auth.email}</h6>
-					<h6>{props.auth.phone}</h6>
-					<h6>{props.auth.gender}</h6>
 					<h6 className="text-capitalize">{props.auth.accountType}</h6>
 					<h6>{props.auth.facultyName}</h6>
 					<h6>{props.auth.departmentName}</h6>

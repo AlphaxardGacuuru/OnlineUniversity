@@ -18,6 +18,7 @@ const DiscussionForum = (props) => {
 	const [user, setUser] = useState({})
 	const [attachment, setAttachment] = useState()
 	const [newChat, setNewChat] = useState({})
+	const [rateId, setRateId] = useState()
 	const [toDeleteIds, setToDeleteIds] = useState([])
 	const [showOptions, setShowOptions] = useState(false)
 	const [hasRated, setHasRated] = useState()
@@ -91,7 +92,7 @@ const DiscussionForum = (props) => {
 	 */
 	const onRate = (rating) => {
 		Axios.post(`api/discussion-forum-ratings`, {
-			discussionForumId: toDeleteIds[0],
+			discussionForumId: rateId,
 			rating: rating,
 		})
 			.then((res) => props.setMessages([res.data.message]))
@@ -101,15 +102,19 @@ const DiscussionForum = (props) => {
 	const ratings = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 
 	/*
+	 * Show Options
+	 */
+	const handleShowOptions = (chat) => {
+		setHasRated(chat.hasRated)
+		setShowOptions(!showOptions)
+		setRateId(chat.id)
+	}
+
+	/*
 	 * Show Delete */
 	const showDelete = (chat) => {
-		// Show Options
-		if (toDeleteIds.length == 0) {
-			setHasRated(chat.hasRated)
-			setShowOptions(!showOptions)
-		} else {
-			setShowOptions(false)
-		}
+		// Hide Options
+		setShowOptions(false)
 
 		// Toggle Delete
 		if (toDeleteIds.includes(chat.id)) {
@@ -271,8 +276,25 @@ const DiscussionForum = (props) => {
 								onClick={() => {
 									if (chatItem.userId == props.auth.id) {
 										showDelete(chatItem)
+									} else {
+										handleShowOptions(chatItem)
 									}
 								}}>
+								<small
+									className={`d-block ${
+										chatItem.userId == props.auth.id
+											? " text-end"
+											: " text-start"
+									}`}>
+									<i>
+										{chatItem.userName}
+										<span
+											style={{ fontSize: "0.8em" }}
+											className="text-danger m-1">
+											{chatItem.userType == "instructor" && chatItem.userType}
+										</span>
+									</i>
+								</small>
 								{chatItem.text}
 
 								{/* Rating */}
