@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import Img from "@/components/Core/Img"
 import Btn from "@/components/Core/Btn"
@@ -30,9 +31,11 @@ registerPlugin(
 )
 
 const Submission = (props) => {
+	const location = useLocation()
 	const [submissions, setSubmissions] = useState([])
-	const [attachment, setAttachment] = useState()
+	const [submission, setSubmission] = useState({})
 	const [grade, setGrade] = useState()
+	const [comments, setComments] = useState()
 	const [loading, setLoading] = useState()
 
 	const url = `submissions/${props.sessionId}/${props.unitId}/${props.week}/${props.auth.id}/${props.materialTab}`
@@ -56,8 +59,8 @@ const Submission = (props) => {
 	 * Handle Showing Attachment
 	 */
 	const handleShowAttachment = (item) => {
-		// Set attachment
-		setAttachment(item)
+		// Set Submission
+		setSubmission(item)
 		// Click Modal button
 		modalBtn.current.click()
 	}
@@ -65,12 +68,14 @@ const Submission = (props) => {
 	/*
 	 * Grade
 	 */
-	const onGrade = (submissionId) => {
+	const onSubmit = (e) => {
+		e.preventDefault()
 		setLoading(true)
 
 		Axios.post("/api/grades", {
-			submissionId: submissionId,
+			submissionId: submission.id,
 			grade: grade,
+			comments: comments,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -118,8 +123,45 @@ const Submission = (props) => {
 						</div>
 						<div className="modal-body">
 							<iframe
-								src={attachment}
+								src={submission.attachment}
 								style={{ width: "100%", height: "30em" }}></iframe>
+
+							{/* Form */}
+							<div
+								className={`flex-grow-1 me-2 mb-1 ${
+									location.pathname.match("/student") &&
+									props.materialTab == "Learning Reflection" &&
+									submission.userId == props.auth.id
+										? "d-none"
+										: "d-block"
+								}`}>
+								<form onSubmit={onSubmit}>
+									{/* Grade */}
+									<input
+										type="number"
+										placeholder="Enter Grade"
+										className="form-control mb-2"
+										onChange={(e) => setGrade(parseInt(e.target.value))}
+									/>
+									{/* Grade End */}
+
+									{/* Comments */}
+									<textarea
+										placeholder="Add Comments"
+										className="form-control mb-2"
+										rows="5"
+										onChange={(e) => setComments(e.target.value)}></textarea>
+									{/* Comments End */}
+
+									<div className="text-end">
+										<Btn
+											btnText="submit grade"
+											loading={loading}
+										/>
+									</div>
+								</form>
+							</div>
+							{/* Form End */}
 						</div>
 					</div>
 				</div>
@@ -146,55 +188,51 @@ const Submission = (props) => {
 			</div>
 			{/* Filepond End */}
 
-			{submissions.map((submission, key) => (
-				<div
-					key={key}
-					className="card shadow-sm p-2">
-					<div className="d-flex flex-wrap">
-						<div className="mb-1 p-1">{key + 1}</div>
-						{/* Profile pic */}
-						<div className="mb-1 p-1">
-							<Img
-								src={submission.userAvatar}
-								className="rounded-circle"
-								width="25px"
-								height="25px"
-								alt="Avatar"
+			{submissions
+				.filter((submission) =>
+					location.pathname.match("/student") &&
+					props.materialTab == "Learning Reflection"
+						? submission.userId == props.auth.id
+						: true
+				)
+				.map((submission, key) => (
+					<div
+						key={key}
+						className="card shadow-sm p-2">
+						<div className="d-flex flex-wrap">
+							<div className="mb-1 p-1">{key + 1}</div>
+							{/* Profile pic */}
+							<div className="mb-1 p-1">
+								<Img
+									src={submission.userAvatar}
+									className="rounded-circle"
+									width="25px"
+									height="25px"
+									alt="Avatar"
+								/>
+							</div>
+							{/* Profile pic End */}
+							{/* Name */}
+							<div className="flex-grow-1 mb-1 p-2">
+								<h6>{submission.userName}</h6>
+							</div>
+							{/* Name End */}
+							{/* Media */}
+							<Btn
+								btnText="view"
+								btnClass={`btn-sm btn-secondary mb-1 ${
+									location.pathname.match("/student") &&
+									props.materialTab == "Learning Reflection" &&
+									submission.userId != props.auth.id
+										? "d-none"
+										: "d-block"
+								}`}
+								onClick={() => handleShowAttachment(submission)}
 							/>
+							{/* Media End */}
 						</div>
-						{/* Profile pic End */}
-						{/* Name */}
-						<div className="mb-1 p-2">
-							<h6>{submission.userName}</h6>
-						</div>
-						{/* Name End */}
-						{/* Grade */}
-						<div className="flex-grow-1 me-2 mb-1">
-							<form className="d-flex">
-								<input
-									type="number"
-									placeholder="Enter Grade"
-									className="form-control me-2"
-									onChange={(e) => setGrade(e.target.value)}
-								/>
-								<Btn
-									btnText="submit grade"
-									onClick={() => onGrade(submission.id)}
-									loading={loading}
-								/>
-							</form>
-						</div>
-						{/* Grade End */}
-						{/* Media */}
-						<Btn
-							btnText="view"
-							btnClass="btn-sm btn-secondary mb-1"
-							onClick={() => handleShowAttachment(submission.attachment)}
-						/>
-						{/* Media End */}
 					</div>
-				</div>
-			))}
+				))}
 		</React.Fragment>
 	)
 }

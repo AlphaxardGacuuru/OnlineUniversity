@@ -28,6 +28,7 @@ class GradeService extends Service
 
         $grade->submission_id = $request->input("submissionId");
         $grade->grade = $request->input("grade");
+        $grade->comments = $request->input("comments");
         $saved = $grade->save();
 
         return [$saved, $message, $grade];

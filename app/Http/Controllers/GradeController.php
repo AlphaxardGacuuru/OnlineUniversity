@@ -34,6 +34,7 @@ class GradeController extends Controller
         $this->validate($request, [
             "submissionId" => "required|integer",
             "grade" => "required|integer|min:0|max:100",
+            "comments" => "nullable|string|max:65535",
         ]);
 
         [$saved, $message, $grade] = $this->service->store($request);
@@ -65,7 +66,7 @@ class GradeController extends Controller
      */
     public function update(Request $request, $id)
     {
-		// 
+        //
     }
 
     /**

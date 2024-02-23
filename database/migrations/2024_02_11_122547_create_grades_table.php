@@ -24,9 +24,10 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->integer('grade');
+            $table->longText('comments')->nullable();
             $table->timestamps();
 
-            $table->unique("user_id", "submission_id");
+            $table->unique(["user_id", "submission_id"]);
         });
     }
 
