@@ -5,9 +5,13 @@ import Img from "@/components/Core/Img"
 
 import ChevronUpSVG from "@/svgs/ChevronUpSVG"
 
-const Footer = () => {
+const Footer = (props) => {
 	const location = useLocation()
+
 	const [isVisible, setIsVisible] = useState(false)
+	const [faculties, setFaculties] = useState([])
+
+	useEffect(() => props.get("faculties", setFaculties), [])
 
 	// Show button when page is scrolled down to a certain point
 	const toggleVisibility = () => {
@@ -50,87 +54,30 @@ const Footer = () => {
 				<div className="footer-top">
 					<div className="footer-warp">
 						<div className="row">
+							{faculties.map((faculty, key) => (
+								<div
+									key={key}
+									className="widget-item mb-4">
+									<h4>{faculty.name}</h4>
+									<ul>
+										{faculty.courses.map((course, key) => (
+											<li key={key}>
+												<a href="">{course.name}</a>
+											</li>
+										))}
+									</ul>
+								</div>
+							))}
 							<div className="widget-item">
 								<h4>Contact Info</h4>
 								<ul className="contact-list">
 									<li>
 										1481 Creekside Lane <br />
-										Avila Beach, CA 931
+										Nairobi, Kenya
 									</li>
-									<li>+53 345 7953 32453</li>
-									<li>yourmail@gmail.com</li>
+									<li>+254722777990</li>
+									<li>drkarenge@gmail.com</li>
 								</ul>
-							</div>
-							<div className="widget-item">
-								<h4>Engeneering</h4>
-								<ul>
-									<li>
-										<a href="">Applied Studies</a>
-									</li>
-									<li>
-										<a href="">Computer Engeneering</a>
-									</li>
-									<li>
-										<a href="">Software Engeneering</a>
-									</li>
-									<li>
-										<a href="">Informational Engeneering</a>
-									</li>
-									<li>
-										<a href="">System Engeneering</a>
-									</li>
-								</ul>
-							</div>
-							<div className="widget-item">
-								<h4>Graphic Design</h4>
-								<ul>
-									<li>
-										<a href="">Applied Studies</a>
-									</li>
-									<li>
-										<a href="">Computer Engeneering</a>
-									</li>
-									<li>
-										<a href="">Software Engeneering</a>
-									</li>
-									<li>
-										<a href="">Informational Engeneering</a>
-									</li>
-									<li>
-										<a href="">System Engeneering</a>
-									</li>
-								</ul>
-							</div>
-							<div className="widget-item">
-								<h4>Development</h4>
-								<ul>
-									<li>
-										<a href="">Applied Studies</a>
-									</li>
-									<li>
-										<a href="">Computer Engeneering</a>
-									</li>
-									<li>
-										<a href="">Software Engeneering</a>
-									</li>
-									<li>
-										<a href="">Informational Engeneering</a>
-									</li>
-									<li>
-										<a href="">System Engeneering</a>
-									</li>
-								</ul>
-							</div>
-							<div className="widget-item">
-								<h4>Newsletter</h4>
-								<form className="footer-newslatter">
-									<input
-										type="email"
-										placeholder="E-mail"
-									/>
-									<button className="site-btn">Subscribe</button>
-									<p>*We don’t spam</p>
-								</form>
 							</div>
 						</div>
 					</div>

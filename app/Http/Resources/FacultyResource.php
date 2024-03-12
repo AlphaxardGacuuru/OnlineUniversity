@@ -18,6 +18,7 @@ class FacultyResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "departments" => $this->departments,
+            "courses" => $this->courses(),
             "instructors" => $this->instructors(),
             "students" => $this->students(),
             "createdAt" => $this->created_at,

@@ -12,28 +12,17 @@ const index = (props) => {
 				style={{ background: `url("storage/img/bg.jpg")` }}>
 				<div className="container">
 					<div className="hero-text text-white">
-						<h2>Get The Best Free Online Courses</h2>
+						<h2>
+							Ignite Your Future: Pursue Your KASNEB Vocational Certificate 100%
+							Online
+						</h2>
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-							malesuada lorem maximus mauris scelerisque, at rutrum nulla <br />{" "}
-							dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.
+							Are you ready to unlock your entrepreneurial spirit, safeguard
+							digital landscapes, unleash your creative potential, or delve into
+							the revolutionary world of blockchain? With KASNEB's 100% online
+							Vocational Certificate courses, you can achieve these goals and
+							more, all from the comfort of your own home.
 						</p>
-					</div>
-					<div className="row">
-						<div className="col-lg-10 offset-lg-1">
-							<form className="intro-newslatter">
-								<input
-									type="text"
-									placeholder="Name"
-								/>
-								<input
-									type="text"
-									className="last-s"
-									placeholder="E-mail"
-								/>
-								<button className="site-btn">Sign Up Now</button>
-							</form>
-						</div>
 					</div>
 				</div>
 			</section>
@@ -43,11 +32,36 @@ const index = (props) => {
 			<section className="categories-section spad">
 				<div className="container">
 					<div className="section-title">
-						<h2>Our Course Categories</h2>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-							malesuada lorem maximus mauris scelerisque, at rutrum nulla
-							dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.
+						<h2>Why Choose KASNEB's Online Vocational Certificate Programs?</h2>
+						<p className="fs-5">
+							1. Flexibility and Convenience: Our online platform allows you to
+							study anytime, anywhere, fitting seamlessly into your busy
+							schedule. Whether you're a full-time student, a working
+							professional, or a busy parent, our flexible courses empower you
+							to pursue your passions without disrupting your life.
+						</p>
+						<p className="fs-5">
+							2. Cutting-Edge Curriculum: KASNEB's Vocational Certificate
+							programs are designed in collaboration with industry experts to
+							ensure they are up-to-date with the latest trends, technologies,
+							and best practices. Gain practical skills and knowledge that are
+							directly applicable to real-world scenarios, setting you apart in
+							today's competitive job market.
+						</p>
+						<p className="fs-5">
+							3. Interactive Learning Experience: Engage with dynamic course
+							materials, interactive modules, and multimedia resources that
+							cater to diverse learning styles. Our online platform fosters
+							collaboration and peer-to-peer interaction, providing a rich
+							learning environment that enhances comprehension and retention.
+						</p>
+						<p className="fs-5">
+							4. Expert Guidance and Support: Benefit from the guidance of
+							experienced instructors who are dedicated to your success. Receive
+							personalized feedback, participate in live Q&A sessions, and
+							access comprehensive study materials in a unique delivery system
+							designed to maximize your learning potential and pass your KASNEB
+							exams first time.
 						</p>
 					</div>
 					<div className="row">
@@ -60,9 +74,17 @@ const index = (props) => {
 										background: `url("/storage/img/categories/1.jpg")`,
 									}}></div>
 								<div className="ci-text">
-									<h5>IT Development</h5>
-									<p>Lorem ipsum dolor sit amet, consectetur</p>
-									<span>120 Courses</span>
+									<h5>
+										1. Vocational Certificate in Entrepreneurship and Innovation
+										(VCEI)
+									</h5>
+									<p>
+										Embark on a journey of discovery and creativity as you learn
+										to turn innovative ideas into successful ventures. Develop
+										essential entrepreneurial skills and strategies to thrive in
+										today's dynamic business landscape.
+									</p>
+									{/* <span>120 Courses</span> */}
 								</div>
 							</div>
 						</div>
@@ -75,9 +97,18 @@ const index = (props) => {
 										background: `url("/storage/img/categories/2.jpg")`,
 									}}></div>
 								<div className="ci-text">
-									<h5>Web Design</h5>
-									<p>Lorem ipsum dolor sit amet, consectetur</p>
-									<span>70 Courses</span>
+									<h5>
+										2. Vocational Certificate in Information and Cyber Security
+										(VCICS)
+									</h5>
+									<p>
+										Safeguard digital assets and protect against cyber threats
+										with our comprehensive cybersecurity program. Gain expertise
+										in risk assessment, threat detection, incident response, and
+										more, preparing you for a rewarding career in this critical
+										field.
+									</p>
+									{/* <span>70 Courses</span> */}
 								</div>
 							</div>
 						</div>
@@ -90,9 +121,15 @@ const index = (props) => {
 										background: `url("/storage/img/categories/3.jpg")`,
 									}}></div>
 								<div className="ci-text">
-									<h5>Illustration & Drawing</h5>
-									<p>Lorem ipsum dolor sit amet, consectetur</p>
-									<span>55 Courses</span>
+									<h5>3. Vocational Certificate in Graphic Design (VCGD)</h5>
+									<p>
+										Unleash your creativity and express your vision through the
+										art of graphic design. Master industry-standard tools and
+										techniques while honing your artistic abilities to create
+										compelling visual experiences across various media
+										platforms.
+									</p>
+									{/* <span>55 Courses</span> */}
 								</div>
 							</div>
 						</div>
@@ -105,14 +142,22 @@ const index = (props) => {
 										background: `url("/storage/img/categories/4.jpg")`,
 									}}></div>
 								<div className="ci-text">
-									<h5>Social Media</h5>
-									<p>Lorem ipsum dolor sit amet, consectetur</p>
-									<span>40 Courses</span>
+									<h5>
+										4. Vocational Certificate in Blockchain Technology (VCBCT)
+									</h5>
+									<p>
+										Explore the transformative potential of blockchain
+										technology and its applications across industries. Dive into
+										decentralized systems, smart contracts, cryptocurrency, and
+										more, positioning yourself at the forefront of this rapidly
+										evolving field.
+									</p>
+									{/* <span>40 Courses</span> */}
 								</div>
 							</div>
 						</div>
 						{/* <!-- categorie --> */}
-						<div className="col-lg-4 col-md-6">
+						{/* <div className="col-lg-4 col-md-6">
 							<div className="categorie-item">
 								<div
 									className="ci-thumb set-bg"
@@ -125,9 +170,9 @@ const index = (props) => {
 									<span>220 Courses</span>
 								</div>
 							</div>
-						</div>
+						</div> */}
 						{/* <!-- categorie --> */}
-						<div className="col-lg-4 col-md-6">
+						{/* <div className="col-lg-4 col-md-6">
 							<div className="categorie-item">
 								<div
 									className="ci-thumb set-bg"
@@ -140,317 +185,33 @@ const index = (props) => {
 									<span>25 Courses</span>
 								</div>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</section>
 			{/* <!-- categories section end --> */}
 
-			{/* <!-- search section --> */}
-			<section className="search-section">
-				<div className="container">
-					<div className="search-warp">
-						<div className="section-title text-white">
-							<h2>Search your course</h2>
-						</div>
-						<div className="row">
-							<div className="col-md-10 offset-md-1">
-								{/* <!-- search form --> */}
-								<form className="course-search-form">
-									<input
-										type="text"
-										placeholder="Course"
-									/>
-									<input
-										type="text"
-										className="last-m"
-										placeholder="Category"
-									/>
-									<button className="site-btn">Search Couse</button>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-			{/* <!-- search section end --> */}
-
-			{/* <!-- course section --> */}
-			<section className="course-section spad">
-				<div className="container">
-					<div className="section-title mb-0">
-						<h2>Featured Courses</h2>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-							malesuada lorem maximus mauris scelerisque, at rutrum nulla
-							dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.
-						</p>
-					</div>
-				</div>
-				<div className="course-warp">
-					<ul className="course-filter controls">
-						<li
-							className="control active"
-							data-filter="all">
-							All
-						</li>
-						<li
-							className="control"
-							data-filter=".finance">
-							Finance
-						</li>
-						<li
-							className="control"
-							data-filter=".design">
-							Design
-						</li>
-						<li
-							className="control"
-							data-filter=".web">
-							Web Development
-						</li>
-						<li
-							className="control"
-							data-filter=".photo">
-							Photography
-						</li>
-					</ul>
-					<div className="row course-items-area">
-						{/* <!-- course --> */}
-						<div className="mix col-lg-3 col-md-4 col-sm-6 finance">
-							<div className="course-item">
-								<div
-									className="course-thumb set-bg"
-									style={{ background: `url("/storage/img/courses/1.jpg")` }}>
-									<div className="price">Price: $15</div>
-								</div>
-								<div className="course-info">
-									<div className="course-text">
-										<h5>Art & Crafts</h5>
-										<p>Lorem ipsum dolor sit amet, consectetur</p>
-										<div className="students">120 Students</div>
-									</div>
-									<div className="course-author">
-										<div
-											className="ca-pic set-bg"
-											style={{
-												background: `url("/storage/img/authors/1.jpg")`,
-											}}></div>
-										<p>
-											William Parker, <span>Developer</span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						{/* <!-- course --> */}
-						<div className="mix col-lg-3 col-md-4 col-sm-6 design">
-							<div className="course-item">
-								<div
-									className="course-thumb set-bg"
-									style={{ background: `url("/storage/img/courses/2.jpg")` }}>
-									<div className="price">Price: $15</div>
-								</div>
-								<div className="course-info">
-									<div className="course-text">
-										<h5>IT Development</h5>
-										<p>Lorem ipsum dolor sit amet, consectetur</p>
-										<div className="students">120 Students</div>
-									</div>
-									<div className="course-author">
-										<div
-											className="ca-pic set-bg"
-											style={{
-												background: `url("/storage/img/authors/2.jpg")`,
-											}}></div>
-										<p>
-											William Parker, <span>Developer</span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						{/* <!-- course --> */}
-						<div className="mix col-lg-3 col-md-4 col-sm-6 web">
-							<div className="course-item">
-								<div
-									className="course-thumb set-bg"
-									style={{ background: `url("/storage/img/courses/3.jpg")` }}>
-									<div className="price">Price: $15</div>
-								</div>
-								<div className="course-info">
-									<div className="course-text">
-										<h5>Graphic Design</h5>
-										<p>Lorem ipsum dolor sit amet, consectetur</p>
-										<div className="students">120 Students</div>
-									</div>
-									<div className="course-author">
-										<div
-											className="ca-pic set-bg"
-											style={{
-												background: `url("/storage/img/authors/3.jpg")`,
-											}}></div>
-										<p>
-											William Parker, <span>Developer</span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						{/* <!-- course --> */}
-						<div className="mix col-lg-3 col-md-4 col-sm-6 photo">
-							<div className="course-item">
-								<div
-									className="course-thumb set-bg"
-									style={{ background: `url("/storage/img/courses/4.jpg")` }}>
-									<div className="price">Price: $15</div>
-								</div>
-								<div className="course-info">
-									<div className="course-text">
-										<h5>IT Development</h5>
-										<p>Lorem ipsum dolor sit amet, consectetur</p>
-										<div className="students">120 Students</div>
-									</div>
-									<div className="course-author">
-										<div
-											className="ca-pic set-bg"
-											style={{
-												background: `url("/storage/img/authors/4.jpg")`,
-											}}></div>
-										<p>
-											William Parker, <span>Developer</span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						{/* <!-- course --> */}
-						<div className="mix col-lg-3 col-md-4 col-sm-6 finance">
-							<div className="course-item">
-								<div
-									className="course-thumb set-bg"
-									style={{ background: `url("/storage/img/courses/5.jpg")` }}>
-									<div className="price">Price: $15</div>
-								</div>
-								<div className="course-info">
-									<div className="course-text">
-										<h5>IT Development</h5>
-										<p>Lorem ipsum dolor sit amet, consectetur</p>
-										<div className="students">120 Students</div>
-									</div>
-									<div className="course-author">
-										<div
-											className="ca-pic set-bg"
-											style={{
-												background: `url("/storage/img/authors/5.jpg")`,
-											}}></div>
-										<p>
-											William Parker, <span>Developer</span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						{/* <!-- course --> */}
-						<div className="mix col-lg-3 col-md-4 col-sm-6 design">
-							<div className="course-item">
-								<div
-									className="course-thumb set-bg"
-									style={{ background: `url("/storage/img/courses/6.jpg")` }}>
-									<div className="price">Price: $15</div>
-								</div>
-								<div className="course-info">
-									<div className="course-text">
-										<h5>Socia Media</h5>
-										<p>Lorem ipsum dolor sit amet, consectetur</p>
-										<div className="students">120 Students</div>
-									</div>
-									<div className="course-author">
-										<div
-											className="ca-pic set-bg"
-											style={{
-												background: `url("/storage/img/authors/6.jpg")`,
-											}}></div>
-										<p>
-											William Parker, <span>Developer</span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						{/* <!-- course --> */}
-						<div className="mix col-lg-3 col-md-4 col-sm-6 web">
-							<div className="course-item">
-								<div
-									className="course-thumb set-bg"
-									style={{ background: `url("/storage/img/courses/7.jpg")` }}>
-									<div className="price">Price: $15</div>
-								</div>
-								<div className="course-info">
-									<div className="course-text">
-										<h5>IT Development</h5>
-										<p>Lorem ipsum dolor sit amet, consectetur</p>
-										<div className="students">120 Students</div>
-									</div>
-									<div className="course-author">
-										<div
-											className="ca-pic set-bg"
-											style={{
-												background: `url("/storage/img/authors/7.jpg")`,
-											}}></div>
-										<p>
-											William Parker, <span>Developer</span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						{/* <!-- course --> */}
-						<div className="mix col-lg-3 col-md-4 col-sm-6 photo">
-							<div className="course-item">
-								<div
-									className="course-thumb set-bg"
-									style={{ background: `url("/storage/img/courses/8.jpg")` }}>
-									<div className="price">Price: $15</div>
-								</div>
-								<div className="course-info">
-									<div className="course-text">
-										<h5>HTML 5</h5>
-										<p>Lorem ipsum dolor sit amet, consectetur</p>
-										<div className="students">120 Students</div>
-									</div>
-									<div className="course-author">
-										<div
-											className="ca-pic set-bg"
-											style={{
-												background: `url("/storage/img/authors/8.jpg")`,
-											}}></div>
-										<p>
-											William Parker, <span>Developer</span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-			{/* <!-- course section end --> */}
-
 			{/* <!-- banner section --> */}
 			<section className="banner-section spad">
 				<div className="container">
 					<div className="section-title mb-0 pb-2">
-						<h2>Join Our Community Now!</h2>
+						<h2>Invest in Your Future Today</h2>
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-							malesuada lorem maximus mauris scelerisque, at rutrum nulla
-							dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.
+							Don't let geographical barriers or time constraints hold you back
+							from achieving your dreams. Seize the opportunity to elevate your
+							skills, expand your horizons, and propel your career forward with
+							KASNEB's online Vocational Certificate programs. Enroll now and
+							embark on a journey of personal and professional growth like never
+							before.
+						</p>
+						<p>
+							For more information and to register, visit our website or contact
+							us directly. Your future starts here with us.
 						</p>
 					</div>
 					<div className="text-center pt-5">
 						<Link
-							to="/login"
+							to="/student/login"
 							className="site-btn">
 							Register Now
 						</Link>

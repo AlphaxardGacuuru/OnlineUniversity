@@ -58,7 +58,8 @@ class Faculty extends Model
     {
         return $this->departments()
             ->get()
-            ->map(fn($department) => $department->course);
+            ->map(fn($department) => $department->courses)
+            ->flatten();
     }
 
     public function instructors()
