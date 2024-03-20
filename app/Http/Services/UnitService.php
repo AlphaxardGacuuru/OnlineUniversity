@@ -106,6 +106,7 @@ class UnitService extends Service
                 // Check if instructor already exists
                 $userUnitDoesntExist = UserUnit::where("unit_id", $unit->id)
                     ->where("user_id", $instructorId)
+                    ->where("academic_session_id", $request->input("sessionId"))
                     ->doesntExist();
 
                 if ($userUnitDoesntExist) {

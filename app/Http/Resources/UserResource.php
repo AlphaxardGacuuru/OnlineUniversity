@@ -30,8 +30,8 @@ class UserResource extends JsonResource
             "courseName" => $this->course()?->name,
             "unitId" => $this->unit()?->id,
             "unitName" => $this->unit()?->name,
-			"unitIds" => $this->units->map((fn($unit) => $unit->id)),
-			"unitSessions" => $this->unitSessions(),
+            "unitIds" => $this->units->map((fn($unit) => $unit->id)),
+            "unitSessions" => $this->unitSessions(),
             "createdAt" => $this->created_at,
         ];
     }

@@ -13,7 +13,7 @@ const PaginationLinks = ({ getPaginated, setState, list }) => {
 						style={{ backgroundColor: "white", cursor: "pointer" }}
 						onClick={() => {
 							// Use URL API to remove domain
-							var url = link.url.replace(/^(?:\/\/|[^/]+)*\/api/, "")
+							var url = link.url.replace(/^(?:\/\/|[^/]+)*\/api\//, "")
 
 							// Check if url is available
 							if (link.url) {

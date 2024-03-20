@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 import PlusSVG from "@/svgs/PlusSVG"
+import CloseSVG from "@/svgs/CloseSVG"
 
 import Countries from "@/components/Core/Countries"
 
@@ -21,11 +22,10 @@ const edit = (props) => {
 	const [facultyId, setFacultyId] = useState()
 	const [departmentId, setDepartmentId] = useState()
 	const [courseId, setCourseId] = useState()
-	const [unitId, setUnitId] = useState()
 	const [faculties, setFaculties] = useState([])
 	const [departments, setDepartments] = useState([])
 	const [courses, setCourses] = useState([])
-	const [units, setUnits] = useState([])
+	const [courseIds, setCourseIds] = useState([])
 	const [loading, setLoading] = useState()
 
 	var educationList = ["phd", " masters", "degree", "certificate"]
@@ -39,13 +39,27 @@ const edit = (props) => {
 			setInstructor(res.data.data)
 			setFacultyId(res.data.data.facultyId.toString())
 			setDepartmentId(res.data.data.departmentId.toString())
-			setCourseId(res.data.data.courseId.toString())
+			setCourseIds(res.data.data.courseIds)
 		})
 		props.get("faculties", setFaculties)
 		props.get("departments", setDepartments)
 		props.get("courses?idAndName=true", setCourses)
-		props.get("units?idAndName=true", setUnits)
 	}, [])
+
+	/*
+	 * Handle Instructor selects
+	 */
+	const handleCourseIds = (id) => {
+		if (id) {
+			var exists = courseIds.includes(id)
+
+			var newCourseIds = exists
+				? courseIds.filter((item) => item != id)
+				: [...courseIds, id]
+
+			setCourseIds(newCourseIds)
+		}
+	}
 
 	/*
 	 * Submit Form
@@ -64,8 +78,7 @@ const edit = (props) => {
 			currentLocation: currentLocation,
 			facultyId: facultyId,
 			departmentId: departmentId,
-			courseId: courseId,
-			// unitId: unitId,
+			courseIds: courseIds,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -208,39 +221,83 @@ const edit = (props) => {
 								))}
 						</select>
 
-						<select
-							name="courseId"
-							className="form-control mb-3 me-2"
-							onChange={(e) => setCourseId(e.target.value)}>
-							<option value="remove">Select Course</option>
-							{courses
-								.filter((course) => course.departmentId == departmentId)
-								.map((course, key) => (
-									<option
-										key={key}
-										value={course.id}
-										selected={instructor.courseId == course.id}>
-										{course.name}
-									</option>
-								))}
-						</select>
+						<div className="d-flex">
+							<select
+								name="courseId"
+								className="form-control mb-3 me-2"
+								onChange={(e) =>
+									handleCourseIds(Number.parseInt(e.target.value))
+								}
+								disabled={courseIds.length > 0}>
+								<option value="">Select Course</option>
+								{courses
+									.filter((course) => course.departmentId == departmentId)
+									.map((course, key) => (
+										<option
+											key={key}
+											value={course.id}
+											className="text-primary"
+											selected={course.id == courseIds[0]}>
+											{course.name}
+										</option>
+									))}
+							</select>
+							{/* Close Icon */}
+							<span
+								className="text-primary"
+								style={{ cursor: "pointer" }}
+								onClick={() => setCourseIds(courseIds.slice(0, 0))}>
+								<CloseSVG />
+							</span>
+							{/* Close Icon End */}
+						</div>
 
-						{/* <select
-							name="unitId"
-							className="form-control mb-3 me-2"
-							onChange={(e) => setUnitId(e.target.value)}>
-							<option value="remove">Select Unit</option>
-							{units
-								.filter((unit) => unit.courseId == courseId)
-								.map((unit, key) => (
-									<option
-										key={key}
-										value={unit.id}
-										selected={instructor.unitId == unit.id}>
-										{unit.code}
-									</option>
-								))}
-						</select> */}
+						{courseIds.map((input, key1) => (
+							<div
+								className="d-flex"
+								key={key1}>
+								<select
+									name="courseId"
+									className="form-control mb-3 me-2"
+									onChange={(e) =>
+										handleCourseIds(Number.parseInt(e.target.value))
+									}
+									disabled={courseIds.length > key1 + 1}>
+									<option value="">Select Course</option>
+									{courses
+										.filter((course) => course.departmentId == departmentId)
+										.map((course, key2) => (
+											<option
+												key={key2}
+												value={!courseIds.includes(course.id) && course.id}
+												className={
+													courseIds.includes(course.id)
+														? "text-secondary"
+														: "text-primary"
+												}
+												selected={course.id == courseIds[key1 + 1]}>
+												{course.name}
+											</option>
+										))}
+								</select>
+								{/* Close Icon */}
+								<span
+									className={
+										key1 == courseIds.length - 1
+											? "invisible text-primary"
+											: "text-primary"
+									}
+									style={{ cursor: "pointer" }}
+									onClick={() =>
+										setCourseIds(
+											courseIds.filter((courseId, index) => index != key1 + 1)
+										)
+									}>
+									<CloseSVG />
+								</span>
+								{/* Close Icon End */}
+							</div>
+						))}
 					</div>
 					<div className="col-sm-2"></div>
 				</div>

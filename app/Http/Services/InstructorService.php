@@ -88,11 +88,13 @@ class InstructorService extends Service
             }
 
             // Add UserCourse
-            if ($request->filled("courseId")) {
-                $userCourse = new UserCourse;
-                $userCourse->user_id = $instructor->id;
-                $userCourse->course_id = $request->input("courseId");
-                $userCourse->save();
+            if ($request->filled("courseIds")) {
+                foreach ($request->courseIds as $courseId) {
+                    $userUnit = new UserCourse;
+                    $userUnit->user_id = $instructor->id;
+                    $userUnit->course_id = $courseId;
+                    $userUnit->save();
+                }
             }
 
             // Add UserUnit
@@ -191,24 +193,29 @@ class InstructorService extends Service
         }
 
         // Add UserCourse
-        if ($request->filled("courseId")) {
-            // If user has opted to remove
-            if ($request->input("courseId") == "remove") {
-                UserCourse::where("user_id", $id)->delete();
-            }
+        if (count($request->courseIds) > 0) {
+            foreach ($request->courseIds as $courseId) {
+                // Check if course already exists
+                $userCourseDoesntExist = UserCourse::where("course_id", $courseId)
+                    ->where("user_id", $id)
+                    ->doesntExist();
 
-            // Delete UserCourse
-            $doesntExist = UserCourse::where("user_id", $id)
-                ->where("course_id", $request->input("courseId"))
-                ->doesntExist();
-
-            // Add UserCourse
-            if ($doesntExist) {
-                $userCourseId = new UserCourse;
-                $userCourseId->user_id = $instructor->id;
-                $userCourseId->course_id = $request->input("courseId");
-                $userCourseId->save();
+                if ($userCourseDoesntExist) {
+                    $userCourse = new UserCourse;
+                    $userCourse->user_id = $id;
+                    $userCourse->course_id = $courseId;
+                    $userCourse->save();
+                } else {
+                    // Remove courses not included
+                    UserCourse::where("user_id", $id)
+                        ->whereNotIn("course_id", $request->courseIds)
+                        ->delete();
+                }
             }
+        } else {
+            // Remove courses not included
+            UserCourse::where("user_id", $id)
+                ->delete();
         }
 
         // Update Unit

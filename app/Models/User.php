@@ -115,6 +115,7 @@ class User extends Authenticatable
     public function faculty()
     {
         return $this->userFaculties()
+            ->orderBy("id", "DESC")
             ->get()
             ->map(fn($userFaculty) => $userFaculty->faculty)
             ->first();
@@ -123,6 +124,7 @@ class User extends Authenticatable
     public function department()
     {
         return $this->userDepartments()
+            ->orderBy("id", "DESC")
             ->get()
             ->map(fn($userDepartment) => $userDepartment->department)
             ->first();
@@ -131,6 +133,7 @@ class User extends Authenticatable
     public function course()
     {
         return $this->userCourses()
+            ->orderBy("id", "DESC")
             ->get()
             ->map(fn($userCourse) => $userCourse->course)
             ->first();
@@ -139,6 +142,7 @@ class User extends Authenticatable
     public function unit()
     {
         return $this->userUnits()
+            ->orderBy("id", "DESC")
             ->get()
             ->map(fn($userUnit) => $userUnit->unit)
             ->first();

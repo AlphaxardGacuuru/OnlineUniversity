@@ -209,7 +209,11 @@ const edit = (props) => {
 								}
 								style={{ cursor: "pointer" }}
 								onClick={() =>
-									setInstructorIds(instructorIds.slice(0, key1 - 1))
+									setInstructorIds(
+										instructorIds.filter(
+											(instructorId, index) => index != key1 + 1
+										)
+									)
 								}>
 								<CloseSVG />
 							</span>
