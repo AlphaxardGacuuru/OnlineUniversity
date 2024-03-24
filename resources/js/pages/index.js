@@ -40,6 +40,13 @@ const index = (props) => {
 							professional, or a busy parent, our flexible courses empower you
 							to pursue your passions without disrupting your life.
 						</p>
+						<div className="text-center my-2">
+							<Link
+								to="/student/login"
+								className="site-btn">
+								Sing up here now
+							</Link>
+						</div>
 						<p className="fs-5">
 							2. Cutting-Edge Curriculum: KASNEB's Vocational Certificate
 							programs are designed in collaboration with industry experts to
@@ -48,6 +55,13 @@ const index = (props) => {
 							directly applicable to real-world scenarios, setting you apart in
 							today's competitive job market.
 						</p>
+						<div className="text-center my-2">
+							<Link
+								to="/student/login"
+								className="site-btn">
+								Sing up here now
+							</Link>
+						</div>
 						<p className="fs-5">
 							3. Interactive Learning Experience: Engage with dynamic course
 							materials, interactive modules, and multimedia resources that
@@ -55,6 +69,13 @@ const index = (props) => {
 							collaboration and peer-to-peer interaction, providing a rich
 							learning environment that enhances comprehension and retention.
 						</p>
+						<div className="text-center my-2">
+							<Link
+								to="/student/login"
+								className="site-btn">
+								Sing up here now
+							</Link>
+						</div>
 						<p className="fs-5">
 							4. Expert Guidance and Support: Benefit from the guidance of
 							experienced instructors who are dedicated to your success. Receive
@@ -63,6 +84,13 @@ const index = (props) => {
 							designed to maximize your learning potential and pass your KASNEB
 							exams first time.
 						</p>
+						<div className="text-center my-2">
+							<Link
+								to="/student/login"
+								className="site-btn">
+								Sing up here now
+							</Link>
+						</div>
 					</div>
 					<div className="row">
 						{/* <!-- categorie --> */}
@@ -85,6 +113,13 @@ const index = (props) => {
 										today's dynamic business landscape.
 									</p>
 									{/* <span>120 Courses</span> */}
+									<div className="text-center">
+										<Link
+											to="/student/login"
+											className="site-btn">
+											Sing up here now
+										</Link>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -109,6 +144,13 @@ const index = (props) => {
 										field.
 									</p>
 									{/* <span>70 Courses</span> */}
+									<div className="text-center">
+										<Link
+											to="/student/login"
+											className="site-btn">
+											Sing up here now
+										</Link>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -130,6 +172,13 @@ const index = (props) => {
 										platforms.
 									</p>
 									{/* <span>55 Courses</span> */}
+									<div className="text-center">
+										<Link
+											to="/student/login"
+											className="site-btn">
+											Sing up here now
+										</Link>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -153,6 +202,13 @@ const index = (props) => {
 										evolving field.
 									</p>
 									{/* <span>40 Courses</span> */}
+									<div className="text-center">
+										<Link
+											to="/student/login"
+											className="site-btn">
+											Sing up here now
+										</Link>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -213,7 +269,7 @@ const index = (props) => {
 						<Link
 							to="/student/login"
 							className="site-btn">
-							Register Now
+							Sing up here now
 						</Link>
 					</div>
 				</div>
