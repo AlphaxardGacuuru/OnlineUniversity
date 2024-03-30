@@ -55,7 +55,7 @@ function App() {
 	const [studentMenu, setStudentMenu] = useState("left-open")
 	const [page, setPage] = useState({ name: "/", path: [] })
 
-	const [showPayMenu, setShowPayMenu] = useState("menu-open")
+	const [showPayMenu, setShowPayMenu] = useState("")
 	const [paymentTitle, setPaymentTitle] = useState()
 	const [paymentDescription, setPaymentDescription] = useState()
 	const [paymentAmount, setPaymentAmount] = useState()

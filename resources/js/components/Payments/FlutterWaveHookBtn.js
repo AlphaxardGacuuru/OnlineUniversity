@@ -9,15 +9,11 @@ const FlutterWaveHookBtn = (props) => {
 	const [loading, setLoading] = useState()
 
 	const config = {
-		public_key: process.env.MIX_FW_PUBLIC_KEY_SANDBOX,
+		public_key: process.env.MIX_FW_PUBLIC_KEY,
 		payment_options: "card",
 		currency: "KES",
 		// amount: props.paymentAmount,
 		amount: 100,
-		card_number: "5531886652142950",
-		cvv: "564",
-		expiry_month: "09",
-		expiry_year: "32",
 		tx_ref: Date.now(),
 		customer: {
 			name: "Alphaxard Gacuuru",
