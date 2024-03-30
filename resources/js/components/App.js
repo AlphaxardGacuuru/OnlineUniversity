@@ -6,6 +6,7 @@ import ScrollToTop from "@/functions/ScrollToTop"
 import TopNav from "@/components/Layouts/TopNav"
 import Footer from "@/components/Layouts/Footer"
 import Messages from "@/components/Core/Messages"
+import PaymentMenu from "@/components/Payments/PaymentMenu"
 
 import RouteList from "./Core/RouteList"
 import { random } from "lodash"
@@ -53,6 +54,11 @@ function App() {
 	const [instructorMenu, setInstructorMenu] = useState("left-open")
 	const [studentMenu, setStudentMenu] = useState("left-open")
 	const [page, setPage] = useState({ name: "/", path: [] })
+
+	const [showPayMenu, setShowPayMenu] = useState("menu-open")
+	const [paymentTitle, setPaymentTitle] = useState()
+	const [paymentDescription, setPaymentDescription] = useState()
+	const [paymentAmount, setPaymentAmount] = useState()
 
 	// Function for fetching data from API
 	const get = (endpoint, setState, storage = null, errors = true) => {
@@ -122,6 +128,14 @@ function App() {
 		setStudentMenu,
 		page,
 		setPage,
+		showPayMenu,
+		setShowPayMenu,
+		paymentTitle,
+		setPaymentTitle,
+		paymentDescription,
+		setPaymentDescription,
+		paymentAmount,
+		setPaymentAmount,
 	}
 
 	return (
@@ -131,6 +145,7 @@ function App() {
 			<RouteList GLOBAL_STATE={GLOBAL_STATE} />
 			<Footer {...GLOBAL_STATE} />
 			<Messages {...GLOBAL_STATE} />
+			<PaymentMenu {...GLOBAL_STATE} />
 		</HashRouter>
 	)
 }
