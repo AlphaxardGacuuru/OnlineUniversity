@@ -97,7 +97,7 @@ const show = (props) => {
 	 */
 	const formatAmount = () => {
 		return (
-			"KES " + course.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+			"KES " + course.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 		)
 	}
 

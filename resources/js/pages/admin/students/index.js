@@ -192,23 +192,23 @@ const index = (props) => {
 
 									return name.match(query)
 								})
-								.filter((instructor) => {
+								.filter((student) => {
 									if (genderQuery) {
-										return instructor.gender == genderQuery
+										return student.gender == genderQuery
 									} else {
 										return true
 									}
 								})
-								.filter((instructor) => {
+								.filter((student) => {
 									if (facultyQuery) {
-										return instructor.facultyId == facultyQuery
+										return student.facultyId == facultyQuery
 									} else {
 										return true
 									}
 								})
-								.filter((instructor) => {
+								.filter((student) => {
 									if (departmentQuery) {
-										return instructor.departmentId == departmentQuery
+										return student.departmentId == departmentQuery
 									} else {
 										return true
 									}

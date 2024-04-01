@@ -4,9 +4,11 @@ namespace App\Http\Services;
 
 use App\Http\Resources\InstructorResource;
 use App\Http\Services\Service;
+use App\Models\CardTransaction;
 use App\Models\Course;
 use App\Models\Department;
 use App\Models\Faculty;
+use App\Models\MPESATransaction;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -22,11 +24,7 @@ class AdminService extends Service
             "faculties" => $this->faculties(),
             "departments" => $this->departments(),
             "courses" => $this->courses(),
-            // "orders" => $this->orders(),
-            // "revenue" => $this->revenue(),
-            // "products" => $this->products(),
-            // "revenueLastWeek" => $this->revenueLastWeek(),
-            // "productsLastWeek" => $this->productsLastWeek(),
+            "fees" => $this->fees(),
         ];
     }
 
@@ -218,7 +216,7 @@ class AdminService extends Service
     }
 
     /*
-     * Get Instructors Data
+     * Get Courses Data
      */
     public function courses()
     {
@@ -250,25 +248,43 @@ class AdminService extends Service
     }
 
     /*
-     * Get Revenue
+     * Get Fees Data
      */
-    public function revenue()
+    public function fees()
     {
-        $total = Order::sum('total_value');
+        $total = CardTransaction::sum("amount") + MPESATransaction::sum("amount");
 
         $carbonYesterday = now()->subDay();
 
-        $yesterday = Order::whereDate("date", $carbonYesterday)->sum("total_value");
+        $yesterday1 = CardTransaction::whereDate("created_at", $carbonYesterday)->sum("amount");
+        $yesterday2 = MPESATransaction::whereDate("created_at", $carbonYesterday)->sum("amount");
 
         $carbonToday = Carbon::today()->toDateString();
 
-        $today = Order::whereDate("date", $carbonToday)->sum("total_value");
+        $today1 = CardTransaction::whereDate("created_at", $carbonToday)->sum("amount");
+        $today2 = MPESATransaction::whereDate("created_at", $carbonToday)->sum("amount");
 
-        $growth = $this->growth($yesterday, $today);
+        // Get Users By Day
+        $startDate = Carbon::now()->subWeek()->startOfWeek();
+        $endDate = Carbon::now()->subWeek()->endOfWeek();
+
+        $getCardsLastWeek = CardTransaction::select(DB::raw('DATE(created_at) as date'), DB::raw('sum(amount) as sum'))
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->groupBy(DB::raw('DATE(card_transactions.created_at)'))
+            ->get()
+            ->map(fn($item) => $item->sum);
+
+        $getMpesaLastWeek = MpesaTransaction::select(DB::raw('DATE(created_at) as date'), DB::raw('sum(amount) as sum'))
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->groupBy(DB::raw('DATE(mpesa_transactions.created_at)'))
+            ->get()
+            ->map(fn($item) => $item->sum);
 
         return [
-            "total" => number_format($total),
-            "growth" => $growth,
+            "total" => $total,
+            "growth" => $this->growth(($yesterday1 + $yesterday2), ($today1 + $today2)),
+            "cardsLastWeek" => $getCardsLastWeek,
+            "mpesaLastWeek" => $getMpesaLastWeek,
         ];
     }
 
@@ -432,16 +448,16 @@ class AdminService extends Service
     }
 
     /*
-     * Get Revenue Last Week
+     * Get Fees Last Week
      */
-    public function revenueLastWeek()
+    public function feesLastWeek()
     {
 
-        // Get Revenue By Day
+        // Get Fees By Day
         $startDate = Carbon::now()->subWeek()->startOfWeek();
         $endDate = Carbon::now()->subWeek()->endOfWeek();
 
-        $getRevenueLastWeek = Order::select(DB::raw('DATE(created_at) as date'), DB::raw('sum(total_value) as sum'))
+        $getFeesLastWeek = Order::select(DB::raw('DATE(created_at) as date'), DB::raw('sum(total_value) as sum'))
             ->whereBetween('created_at', [$startDate, $endDate])
             ->groupBy(DB::raw('DATE(orders.created_at)'))
             ->get()
@@ -452,41 +468,12 @@ class AdminService extends Service
                 ];
             });
 
-        $revenueLastWeekLabels = $getRevenueLastWeek->map(fn($item) => $item["day"]);
-        $revenueLastWeekData = $getRevenueLastWeek->map(fn($item) => $item["sum"]);
+        $feesLastWeekLabels = $getFeesLastWeek->map(fn($item) => $item["day"]);
+        $feesLastWeekData = $getFeesLastWeek->map(fn($item) => $item["sum"]);
 
         return [
-            "labels" => $revenueLastWeekLabels,
-            "data" => $revenueLastWeekData,
-        ];
-    }
-
-    /*
-     * Get Revenue Last Week
-     */
-    public function productsLastWeek()
-    {
-        // Get Revenue By Day
-        $startDate = Carbon::now()->subWeek()->startOfWeek();
-        $endDate = Carbon::now()->subWeek()->endOfWeek();
-
-        $getRevenueLastWeek = Order::select(DB::raw('DATE(created_at) as date'), DB::raw('sum(total_value) as sum'))
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->groupBy(DB::raw('DATE(orders.created_at)'))
-            ->get()
-            ->map(function ($item) {
-                return [
-                    "day" => Carbon::parse($item->date)->dayName,
-                    "sum" => $item->sum,
-                ];
-            });
-
-        $revenueLastWeekLabels = $getRevenueLastWeek->map(fn($item) => $item["day"]);
-        $revenueLastWeekData = $getRevenueLastWeek->map(fn($item) => $item["sum"]);
-
-        return [
-            "labels" => $revenueLastWeekLabels,
-            "data" => $revenueLastWeekData,
+            "labels" => $feesLastWeekLabels,
+            "data" => $feesLastWeekData,
         ];
     }
 

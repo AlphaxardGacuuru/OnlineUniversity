@@ -16,6 +16,7 @@ import FacultySVG from "@/svgs/FacultySVG"
 import DepartmentSVG from "@/svgs/DepartmentSVG"
 import CourseSVG from "@/svgs/CourseSVG"
 import Doughnut from "@/components/Charts/Doughnut"
+import MoneySVG from "@/svgs/MoneySVG"
 
 const index = (props) => {
 	const [dashboard, setDashboard] = useState({})
@@ -119,6 +120,23 @@ const index = (props) => {
 			data: dashboard.staff?.lastWeek,
 			backgroundColor: "rgba(153, 102, 255, 1)",
 			borderColor: "rgb(153, 102, 255)",
+			// borderWidth: 1,
+		},
+	]
+
+	var lineGraphDatasets7 = [
+		{
+			label: "Card Last Week",
+			data: dashboard.fees?.cardsLastWeek,
+			backgroundColor: "rgba(54, 162, 235, 1)",
+			borderColor: "rgb(54, 162, 235)",
+			// borderWidth: 1,
+		},
+		{
+			label: "Mpesa Last Week",
+			data: dashboard.fees?.mpesaLastWeek,
+			backgroundColor: "rgba(40, 167, 69, 1)",
+			borderColor: "rgb(40, 167, 69)",
 			// borderWidth: 1,
 		},
 	]
@@ -376,7 +394,7 @@ const index = (props) => {
 								)}
 							</div>
 						</div>
-						{/* Students End */}
+						{/* Departments End */}
 						{/* Courses */}
 						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card">
 							<div className="d-flex justify-content-between align-items-center">
@@ -420,7 +438,58 @@ const index = (props) => {
 								)}
 							</div>
 						</div>
-						{/* Staff End */}
+						{/* Courses End */}
+					</div>
+				</div>
+			</div>
+
+			<div className="row">
+				<div className="col-sm-12">
+					<div className="d-flex flex-wrap justify-content-start">
+						{/* Fees */}
+						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card">
+							<div className="d-flex justify-content-between align-items-center">
+								<div className="px-4">
+									<h4>Fees</h4>
+									<h6>KES {dashboard.fees?.total.toLocaleString()}</h6>
+								</div>
+								<div className="px-4 pb-2 fs-2 bg-primary-subtle text-primary rounded">
+									<MoneySVG />
+								</div>
+							</div>
+							<div className="d-flex justify-content-end align-items-center">
+								<div className="">
+									<h6>
+										{dashboard.fees?.growth > 0 && (
+											<span className="text-success">
+												<ArrowUpSVG />
+												{dashboard.fees?.growth}
+											</span>
+										)}
+										{dashboard.fees?.growth == 0 && (
+											<span className="text-secondary">
+												{dashboard.fees?.growth}
+											</span>
+										)}
+										{dashboard.fees?.growth < 0 && (
+											<span className="text-danger">
+												<ArrowDownSVG />
+												{dashboard.fees?.growth}
+											</span>
+										)}
+									</h6>
+								</div>
+							</div>
+							<div className="d-flex justify-content-end align-items-center">
+								{dashboard.fees && (
+									<Line
+										labels={[1, 2, 3, 4, 5, 6, 7]}
+										datasets={lineGraphDatasets7}
+									/>
+								)}
+							</div>
+						</div>
+						{/* Fees End */}
 					</div>
 				</div>
 			</div>
@@ -460,7 +529,7 @@ const index = (props) => {
 
 				<div className="row">
 					<div className="col-sm-8">
-						<h4 className="my-3">Recent Intructors</h4>
+						<h4 className="my-3">Recent Students</h4>
 
 						{/* Recent Students Table */}
 						<div className="table-responsive">
@@ -469,25 +538,35 @@ const index = (props) => {
 									<tr>
 										<th></th>
 										<th>Name</th>
+										<th>Gender</th>
 										<th>Date Joined</th>
 									</tr>
 								</thead>
 								<tbody>
-									{instructors.map((instructor, key) => (
+									{students.map((student, key) => (
 										<tr key={key}>
 											<td>
 												<Img
-													src={instructor.avatar}
+													src={student.avatar}
 													className="rounded-circle"
 													width="25px"
 													height="25px"
 													alt="Avatar"
 												/>
 											</td>
-											<td>{instructor.name}</td>
-											<td>{instructor.createdAt}</td>
+											<td>{student.name}</td>
+											<td className="text-capitalize">{student.gender}</td>
+											<td>{student.createdAt}</td>
 										</tr>
 									))}
+									<tr>
+										<td colSpan="5">
+											<MyLink
+												linkTo="/admin/students"
+												text="view more"
+											/>
+										</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -497,7 +576,7 @@ const index = (props) => {
 					<div className="col-sm-4">
 						<h4 className="my-3">Recent Intructors</h4>
 
-						{/* Recent Students Table */}
+						{/* Recent Instructors Table */}
 						<div className="table-responsive">
 							<table className="table table-hover">
 								<thead>
@@ -523,10 +602,18 @@ const index = (props) => {
 											<td>{instructor.createdAt}</td>
 										</tr>
 									))}
+									<tr>
+										<td colSpan="4">
+											<MyLink
+												linkTo="/admin/instructors"
+												text="view more"
+											/>
+										</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
-						{/* Recent Students Table End */}
+						{/* Recent Instructors Table End */}
 					</div>
 				</div>
 			</div>
