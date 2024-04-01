@@ -3,7 +3,10 @@
 namespace App\Http\Services;
 
 use App\Http\Resources\UserResource;
+use App\Models\CardTransaction;
+use App\Models\MPESATransaction;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class UserService extends Service
@@ -95,5 +98,63 @@ class UserService extends Service
         } else {
             return response(["message" => "Not Authenticated"], 401);
         }
+    }
+
+    /*
+     * Fee Statements
+     */
+    public function feeStatements($id)
+    {
+        // Retrieve the user by ID with its associated courses
+        $userCourses = User::with('courses')
+            ->find($id)
+            ->courses()
+            ->select("courses.id", "courses.name", "price as debit", "user_courses.created_at")
+            ->get();
+
+        $cardPaymentQuery = CardTransaction::select("id", "amount as credit", "created_at")
+            ->where("user_id", $id);
+
+        $mpesaPaymentQuery = MPESATransaction::select("id", "amount as credit", "created_at")
+            ->where("user_id", $id);
+
+        // Calculate total fees paid
+        $feesPaid = $cardPaymentQuery->sum("amount") + $mpesaPaymentQuery->sum("amount");
+
+        $cardPayments = $cardPaymentQuery->get();
+
+        $mpesaPayments = $mpesaPaymentQuery->get();
+
+        $balance = 0;
+
+        $feeStatements = $userCourses
+            ->concat($cardPayments)
+            ->concat($mpesaPayments)
+            ->sortBy(fn($item) => Carbon::parse($item->created_at))
+            ->values()
+            ->map(function ($item) use (&$balance) {
+
+                $item->type = $item->credit ? "Payment" : $item->name;
+
+                // Calculate balance
+                if ($item->credit) {
+                    $balance -= $item->credit;
+                } else {
+                    $balance += $item->debit;
+                }
+
+                $item->balance = $balance;
+
+                return $item;
+            })
+            ->reverse()
+            ->values();
+
+        return [
+            "data" => [
+                "statement" => $feeStatements,
+                "paid" => $feesPaid,
+            ],
+        ];
     }
 }

@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-	public function __construct(protected UserService $service)
-	{
-		// 
-	}
+    public function __construct(protected UserService $service)
+    {
+        //
+    }
 
     /**
      * Display a listing of the resource.
@@ -67,11 +67,19 @@ class UserController extends Controller
         //
     }
 
-	/*
-	* Get the Auth User
-	*/ 
-	public function auth()
+    /*
+     * Get the Auth User
+     */
+    public function auth()
+    {
+        return $this->service->auth();
+    }
+
+    /*
+     * Fee Statements
+     */
+    public function feeStatements($id)
 	{
-		return $this->service->auth();
+		return $this->service->feeStatements($id);
 	}
 }

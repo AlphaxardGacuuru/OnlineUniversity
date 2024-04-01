@@ -10,13 +10,12 @@ const FlutterWaveHookBtn = (props) => {
 
 	const config = {
 		public_key: process.env.MIX_FW_PUBLIC_KEY,
-		payment_options: "card",
-		currency: "KES",
-		// amount: props.paymentAmount,
-		amount: 100,
 		tx_ref: Date.now(),
+		amount: 100,
+		currency: "KES",
+		payment_options: "card, mobilemoney, ussd",
 		customer: {
-			name: "Alphaxard Gacuuru",
+			name: "ALPHAXARD GACUURU",
 			email: "alphaxardgacuuru47@gmail.com",
 			phone_number: "0700364446",
 		},

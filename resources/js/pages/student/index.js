@@ -5,17 +5,20 @@ import Img from "@/components/Core/Img"
 
 import UnitSVG from "@/svgs/UnitSVG"
 import CourseSVG from "@/svgs/CourseSVG"
+import MoneySVG from "@/svgs/MoneySVG"
 
 const index = (props) => {
 	const [tab, setTab] = useState("courses")
 	const [courses, setCourses] = useState([])
 	const [units, setUnits] = useState([])
+	const [fees, setFees] = useState({})
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Student", path: ["student"] })
 		props.get(`courses/by-user-id/${props.auth.id}`, setCourses)
 		props.get(`units/by-user-id/${props.auth.id}`, setUnits)
+		props.get(`fee-statements/${props.auth.id}`, setFees)
 	}, [])
 
 	const active = (activeTab) => {
@@ -66,6 +69,14 @@ const index = (props) => {
 						style={{ cursor: "pointer" }}
 						onClick={() => setTab("units")}>
 						My Units
+					</div>
+					<div
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+							"fee-statements"
+						)}`}
+						style={{ cursor: "pointer" }}
+						onClick={() => setTab("fee-statements")}>
+						My Fee Statements
 					</div>
 				</div>
 				{/* Tabs End */}
@@ -135,7 +146,7 @@ const index = (props) => {
 					</div>
 					{/* Table End */}
 				</div>
-				{/* Departments Tab End */}
+				{/* Courses Tab End */}
 
 				{/* Units Tab */}
 				<div className={activeTab("units")}>
@@ -193,6 +204,70 @@ const index = (props) => {
 					{/* Table End */}
 				</div>
 				{/* Units Tab End */}
+
+				{/* Fee Statements Tab */}
+				<div className={activeTab("fee-statements")}>
+					{/* Data */}
+					<div className="card shadow-sm p-2">
+						<div className="d-flex justify-content-between">
+							{/* Total */}
+							<div className="d-flex justify-content-between w-100 align-items-center mx-4">
+								<div>
+									<span className="fs-4 text-success">KES {fees.paid}</span>
+									<h4>Total Fees Paid</h4>
+								</div>
+								<div className="fs-1 py-3 px-4 bg-success-subtle text-success rounded-circle">
+									<MoneySVG />
+								</div>
+							</div>
+							{/* Total End */}
+						</div>
+					</div>
+					{/* Data End */}
+
+					<br />
+
+					{/* Table */}
+					<div className="table-responsive">
+						<table className="table table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Type</th>
+									<th>Date</th>
+									<th>Debit (KES)</th>
+									<th>Credit (KES)</th>
+									<th>Balance (KES)</th>
+								</tr>
+							</thead>
+							<tbody>
+								{fees.statement?.map((feeStatement, key) => (
+									<tr key={key}>
+										<td>{key + 1}</td>
+										<td>{feeStatement.type}</td>
+										<td>{feeStatement.created_at}</td>
+										<td className="text-warning">
+											{feeStatement.debit?.toLocaleString()}
+										</td>
+										<td className="text-success">
+											{feeStatement.credit?.toLocaleString()}
+										</td>
+										<td
+											className={
+												feeStatement.balance > 0
+													? "text-warning"
+													: "text-success"
+											}>
+											{feeStatement.balance?.toLocaleString()}
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+					{/* Table End */}
+				</div>
+				{/* Fee Statements Tab End */}
 			</div>
 		</div>
 	)
