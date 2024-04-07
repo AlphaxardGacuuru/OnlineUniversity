@@ -2,10 +2,21 @@
 
 namespace App\Http\Services;
 
+use App\Http\Resources\CardTransactionResource;
 use App\Models\CardTransaction;
 
 class CardTransactionService extends Service
 {
+    /*
+     * Show All Card Transactions
+     */
+    public function index()
+    {
+        $cardTransactions = CardTransaction::orderBy("id", "DESC")->paginate(20);
+
+        return CardTransactionResource::collection($cardTransactions);
+    }
+
     /*
      * Store Transaction
      */

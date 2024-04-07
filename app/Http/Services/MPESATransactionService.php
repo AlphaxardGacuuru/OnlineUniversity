@@ -2,12 +2,23 @@
 
 namespace App\Http\Services;
 
+use App\Http\Resources\MPESATransactionResource;
 use App\Models\MPESATransaction;
 use App\Models\User;
 use Kopokopo\SDK\K2;
 
 class MPESATransactionService extends Service
 {
+    /*
+     * Show All Card Transactions
+     */
+    public function index()
+    {
+        $mpesaTransactions = MPESATransaction::orderBy("id", "DESC")->paginate(20);
+
+        return MPESATransactionResource::collection($mpesaTransactions);
+    }
+
     /*
      * Store MPESA Transaction
      */
@@ -43,12 +54,12 @@ class MPESATransactionService extends Service
         $mpesaTransaction->sender_first_name = $resource['sender_first_name'];
         $mpesaTransaction->sender_middle_name = $resource['sender_middle_name'];
         $mpesaTransaction->sender_last_name = $resource['sender_last_name'];
-        $mpesaTransaction->username = $user->username;
+        $mpesaTransaction->user_id = $user->id;
         $saved = $mpesaTransaction->save();
 
         $message = "Transaction Saved successfully";
 
-        return [$saved, $mpesaTransaction, $message, $user];
+        return [$saved, $message, $mpesaTransaction, $user];
     }
 
     /**

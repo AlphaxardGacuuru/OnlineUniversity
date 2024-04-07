@@ -18,6 +18,7 @@ import StudentSVG from "@/svgs/StudentSVG"
 import ChevronRightSVG from "@/svgs/ChevronRightSVG"
 import KenyanClock from "@/functions/KenyanClock"
 import SessionSVG from "@/svgs/SessionSVG"
+import MoneySVG from "@/svgs/MoneySVG"
 
 const AdminMenu = (props) => {
 	const location = useLocation()
@@ -259,6 +260,18 @@ const AdminMenu = (props) => {
 									</Link>
 								</li>
 								{/* Dashboard Link End */}
+								{/* Finance Link */}
+								<li className="nav-item">
+									<Link
+										to={`/admin/finance`}
+										className={`nav-link ${activeStrict("/admin/finance")}`}>
+										<div className="nav-link-icon">
+											<MoneySVG />
+										</div>
+										<div className="nav-link-text">Finance</div>
+									</Link>
+								</li>
+								{/* Finance Link End */}
 								{/* Customers Link */}
 								<li className="nav-item">
 									<Link
@@ -317,9 +330,7 @@ const AdminMenu = (props) => {
 								<li className="nav-item">
 									<Link
 										to={`/admin/sessions`}
-										className={`nav-link ${active(
-											"/admin/sessions"
-										)}`}>
+										className={`nav-link ${active("/admin/sessions")}`}>
 										<div className="nav-link-icon">
 											<SessionSVG />
 										</div>

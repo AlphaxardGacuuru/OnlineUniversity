@@ -148,7 +148,7 @@ const index = (props) => {
 
 				<br />
 
-				<div className="table-responsive mb-5">
+				<div className="table-responsive mb-5 pb-2">
 					<table className="table table-hover">
 						<thead>
 							<tr>

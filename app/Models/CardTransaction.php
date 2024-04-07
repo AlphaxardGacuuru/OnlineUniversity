@@ -40,4 +40,13 @@ class CardTransaction extends Model
             get: fn($value) => Carbon::parse($value)->format('d M Y'),
         );
     }
+
+	/*
+	* Relationships
+	*/ 
+
+	public function user()
+	{
+		return $this->belongsTo(User::class);
+	}
 }

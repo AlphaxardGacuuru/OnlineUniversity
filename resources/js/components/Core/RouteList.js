@@ -14,6 +14,8 @@ import StudentNav from "@/components/Layouts/StudentNav"
 import AdminLogin from "@/pages/admin/login"
 import AdminDashboard from "@/pages/admin/index"
 
+import AdminFinance from "@/pages/admin/finance/index"
+
 import AdminInstructors from "@/pages/admin/instructors/index"
 import AdminInstructorCreate from "@/pages/admin/instructors/create"
 import AdminInstructorEdit from "@/pages/admin/instructors/edit/[id]"
@@ -111,6 +113,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin",
 			component: <AdminDashboard {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/finance",
+			component: <AdminFinance {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/instructors",

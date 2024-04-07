@@ -16,6 +16,9 @@ return new class extends Migration
         Schema::create('mpesa_transactions', function (Blueprint $table) {
 			$table->id();
             $table->foreignId("user_id")->constrained()->nullable();
+            $table->string('sender_first_name')->nullable();
+            $table->string('sender_middle_name')->nullable();
+            $table->string('sender_last_name')->nullable();
             $table->string('kopokopo_id')->nullable();
             $table->string('type')->nullable();
             $table->string('initiation_time')->nullable();
@@ -30,9 +33,6 @@ return new class extends Migration
             $table->string('till_number')->nullable();
             $table->string('system')->nullable();
             $table->string('resource_status')->nullable();
-            $table->string('sender_first_name')->nullable();
-            $table->string('sender_middle_name')->nullable();
-            $table->string('sender_last_name')->nullable();
             $table->timestamps();
         });
     }
