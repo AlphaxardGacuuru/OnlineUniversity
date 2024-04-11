@@ -36,7 +36,7 @@ const KopokopoBtn = (props) => {
 			}
 			onClick={() => {
 				props.setStkPushed("menu-open")
-				// onSTKPush()
+				onSTKPush()
 			}}
 			loading={loading}
 		/>

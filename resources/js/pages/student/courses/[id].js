@@ -15,6 +15,8 @@ const show = (props) => {
 	const [course, setCourse] = useState({})
 	const [session, setSession] = useState({})
 	const [tab, setTab] = useState("units")
+	const [hasBalance, setHasBalance] = useState(true)
+
 	const [loading, setLoading] = useState()
 
 	const [nameQuery, setNameQuery] = useState("")
@@ -22,6 +24,7 @@ const show = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "View Course", path: ["courses", "view"] })
+		// Fetch Course
 		Axios.get(`api/courses/${id}`)
 			.then((res) => {
 				setCourse(res.data.data)
@@ -36,6 +39,14 @@ const show = (props) => {
 		// Fetch Session
 		Axios.get(`api/sessions/by-course-id/${id}`)
 			.then((res) => setSession(res.data.data))
+			.catch((err) => props.getErrors(err))
+
+		// Fetch Fee Statement
+		Axios.get(`api/fee-statements/${props.auth.id}`)
+			.then((res) => {
+				setHasBalance(res.data.data.statement[0].balance)
+				props.setPaymentAmount(res.data.data.statement[0].balance)
+			})
 			.catch((err) => props.getErrors(err))
 	}, [])
 
@@ -109,18 +120,19 @@ const show = (props) => {
 						<h4>{course.name}</h4>
 						{props.auth.courseId != id && session.id && (
 							<Btn3
-								btnText={`self enroll ${
-									!props.auth.paidCourse && formatAmount()
-								}`}
+								btnText={`self enroll @ ${formatAmount()}`}
 								btnClass="btn-success mt-2"
 								onClick={
-									!props.auth.paidCourse
+									hasBalance
 										? () => props.setShowPayMenu("menu-open")
 										: selfEnrollCourse
 								}
 								loading={loading}
 							/>
 						)}
+						<p className="mb-0 text-warning">
+							Balance KES {hasBalance.toLocaleString()}
+						</p>
 					</div>
 				</div>
 				<div className="col-sm-8">
