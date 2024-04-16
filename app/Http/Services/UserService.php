@@ -134,7 +134,7 @@ class UserService extends Service
             ->values()
             ->map(function ($item) use (&$balance) {
 
-                $item->type = $item->credit ? "Payment" : $item->name;
+                $item->type = $item->credit ? "Fees Paid" : $item->name;
 
                 // Calculate balance
                 if ($item->credit) {

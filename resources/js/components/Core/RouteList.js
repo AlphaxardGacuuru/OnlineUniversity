@@ -14,7 +14,9 @@ import StudentNav from "@/components/Layouts/StudentNav"
 import AdminLogin from "@/pages/admin/login"
 import AdminDashboard from "@/pages/admin/index"
 
-import AdminFinance from "@/pages/admin/finance/index"
+import AdminFinanceTransaction from "@/pages/admin/finance/transactions/index"
+import AdminFinanceWallet from "@/pages/admin/finance/wallet/index"
+import AdminFinanceWalletCreate from "@/pages/admin/finance/wallet/create"
 
 import AdminInstructors from "@/pages/admin/instructors/index"
 import AdminInstructorCreate from "@/pages/admin/instructors/create"
@@ -115,8 +117,16 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminDashboard {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/finance",
-			component: <AdminFinance {...GLOBAL_STATE} />,
+			path: "/admin/finance/transactions",
+			component: <AdminFinanceTransaction {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/finance/wallet",
+			component: <AdminFinanceWallet {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/finance/wallet/create",
+			component: <AdminFinanceWalletCreate {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/instructors",

@@ -16,9 +16,9 @@ const index = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Student", path: ["student"] })
-		props.get(`courses/by-user-id/${props.auth.id}`, setCourses)
-		props.get(`units/by-user-id/${props.auth.id}`, setUnits)
-		props.get(`fee-statements/${props.auth.id}`, setFees)
+		props.get(`courses/by-user-id/${props.auth.id}`, setCourses, null, false)
+		props.get(`units/by-user-id/${props.auth.id}`, setUnits, null, false)
+		props.get(`fee-statements/${props.auth.id}`, setFees, null, false)
 	}, [])
 
 	const active = (activeTab) => {
@@ -216,6 +216,12 @@ const index = (props) => {
 									<span className="fs-4 text-success">KES {fees.paid}</span>
 									<h4>Total Fees Paid</h4>
 								</div>
+								<div>
+									<span className="fs-4 text-warning">
+										KES {fees.statement && fees.statement[0].balance}
+									</span>
+									<h4>Total Balance Remaining</h4>
+								</div>
 								<div className="fs-1 py-3 px-4 bg-success-subtle text-success rounded-circle">
 									<MoneySVG />
 								</div>
@@ -233,10 +239,10 @@ const index = (props) => {
 							<thead>
 								<tr>
 									<th>#</th>
-									<th>Type</th>
 									<th>Date</th>
-									<th>Debit (KES)</th>
-									<th>Credit (KES)</th>
+									<th>Description</th>
+									<th>Money In (KES)</th>
+									<th>Money Out (KES)</th>
 									<th>Balance (KES)</th>
 								</tr>
 							</thead>
@@ -244,13 +250,13 @@ const index = (props) => {
 								{fees.statement?.map((feeStatement, key) => (
 									<tr key={key}>
 										<td>{key + 1}</td>
-										<td>{feeStatement.type}</td>
 										<td>{feeStatement.created_at}</td>
-										<td className="text-warning">
-											{feeStatement.debit?.toLocaleString()}
-										</td>
+										<td>{feeStatement.type}</td>
 										<td className="text-success">
 											{feeStatement.credit?.toLocaleString()}
+										</td>
+										<td className="text-warning">
+											{feeStatement.debit?.toLocaleString()}
 										</td>
 										<td
 											className={

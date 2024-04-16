@@ -5,6 +5,8 @@ import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
 
+import KenyanClock from "@/functions/KenyanClock"
+
 import CloseSVG from "@/svgs/CloseSVG"
 import LogoutSVG from "@/svgs/LogoutSVG"
 import DownloadSVG from "@/svgs/DownloadSVG"
@@ -16,9 +18,10 @@ import CourseSVG from "@/svgs/CourseSVG"
 import StaffSVG from "@/svgs/StaffSVG"
 import StudentSVG from "@/svgs/StudentSVG"
 import ChevronRightSVG from "@/svgs/ChevronRightSVG"
-import KenyanClock from "@/functions/KenyanClock"
 import SessionSVG from "@/svgs/SessionSVG"
 import MoneySVG from "@/svgs/MoneySVG"
+import TransactionSVG from "@/svgs/TransactionSVG"
+import WalletSVG from "@/svgs/WalletSVG"
 
 const AdminMenu = (props) => {
 	const location = useLocation()
@@ -260,18 +263,61 @@ const AdminMenu = (props) => {
 									</Link>
 								</li>
 								{/* Dashboard Link End */}
-								{/* Finance Link */}
+								{/* Finance Links */}
 								<li className="nav-item">
-									<Link
-										to={`/admin/finance`}
-										className={`nav-link ${activeStrict("/admin/finance")}`}>
+									<a
+										href="#"
+										className={`nav-link accordion-button ${active(
+											"/admin/finance/"
+										)}`}
+										data-bs-toggle="collapse"
+										data-bs-target="#collapseFinance"
+										aria-expanded="false"
+										aria-controls="collapseFinance">
 										<div className="nav-link-icon">
 											<MoneySVG />
 										</div>
 										<div className="nav-link-text">Finance</div>
-									</Link>
+									</a>
+
+									{/* Collapse */}
+									<div
+										className="collapse"
+										id="collapseFinance">
+										<ol className="ms-4">
+											{/* Transactions */}
+											<li className="nav-item">
+												<Link
+													to={`/admin/finance/transactions`}
+													className={`nav-link ${activeStrict(
+														"/admin/finance/transactions"
+													)}`}>
+													<div className="nav-link-icon">
+														<TransactionSVG />
+													</div>
+													<div className="nav-link-text">Trasactions</div>
+												</Link>
+											</li>
+											{/* Transactions End */}
+											{/* Wallet */}
+											<li className="nav-item">
+												<Link
+													to={`/admin/finance/wallet`}
+													className={`nav-link ${activeStrict(
+														"/admin/finance/wallet"
+													)}`}>
+													<div className="nav-link-icon">
+														<WalletSVG />
+													</div>
+													<div className="nav-link-text">Wallet</div>
+												</Link>
+											</li>
+											{/* Wallet End */}
+										</ol>
+									</div>
 								</li>
-								{/* Finance Link End */}
+								{/* Collapse End */}
+								{/* Finance Links End */}
 								{/* Customers Link */}
 								<li className="nav-item">
 									<Link

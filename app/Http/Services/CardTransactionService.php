@@ -10,11 +10,18 @@ class CardTransactionService extends Service
     /*
      * Show All Card Transactions
      */
-    public function index()
+    public function index($request)
     {
         $cardTransactions = CardTransaction::orderBy("id", "DESC")->paginate(20);
 
-        return CardTransactionResource::collection($cardTransactions);
+        $sum = CardTransaction::sum("amount");
+
+		// Check if total is request
+        if ($request->total) {
+            return ["data" => $sum];
+        } else {
+            return CardTransactionResource::collection($cardTransactions);
+        }
     }
 
     /*

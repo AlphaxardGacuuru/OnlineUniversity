@@ -12,11 +12,18 @@ class MPESATransactionService extends Service
     /*
      * Show All Card Transactions
      */
-    public function index()
+    public function index($request)
     {
         $mpesaTransactions = MPESATransaction::orderBy("id", "DESC")->paginate(20);
 
-        return MPESATransactionResource::collection($mpesaTransactions);
+        $sum = MPESATransaction::sum("amount");
+
+        // Check if total is request
+        if ($request->total) {
+            return ["data" => $sum];
+        } else {
+            return MPESATransactionResource::collection($mpesaTransactions);
+        }
     }
 
     /*
@@ -81,19 +88,7 @@ class MPESATransactionService extends Service
 
         $firstname = implode(" ", $parts);
 
-        // Do not hard code these values
-        $options = [
-            // 'clientId' => env('KOPOKOPO_CLIENT_ID_SANDBOX'),
-            'clientId' => env('KOPOKOPO_CLIENT_ID'),
-            // 'clientSecret' => env('KOPOKOPO_CLIENT_SECRET_SANDBOX'),
-            'clientSecret' => env('KOPOKOPO_CLIENT_SECRET'),
-            // 'apiKey' => env('KOPOKOPO_API_KEY_SANDBOX'),
-            'apiKey' => env('KOPOKOPO_API_KEY'),
-            // 'baseUrl' => env('KOPOKOPO_BASE_URL_SANDBOX'),
-            'baseUrl' => env('KOPOKOPO_BASE_URL'),
-        ];
-
-        $K2 = new K2($options);
+        $K2 = new K2($this->options());
 
         // Get one of the services
         $tokens = $K2->TokenService();
@@ -131,4 +126,21 @@ class MPESATransactionService extends Service
             return response(["message" => $response], 400);
         }
     }
+
+	/*
+	* Kopokopo Environment Variables
+	*/ 
+	public static function options()
+	{
+        return  [
+            'clientId' => env('KOPOKOPO_CLIENT_ID_SANDBOX'),
+            // 'clientId' => env('KOPOKOPO_CLIENT_ID'),
+            'clientSecret' => env('KOPOKOPO_CLIENT_SECRET_SANDBOX'),
+            // 'clientSecret' => env('KOPOKOPO_CLIENT_SECRET'),
+            'apiKey' => env('KOPOKOPO_API_KEY_SANDBOX'),
+            // 'apiKey' => env('KOPOKOPO_API_KEY'),
+            'baseUrl' => env('KOPOKOPO_BASE_URL_SANDBOX'),
+            // 'baseUrl' => env('KOPOKOPO_BASE_URL'),
+        ];
+	}
 }

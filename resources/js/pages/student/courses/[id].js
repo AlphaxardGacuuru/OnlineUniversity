@@ -48,6 +48,9 @@ const show = (props) => {
 				props.setPaymentAmount(res.data.data.statement[0].balance)
 			})
 			.catch((err) => props.getErrors(err))
+
+			// Close Pay Menu
+			return () => props.setShowPayMenu("")
 	}, [])
 
 	const active = (activeTab) => {

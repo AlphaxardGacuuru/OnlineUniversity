@@ -8,19 +8,19 @@ use Illuminate\Http\Request;
 
 class MPESATransactionController extends Controller
 {
-	public function __construct(protected MPESATransactionService $service)
-	{
-		// 
-	}
+    public function __construct(protected MPESATransactionService $service)
+    {
+        //
+    }
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->service->index();
+        return $this->service->index($request);
     }
 
     /**
@@ -34,10 +34,10 @@ class MPESATransactionController extends Controller
         [$saved, $message, $mpesaTransaction] = $this->service->store($request);
 
         return response([
-			"status" => $saved ? "success" : "failed",
-			"message" => $message,
-			"data" => $mpesaTransaction
-		], 200);
+            "status" => $saved ? "success" : "failed",
+            "message" => $message,
+            "data" => $mpesaTransaction,
+        ], 200);
     }
 
     /**
