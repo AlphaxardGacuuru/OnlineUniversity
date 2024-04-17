@@ -11,7 +11,7 @@ import WalletSVG from "@/svgs/WalletSVG"
 const wallet = (props) => {
 	// Get Wallet Transactions
 	const [wallets, setWallets] = useState([])
-	const [walletTransactions, setWalletTransactions] = useState([])
+	const [transfers, setTransfers] = useState([])
 	const [type, setType] = useState()
 	const [destinationReference, setDescriptionReference] = useState()
 	const [amount, setAmount] = useState()
@@ -21,7 +21,7 @@ const wallet = (props) => {
 		// Set page
 		props.setPage({ name: "Finance Wallet", path: ["finance"] })
 		props.get(`kopokopo-recipients/${props.auth.id}`, setWallets)
-		// props.get(`kopokopo-recipients/${props.authid}`, setWalletTransactions)
+		props.getPaginated(`kopokopo-transfers/${props.auth.id}`, setTransfers)
 	}, [])
 
 	/*
@@ -60,7 +60,7 @@ const wallet = (props) => {
 							</div>
 							<div className="border-start border-end border-2 px-5">
 								<span className="fs-4 px-5">
-									{walletTransactions.meta?.total}3,000,000
+									{transfers.meta?.total}3,000,000
 								</span>
 								<h4 className="px-5">Total Wallet Transactions</h4>
 							</div>
@@ -75,6 +75,7 @@ const wallet = (props) => {
 				{/* Accordion Button */}
 				{wallets.map((wallet, key) => (
 					<div
+						key={key}
 						id={`accordionMenu${key}`}
 						className="accordion">
 						<div
@@ -113,7 +114,7 @@ const wallet = (props) => {
 										{wallet.type.split("_").map((word, key) => (
 											<span
 												key={key}
-												className="text-capitalize me-1">
+												className="text-uppercase me-1">
 												{word}
 											</span>
 										))}
@@ -174,47 +175,29 @@ const wallet = (props) => {
 						<thead>
 							<tr>
 								<th>#</th>
-								<th></th>
-								<th>Name</th>
-								<th>Email</th>
-								<th>Phone</th>
-								<th>Gender</th>
-								<th>Faculty</th>
-								<th>Department</th>
-								<th>Date Joined</th>
-								<th>Action</th>
+								<th>Initiated By</th>
+								<th>Currency</th>
+								<th>Amount</th>
+								<th>Created At</th>
 							</tr>
 						</thead>
 						<tbody>
-							{walletTransactions.data?.map((walletTransaction, key) => (
+							{transfers.data?.map((transfer, key) => (
 								<tr key={key}>
-									<td>{props.iterator(key, walletTransactions)}</td>
-									<td>
-										<Img
-											src={walletTransaction.avatar}
-											className="rounded-circle"
-											style={{ width: "7em" }}
-											alt="Avatar"
-										/>
-									</td>
-									<td>{walletTransaction.name}</td>
-									<td>{walletTransaction.email}</td>
-									<td>{walletTransaction.phone}</td>
-									<td className="text-capitalize">
-										{walletTransaction.gender}
-									</td>
-									<td>{walletTransaction.facultyName}</td>
-									<td>{walletTransaction.departmentName}</td>
-									<td>{walletTransaction.createdAt}</td>
+									<td>{props.iterator(key, transfers)}</td>
+									<td>{transfer.user}</td>
+									<td>{transfer.currency}</td>
+									<td>{transfer.amount}</td>
+									<td>{transfer.kopokopoCreatedAt}</td>
 								</tr>
 							))}
 						</tbody>
 					</table>
 					{/* Pagination Links */}
 					<PaginationLinks
-						list={walletTransactions}
+						list={transfers}
 						getPaginated={props.getPaginated}
-						setState={setWalletTransactions}
+						setState={setTransfers}
 					/>
 					{/* Pagination Links End */}
 				</div>

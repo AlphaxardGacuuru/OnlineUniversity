@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('kopokopo_transfers', function (Blueprint $table) {
             $table->id();
 			$table->foreignId("user_id")->constrained();
-            $table->string("kopokopoId")->nullable();
-            $table->string("kopokopoCreatedAt")->nullable();
+            $table->string("kopokopo_id")->nullable();
+            $table->string("kopokopo_created_at")->nullable();
             $table->string("amount")->nullable();
             $table->string("currency")->nullable();
-            $table->json("transferBatches")->nullable();
+            $table->json("transfer_batches")->nullable();
             $table->json("metadata")->nullable();
             $table->timestamps();
         });

@@ -20,7 +20,7 @@ class KopokopoTransferController extends Controller
      */
     public function index()
     {
-        //
+        return $this->service->index();
     }
 
     /**
@@ -46,9 +46,9 @@ class KopokopoTransferController extends Controller
      * @param  \App\Models\KopokopoTransfer  $kopokopoTransfer
      * @return \Illuminate\Http\Response
      */
-    public function show(KopokopoTransfer $kopokopoTransfer)
+    public function show($id)
     {
-        //
+        return $this->service->show($id);
     }
 
     /**

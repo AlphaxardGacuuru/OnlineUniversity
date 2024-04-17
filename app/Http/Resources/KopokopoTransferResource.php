@@ -14,6 +14,16 @@ class KopokopoTransferResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            "user" => $this->user->name,
+            "kopokopoId" => $this->kopokopo_id,
+            "kopokopoCreatedAt" => $this->kopokopo_created_at,
+            "amount" => $this->amount,
+            "currency" => $this->currency,
+            "transferBatches" => $this->transfer_batches,
+            "metadata" => $this->metadata,
+            "updateAt" => $this->update_at,
+            "createdAt" => $this->created_at,
+        ];
     }
 }

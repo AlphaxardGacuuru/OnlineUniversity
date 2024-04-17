@@ -4,8 +4,8 @@ namespace App\Http\Services;
 
 use App\Http\Resources\KopokopoTransferResource;
 use App\Models\KopokopoTransfer;
-use Kopokopo\SDK\K2;
 use Carbon\Carbon;
+use Kopokopo\SDK\K2;
 
 class KopokopoTransferService extends Service
 {
@@ -14,7 +14,17 @@ class KopokopoTransferService extends Service
      */
     public function index()
     {
-        $kopokopoTransfers = KopokopoTransfer::all();
+        $kopokopoTransfers = KopokopoTransfer::paginate(20);
+
+        return KopokopoTransferResource::collection($kopokopoTransfers);
+    }
+
+    /*
+     * Show All Transfers
+     */
+    public function show($id)
+    {
+        $kopokopoTransfers = KopokopoTransfer::where("user_id", $id)->paginate(20);
 
         return KopokopoTransferResource::collection($kopokopoTransfers);
     }
@@ -24,17 +34,17 @@ class KopokopoTransferService extends Service
      */
     public function store($request)
     {
-		// Get Data
-		$data = $request->input("data");
-		$attributes = $data["attributes"];
+        // Get Data
+        $data = $request->input("data");
+        $attributes = $data["attributes"];
 
         $kopokopoTransfer = new KopokopoTransfer;
         $kopokopoTransfer->user_id = $attributes["metadata"]["customerId"];
-        $kopokopoTransfer->kopokopoId = $data["id"];
-        $kopokopoTransfer->kopokopoCreatedAt = $attributes["created_at"];
+        $kopokopoTransfer->kopokopo_id = $data["id"];
+        $kopokopoTransfer->kopokopo_created_at = $attributes["created_at"];
         $kopokopoTransfer->amount = $attributes["amount"]["value"];
         $kopokopoTransfer->currency = $attributes["amount"]["currency"];
-        $kopokopoTransfer->transferBatches = $attributes["transfer_batches"];
+        $kopokopoTransfer->transfer_batches = $attributes["transfer_batches"];
         $kopokopoTransfer->metadata = $attributes["metadata"];
         $saved = $kopokopoTransfer->save();
 
