@@ -133,14 +133,14 @@ class MPESATransactionService extends Service
 	public static function options()
 	{
         return  [
-            // 'clientId' => env('KOPOKOPO_CLIENT_ID_SANDBOX'),
-            'clientId' => env('KOPOKOPO_CLIENT_ID'),
-            // 'clientSecret' => env('KOPOKOPO_CLIENT_SECRET_SANDBOX'),
-            'clientSecret' => env('KOPOKOPO_CLIENT_SECRET'),
-            // 'apiKey' => env('KOPOKOPO_API_KEY_SANDBOX'),
-            'apiKey' => env('KOPOKOPO_API_KEY'),
-            // 'baseUrl' => env('KOPOKOPO_BASE_URL_SANDBOX'),
-            'baseUrl' => env('KOPOKOPO_BASE_URL'),
+            'clientId' => env('KOPOKOPO_CLIENT_ID_SANDBOX'),
+            // 'clientId' => env('KOPOKOPO_CLIENT_ID'),
+            'clientSecret' => env('KOPOKOPO_CLIENT_SECRET_SANDBOX'),
+            // 'clientSecret' => env('KOPOKOPO_CLIENT_SECRET'),
+            'apiKey' => env('KOPOKOPO_API_KEY_SANDBOX'),
+            // 'apiKey' => env('KOPOKOPO_API_KEY'),
+            'baseUrl' => env('KOPOKOPO_BASE_URL_SANDBOX'),
+            // 'baseUrl' => env('KOPOKOPO_BASE_URL'),
         ];
 	}
 }
