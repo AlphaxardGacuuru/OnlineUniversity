@@ -92,6 +92,10 @@ class KopokopoTransferService extends Service
             'accessToken' => $data['accessToken'],
         ]);
 
-        return [$response["status"], "Transfer Initiated", $response["location"]];
+		if ($response["success"]) {
+			return [$response["status"], "Transfer Initiated", $response["location"]];
+		} else {
+			return [$response["error_code"], "Failed", $response];
+		}
     }
 }
