@@ -159,13 +159,13 @@ const wallet = (props) => {
 				{/* Accordion Button End */}
 
 				{/* Add Wallet Card */}
-				<div className="card shadow-sm p-2 align-items-end">
+				{/* <div className="card shadow-sm p-2 align-items-end">
 					<MyLink
 						linkTo="/admin/finance/wallet/create"
 						text="add wallet"
 						className="btn-sm w-25"
 					/>
-				</div>
+				</div> */}
 				{/* Add Wallet Card End */}
 
 				<br />
