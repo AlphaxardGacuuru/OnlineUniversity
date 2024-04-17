@@ -93,7 +93,7 @@ class KopokopoTransferService extends Service
         ]);
 
 		if ($response["status"] == "success") {
-			return [$response["status"], "Transfer Initiated", $response["location"]];
+			return [$response["status"], "Transfer Initiated", $response];
 		} else {
 			return ["Error", "Kopokopo Failed", $response];
 		}
