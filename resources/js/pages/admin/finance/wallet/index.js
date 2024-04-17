@@ -17,6 +17,9 @@ const wallet = (props) => {
 	const [amount, setAmount] = useState()
 	const [loading, setLoading] = useState()
 
+	// Get Total Transfers
+	const totalTransfers = transfers.data?.reduce((acc, transfer) => acc + parseInt(transfer.amount), 0)
+
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Finance Wallet", path: ["finance"] })
@@ -59,9 +62,7 @@ const wallet = (props) => {
 								<h4>Total Wallets</h4>
 							</div>
 							<div className="border-start border-end border-2 px-5">
-								<span className="fs-4 px-5">
-									{transfers.meta?.total}3,000,000
-								</span>
+								<span className="fs-4 px-5">KES {totalTransfers?.toString().toLocaleString()}</span>
 								<h4 className="px-5">Total Wallet Transactions</h4>
 							</div>
 							<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
