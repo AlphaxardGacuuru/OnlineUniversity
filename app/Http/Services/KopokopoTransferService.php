@@ -39,7 +39,7 @@ class KopokopoTransferService extends Service
         $attributes = $data["attributes"];
 
         $kopokopoTransfer = new KopokopoTransfer;
-        $kopokopoTransfer->user_id = $attributes["metadata"]["customerId"];
+        $kopokopoTransfer->user_id = $attributes["metadata"]["userId"];
         $kopokopoTransfer->kopokopo_id = $data["id"];
         $kopokopoTransfer->kopokopo_created_at = $attributes["created_at"];
         $kopokopoTransfer->amount = $attributes["amount"]["value"];
@@ -81,13 +81,13 @@ class KopokopoTransferService extends Service
             'destinationReference' => $request->destinationReference,
             'amount' => $amount > 1000 ? $amount : $amount - 50,
             'currency' => 'KES',
-            'callbackUrl' => 'http://localhost:8004/api/kopokopo-transfers',
-            'description' => 'Transfer to Bank',
+            'callbackUrl' => env("APP_URL") . '/api/kopokopo-transfers',
+            'description' => 'Transfer',
             // 'category' => 'salaries',
             'tags' => ["tag 1", "tag 2"],
             'metadata' => [
-                'customerId' => $this->id,
-                'notes' => 'Bank transfer ' . Carbon::now(),
+                'userId' => $this->id,
+                'notes' => 'Transfer at ' . Carbon::now(),
             ],
             'accessToken' => $data['accessToken'],
         ]);
