@@ -7,7 +7,7 @@ import MyLink from "@/components/Core/MyLink"
 const create = (props) => {
 	var history = useHistory()
 
-	const [type, setType] = useState("mobile_wallet")
+	const [type, setType] = useState("")
 	const [firstName, setFirstName] = useState()
 	const [lastName, setLastName] = useState()
 	const [email, setEmail] = useState()
@@ -15,6 +15,7 @@ const create = (props) => {
 
 	const [accountName, setAccountName] = useState()
 	const [accountNumber, setAccountNumber] = useState()
+	const [bankBranchRef, setBankBranchRef] = useState()
 
 	const [tillName, setTillName] = useState()
 	const [tillNumber, setTillNumber] = useState()
@@ -56,6 +57,7 @@ const create = (props) => {
 			phoneNumber: phoneNumber,
 			accountName: accountName,
 			accountNumber: accountNumber,
+			bankBranchRef: bankBranchRef,
 			tillName: tillName,
 			tillNumber: tillNumber,
 			paybillName: paybillName,
@@ -157,6 +159,15 @@ const create = (props) => {
 								onChange={(e) => setAccountNumber(e.target.value)}
 								required={true}
 							/>
+
+							<input
+								type="text"
+								name="bankBranchRef"
+								placeholder="Bank Branch Ref"
+								className="form-control mb-2 me-2"
+								onChange={(e) => setBankBranchRef(e.target.value)}
+								required={true}
+							/>
 						</React.Fragment>
 					)}
 
@@ -213,14 +224,16 @@ const create = (props) => {
 						</React.Fragment>
 					)}
 
-					<textarea
-						type="text"
-						name="description"
-						placeholder="Description"
-						className="form-control mb-2 me-2"
-						rows="10"
-						onChange={(e) => setDescription(e.target.value)}
-						required={true}></textarea>
+					{type && (
+						<textarea
+							type="text"
+							name="description"
+							placeholder="Description"
+							className="form-control mb-2 me-2"
+							rows="10"
+							onChange={(e) => setDescription(e.target.value)}
+							required={true}></textarea>
+					)}
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn

@@ -12,6 +12,8 @@ const wallet = (props) => {
 	// Get Wallet Transactions
 	const [wallets, setWallets] = useState([])
 	const [walletTransactions, setWalletTransactions] = useState([])
+	const [type, setType] = useState()
+	const [destinationReference, setDescriptionReference] = useState()
 	const [amount, setAmount] = useState()
 	const [loading, setLoading] = useState()
 
@@ -25,20 +27,24 @@ const wallet = (props) => {
 	/*
 	 * Submit Transfer
 	 */
-	const onSubmit = (e) => {
+	const onTransfer = (e) => {
 		e.preventDefault()
 		// Show Loader
 		setLoading(true)
 
-		Axios.post(`api/kopokopo-transfer`, {
-			recipientId: recipientId,
+		Axios.post(`api/kopokopo-initiate-transfer`, {
+			type: type,
+			destinationReference: destinationReference,
 			amount: amount,
 		})
 			.then((res) => {
 				setLoading(false)
-				props.setMessages([res.data.data])
+				props.setMessages([res.data.message])
 			})
-			.catch((err) => props.getErrors(err))
+			.catch((err) => {
+				setLoading(false)
+				props.getErrors(err)
+			})
 	}
 
 	return (
@@ -48,7 +54,7 @@ const wallet = (props) => {
 				<div className="card shadow-sm p-2">
 					<div className="d-flex justify-content-between">
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
-							<div className="pe-">
+							<div>
 								<span className="fs-4">{wallets.length}</span>
 								<h4>Total Wallets</h4>
 							</div>
@@ -122,17 +128,25 @@ const wallet = (props) => {
 									className={`accordion-collapse collapse`}
 									data-bs-parent={`#accordionMenu${key}`}>
 									<div className="accordion-body pt-3 py-2">
-										<form onSubmit={onSubmit}>
+										<form onSubmit={onTransfer}>
 											<div className="d-flex">
 												<input
 													type="number"
 													name="amount"
 													placeholder="Enter amount to transfer"
 													className="form-control rounded-pill me-2"
-													onChange={(e) => setAmount(e.target.value)}
+													onChange={(e) => {
+														setType(wallet.type)
+														setDescriptionReference(wallet.destinationReference)
+														setAmount(e.target.value)
+													}}
+													required={true}
 												/>
 
-												<Btn btnText="transfer" />
+												<Btn
+													btnText="transfer"
+													loading={loading}
+												/>
 											</div>
 										</form>
 									</div>

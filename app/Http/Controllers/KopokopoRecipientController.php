@@ -39,6 +39,7 @@ class KopokopoRecipientController extends Controller
             "phoneNumber" => "string",
             "accountName" => "string",
             "accountNumber" => "string",
+            "bankBranchRef" => "string",
             "tillName" => "string",
             "tillNumber" => "string",
             "paybillName" => "string",
@@ -88,13 +89,5 @@ class KopokopoRecipientController extends Controller
     public function destroy(KopokopoRecipient $kopokopoRecipient)
     {
         //
-    }
-
-    /*
-     * Initiate Transfer
-     */
-    public function initiatePayment(Request $request)
-    {
-        return $this->service->initiatePayment($request);
     }
 }

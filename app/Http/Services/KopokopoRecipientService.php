@@ -4,7 +4,6 @@ namespace App\Http\Services;
 
 use App\Http\Resources\KopokopoRecipientResource;
 use App\Models\KopokopoRecipient;
-use Carbon\Carbon;
 use Kopokopo\SDK\K2;
 
 class KopokopoRecipientService extends Service
@@ -52,10 +51,10 @@ class KopokopoRecipientService extends Service
         // Add receipient
         $pay = $K2->PayService();
         // Get necessary details for creating a recipient
-        $details = $this->recipient($request, $data['accessToken']);
+        $details = $this->recipientDetails($request, $data['accessToken']);
 
         $response = $pay->addPayRecipient($details);
-		// dd($response);
+        // dd($response);
 
         if ($response['status'] == 'success') {
             $array = explode('/', $response['location']);
@@ -94,68 +93,9 @@ class KopokopoRecipientService extends Service
     }
 
     /*
-     * Initiate Payment
-     */
-    public function initiatePayment($request)
-    {
-        $amount = $request->input('amount');
-
-        $options = MPESATransactionService::options();
-
-        $K2 = new K2($options);
-
-        // Get one of the services
-        $tokens = $K2->TokenService();
-
-        // Use the service
-        $result = $tokens->getToken();
-
-        if ($result['status'] == 'success') {
-            $data = $result['data'];
-            // echo "My access token is: " . $data['accessToken'] . " It expires in: " . $data['expiresIn'] . "<br>";
-        }
-
-        $pay = $K2->PayService();
-
-        // Pay
-        $response = $pay->sendPay([
-            'destinationType' => 'mobile_wallet',
-            'destinationReference' => $request->input('destination_reference'),
-            'amount' => $amount > 1000 ? $amount : $amount - 50,
-            'currency' => 'KES',
-            'callbackUrl' => 'https://music.black.co.ke/api/song-payouts',
-            'description' => 'Transfer to Bank',
-            'category' => 'salaries',
-            'tags' => ["tag 1", "tag 2"],
-            'metadata' => [
-                // 'customerId' => '8675309',
-                'notes' => 'Bank transfer ' . Carbon::now(),
-            ],
-            'accessToken' => $data['accessToken'],
-        ]);
-
-        if ($response['status'] == 'success') {
-            // echo "The resource location is:" . json_encode($response['location']);
-            // => 'https://sandbox.kopokopo.com/api/v1/payments/d76265cd-0951-e511-80da-0aa34a9b2388'
-
-            $bankTransfer = new BankTransfer;
-            $bankTransfer->user_id = auth()->user()->id;
-            $bankTransfer->amount = $request->input('amount');
-            $saved = $bankTransfer->save();
-
-            $message = "Bank Transfer Sucessful";
-
-            // Get send video payout notification
-            // auth()->user()->notify(new SongPayoutNotifications($amount));
-
-            return [$saved, $message, $bankTransfer];
-        }
-    }
-
-    /*
      * Get relevant details for pay recipient
      */
-    public function recipient($request, $accessToken)
+    public function recipientDetails($request, $accessToken)
     {
         switch ($request->type) {
             case "mobile_wallet":
@@ -204,7 +144,7 @@ class KopokopoRecipientService extends Service
             'type' => 'bank_account',
             'accountName' => $request->accountName,
             'accountNumber' => $request->accountName,
-            'bank_branch_ref' => $request->bankBranchRef,
+            'bankBranchRef' => $request->bankBranchRef,
             'settlementMethod' => 'RTS',
             'accessToken' => $accessToken,
         ];

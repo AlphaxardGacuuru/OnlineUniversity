@@ -12,6 +12,7 @@ use App\Http\Controllers\FilePondController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\KopokopoRecipientController;
+use App\Http\Controllers\KopokopoTransferController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MPESATransactionController;
 use App\Http\Controllers\ResourceController;
@@ -58,11 +59,13 @@ Route::apiResources([
     "grades" => GradeController::class,
     "card-transactions" => CardTransactionController::class,
     "mpesa-transactions" => MPESATransactionController::class,
-	"kopokopo-recipients" => KopokopoRecipientController::class
+	"kopokopo-recipients" => KopokopoRecipientController::class,
+	"kopokopo-transfers" => KopokopoTransferController::class
 ]);
 
 // Kopokopo STK Push
-Route::post('stk-push', [MPESATransactionController::class, 'stkPush']);
+Route::post("stk-push", [MPESATransactionController::class, 'stkPush']);
+Route::post("kopokopo-initiate-transfer", [KopokopoTransferController::class, 'initiateTransfer']);
 
 // User
 Route::get("fee-statements/{id}", [UserController::class, "feeStatements"]);

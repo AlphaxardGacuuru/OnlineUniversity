@@ -12,6 +12,10 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        "api/filepond/*"
+        "api/filepond/*",
+		"api/mpesa-transactions",
+		"api/mpesa-transactions",
+		"api/kopokopo-recipients",
+		"api/kopokopo-transfers",
     ];
 }
