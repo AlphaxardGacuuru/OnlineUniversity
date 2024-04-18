@@ -115,7 +115,13 @@ const InstructorMenu = (props) => {
 											<Link
 												to="/instructor"
 												className="text-white fs-1">
-												Web Uni
+												<Img
+													src="/storage/img/logo-horizontal.png"
+													style={{
+														width: "150px",
+														height: "50px",
+													}}
+												/>
 												{/* <span className="main-logo">Party People</span> */}
 											</Link>
 										</div>

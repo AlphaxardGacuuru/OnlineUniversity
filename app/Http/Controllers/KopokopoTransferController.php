@@ -48,7 +48,7 @@ class KopokopoTransferController extends Controller
      */
     public function show($id)
     {
-        return $this->service->show($id);
+		// 
     }
 
     /**

@@ -114,11 +114,17 @@ const AdminMenu = (props) => {
 										{/* <!-- Left Menu Icon End --> */}
 
 										{/* <!-- Logo Area  --> */}
-										<div className="logo-area">
+										<div className="logo-area mb-1">
 											<Link
 												to="/admin"
 												className="text-white fs-1">
-												Web Uni
+												<Img
+													src="/storage/img/logo-horizontal.png"
+													style={{
+														width: "150px",
+														height: "50px",
+													}}
+												/>
 												{/* <span className="main-logo">Party People</span> */}
 											</Link>
 										</div>

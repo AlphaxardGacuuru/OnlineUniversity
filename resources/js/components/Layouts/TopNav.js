@@ -87,8 +87,11 @@ const TopNav = (props) => {
 												to="/"
 												className="text-white fs-1">
 												<Img
-													src="storage/img/logo.png"
-													style={{ width: "4em", height: "auto" }}
+													src="/storage/img/logo-horizontal.png"
+													style={{
+														width: "150px",
+														height: "50px",
+													}}
 												/>
 											</Link>
 										</div>

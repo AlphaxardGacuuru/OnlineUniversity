@@ -22,16 +22,6 @@ class KopokopoTransferService extends Service
     /*
      * Show All Transfers
      */
-    public function show($id)
-    {
-        $kopokopoTransfers = KopokopoTransfer::where("user_id", $id)->paginate(20);
-
-        return KopokopoTransferResource::collection($kopokopoTransfers);
-    }
-
-    /*
-     * Show All Transfers
-     */
     public function store($request)
     {
         // Get Data
