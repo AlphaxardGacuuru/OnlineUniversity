@@ -57,14 +57,10 @@ class KopokopoRecipientService extends Service
         // dd($response);
 
         if ($response['status'] == 'success') {
-            $array = explode('/', $response['location']);
-
-            $destinationReferrence = end($array);
-
             // Save destination reference
             $kopokopoRecipient = new KopokopoRecipient;
             $kopokopoRecipient->user_id = auth("sanctum")->user()->id;
-            $kopokopoRecipient->destination_reference = $destinationReferrence;
+            $kopokopoRecipient->destination_reference = "";
             $kopokopoRecipient->type = $request->type;
             $kopokopoRecipient->first_name = $request->firstName;
             $kopokopoRecipient->last_name = $request->lastName;
@@ -82,12 +78,17 @@ class KopokopoRecipientService extends Service
 
             $message = "Recipient Wallet Created";
 
-            return [$saved, $message, $kopokopoRecipient];
+			$data = [
+				"kopokopoRecipient" => $kopokopoRecipient,
+				"kopokopo" => $response,
+			];
+
+            return [$saved, $message, $data];
         } else {
             return [
                 $response["status"],
                 $response["data"]["errorMessage"],
-                $response["data"],
+                $response,
             ];
         }
     }

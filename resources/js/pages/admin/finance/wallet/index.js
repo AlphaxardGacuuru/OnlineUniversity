@@ -35,7 +35,7 @@ const wallet = (props) => {
 		// Show Loader
 		setLoading(true)
 
-		Axios.post(`api/kopokopo-initiate-transfer`, {
+		Axios.post(`api/kopokopo-initiate-transfe`, {
 			type: type,
 			destinationReference: destinationReference,
 			amount: amount,
@@ -137,6 +137,7 @@ const wallet = (props) => {
 													name="amount"
 													placeholder="Enter amount to transfer"
 													className="form-control rounded-pill me-2"
+													max="20"
 													onChange={(e) => {
 														setType(wallet.type)
 														setDescriptionReference(wallet.destinationReference)

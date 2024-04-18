@@ -79,7 +79,7 @@ class KopokopoTransferService extends Service
         $response = $pay->sendPay([
             'destinationType' => $request->type,
             'destinationReference' => $request->destinationReference,
-            'amount' => $amount > 1000 ? $amount : $amount - 50,
+            'amount' => $amount + 100,
             'currency' => 'KES',
             'callbackUrl' => env("APP_URL") . '/api/kopokopo-transfers',
             'description' => 'Transfer',
