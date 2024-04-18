@@ -71,9 +71,9 @@ const Chat = (props) => {
 				{chatThreads.map((chatThread, key) => (
 					<div
 						key={key}
-						className="my-card d-flex m-2 p-2">
+						className="my-card d-flex m-2">
 						<div className="pt-2">
-							<Link to={`chats/view/${chatThread.to}`}>
+							<Link to={`chats/view/${chatThread.userId}`}>
 								<Img
 									src={chatThread.avatar}
 									className={`rounded-circle border p-1 ${
@@ -95,7 +95,7 @@ const Chat = (props) => {
 								maxWidth: "75%",
 								wordWrap: "break-word",
 							}}>
-							<Link to={`chats/view/${chatThread.to}`}>
+							<Link to={`chats/view/${chatThread.userId}`}>
 								<h6
 									className="m-0"
 									style={{

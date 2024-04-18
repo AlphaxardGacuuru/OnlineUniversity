@@ -16,10 +16,13 @@ import KenyanClock from "@/functions/KenyanClock"
 import ResourceSVG from "@/svgs/ResourceSVG"
 import LinkSVG from "@/svgs/LinkSVG"
 import ChatSVG from "@/svgs/ChatSVG"
+import BellSVG from "@/svgs/BellSVG"
 
 const InstructorMenu = (props) => {
 	const location = useLocation()
 	const router = useHistory()
+
+	const [notifications, setNotifications] = useState([])
 
 	const [bottomMenu, setBottomMenu] = useState()
 	const [avatarVisibility, setAvatarVisibility] = useState("")
@@ -38,6 +41,28 @@ const InstructorMenu = (props) => {
 			}
 		}
 	}, [props.location])
+
+	useEffect(() => {
+		props.get("notifications", setNotifications, null, false)
+	}, [])
+
+	const onNotification = () => {
+		Axios.put(`/api/notifications/update`).then((res) => {
+			// Update notifications
+			props.get("notifications", setNotifications)
+		})
+	}
+
+	const onDeleteNotifications = (id) => {
+		// Clear the notifications array
+		setNotifications([])
+
+		Axios.delete(`/api/notifications/${id}`).then((res) => {
+			// Update Notifications
+			props.get("notifications", setNotifications)
+		})
+	}
+
 
 	const logout = () => {
 		Axios.post(`/logout`)
@@ -142,6 +167,74 @@ const InstructorMenu = (props) => {
 										</div>
 										<div className="header-social-area d-flex align-items-center">
 											<>
+												{/* Notification Dropdown */}
+												<div className="dropdown-center">
+													<Link
+														to="#"
+														role="button"
+														id="dropdownMenua"
+														className="text-white"
+														data-bs-toggle="dropdown"
+														aria-haspopup="true"
+														aria-expanded="false"
+														style={{
+															textAlign: "center",
+															fontWeight: "100",
+															position: "relative",
+														}}
+														onClick={onNotification}>
+														<BellSVG />
+														<span
+															className="position-absolute start-200 translate-middle badge rounded-circle bg-danger fw-lighter py-1"
+															style={{ fontSize: "0.6em", top: "0.2em" }}>
+															{notifications.filter(
+																(notification) => !notification.readAt
+															).length > 0 &&
+																notifications.filter(
+																	(notification) => !notification.readAt
+																).length}
+														</span>
+													</Link>
+													<div
+														style={{
+															borderRadius: "0",
+															minWidth: "20em",
+															maxWidth: "40em",
+														}}
+														className="dropdown-menu m-0 p-0"
+														aria-labelledby="dropdownMenuButton">
+														<div className="dropdown-header border border-secondary-subtle border-start-0 border-end-0">
+															Notifications
+														</div>
+														<div
+															style={{
+																maxHeight: "500px",
+																overflowY: "scroll",
+															}}>
+															{/* Get Notifications */}
+															{notifications.map((notification, key) => (
+																<Link
+																	key={key}
+																	to={notification.url}
+																	className="p-2 dropdown-item text-dark text-wrap"
+																	onClick={() =>
+																		onDeleteNotifications(notification.id)
+																	}>
+																	<small>{notification.message}</small>
+																</Link>
+															))}
+														</div>
+														{notifications.length > 0 && (
+															<div
+																className="dropdown-header"
+																style={{ cursor: "pointer" }}
+																onClick={() => onDeleteNotifications(0)}>
+																Clear notifications
+															</div>
+														)}
+													</div>
+												</div>
+												{/* Notification Dropdown End */}
 												{/* Avatar Dropdown */}
 												<div className="dropdown-center">
 													{/* Avatar */}

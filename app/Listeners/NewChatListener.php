@@ -3,8 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\NewChatEvent;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Notifications\NewChatNotification;
 
 class NewChatListener
 {
@@ -26,6 +25,12 @@ class NewChatListener
      */
     public function handle(NewChatEvent $event)
     {
-        //
+        $event
+            ->user
+            ->notify(new NewChatNotification(
+                $event->chat,
+                $event->chat->user,
+                $event->user
+			));
     }
 }

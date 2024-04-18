@@ -15,7 +15,7 @@ const login = (props) => {
 			// Handle Redirects
 			if (props.auth.accountType == "instructor") {
 				router.push("/instructor")
-			} else if (props.auth.accountType == "admin") {
+			} else if (props.auth.accountType == "staff") {
 				router.push("/admin")
 			} else {
 				router.push("/student")

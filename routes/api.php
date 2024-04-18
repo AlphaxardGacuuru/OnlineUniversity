@@ -16,6 +16,7 @@ use App\Http\Controllers\KopokopoRecipientController;
 use App\Http\Controllers\KopokopoTransferController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MPESATransactionController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
@@ -63,6 +64,7 @@ Route::apiResources([
     "mpesa-transactions" => MPESATransactionController::class,
     "kopokopo-recipients" => KopokopoRecipientController::class,
     "kopokopo-transfers" => KopokopoTransferController::class,
+    'notifications' => NotificationController::class,
 ]);
 
 // Kopokopo STK Push
