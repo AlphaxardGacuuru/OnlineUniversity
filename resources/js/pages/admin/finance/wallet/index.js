@@ -35,7 +35,7 @@ const wallet = (props) => {
 		// Show Loader
 		setLoading(true)
 
-		Axios.post(`api/kopokopo-initiate-transfe`, {
+		Axios.post(`api/kopokopo-initiate-transfer`, {
 			type: type,
 			destinationReference: destinationReference,
 			amount: amount,
