@@ -12,10 +12,18 @@ const wallet = (props) => {
 	// Get Wallet Transactions
 	const [wallets, setWallets] = useState([])
 	const [transfers, setTransfers] = useState([])
+	const [mpesaTransactions, setMpesaTransactions] = useState([])
+
 	const [type, setType] = useState()
 	const [destinationReference, setDescriptionReference] = useState()
 	const [amount, setAmount] = useState()
 	const [loading, setLoading] = useState()
+
+	// Get Total Mpesa Transactions
+	const totalMpesaTransactions = mpesaTransactions.reduce(
+		(acc, mpesaTransaction) => acc + parseInt(mpesaTransaction.amount),
+		0
+	)
 
 	// Get Total Transfers
 	const totalTransfers = transfers.data?.reduce(
@@ -23,10 +31,13 @@ const wallet = (props) => {
 		0
 	)
 
+	var balance = totalMpesaTransactions - totalTransfers
+
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Finance Wallet", path: ["finance"] })
 		props.get(`kopokopo-recipients/${props.auth.id}`, setWallets)
+		props.get("mpesa-transactions", setMpesaTransactions)
 		props.getPaginated(`kopokopo-transfers`, setTransfers)
 	}, [])
 
@@ -63,14 +74,16 @@ const wallet = (props) => {
 					<div className="d-flex justify-content-between">
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 							<div>
-								<span className="fs-4">{wallets.length}</span>
-								<h4>Total Wallets</h4>
-							</div>
-							<div className="border-start border-end border-2 px-5">
-								<span className="fs-4 px-5">
+								<span className="fs-4">
 									KES {totalTransfers?.toString().toLocaleString()}
 								</span>
-								<h4 className="px-5">Total Wallet Transactions</h4>
+								<h4>Total Wallet Transactions</h4>
+							</div>
+							<div className="border-start border-end border-2 text-warning px-5">
+								<span className="fs-4 text-warning px-5">
+									KES {balance?.toString().toLocaleString()}
+								</span>
+								<h4 className="px-5">Balance</h4>
 							</div>
 							<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
 								<WalletSVG />
@@ -130,7 +143,7 @@ const wallet = (props) => {
 								</div>
 							</button>
 							<div
-								className="accordion"
+								className={`accordion ${balance <= 0 && "invisible"}`}
 								id={`accordionMenu${key}`}>
 								<div
 									id={`collapseMenu${key}`}
@@ -144,7 +157,8 @@ const wallet = (props) => {
 													name="amount"
 													placeholder="Enter amount to transfer"
 													className="form-control rounded-pill me-2"
-													max="20"
+													max={balance.toString()}
+													min={wallet.type == "back_account" ? "200" : "100"}
 													onChange={(e) => {
 														setType(wallet.type)
 														setDescriptionReference(wallet.destinationReference)

@@ -64,7 +64,7 @@ class UserFactory extends Factory
             'password' => Hash::make('alphaxardgacuuru47@gmail.com'),
             'remember_token' => Str::random(10),
             'gender' => 'male',
-            'account_type' => 'admin',
+            'account_type' => 'staff',
         ]);
     }
 

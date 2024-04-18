@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return $this->service->index();
     }
 
     /**
@@ -41,7 +41,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->service->show($id);
     }
 
     /**

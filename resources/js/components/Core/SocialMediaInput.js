@@ -140,19 +140,21 @@ const SocialMediaInput = (props) => {
 					</div>
 					{/* Emoji icon End */}
 					{/* Attachment icon */}
-					<div className="pt-2 px-2">
-						<div
-							className={`fs-5 ${showAttachmentPicker && "text-primary"}`}
-							style={{ cursor: "pointer" }}
-							onClick={() => {
-								if (!attachment) {
-									setShowEmojiPicker(true && false)
-									setShowAttachmentPicker(!showAttachmentPicker)
-								}
-							}}>
-							<AttachmentSVG />
+					{props.showAttachment && (
+						<div className="pt-2 px-2">
+							<div
+								className={`fs-5 ${showAttachmentPicker && "text-primary"}`}
+								style={{ cursor: "pointer" }}
+								onClick={() => {
+									if (!attachment) {
+										setShowEmojiPicker(true && false)
+										setShowAttachmentPicker(!showAttachmentPicker)
+									}
+								}}>
+								<AttachmentSVG />
+							</div>
 						</div>
-					</div>
+					)}
 					{/* Attachment icon End */}
 					{/* Button */}
 					<div className="p-1">

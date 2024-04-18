@@ -54,6 +54,10 @@ import AdminSessions from "@/pages/admin/sessions/index"
 import AdminSessionCreate from "@/pages/admin/sessions/create"
 import AdminSessionEdit from "@/pages/admin/sessions/edit/[id]"
 
+import AdminChat from "@/pages/admin/chats/index"
+import AdminChatNew from "@/pages/admin/chats/new"
+import AdminChatView from "@/pages/admin/chats/[id]"
+
 import InstructorLogin from "@/pages/instructor/login"
 import Instructor from "@/pages/instructor/index"
 
@@ -236,6 +240,18 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			path: "/admin/sessions/:id/edit",
 			component: <AdminSessionEdit {...GLOBAL_STATE} />,
 		},
+		{
+			path: "/admin/chats",
+			component: <AdminChat {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/chats/new",
+			component: <AdminChatNew {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/chats/view/:id",
+			component: <AdminChatView {...GLOBAL_STATE} />,
+		},
 	]
 
 	const instructorRoutes = [
@@ -255,6 +271,18 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			path: "/instructor/resources",
 			component: <InstructorResources {...GLOBAL_STATE} />,
 		},
+		{
+			path: "/instructor/chats",
+			component: <AdminChat {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/instructor/chats/new",
+			component: <AdminChatNew {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/instructor/chats/view/:id",
+			component: <AdminChatView {...GLOBAL_STATE} />,
+		},
 	]
 
 	const studentRoutes = [
@@ -273,6 +301,18 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/student/units/:id/show",
 			component: <StudentUnitShow {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/student/chats",
+			component: <AdminChat {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/student/chats/new",
+			component: <AdminChatNew {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/student/chats/view/:id",
+			component: <AdminChatView {...GLOBAL_STATE} />,
 		},
 	]
 

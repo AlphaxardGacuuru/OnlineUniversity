@@ -3,6 +3,7 @@
 use App\Http\Controllers\AcademicSessionController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CardTransactionController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DiscussionForumController;
@@ -43,6 +44,7 @@ Route::get('auth', [UserController::class, 'auth']);
 
 Route::apiResources([
     "courses" => CourseController::class,
+    "chats" => ChatController::class,
     "departments" => DepartmentController::class,
     "faculties" => FacultyController::class,
     "instructors" => InstructorController::class,
@@ -59,8 +61,8 @@ Route::apiResources([
     "grades" => GradeController::class,
     "card-transactions" => CardTransactionController::class,
     "mpesa-transactions" => MPESATransactionController::class,
-	"kopokopo-recipients" => KopokopoRecipientController::class,
-	"kopokopo-transfers" => KopokopoTransferController::class
+    "kopokopo-recipients" => KopokopoRecipientController::class,
+    "kopokopo-transfers" => KopokopoTransferController::class,
 ]);
 
 // Kopokopo STK Push

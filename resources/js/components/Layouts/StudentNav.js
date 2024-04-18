@@ -16,6 +16,7 @@ import KenyanClock from "@/functions/KenyanClock"
 import ResourceSVG from "@/svgs/ResourceSVG"
 import LinkSVG from "@/svgs/LinkSVG"
 import CourseSVG from "@/svgs/CourseSVG"
+import ChatSVG from "@/svgs/ChatSVG"
 
 const StudentMenu = (props) => {
 	const location = useLocation()
@@ -358,6 +359,18 @@ const StudentMenu = (props) => {
 								</li>
 								{/* Collapse End */}
 								{/* Quick Links End */}
+								{/* Chat Links */}
+								{/* <li className="nav-item">
+									<Link
+										to={`/student/chats`}
+										className={`nav-link ${active("/student/chats")}`}>
+										<div className="nav-link-icon">
+											<ChatSVG />
+										</div>
+										<div className="nav-link-text">Chat</div>
+									</Link>
+								</li> */}
+								{/* Chat Link End */}
 							</ul>
 						</nav>
 					</div>

@@ -22,6 +22,7 @@ import SessionSVG from "@/svgs/SessionSVG"
 import MoneySVG from "@/svgs/MoneySVG"
 import TransactionSVG from "@/svgs/TransactionSVG"
 import WalletSVG from "@/svgs/WalletSVG"
+import ChatSVG from "@/svgs/ChatSVG"
 
 const AdminMenu = (props) => {
 	const location = useLocation()
@@ -402,6 +403,18 @@ const AdminMenu = (props) => {
 									</Link>
 								</li>
 								{/* Staff Link End */}
+								{/* Chat Links */}
+								<li className="nav-item">
+									<Link
+										to={`/admin/chats`}
+										className={`nav-link ${active("/admin/chats")}`}>
+										<div className="nav-link-icon">
+											<ChatSVG />
+										</div>
+										<div className="nav-link-text">Chat</div>
+									</Link>
+								</li>
+								{/* Chat Link End */}
 							</ul>
 						</nav>
 					</div>
