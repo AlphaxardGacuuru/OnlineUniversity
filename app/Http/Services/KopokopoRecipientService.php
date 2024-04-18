@@ -23,7 +23,9 @@ class KopokopoRecipientService extends Service
      */
     public function show($id)
     {
-        $kopokopoRecipient = KopokopoRecipient::where("user_id", $id)->get();
+        $kopokopoRecipient = KopokopoRecipient::where("user_id", $id)
+		->where("id", "5")
+		->get();
 
         return KopokopoRecipientResource::collection($kopokopoRecipient);
     }
