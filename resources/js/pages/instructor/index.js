@@ -114,9 +114,7 @@ const index = (props) => {
 										<td>{course.departmentName}</td>
 										<td>{course.facultyName}</td>
 										<td>{course.duration}</td>
-										<td className="text-success">
-											{parseFloat(course.price).toLocaleString()}
-										</td>
+										<td className="text-success">{course.price}</td>
 										<td className="text-end">
 											<div className="d-flex">
 												<MyLink2

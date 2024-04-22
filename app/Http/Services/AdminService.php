@@ -281,7 +281,7 @@ class AdminService extends Service
             ->map(fn($item) => $item->sum);
 
         return [
-            "total" => $total,
+            "total" => number_format($total),
             "growth" => $this->growth(($yesterday1 + $yesterday2), ($today1 + $today2)),
             "cardsLastWeek" => $getCardsLastWeek,
             "mpesaLastWeek" => $getMpesaLastWeek,

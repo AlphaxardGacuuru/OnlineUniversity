@@ -381,7 +381,7 @@ const AdminMenu = (props) => {
 
 									{/* Collapse */}
 									<div
-										className="collapse"
+										className={!location.pathname.match("finance") ? "collapse" : ""}
 										id="collapseFinance">
 										<ol className="ms-4">
 											{/* Transactions */}

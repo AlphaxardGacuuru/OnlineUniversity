@@ -19,7 +19,7 @@ class CourseResource extends JsonResource
             "name" => $this->name,
             "description" => $this->description,
             "duration" => $this->duration,
-            "price" => $this->price,
+            "price" => number_format($this->price),
             "facultyId" => $this->department?->faculty->id,
             "facultyName" => $this->department?->faculty->name,
             "departmentId" => $this->department_id,

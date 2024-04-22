@@ -11,7 +11,7 @@ class MPESATransaction extends Model
 {
     use HasFactory;
 
-	public $table = "mpesa_transactions";
+    public $table = "mpesa_transactions";
 
     /**
      * The attributes that should be cast.
@@ -29,6 +29,13 @@ class MPESATransaction extends Model
      * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
 
+    protected function originationTime(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => Carbon::parse($value)->format('d M Y H:i:s'),
+        );
+    }
+
     protected function updatedAt(): Attribute
     {
         return Attribute::make(
@@ -43,12 +50,12 @@ class MPESATransaction extends Model
         );
     }
 
-	/*
-	* Relationships
-	*/ 
+    /*
+     * Relationships
+     */
 
-	public function user()
-	{
-		return $this->belongsTo(User::class);
-	}
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

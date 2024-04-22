@@ -106,15 +106,6 @@ const show = (props) => {
 			})
 	}
 
-	/*
-	 * Format Amount
-	 */
-	const formatAmount = () => {
-		return (
-			"KES " + course?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-		)
-	}
-
 	return (
 		<React.Fragment>
 			<div className="row">
@@ -123,7 +114,7 @@ const show = (props) => {
 						<h4>{course.name}</h4>
 						{props.auth.courseId != id && session.id && (
 							<Btn3
-								btnText={`self enroll @ ${formatAmount()}`}
+								btnText={`self enroll @ ${course.price}`}
 								btnClass="btn-success mt-2"
 								onClick={
 									hasBalance
@@ -134,7 +125,7 @@ const show = (props) => {
 							/>
 						)}
 						<p className="mb-0 text-warning">
-							Balance KES {hasBalance.toLocaleString()}
+							Balance KES {hasBalance}
 						</p>
 					</div>
 				</div>

@@ -27,6 +27,13 @@ class CardTransaction extends Model
      * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
 
+    protected function transactionCreatedAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => Carbon::parse($value)->format('d M Y H:i:s'),
+        );
+    }
+
     protected function updatedAt(): Attribute
     {
         return Attribute::make(

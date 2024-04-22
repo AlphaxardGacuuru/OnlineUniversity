@@ -391,7 +391,7 @@ const InstructorMenu = (props) => {
 									<div
 										className="collapse"
 										id="collapseLink">
-										<ol>
+										<ol className="text-end">
 											<li className="nav-item">
 												<Link
 													to="/about"

@@ -35,13 +35,13 @@ const index = (props) => {
 						{/* Card Total */}
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 							<div>
-								<span className="fs-4">KES {cardTotal.toLocaleString()}</span>
+								<span className="fs-4">KES {cardTotal}</span>
 								<h4>Total Card Transactions</h4>
 							</div>
 							{/* Card Total End */}
 							{/* Mpesa Total */}
 							<div>
-								<span className="fs-4">KES {mpesaTotal.toLocaleString()}</span>
+								<span className="fs-4">KES {mpesaTotal}</span>
 								<h4>Total Mpesa Transactions</h4>
 							</div>
 							<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">

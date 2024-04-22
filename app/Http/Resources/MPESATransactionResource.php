@@ -17,7 +17,7 @@ class MPESATransactionResource extends JsonResource
         return [
             "userName" => $this->user->name,
             "senderPhoneNumber" => $this->sender_phone_number,
-            "amount" => $this->amount,
+            "amount" => number_format($this->amount),
             "currency" => $this->currency,
             "kopokopoId" => $this->kopokopo_id,
             "type" => $this->type,

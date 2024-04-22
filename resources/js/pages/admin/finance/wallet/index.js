@@ -75,13 +75,13 @@ const wallet = (props) => {
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 							<div>
 								<span className="fs-4">
-									KES {totalTransfers?.toString().toLocaleString()}
+									KES {totalTransfers?.toLocaleString()}
 								</span>
 								<h4>Total Wallet Transactions</h4>
 							</div>
 							<div className="border-start border-end border-2 text-warning px-5">
 								<span className="fs-4 text-warning px-5">
-									KES {balance?.toString().toLocaleString()}
+									KES {balance?.toLocaleString()}
 								</span>
 								<h4 className="px-5">Balance</h4>
 							</div>

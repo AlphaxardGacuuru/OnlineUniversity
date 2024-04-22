@@ -451,7 +451,7 @@ const index = (props) => {
 							<div className="d-flex justify-content-between align-items-center">
 								<div className="px-4">
 									<h4>Fees</h4>
-									<h6>KES {dashboard.fees?.total.toLocaleString()}</h6>
+									<h6>KES {dashboard.fees?.total}</h6>
 								</div>
 								<div className="px-4 pb-2 fs-2 bg-primary-subtle text-primary rounded">
 									<MoneySVG />

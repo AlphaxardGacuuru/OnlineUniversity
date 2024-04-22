@@ -134,9 +134,7 @@ const index = (props) => {
 										<td>{course.departmentName}</td>
 										<td>{course.facultyName}</td>
 										<td>{course.duration}</td>
-										<td className="text-success">
-											{parseFloat(course.price).toLocaleString()}
-										</td>
+										<td className="text-success">{course.price}</td>
 										<td className="text-end">
 											<div className="d-flex">
 												<MyLink3
@@ -257,19 +255,15 @@ const index = (props) => {
 										<td>{key + 1}</td>
 										<td>{feeStatement.created_at}</td>
 										<td>{feeStatement.type}</td>
-										<td className="text-success">
-											{feeStatement.credit?.toLocaleString()}
-										</td>
-										<td className="text-warning">
-											{feeStatement.debit?.toLocaleString()}
-										</td>
+										<td className="text-success">{feeStatement.credit}</td>
+										<td className="text-warning">{feeStatement.debit}</td>
 										<td
 											className={
 												feeStatement.balance > 0
 													? "text-warning"
 													: "text-success"
 											}>
-											{feeStatement.balance?.toLocaleString()}
+											{feeStatement.balance}
 										</td>
 									</tr>
 								))}

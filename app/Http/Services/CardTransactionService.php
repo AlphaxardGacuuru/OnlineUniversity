@@ -18,7 +18,7 @@ class CardTransactionService extends Service
 
 		// Check if total is request
         if ($request->total) {
-            return ["data" => $sum];
+            return ["data" => number_format($sum)];
         } else {
             return CardTransactionResource::collection($cardTransactions);
         }
