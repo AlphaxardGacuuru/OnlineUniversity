@@ -21,6 +21,13 @@ const index = (props) => {
 		props.get(`fee-statements/${props.auth.id}`, setFees, null, false)
 	}, [])
 
+	var balance = 0
+
+	// Check if balance can be retrieved
+	if (fees.statement && fees.statement[0]) {
+		balance = fees.statement[0].balance
+	}
+
 	const active = (activeTab) => {
 		return activeTab == tab ? "bg-light" : "bg-secondary-subtle"
 	}
@@ -217,9 +224,7 @@ const index = (props) => {
 									<h4>Total Fees Paid</h4>
 								</div>
 								<div>
-									<span className="fs-4 text-warning">
-										KES {fees.statement && fees.statement[0]?.balance}
-									</span>
+									<span className="fs-4 text-warning">KES {balance}</span>
 									<h4>Total Balance Remaining</h4>
 								</div>
 								<div className="fs-1 py-3 px-4 bg-success-subtle text-success rounded-circle">
