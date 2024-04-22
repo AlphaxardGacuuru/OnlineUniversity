@@ -218,7 +218,7 @@ const index = (props) => {
 								</div>
 								<div>
 									<span className="fs-4 text-warning">
-										KES {fees.statement && fees.statement[0].balance}
+										KES {fees.statement && fees.statement[0]?.balance}
 									</span>
 									<h4>Total Balance Remaining</h4>
 								</div>
