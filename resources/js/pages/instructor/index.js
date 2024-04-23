@@ -14,8 +14,8 @@ const index = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Instructor", path: ["instructor"] })
-		props.get(`courses/by-user-id/${props.auth.id}`, setCourses)
-		props.get(`units/by-user-id/${props.auth.id}`, setUnits)
+		props.get(`courses/by-user-id/${props.auth.id}`, setCourses, null, false)
+		props.get(`units/by-user-id/${props.auth.id}`, setUnits, null, false)
 	}, [])
 
 	const active = (activeTab) => {

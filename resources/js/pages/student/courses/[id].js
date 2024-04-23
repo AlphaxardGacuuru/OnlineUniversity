@@ -16,15 +16,13 @@ const show = (props) => {
 	const [session, setSession] = useState({})
 	const [tab, setTab] = useState("units")
 	const [hasBalance, setHasBalance] = useState(true)
+	const [isApproved, setIsApproved] = useState()
 
 	const [loading, setLoading] = useState()
 
 	const [nameQuery, setNameQuery] = useState("")
 
-	useEffect(() => {
-		// Set page
-		props.setPage({ name: "View Course", path: ["courses", "view"] })
-		// Fetch Course
+	const getCourse = () => {
 		Axios.get(`api/courses/${id}`)
 			.then((res) => {
 				setCourse(res.data.data)
@@ -35,22 +33,37 @@ const show = (props) => {
 				props.setPaymentAmount(res.data.data.price)
 			})
 			.catch((err) => props.getErrors(err))
+	}
 
-		// Fetch Session
+	const getCurrentSession = () => {
 		Axios.get(`api/sessions/by-course-id/${id}`)
 			.then((res) => setSession(res.data.data))
 			.catch((err) => props.getErrors(err))
+	}
 
-		// Fetch Fee Statement
+	const getFeeStatement = () => {
 		Axios.get(`api/fee-statements/${props.auth.id}`)
 			.then((res) => {
 				setHasBalance(res.data.data.statement[0].balance)
 				props.setPaymentAmount(res.data.data.statement[0].balance)
 			})
 			.catch((err) => props.getErrors(err))
+	}
 
-			// Close Pay Menu
-			return () => props.setShowPayMenu("")
+	useEffect(() => {
+		// Set page
+		props.setPage({ name: "View Course", path: ["courses", "view"] })
+		// Fetch Course
+		getCourse()
+
+		// Fetch Current Session
+		getCurrentSession()
+
+		// Fetch Fee Statement
+		getFeeStatement()
+
+		// Close Pay Menu
+		return () => props.setShowPayMenu("")
 	}, [])
 
 	const active = (activeTab) => {
@@ -113,20 +126,33 @@ const show = (props) => {
 					<div className="card mb-2 p-4 text-center shadow">
 						<h4>{course.name}</h4>
 						{props.auth.courseId != id && session.id && (
-							<Btn3
-								btnText={`self enroll @ ${course.price}`}
-								btnClass="btn-success mt-2"
-								onClick={
-									hasBalance
-										? () => props.setShowPayMenu("menu-open")
-										: selfEnrollCourse
-								}
-								loading={loading}
-							/>
+							<React.Fragment>
+								{!props.auth.courseApprovedBy ? (
+									<Btn3
+										btnText={`Request enrollment @ KES ${course.admission}`}
+										btnClass="btn-success mt-2"
+										onClick={
+											hasBalance
+												? () => props.setShowPayMenu("menu-open")
+												: selfEnrollCourse
+										}
+										loading={loading}
+									/>
+								) : (
+									<Btn3
+										btnText={`self enroll @ KES ${course.price}`}
+										btnClass="btn-success mt-2"
+										onClick={
+											hasBalance
+												? () => props.setShowPayMenu("menu-open")
+												: selfEnrollCourse
+										}
+										loading={loading}
+									/>
+								)}
+							</React.Fragment>
 						)}
-						<p className="mb-0 text-warning">
-							Balance KES {hasBalance}
-						</p>
+						<p className="mb-0 text-warning">Balance KES {hasBalance}</p>
 					</div>
 				</div>
 				<div className="col-sm-8">

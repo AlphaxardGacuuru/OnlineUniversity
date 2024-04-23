@@ -7,6 +7,7 @@ import Img from "@/components/Core/Img"
 import UnitSVG from "@/svgs/UnitSVG"
 import PersonSVG from "@/svgs/PersonSVG"
 import StudentSVG from "@/svgs/StudentSVG"
+import BillableSVG from "@/svgs/BillableSVG"
 
 const show = (props) => {
 	var { id } = useParams()
@@ -84,12 +85,20 @@ const show = (props) => {
 						Instructors
 					</div>
 					<div
-						className={`card shadow-sm flex-grow-1 text-center mb-2 py-2 px-4 ${active(
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
 							"students"
 						)}`}
 						style={{ cursor: "pointer" }}
 						onClick={() => setTab("students")}>
 						Students
+					</div>
+					<div
+						className={`card shadow-sm flex-grow-1 text-center mb-2 py-2 px-4 ${active(
+							"billables"
+						)}`}
+						style={{ cursor: "pointer" }}
+						onClick={() => setTab("billables")}>
+						Fee Structure
 					</div>
 				</div>
 				{/* Tabs End */}
@@ -123,7 +132,7 @@ const show = (props) => {
 									<th className="text-end">
 										<MyLink
 											linkTo={`/admin/units/${id}/create`}
-											text="add units"
+											text="add unit"
 										/>
 									</th>
 								</tr>
@@ -566,6 +575,134 @@ const show = (props) => {
 					</div>
 				</div>
 				{/* Students Tab End */}
+
+				{/* Billables Tab */}
+				<div className={activeTab("billables")}>
+					{/* Data */}
+					<div className="card shadow-sm p-2">
+						<div className="d-flex justify-content-between">
+							{/* Total */}
+							<div className="d-flex justify-content-between w-100 align-items-center mx-4">
+								<div>
+									<span className="fs-4">{course.billables?.length}</span>
+									<h4>Total Billables</h4>
+								</div>
+								<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
+									<BillableSVG />
+								</div>
+							</div>
+							{/* Total End */}
+						</div>
+					</div>
+					{/* Data End */}
+
+					<br />
+
+					<div className="table-responsive">
+						<table className="table table-hover">
+							<thead>
+								<tr>
+									<th colSpan="6"></th>
+									<th className="text-end">
+										<MyLink
+											linkTo="/admin/billables/create"
+											text="add billable"
+										/>
+									</th>
+								</tr>
+								<tr>
+									<th>#</th>
+									<th>Name</th>
+									<th>Description</th>
+									<th>Price</th>
+									<th>Year</th>
+									<th>Semester</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{course.billables?.map((billable, key) => (
+									<tr key={key}>
+										<td>{key + 1}</td>
+										<td>{billable.name}</td>
+										<td>{billable.description}</td>
+										<td>{billable.price}</td>
+										<td>{billable.year}</td>
+										<td>{billable.semester}</td>
+										<td>
+											<div className="d-flex justify-content-end">
+												<MyLink
+													linkTo={`/admin/billables/${billable.id}/edit`}
+													text="edit"
+													className="btn-sm"
+												/>
+
+												<div className="mx-1">
+													{/* Confirm Delete Modal End */}
+													<div
+														className="modal fade"
+														id={`deleteStudentModal${key}`}
+														tabIndex="-1"
+														aria-labelledby="deleteModalLabel"
+														aria-hidden="true">
+														<div className="modal-dialog">
+															<div className="modal-content">
+																<div className="modal-header">
+																	<h1
+																		id="deleteModalLabel"
+																		className="modal-title fs-5 text-danger">
+																		Delete Student
+																	</h1>
+																	<button
+																		type="button"
+																		className="btn-close"
+																		data-bs-dismiss="modal"
+																		aria-label="Close"></button>
+																</div>
+																<div className="modal-body text-wrap text-start">
+																	Are you sure you want to delete{" "}
+																	{billable.name}.
+																</div>
+																<div className="modal-footer justify-content-between">
+																	<button
+																		type="button"
+																		className="btn btn-light rounded-pill"
+																		data-bs-dismiss="modal">
+																		Close
+																	</button>
+																	<button
+																		type="button"
+																		className="btn btn-danger rounded-pill"
+																		data-bs-dismiss="modal"
+																		onClick={() =>
+																			onDeleteInstructor(billable.id)
+																		}>
+																		Delete
+																	</button>
+																</div>
+															</div>
+														</div>
+													</div>
+													{/* Confirm Delete Modal End */}
+
+													{/* Button trigger modal */}
+													<button
+														type="button"
+														className="btn btn-sm btn-outline-danger rounded-pill"
+														data-bs-toggle="modal"
+														data-bs-target={`#deleteStudentModal${key}`}>
+														Delete
+													</button>
+												</div>
+											</div>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				{/* Billables Tab End */}
 			</div>
 		</div>
 	)

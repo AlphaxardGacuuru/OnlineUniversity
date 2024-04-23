@@ -165,4 +165,14 @@ class User extends Authenticatable
 
         return $data;
     }
+
+    /*
+     * Check if Course is approved
+     */
+    public function courseApprovedBy()
+    {
+        return $this->userCourses()
+            ->first()
+            ?->approved_by;
+    }
 }

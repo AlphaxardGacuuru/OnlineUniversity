@@ -38,8 +38,8 @@ const index = (props) => {
 		{
 			label: "Instructors this month",
 			data: dashboard.instructors?.lastMonth?.data,
-			backgroundColor: "rgba(54, 162, 235, 1)",
-			borderColor: "rgb(255, 255, 255)",
+			backgroundColor: "rgba(220, 53, 69, 1)",
+			borderColor: "rgba(220, 53, 69, 1)",
 			borderWidth: 1,
 			borderRadius: "50",
 			barThickness: "20",
@@ -47,8 +47,8 @@ const index = (props) => {
 		{
 			label: "Students this month",
 			data: dashboard.students?.lastMonth?.data,
-			backgroundColor: "rgba(255, 99, 132, 1)",
-			borderColor: "rgb(255, 255, 255)",
+			backgroundColor: "rgba(40, 167, 69, 1)",
+			borderColor: "rgba(40, 167, 69, 1)",
 			borderWidth: 1,
 			borderRadius: "50",
 			barThickness: "20",
@@ -56,8 +56,8 @@ const index = (props) => {
 		{
 			label: "Staff this month",
 			data: dashboard.staff?.lastMonth?.data,
-			backgroundColor: "rgba(255, 205, 86, 1)",
-			borderColor: "rgb(255, 255, 255)",
+			backgroundColor: "rgba(54, 162, 235, 1)",
+			borderColor: "rgba(54, 162, 235, 1)",
 			borderWidth: 1,
 			borderRadius: "50",
 			barThickness: "20",
@@ -68,8 +68,8 @@ const index = (props) => {
 		{
 			label: "Last Week",
 			data: dashboard.instructors?.lastWeek,
-			backgroundColor: "rgba(54, 162, 235, 1)",
-			borderColor: "rgb(54, 162, 235)",
+			backgroundColor: "rgba(220, 53, 69, 1)",
+			borderColor: "rgba(220, 53, 69, 1)",
 			// borderWidth: 1,
 		},
 	]
@@ -78,8 +78,8 @@ const index = (props) => {
 		{
 			label: "Last Week",
 			data: dashboard.students?.lastWeek,
-			backgroundColor: "rgba(255, 99, 132, 1)",
-			borderColor: "rgb(255, 99, 132)",
+			backgroundColor: "rgba(40, 167, 69, 1)",
+			borderColor: "rgb(40, 167, 69)",
 			// borderWidth: 1,
 		},
 	]
@@ -88,8 +88,8 @@ const index = (props) => {
 		{
 			label: "Last Week",
 			data: dashboard.staff?.lastWeek,
-			backgroundColor: "rgba(255, 159, 64, 1)",
-			borderColor: "rgb(255, 159, 64)",
+			backgroundColor: "rgba(54, 162, 235, 1)",
+			borderColor: "rgba(54, 162, 235, 1)",
 			// borderWidth: 1,
 		},
 	]
@@ -99,7 +99,7 @@ const index = (props) => {
 			label: "Last Week",
 			data: dashboard.staff?.lastWeek,
 			backgroundColor: "rgba(255, 205, 86, 1)",
-			borderColor: "rgb(255, 205, 86)",
+			borderColor: "rgba(255, 205, 86, 1)",
 			// borderWidth: 1,
 		},
 	]
@@ -109,7 +109,7 @@ const index = (props) => {
 			label: "Last Week",
 			data: dashboard.staff?.lastWeek,
 			backgroundColor: "rgba(75, 192, 192, 1)",
-			borderColor: "rgb(75, 192, 192)",
+			borderColor: "rgba(75, 192, 192, 1)",
 			// borderWidth: 1,
 		},
 	]
@@ -119,7 +119,7 @@ const index = (props) => {
 			label: "Last Week",
 			data: dashboard.staff?.lastWeek,
 			backgroundColor: "rgba(153, 102, 255, 1)",
-			borderColor: "rgb(153, 102, 255)",
+			borderColor: "rgba(153, 102, 255, 1)",
 			// borderWidth: 1,
 		},
 	]
@@ -129,14 +129,14 @@ const index = (props) => {
 			label: "Card Last Week",
 			data: dashboard.fees?.cardsLastWeek,
 			backgroundColor: "rgba(54, 162, 235, 1)",
-			borderColor: "rgb(54, 162, 235)",
+			borderColor: "rgba(54, 162, 235, 1)",
 			// borderWidth: 1,
 		},
 		{
 			label: "Mpesa Last Week",
 			data: dashboard.fees?.mpesaLastWeek,
 			backgroundColor: "rgba(40, 167, 69, 1)",
-			borderColor: "rgb(40, 167, 69)",
+			borderColor: "rgba(40, 167, 69, 1)",
 			// borderWidth: 1,
 		},
 	]
@@ -150,14 +150,14 @@ const index = (props) => {
 				dashboard.staff?.total,
 			],
 			backgroundColor: [
+				"rgba(220, 53, 69, 1)",
+				"rgba(40, 167, 69, 1)",
 				"rgba(54, 162, 235, 1)",
-				"rgba(255, 99, 132, 1)",
-				"rgba(255, 205, 86, 1)",
 			],
 			borderColor: [
+				"rgba(220, 53, 69, 1)",
+				"rgba(40, 167, 69, 1)",
 				"rgba(54, 162, 235, 1)",
-				"rgba(255, 99, 132, 1)",
-				"rgba(255, 205, 86, 1)",
 			],
 			// borderWidth: 1,
 		},

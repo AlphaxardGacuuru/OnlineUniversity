@@ -19,18 +19,16 @@ class CourseResource extends JsonResource
             "name" => $this->name,
             "description" => $this->description,
             "duration" => $this->duration,
+            "admission" => number_format($this->admission()),
             "price" => number_format($this->price),
             "facultyId" => $this->department?->faculty->id,
             "facultyName" => $this->department?->faculty->name,
             "departmentId" => $this->department_id,
             "departmentName" => $this->department?->name,
             "units" => $this->units,
-            // "units" => $this->units()
-                // ->orderBy("year")
-                // ->orderBy("semester")
-                // ->get(),
             "instructors" => UserResource::collection($this->instructors()),
             "students" => UserResource::collection($this->students()),
+            "billables" => BillableResource::collection($this->billables),
         ];
     }
 }

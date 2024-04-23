@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AcademicSessionController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BillableController;
 use App\Http\Controllers\CardTransactionController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CourseController;
@@ -44,38 +45,43 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('auth', [UserController::class, 'auth']);
 
 Route::apiResources([
-    "courses" => CourseController::class,
-    "chats" => ChatController::class,
-    "departments" => DepartmentController::class,
-    "faculties" => FacultyController::class,
-    "instructors" => InstructorController::class,
-    "resources" => ResourceController::class,
-    "staff" => StaffController::class,
-    "students" => StudentController::class,
-    "units" => UnitController::class,
-    "users" => UserController::class,
-    "materials" => MaterialController::class,
-    "sessions" => AcademicSessionController::class,
-    "discussion-forums" => DiscussionForumController::class,
-    "discussion-forum-ratings" => DiscussionForumRatingController::class,
-    "submissions" => SubmissionController::class,
-    "grades" => GradeController::class,
     "card-transactions" => CardTransactionController::class,
     "mpesa-transactions" => MPESATransactionController::class,
     "kopokopo-recipients" => KopokopoRecipientController::class,
     "kopokopo-transfers" => KopokopoTransferController::class,
+    "instructors" => InstructorController::class,
+    "students" => StudentController::class,
+    "users" => UserController::class,
+    "faculties" => FacultyController::class,
+    "departments" => DepartmentController::class,
+    "courses" => CourseController::class,
+    "billables" => BillableController::class,
+    "units" => UnitController::class,
+    "discussion-forums" => DiscussionForumController::class,
+    "discussion-forum-ratings" => DiscussionForumRatingController::class,
+    "submissions" => SubmissionController::class,
+    "grades" => GradeController::class,
+    "sessions" => AcademicSessionController::class,
+    "staff" => StaffController::class,
+    "chats" => ChatController::class,
+    "resources" => ResourceController::class,
+    "materials" => MaterialController::class,
     'notifications' => NotificationController::class,
 ]);
 
-// Kopokopo STK Push
-Route::post("stk-push", [MPESATransactionController::class, 'stkPush']);
-Route::post("kopokopo-initiate-transfer", [KopokopoTransferController::class, 'initiateTransfer']);
+/*
+ * Admin Dashboard
+ */
+Route::get("admin", [AdminController::class, "index"]);
 
 // User
 Route::get("fee-statements/{id}", [UserController::class, "feeStatements"]);
 
 // Course
 Route::get("courses/by-user-id/{id}", [CourseController::class, "byUserId"]);
+
+// Billables
+Route::get("billables/admission/{id}", [BillableController::class, "admissionById"]);
 
 // Unit
 Route::get("units/by-user-id/{id}", [UnitController::class, "byUserId"]);
@@ -86,10 +92,9 @@ Route::get("materials/by-unit-id/{id}", [MaterialController::class, "byUnitId"])
 // Academic Session
 Route::get("sessions/by-course-id/{id}", [AcademicSessionController::class, "byCourseId"]);
 
-/*
- * Admin Dashboard
- */
-Route::get("admin", [AdminController::class, "index"]);
+// Kopokopo STK Push
+Route::post("stk-push", [MPESATransactionController::class, 'stkPush']);
+Route::post("kopokopo-initiate-transfer", [KopokopoTransferController::class, 'initiateTransfer']);
 
 /*
  * Filepond Controller

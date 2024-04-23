@@ -65,6 +65,11 @@ class Course extends Model
         return $this->hasMany(UserCourse::class);
     }
 
+	public function billables()
+	{
+		return $this->hasMany(Billable::class);
+	}
+
     /*
      * Custom functions
      */
@@ -88,4 +93,12 @@ class Course extends Model
                     ->first())
             ->filter();
     }
+
+	public function admission()
+	{
+		return $this->billables()
+		->where("name", "Admission Fee")
+		->first()
+		?->price;
+	}
 }

@@ -28,6 +28,7 @@ class UserResource extends JsonResource
             "departmentName" => $this->department()?->name,
             "courseId" => $this->course()?->id,
             "courseName" => $this->course()?->name,
+            "courseApprovedBy" => $this->courseApprovedBy(),
             "unitId" => $this->unit()?->id,
             "unitName" => $this->unit()?->name,
             "unitIds" => $this->units->map((fn($unit) => $unit->id)),
