@@ -16,7 +16,7 @@ const create = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Add Department", path: ["departments", "create"] })
+		props.setPage({ name: "Add Department", path: ["faculties", "create"] })
 	}, [])
 
 	/*
@@ -67,7 +67,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-center">
 						<MyLink
-							linkTo={`/admin/faculties/${id}/show`}
+							linkTo={`/faculties/${id}/show`}
 							text="back to faculty"
 						/>
 					</div>

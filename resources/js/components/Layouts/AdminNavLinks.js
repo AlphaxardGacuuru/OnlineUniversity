@@ -39,8 +39,8 @@ const AdminNavLinks = () => {
 			{/* Dashboard Link */}
 			<li className="nav-item">
 				<Link
-					to={`/admin`}
-					className={`nav-link ${activeStrict("/admin")}`}>
+					to={`/admin/dashboard`}
+					className={`nav-link ${activeStrict("/admin/dashboard")}`}>
 					<div className="nav-link-icon">
 						<HomeSVG />
 					</div>

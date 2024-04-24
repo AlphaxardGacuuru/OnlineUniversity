@@ -141,6 +141,8 @@ const Submission = (props) => {
 										type="number"
 										placeholder="Enter Grade"
 										className="form-control mb-2"
+										max="100"
+										min="0"
 										onChange={(e) => setGrade(parseInt(e.target.value))}
 									/>
 									{/* Grade End */}

@@ -26,7 +26,10 @@ const create = (props) => {
 	// Get Instructors
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Add Unit", path: ["units", "create"] })
+		props.setPage({
+			name: "Add Unit",
+			path: ["courses", `courses/${id}/show`, "create"],
+		})
 		// Fetch Instructors
 		props.get(`instructors?idAndName=true&courseId=${id}`, setInstructors)
 	}, [])
@@ -208,7 +211,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-center">
 						<MyLink
-							linkTo={`/admin/courses/${id}/show`}
+							linkTo={`/courses/${id}/show`}
 							text="back to course"
 						/>
 					</div>

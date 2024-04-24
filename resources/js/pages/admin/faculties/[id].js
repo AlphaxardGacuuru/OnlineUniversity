@@ -7,6 +7,7 @@ import Img from "@/components/Core/Img"
 import DepartmentSVG from "@/svgs/DepartmentSVG"
 import PersonSVG from "@/svgs/PersonSVG"
 import HeroIcon from "@/components/Core/HeroIcon"
+import StudentSVG from "@/svgs/StudentSVG"
 
 const show = (props) => {
 	var { id } = useParams()
@@ -123,7 +124,7 @@ const show = (props) => {
 									<th colSpan="2">Departments</th>
 									<th className="text-end">
 										<MyLink
-											linkTo={`/admin/departments/${id}/create`}
+											linkTo={`/departments/${id}/create`}
 											text="add department"
 										/>
 									</th>
@@ -138,9 +139,9 @@ const show = (props) => {
 										<td>{key + 1}</td>
 										<td>{department.name}</td>
 										<td>
-											<div className="d-flex justify-content-end">
+											<div className="d-flex justify-content-start">
 												<MyLink
-													linkTo={`/admin/departments/${department.id}/edit`}
+													linkTo={`/departments/${department.id}/edit`}
 													text="edit"
 													className="btn-sm"
 												/>
@@ -287,10 +288,10 @@ const show = (props) => {
 						<table className="table table-hover">
 							<thead>
 								<tr>
-									<th colSpan="8"></th>
+									<th colSpan="7"></th>
 									<th className="text-end">
 										<MyLink
-											linkTo="/admin/instructors/create"
+											linkTo="/instructors/create"
 											text="add instructor"
 										/>
 									</th>
@@ -303,7 +304,6 @@ const show = (props) => {
 									<th>Phone</th>
 									<th>Gender</th>
 									<th>Department</th>
-									<th>Date Joined</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -339,11 +339,10 @@ const show = (props) => {
 											<td>{instructor.phone}</td>
 											<td className="text-capitalize">{instructor.gender}</td>
 											<td>{instructor.departmentName}</td>
-											<td>{instructor.createdAt}</td>
 											<td>
-												<div className="d-flex justify-content-end">
+												<div className="d-flex justify-content-start">
 													<MyLink
-														linkTo={`/admin/instructors/${instructor.id}/edit`}
+														linkTo={`/instructors/${instructor.id}/edit`}
 														text="edit"
 														className="btn-sm"
 													/>
@@ -426,9 +425,9 @@ const show = (props) => {
 									<span className="fs-4">{faculty.students?.length}</span>
 									<h4>Total Instructors</h4>
 								</div>
-								<div className="fs-1 py-3 px-4 bg-primary-subtle rounded-circle">
-									<PersonSVG />
-								</div>
+								<HeroIcon>
+									<StudentSVG />
+								</HeroIcon>
 							</div>
 							{/* Total End */}
 						</div>
@@ -489,10 +488,10 @@ const show = (props) => {
 						<table className="table table-hover">
 							<thead>
 								<tr>
-									<th colSpan="8"></th>
+									<th colSpan="7"></th>
 									<th className="text-end">
 										<MyLink
-											linkTo="/admin/students/create"
+											linkTo="/students/create"
 											text="add student"
 										/>
 									</th>
@@ -505,7 +504,6 @@ const show = (props) => {
 									<th>Phone</th>
 									<th>Gender</th>
 									<th>Department</th>
-									<th>Date Joined</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -541,11 +539,10 @@ const show = (props) => {
 											<td>{student.phone}</td>
 											<td className="text-capitalize">{student.gender}</td>
 											<td>{student.departmentName}</td>
-											<td>{student.createdAt}</td>
 											<td>
-												<div className="d-flex justify-content-end">
+												<div className="d-flex justify-content-start">
 													<MyLink
-														linkTo={`/admin/students/${student.id}/edit`}
+														linkTo={`/students/${student.id}/edit`}
 														text="edit"
 														className="btn-sm"
 													/>

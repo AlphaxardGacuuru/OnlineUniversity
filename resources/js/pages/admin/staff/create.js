@@ -133,7 +133,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-center">
 						<MyLink
-							linkTo="/admin/staff"
+							linkTo="/staff"
 							text="back to staff"
 						/>
 					</div>

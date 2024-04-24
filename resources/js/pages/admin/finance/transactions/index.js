@@ -20,7 +20,7 @@ const index = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Finance Transactions", path: ["finance"] })
+		props.setPage({ name: "Finance Transactions", path: ["transactions"] })
 		props.getPaginated("card-transactions", setCardTransactions)
 		props.getPaginated("mpesa-transactions", setMpesaTransactions)
 		props.get("card-transactions?total=true", setCardTotal)

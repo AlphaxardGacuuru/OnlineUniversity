@@ -120,7 +120,7 @@ const edit = (props) => {
 
 					<center className="mb-5">
 						<MyLink
-							linkTo="/admin/courses"
+							linkTo="/courses"
 							text="back to courses"
 						/>
 					</center>

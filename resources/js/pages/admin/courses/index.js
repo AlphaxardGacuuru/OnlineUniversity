@@ -141,7 +141,7 @@ const index = (props) => {
 								<th colSpan="7"></th>
 								<th className="text-end">
 									<MyLink
-										linkTo="/admin/courses/create"
+										linkTo="/courses/create"
 										text="add course"
 									/>
 								</th>
@@ -191,13 +191,13 @@ const index = (props) => {
 										<td className="text-end">
 											<div className="d-flex">
 												<MyLink
-													linkTo={`courses/${course.id}/show`}
+													linkTo={`/courses/${course.id}/show`}
 													text="view"
 													className="btn-sm me-2"
 												/>
 
 												<MyLink
-													linkTo={`courses/${course.id}/edit`}
+													linkTo={`/courses/${course.id}/edit`}
 													text="edit"
 													className="btn-sm"
 												/>

@@ -36,7 +36,7 @@ const wallet = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Finance Wallet", path: ["finance"] })
+		props.setPage({ name: "Finance Wallet", path: ["wallet"] })
 		props.get(`kopokopo-recipients/${props.auth.id}`, setWallets)
 		props.get("mpesa-transactions", setMpesaTransactions)
 		props.getPaginated(`kopokopo-transfers`, setTransfers)
@@ -185,7 +185,7 @@ const wallet = (props) => {
 				{/* Add Wallet Card */}
 				{/* <div className="card shadow-sm p-2 align-items-end">
 					<MyLink
-						linkTo="/admin/finance/wallet/create"
+						linkTo="/finance/wallet/create"
 						text="add wallet"
 						className="btn-sm w-25"
 					/>

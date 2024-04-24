@@ -29,6 +29,12 @@ const edit = (props) => {
 		Axios.get(`/api/units/${id}`).then((res) => {
 			var unit = res.data.data
 
+			// Set page
+			props.setPage({
+				name: "Edit Learning Resource",
+				path: ["courses", `courses/${unit.courseId}/show`, "create"],
+			})
+
 			setUnit(unit)
 			setInstructorIds(unit.instructors.map((instructor) => instructor.id))
 
@@ -230,7 +236,7 @@ const edit = (props) => {
 
 					<center>
 						<MyLink
-							linkTo={`/admin/courses/${unit.courseId}/show`}
+							linkTo={`/courses/${unit.courseId}/show`}
 							text="back to course"
 						/>
 					</center>

@@ -312,7 +312,7 @@ const edit = (props) => {
 					<br />
 
 					<MyLink
-						linkTo="/admin/instructors"
+						linkTo="/instructors"
 						text="back to instructors"
 					/>
 				</center>

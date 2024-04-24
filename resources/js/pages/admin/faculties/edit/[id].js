@@ -14,7 +14,10 @@ const edit = (props) => {
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Edit Faculty", path: ["faculties", "edit"] })
+		props.setPage({
+			name: "Edit Faculty",
+			path: ["faculties", `faculties/${id}/show`, "edit"],
+		})
 
 		Axios.get(`/api/faculties/${id}`).then((res) => {
 			setFaculty(res.data.data)
@@ -56,7 +59,7 @@ const edit = (props) => {
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
 					/>
-					
+
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
 							btnText="update"
@@ -66,7 +69,7 @@ const edit = (props) => {
 
 					<center>
 						<MyLink
-							linkTo="/admin/faculties"
+							linkTo="/faculties"
 							text="back to faculties"
 						/>
 					</center>

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Material;
 use App\Models\Unit;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class MaterialSeeder extends Seeder
@@ -19,7 +20,27 @@ class MaterialSeeder extends Seeder
             ->limit(1)
             ->get();
 
-        $weeks = rand(14, 16);
+		// Define start and end dates
+        $start_date = Carbon::parse('2024-01-04');
+        $end_date = Carbon::parse('2024-04-30');
+
+		// Initialize array to store week start and end dates
+        $weeks = [];
+
+		// Loop through each week and get start and end dates
+        while ($start_date->lte($end_date)) {
+            $week_start = $start_date->copy()->startOfWeek();
+            $week_end = $start_date->copy()->endOfWeek();
+
+            // Add start and end dates to array
+            $weeks[] = [
+                'startDate' => $week_start->format('Y-m-d'),
+                'endDate' => $week_end->format('Y-m-d'),
+            ];
+
+            // Move to next week
+            $start_date->addWeek();
+        }
 
         $titles = [
             "Learning Guide",
@@ -37,15 +58,17 @@ class MaterialSeeder extends Seeder
         foreach ($units as $unit) {
 
             // Loop through weeks
-            for ($a = 1; $a <= $weeks; $a++) {
+            foreach ($weeks as $key => $week) {
 
                 // Loop through titles
                 foreach ($titles as $title) {
                     Material::factory()
                         ->create([
                             "title" => $title,
-                            "week" => $a,
+                            "week" => $key,
                             "unit_id" => $unit->id,
+							"starts_at" => $week["startDate"],
+							"ends_at" => $week["endDate"],
                         ]);
                 }
             }

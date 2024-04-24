@@ -562,7 +562,7 @@ const index = (props) => {
 									<tr>
 										<td colSpan="5">
 											<MyLink
-												linkTo="/admin/students"
+												linkTo="/students"
 												text="view more"
 											/>
 										</td>
@@ -605,7 +605,7 @@ const index = (props) => {
 									<tr>
 										<td colSpan="4">
 											<MyLink
-												linkTo="/admin/instructors"
+												linkTo="/instructors"
 												text="view more"
 											/>
 										</td>

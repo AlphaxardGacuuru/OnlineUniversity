@@ -54,7 +54,7 @@ const create = (props) => {
 		// Set page
 		props.setPage({
 			name: "Add Learning Resource",
-			path: ["materials", "create"],
+			path: ["courses", `units/${id}/show`, "create"],
 		})
 	}, [])
 
@@ -223,7 +223,7 @@ const create = (props) => {
 					</div>
 					<div className="d-flex justify-content-center">
 						<MyLink
-							linkTo={`/admin/units/${id}/show`}
+							linkTo={`/units/${id}/show`}
 							text="back to unit"
 						/>
 					</div>

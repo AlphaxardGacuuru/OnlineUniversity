@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom/cjs/react-router-dom.min"
+import {
+	useLocation,
+	useParams,
+} from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink from "@/components/Core/MyLink"
 import Img from "@/components/Core/Img"
 import Btn from "@/components/Core/Btn"
+import DiscussionForum from "@/components/Unit/DiscussionForum"
+import Submission from "@/components/Unit/Submission"
 
 import MaterialSVG from "@/svgs/MaterialSVG"
 import PersonSVG from "@/svgs/PersonSVG"
@@ -12,20 +17,38 @@ import HeroIcon from "@/components/Core/HeroIcon"
 
 const show = (props) => {
 	var { id } = useParams()
+	const location = useLocation()
 
 	const [unit, setUnit] = useState({})
 	const [syllabus, setSyllabus] = useState([])
 	const [tab, setTab] = useState("materials")
 	const [materialTab, setMaterialTab] = useState("Learning Guide")
 	const [richText, setRichText] = useState("")
+	const [week, setWeek] = useState("")
+	const [isActive, setIsActive] = useState()
 
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
 
+	const [unitSession] = (props.auth?.unitSessions || [{}])
+		.filter((unitSession) => unitSession.unitId == id)
+		.map((unitSession) => unitSession)
+
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "View Unit", path: ["units", "view"] })
-		props.get(`units/${id}`, setUnit)
+		props.setPage({ name: "View Unit", path: ["courses", "view"] })
+		// Fetch Unit
+		Axios.get(`api/units/${id}`)
+			.then((res) => {
+				// Set page
+				props.setPage({
+					name: "Edit Learning Resource",
+					path: ["courses", `courses/${res.data.data.courseId}/show`, "view"],
+				})
+				setUnit(res.data.data)
+			})
+			.catch((err) => props.setErrors([`Failed to fetch unit/${id}`]))
+		// Fetch Materials
 		props.get(`materials/by-unit-id/${id}`, setSyllabus)
 	}, [])
 
@@ -52,12 +75,18 @@ const show = (props) => {
 		} else if (title == "Discussion Forum") {
 			setMaterialTab("Discussion Forum")
 			setRichText(richText)
+			setWeek(syllabusWeek)
+			setIsActive(isActive)
 		} else if (title == "Written Assignment") {
 			setMaterialTab("Written Assignment")
 			setRichText(richText)
+			setWeek(syllabusWeek)
+			setIsActive(isActive)
 		} else if (title == "Learning Reflection") {
 			setMaterialTab("Learning Reflection")
 			setRichText(richText)
+			setWeek(syllabusWeek)
+			setIsActive(isActive)
 		}
 	}
 
@@ -135,12 +164,14 @@ const show = (props) => {
 					<div className="card shadow mb-2">
 						<div className="d-flex justify-content-between p-2 px-4 align-items-center">
 							<h5>Learning Resources</h5>
-							<div>
-								<MyLink
-									linkTo={`/admin/materials/${id}/create`}
-									text="add learning resources"
-								/>
-							</div>
+							{location.pathname.match("/admin/") && (
+								<div>
+									<MyLink
+										linkTo={`/materials/${id}/create`}
+										text="add learning resources"
+									/>
+								</div>
+							)}
 						</div>
 					</div>
 					<div
@@ -162,11 +193,25 @@ const show = (props) => {
 										aria-controls={`panelsStayOpen-${key}`}>
 										<div className="d-flex justify-content-start w-100 me-2">
 											<div className="me-2">Week {syllabus.week}</div>
-											<div className="border border-primary rounded-pill text-primary me-2 px-2">
+											<div
+												className={`${
+													location.pathname.match("/admin/")
+														? "border-primary text-primary"
+														: location.pathname.match("/instructor/")
+														? "border-danger text-danger"
+														: "border-success text-success"
+												} border rounded-pill me-2 px-2`}>
 												{syllabus.range}
 											</div>
 											{syllabus.isActive && (
-												<div className="border border-primary rounded-pill text-primary me-2 px-2">
+												<div
+													className={`${
+														location.pathname.match("/admin/")
+															? "border-primary text-primary"
+															: location.pathname.match("/instructor/")
+															? "border-danger text-danger"
+															: "border-success text-success"
+													} border rounded-pill me-2 px-2`}>
 													Current
 												</div>
 											)}
@@ -190,78 +235,85 @@ const show = (props) => {
 																<div className="d-flex justify-content-end">
 																	<Btn
 																		btnText="view"
-																		btnClass="btn-outline-primary  btn-sm me-1"
+																		btnClass="btn-sm me-1"
 																		onClick={() =>
 																			handleMaterialTab(
 																				material.title,
-																				material.richText
+																				material.richText,
+																				syllabus.week,
+																				syllabus.isActive
 																			)
 																		}
 																	/>
 
-																	<MyLink
-																		linkTo={`/admin/materials/${material.id}/edit`}
-																		text="edit"
-																		className="btn-sm"
-																	/>
-
-																	<div className="mx-1">
-																		{/* Confirm Delete Modal End */}
-																		<div
-																			className="modal fade"
-																			id={`deleteMaterialModal${material.id}`}
-																			tabIndex="-1"
-																			aria-labelledby="deleteModalLabel"
-																			aria-hidden="true">
-																			<div className="modal-dialog">
-																				<div className="modal-content">
-																					<div className="modal-header">
-																						<h1
-																							id="deleteModalLabel"
-																							className="modal-title fs-5 text-danger">
-																							Delete Learning Resource
-																						</h1>
-																						<button
-																							type="button"
-																							className="btn-close"
-																							data-bs-dismiss="modal"
-																							aria-label="Close"></button>
-																					</div>
-																					<div className="modal-body text-wrap">
-																						Are you sure you want to delete{" "}
-																						{material.title}.
-																					</div>
-																					<div className="modal-footer justify-content-between">
-																						<button
-																							type="button"
-																							className="btn btn-light rounded-pill"
-																							data-bs-dismiss="modal">
-																							Close
-																						</button>
-																						<button
-																							type="button"
-																							className="btn btn-danger rounded-pill"
-																							data-bs-dismiss="modal"
-																							onClick={() =>
-																								onDeleteMaterial(material.id)
-																							}>
-																							Delete
-																						</button>
+																	{location.pathname.match("/admin/") && (
+																		<React.Fragment>
+																			<MyLink
+																				linkTo={`/materials/${material.id}/edit`}
+																				text="edit"
+																				className="btn-sm"
+																			/>
+																			<div className="mx-1">
+																				{/* Confirm Delete Modal End */}
+																				<div
+																					className="modal fade"
+																					id={`deleteMaterialModal${material.id}`}
+																					tabIndex="-1"
+																					aria-labelledby="deleteModalLabel"
+																					aria-hidden="true">
+																					<div className="modal-dialog">
+																						<div className="modal-content">
+																							<div className="modal-header">
+																								<h1
+																									id="deleteModalLabel"
+																									className="modal-title fs-5 text-danger">
+																									Delete Learning Resource
+																								</h1>
+																								<button
+																									type="button"
+																									className="btn-close"
+																									data-bs-dismiss="modal"
+																									aria-label="Close"></button>
+																							</div>
+																							<div className="modal-body text-wrap">
+																								Are you sure you want to delete{" "}
+																								{material.title}.
+																							</div>
+																							<div className="modal-footer justify-content-between">
+																								<button
+																									type="button"
+																									className="btn btn-light rounded-pill"
+																									data-bs-dismiss="modal">
+																									Close
+																								</button>
+																								<button
+																									type="button"
+																									className="btn btn-danger rounded-pill"
+																									data-bs-dismiss="modal"
+																									onClick={() =>
+																										onDeleteMaterial(
+																											material.id
+																										)
+																									}>
+																									Delete
+																								</button>
+																							</div>
+																						</div>
 																					</div>
 																				</div>
-																			</div>
-																		</div>
-																		{/* Confirm Delete Modal End */}
+																				{/* Confirm Delete Modal End */}
 
-																		{/* Button trigger modal */}
-																		<button
-																			type="button"
-																			className="btn btn-sm btn-outline-danger rounded-pill"
-																			data-bs-toggle="modal"
-																			data-bs-target={`#deleteMaterialModal${material.id}`}>
-																			Delete
-																		</button>
-																	</div>
+																				{/* Button trigger modal */}
+																				<button
+																					type="button"
+																					className="btn btn-sm btn-outline-danger rounded-pill"
+																					data-bs-toggle="modal"
+																					data-bs-target={`#deleteMaterialModal${material.id}`}>
+																					Delete
+																				</button>
+																			</div>
+																		</React.Fragment>
+																	)}
 																</div>
 															</td>
 														</tr>
@@ -341,6 +393,7 @@ const show = (props) => {
 					</div>
 					{/* Material Tabs End */}
 
+					{/* Materials Tab */}
 					<div className="card shadow-sm mb-2 py-5 p-2">
 						{richText ? (
 							<div
@@ -353,6 +406,32 @@ const show = (props) => {
 							</div>
 						)}
 					</div>
+					{/* Materials Tab End */}
+
+					{/* Discussion Forum */}
+					{materialTab == "Discussion Forum" && isActive && (
+						<DiscussionForum
+							{...props}
+							sessionId={unitSession?.sessionId}
+							unitId={unitSession?.unitId}
+							week={week}
+						/>
+					)}
+					{/* Discussion Forum End */}
+
+					{/* Submission */}
+					{(materialTab == "Written Assignment" ||
+						materialTab == "Learning Reflection") &&
+						isActive && (
+							<Submission
+								{...props}
+								sessionId={unitSession?.sessionId}
+								unitId={id}
+								week={week}
+								materialTab={materialTab}
+							/>
+						)}
+					{/* Submission End */}
 				</div>
 				{/* Materials Tab End */}
 
@@ -380,15 +459,17 @@ const show = (props) => {
 					<div className="table-responsive">
 						<table className="table table-hover">
 							<thead>
-								<tr>
-									<th colSpan="8">Instructors</th>
-									<th className="text-end">
-										<MyLink
-											linkTo={`/admin/instructors/${id}/create`}
-											text="add instructor"
-										/>
-									</th>
-								</tr>
+								{location.pathname.match("/admin/") && (
+									<tr>
+										<th colSpan="8">Instructors</th>
+										<th className="text-end">
+											<MyLink
+												linkTo={`/instructors/${id}/create`}
+												text="add instructor"
+											/>
+										</th>
+									</tr>
+								)}
 								<tr>
 									<th>#</th>
 									<th></th>
@@ -396,7 +477,6 @@ const show = (props) => {
 									<th>Email</th>
 									<th>Phone</th>
 									<th>Gender</th>
-									<th>Date Joined</th>
 									<th>Action</th>
 								</tr>
 								{unit?.instructors?.map((instructor, key) => (
@@ -415,72 +495,80 @@ const show = (props) => {
 										<td>{instructor.email}</td>
 										<td>{instructor.phone}</td>
 										<td className="text-capitalize">{instructor.gender}</td>
-										<td>{instructor.createdAt}</td>
 										<td>
 											<div className="d-flex justify-content-end">
 												<MyLink
-													linkTo={`/admin/instructors/${instructor.id}/edit`}
-													text="edit"
-													className="btn-sm"
+													linkTo={`/instructors/${instructor.id}/view`}
+													text="view"
+													className="btn-sm me-1"
 												/>
+												{location.pathname.match("/admin/") && (
+													<React.Fragment>
+														<MyLink
+															linkTo={`/instructors/${instructor.id}/edit`}
+															text="edit"
+															className="btn-sm"
+														/>
 
-												<div className="mx-1">
-													{/* Confirm Delete Modal End */}
-													<div
-														className="modal fade"
-														id={`deleteStudentModal${key}`}
-														tabIndex="-1"
-														aria-labelledby="deleteModalLabel"
-														aria-hidden="true">
-														<div className="modal-dialog">
-															<div className="modal-content">
-																<div className="modal-header">
-																	<h1
-																		id="deleteModalLabel"
-																		className="modal-title fs-5 text-danger">
-																		Delete Student
-																	</h1>
-																	<button
-																		type="button"
-																		className="btn-close"
-																		data-bs-dismiss="modal"
-																		aria-label="Close"></button>
-																</div>
-																<div className="modal-body text-wrap text-start">
-																	Are you sure you want to delete{" "}
-																	{instructor.name}.
-																</div>
-																<div className="modal-footer justify-content-between">
-																	<button
-																		type="button"
-																		className="btn btn-light rounded-pill"
-																		data-bs-dismiss="modal">
-																		Close
-																	</button>
-																	<button
-																		type="button"
-																		className="btn btn-danger rounded-pill"
-																		data-bs-dismiss="modal"
-																		onClick={() =>
-																			onDeleteInstructor(instructor.id)
-																		}>
-																		Delete
-																	</button>
+														<div className="mx-1">
+															{/* Confirm Delete Modal End */}
+															<div
+																className="modal fade"
+																id={`deleteStudentModal${key}`}
+																tabIndex="-1"
+																aria-labelledby="deleteModalLabel"
+																aria-hidden="true">
+																<div className="modal-dialog">
+																	<div className="modal-content">
+																		<div className="modal-header">
+																			<h1
+																				id="deleteModalLabel"
+																				className="modal-title fs-5 text-danger">
+																				Delete Student
+																			</h1>
+																			<button
+																				type="button"
+																				className="btn-close"
+																				data-bs-dismiss="modal"
+																				aria-label="Close"></button>
+																		</div>
+																		<div className="modal-body text-wrap text-start">
+																			Are you sure you want to delete{" "}
+																			{instructor.name}.
+																		</div>
+																		<div className="modal-footer justify-content-between">
+																			<button
+																				type="button"
+																				className="btn btn-light rounded-pill"
+																				data-bs-dismiss="modal">
+																				Close
+																			</button>
+																			<button
+																				type="button"
+																				className="btn btn-danger rounded-pill"
+																				data-bs-dismiss="modal"
+																				onClick={() =>
+																					onDeleteInstructor(instructor.id)
+																				}>
+																				Delete
+																			</button>
+																		</div>
+																	</div>
 																</div>
 															</div>
-														</div>
-													</div>
-													{/* Confirm Delete Modal End */}
+															{/* Confirm Delete Modal End */}
 
-													{/* Button trigger modal */}
-													<button
-														type="button"
-														className="btn btn-sm btn-outline-danger rounded-pill"
-														data-bs-toggle="modal"
-														data-bs-target={`#deleteStudentModal${key}`}>
-														Delete
-													</button>
-												</div>
+															{/* Button trigger modal */}
+															<button
+																type="button"
+																className="btn btn-sm btn-outline-danger rounded-pill"
+																data-bs-toggle="modal"
+																data-bs-target={`#deleteStudentModal${key}`}>
+																Delete
+															</button>
+														</div>
+													</React.Fragment>
+												)}
 											</div>
 										</td>
 									</tr>
@@ -560,7 +648,6 @@ const show = (props) => {
 									<th>Email</th>
 									<th>Phone</th>
 									<th>Gender</th>
-									<th>Date Joined</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -595,72 +682,81 @@ const show = (props) => {
 											<td>{student.email}</td>
 											<td>{student.phone}</td>
 											<td className="text-capitalize">{student.gender}</td>
-											<td>{student.createdAt}</td>
 											<td>
 												<div className="d-flex justify-content-end">
 													<MyLink
-														linkTo={`/admin/students/${student.id}/edit`}
-														text="edit"
-														className="btn-sm"
+														linkTo={`/students/${student.id}/view`}
+														text="view"
+														className="btn-sm me-1"
 													/>
 
-													<div className="mx-1">
-														{/* Confirm Delete Modal End */}
-														<div
-															className="modal fade"
-															id={`deleteStudentModal${key}`}
-															tabIndex="-1"
-															aria-labelledby="deleteModalLabel"
-															aria-hidden="true">
-															<div className="modal-dialog">
-																<div className="modal-content">
-																	<div className="modal-header">
-																		<h1
-																			id="deleteModalLabel"
-																			className="modal-title fs-5 text-danger">
-																			Delete Student
-																		</h1>
-																		<button
-																			type="button"
-																			className="btn-close"
-																			data-bs-dismiss="modal"
-																			aria-label="Close"></button>
-																	</div>
-																	<div className="modal-body text-wrap text-start">
-																		Are you sure you want to delete{" "}
-																		{student.name}.
-																	</div>
-																	<div className="modal-footer justify-content-between">
-																		<button
-																			type="button"
-																			className="btn btn-light rounded-pill"
-																			data-bs-dismiss="modal">
-																			Close
-																		</button>
-																		<button
-																			type="button"
-																			className="btn btn-danger rounded-pill"
-																			data-bs-dismiss="modal"
-																			onClick={() =>
-																				onDeleteStudent(student.id)
-																			}>
-																			Delete
-																		</button>
+													{location.pathname.match("/admin/") && (
+														<React.Fragment>
+															<MyLink
+																linkTo={`/students/${student.id}/edit`}
+																text="edit"
+																className="btn-sm"
+															/>
+
+															<div className="mx-1">
+																{/* Confirm Delete Modal End */}
+																<div
+																	className="modal fade"
+																	id={`deleteStudentModal${key}`}
+																	tabIndex="-1"
+																	aria-labelledby="deleteModalLabel"
+																	aria-hidden="true">
+																	<div className="modal-dialog">
+																		<div className="modal-content">
+																			<div className="modal-header">
+																				<h1
+																					id="deleteModalLabel"
+																					className="modal-title fs-5 text-danger">
+																					Delete Student
+																				</h1>
+																				<button
+																					type="button"
+																					className="btn-close"
+																					data-bs-dismiss="modal"
+																					aria-label="Close"></button>
+																			</div>
+																			<div className="modal-body text-wrap text-start">
+																				Are you sure you want to delete{" "}
+																				{student.name}.
+																			</div>
+																			<div className="modal-footer justify-content-between">
+																				<button
+																					type="button"
+																					className="btn btn-light rounded-pill"
+																					data-bs-dismiss="modal">
+																					Close
+																				</button>
+																				<button
+																					type="button"
+																					className="btn btn-danger rounded-pill"
+																					data-bs-dismiss="modal"
+																					onClick={() =>
+																						onDeleteStudent(student.id)
+																					}>
+																					Delete
+																				</button>
+																			</div>
+																		</div>
 																	</div>
 																</div>
-															</div>
-														</div>
-														{/* Confirm Delete Modal End */}
+																{/* Confirm Delete Modal End */}
 
-														{/* Button trigger modal */}
-														<button
-															type="button"
-															className="btn btn-sm btn-outline-danger rounded-pill"
-															data-bs-toggle="modal"
-															data-bs-target={`#deleteStudentModal${key}`}>
-															Delete
-														</button>
-													</div>
+																{/* Button trigger modal */}
+																<button
+																	type="button"
+																	className="btn btn-sm btn-outline-danger rounded-pill"
+																	data-bs-toggle="modal"
+																	data-bs-target={`#deleteStudentModal${key}`}>
+																	Delete
+																</button>
+															</div>
+														</React.Fragment>
+													)}
 												</div>
 											</td>
 										</tr>

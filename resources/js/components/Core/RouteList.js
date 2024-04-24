@@ -22,11 +22,11 @@ import AdminInstructorEdit from "@/pages/admin/instructors/edit/[id]"
 
 import AdminStudents from "@/pages/admin/students/index"
 import AdminStudentCreate from "@/pages/admin/students/create"
-import AdminStudentEdit from "@/pages/admin/students/[id]"
+import AdminStudentEdit from "@/pages/admin/students/edit/[id]"
 
 import AdminStaff from "@/pages/admin/staff/index"
 import AdminStaffCreate from "@/pages/admin/staff/create"
-import AdminStaffEdit from "@/pages/admin/staff/[id]"
+import AdminStaffEdit from "@/pages/admin/staff/edit/[id]"
 
 import AdminFaculties from "@/pages/admin/faculties/index"
 import AdminFacultyCreate from "@/pages/admin/faculties/create"
@@ -34,7 +34,7 @@ import AdminFacultyShow from "@/pages/admin/faculties/[id]"
 import AdminFacultyEdit from "@/pages/admin/faculties/edit/[id]"
 
 import AdminDepartmentCreate from "@/pages/admin/departments/create"
-import AdminDepartmentEdit from "@/pages/admin/departments/[id]"
+import AdminDepartmentEdit from "@/pages/admin/departments/edit/[id]"
 
 import AdminCourses from "@/pages/admin/courses/index"
 import AdminCourseCreate from "@/pages/admin/courses/create"

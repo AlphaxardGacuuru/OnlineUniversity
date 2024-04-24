@@ -6,7 +6,13 @@ const MyLink = ({ text, linkTo, className }) => {
 
 	return (
 		<Link
-			to={linkTo}
+			to={`${
+				location.pathname.match("/admin/")
+					? "/admin"
+					: location.pathname.match("/instructor/")
+					? "/instructor"
+					: "/student"
+			}${linkTo}`}
 			className={`${
 				location.pathname.match("/admin/")
 					? "btn-outline-primary"

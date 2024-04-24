@@ -244,7 +244,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-center mb-5">
 						<MyLink
-							linkTo="/admin/finance/wallet"
+							linkTo="/finance/wallet"
 							text="back to wallet"
 						/>
 					</div>

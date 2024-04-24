@@ -17,6 +17,7 @@ import DownloadSVG from "@/svgs/DownloadSVG"
 import MenuSVG from "@/svgs/MenuSVG"
 import ChevronRightSVG from "@/svgs/ChevronRightSVG"
 import BellSVG from "@/svgs/BellSVG"
+import LogoSVG from "@/svgs/LogoSVG"
 
 const AdminMenu = (props) => {
 	const location = useLocation()
@@ -132,13 +133,16 @@ const AdminMenu = (props) => {
 												to="/admin"
 												className="text-white fs-1">
 												<Img
-													src="/storage/img/logo-horizontal.png"
+													src="/storage/img/android-chrome-512x512.png"
+													className="me-2"
 													style={{
-														width: "150px",
-														height: "50px",
+														width: "50px",
+														height: "auto",
 													}}
 												/>
-												{/* <span className="main-logo">Party People</span> */}
+												<span className="hidden">
+													<LogoSVG />
+												</span>
 											</Link>
 										</div>
 									</div>
@@ -278,7 +282,15 @@ const AdminMenu = (props) => {
 																	<h6 className="text-wrap fs-6">
 																		{props.auth?.name}
 																	</h6>
-																	<p className="text-wrap text-capitalize text-primary">
+																	<p
+																		className={`${
+																			props.auth?.accountType == "staff"
+																				? "text-primary"
+																				: props.auth?.accountType ==
+																				  "instructor"
+																				? "text-danger"
+																				: "text-success"
+																		} text-wrap text-capitalize`}>
 																		{props.auth?.accountType}
 																	</p>
 																</div>
@@ -354,7 +366,7 @@ const AdminMenu = (props) => {
 					<br />
 				</div>
 				{/* <!-- ***** Side Menu Area End ***** --> */}
-				<div className="left-main px-4">
+				<div className="left-main mt-5 px-4">
 					<h2>{props.page.name}</h2>
 
 					<div className="d-flex justify-content-start">
@@ -362,26 +374,26 @@ const AdminMenu = (props) => {
 							<div key={key}>
 								{key < props.page.path.length - 1 ? (
 									<MyLink
-										linkTo={path}
-										className="btn-sm my-3"
+										linkTo={`/${path}`}
+										className="btn-sm my-2"
 										text={path}
 									/>
 								) : (
 									<Btn
-										btnClass="btn-sm my-3"
+										btnClass="btn-sm my-2"
 										btnText={path}
 									/>
 								)}
 
 								{key < props.page.path.length - 1 && (
 									<span
-										className={
+										className={`${
 											location.pathname.match("/admin/")
 												? "text-primary"
 												: location.pathname.match("/instructor/")
 												? "text-danger"
-												: "text-success" + " text-white"
-										}>
+												: "text-success"
+										} text-white`}>
 										<ChevronRightSVG />
 									</span>
 								)}

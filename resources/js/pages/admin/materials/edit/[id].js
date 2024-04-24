@@ -51,13 +51,19 @@ const edit = (props) => {
 		// Set page
 		props.setPage({
 			name: "Edit Learning Resource",
-			path: ["materials", "create"],
+			path: ["courses", "create"],
 		})
+
 		// Fetch Material
 		Axios.get(`/api/materials/${id}`)
 			.then((res) => {
 				setMaterial(res.data.data)
 				setRichText(res.data.data.richText)
+				// Set page
+				props.setPage({
+					name: "Edit Learning Resource",
+					path: ["courses", `units/${res.data.data.unitId}/show`, "create"],
+				})
 			})
 			.catch((err) => props.getErrors(err))
 	}, [])
@@ -230,7 +236,7 @@ const edit = (props) => {
 					</div>
 					<div className="d-flex justify-content-center">
 						<MyLink
-							linkTo={`/admin/units/${material.unitId}/show`}
+							linkTo={`/units/${material.unitId}/show`}
 							text="back to unit"
 						/>
 					</div>

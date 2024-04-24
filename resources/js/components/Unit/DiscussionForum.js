@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
 import { Link, useParams } from "react-router-dom"
-// import Axios from "axios"
-// import Echo from "Echo"
 
 import Img from "@/components/Core/Img"
 
@@ -40,42 +38,9 @@ const DiscussionForum = (props) => {
 	}
 
 	useEffect(() => {
-		// Listen to New Chats
-		Echo.private(`chat-created`).listen("NewChatEvent", (e) => {
-			setNewChat({
-				...e.chat,
-				userId: e.chat.user_id,
-				createdAt: e.chat.created_at,
-			})
-			console.log(e)
-		})
-
-		// Listen to Deleted Chats
-		Echo.private(`chat-deleted`).listen("ChatDeletedEvent", (e) => {
-			props.get(`chats/${id}`, setChats)
-		})
-
 		// Fetch Chats
 		getChats()
-
-		// Fetch User
-		props.get(`users/${id}`, setUser)
-
-		return () => {
-			Echo.leave("chat-created")
-			Echo.leave("chat-deleted")
-			Echo.leave("chat")
-		}
 	}, [])
-
-	/*
-	 * Show new chats */
-	useEffect(() => {
-		// Remove duplicate
-		var cleanChats = chats.filter((chat) => chat.id != newChat.id)
-		// Set new chats
-		setChats([...cleanChats, newChat])
-	}, [newChat])
 
 	/*
 	 * Handle Showing Attachment
@@ -290,7 +255,7 @@ const DiscussionForum = (props) => {
 										{chatItem.userName}
 										<span
 											style={{ fontSize: "0.8em" }}
-											className="text-danger m-1">
+											className="text-capitalize text-danger m-1">
 											{chatItem.userType == "instructor" && chatItem.userType}
 										</span>
 									</i>

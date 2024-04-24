@@ -58,6 +58,7 @@ const show = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "View Course", path: ["courses", "view"] })
+
 		// Fetch Course
 		getCourse()
 
@@ -280,7 +281,7 @@ const show = (props) => {
 										<th colSpan="7">Units</th>
 										<th className="text-end">
 											<MyLink
-												linkTo={`/admin/units/${id}/create`}
+												linkTo={`/units/${id}/create`}
 												text="add unit"
 											/>
 										</th>
@@ -311,20 +312,15 @@ const show = (props) => {
 												props.auth.accountType == "staff" ? (
 													<div className="d-flex justify-content-end">
 														<MyLink
-															linkTo={`${
-																location.pathname.match("/admin/")
-																	? "/admin"
-																	: location.pathname.match("/instructor/")
-																	? "/instructor"
-																	: "/student"
-															}/units/${unit.id}/show`}
+															linkTo={`/units/${unit.id}/show`}
 															text="view"
 															className="btn-sm me-1"
 														/>
 													</div>
 												) : (
 													<React.Fragment>
-														{props.auth.courseId == id &&
+														{props.auth.accountType == "student" &&
+															props.auth.courseId == id &&
 															unit.year == session.year &&
 															unit.semester == session.semester && (
 																<div className="d-flex justify-content-end">
@@ -342,7 +338,7 @@ const show = (props) => {
 												{location.pathname.match("/admin/") && (
 													<React.Fragment>
 														<MyLink
-															linkTo={`/admin/units/${unit.id}/edit`}
+															linkTo={`/units/${unit.id}/edit`}
 															text="edit"
 															className="btn-sm"
 														/>
@@ -445,7 +441,7 @@ const show = (props) => {
 										<th colSpan="6"></th>
 										<th className="text-end">
 											<MyLink
-												linkTo="/admin/instructors/create"
+												linkTo="/instructors/create"
 												text="add instructor"
 											/>
 										</th>
@@ -481,14 +477,14 @@ const show = (props) => {
 										<td>
 											<div className="d-flex justify-content-end">
 												<MyLink
-													linkTo={`/admin/instructors/${instructor.id}/view`}
+													linkTo={`/instructors/${instructor.id}/view`}
 													text="view"
 													className="btn-sm me-1"
 												/>
 												{location.pathname.match("/admin/") && (
 													<React.Fragment>
 														<MyLink
-															linkTo={`/admin/instructors/${instructor.id}/edit`}
+															linkTo={`/instructors/${instructor.id}/edit`}
 															text="edit"
 															className="btn-sm"
 														/>
@@ -637,10 +633,10 @@ const show = (props) => {
 							<thead>
 								{location.pathname.match("/admin/") && (
 									<tr>
-										<th colSpan="8"></th>
+										<th colSpan="6"></th>
 										<th className="text-end">
 											<MyLink
-												linkTo="/admin/students/create"
+												linkTo="/students/create"
 												text="add student"
 											/>
 										</th>
@@ -653,8 +649,6 @@ const show = (props) => {
 									<th>Email</th>
 									<th>Phone</th>
 									<th>Gender</th>
-									<th>Unit</th>
-									<th>Date Joined</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -689,12 +683,10 @@ const show = (props) => {
 											<td>{student.email}</td>
 											<td>{student.phone}</td>
 											<td className="text-capitalize">{student.gender}</td>
-											<td>{student.unitName}</td>
-											<td>{student.createdAt}</td>
 											<td>
 												<div className="d-flex justify-content-end">
 													<MyLink
-														linkTo={`/admin/students/${student.id}/view`}
+														linkTo={`/students/${student.id}/view`}
 														text="view"
 														className="btn-sm me-1"
 													/>
@@ -702,7 +694,7 @@ const show = (props) => {
 													{location.pathname.match("/admin/") && (
 														<React.Fragment>
 															<MyLink
-																linkTo={`/admin/students/${student.id}/edit`}
+																linkTo={`/students/${student.id}/edit`}
 																text="edit"
 																className="btn-sm"
 															/>
@@ -806,7 +798,7 @@ const show = (props) => {
 										<th colSpan="6"></th>
 										<th className="text-end">
 											<MyLink
-												linkTo="/admin/billables/create"
+												linkTo="/billables/create"
 												text="add billable"
 											/>
 										</th>
@@ -835,7 +827,7 @@ const show = (props) => {
 											<td>
 												<div className="d-flex justify-content-end">
 													<MyLink
-														linkTo={`/admin/billables/${billable.id}/edit`}
+														linkTo={`/billables/${billable.id}/edit`}
 														text="edit"
 														className="btn-sm"
 													/>
