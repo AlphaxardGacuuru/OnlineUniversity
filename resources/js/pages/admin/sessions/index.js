@@ -6,6 +6,7 @@ import MyLink from "@/components/Core/MyLink"
 
 import PersonSVG from "@/svgs/PersonSVG"
 import SessionSVG from "@/svgs/SessionSVG"
+import HeroIcon from "@/components/Core/HeroIcon"
 
 const index = (props) => {
 	// Get Sessions
@@ -34,11 +35,7 @@ const index = (props) => {
 				// Toggle loader
 				setLoading(true)
 				// Delete rows
-				setSessions(
-					sessions.filter(
-						(session) => session.id != sessionId
-					)
-				)
+				setSessions(sessions.filter((session) => session.id != sessionId))
 			})
 			.catch((err) => {
 				// Toggle loader
@@ -59,9 +56,9 @@ const index = (props) => {
 								<span className="fs-4">{sessions.length}</span>
 								<h4>Total Sessions</h4>
 							</div>
-							<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
+							<HeroIcon>
 								<SessionSVG />
-							</div>
+							</HeroIcon>
 						</div>
 						{/* Total End */}
 					</div>
@@ -132,8 +129,7 @@ const index = (props) => {
 																	aria-label="Close"></button>
 															</div>
 															<div className="modal-body text-wrap">
-																Are you sure you want to delete{" "}
-																{session.name}.
+																Are you sure you want to delete {session.name}.
 															</div>
 															<div className="modal-footer justify-content-between">
 																<button

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import Btn3 from "@/components/Core/Btn3"
+import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
 
 const KopokopoBtn = (props) => {
@@ -23,7 +23,7 @@ const KopokopoBtn = (props) => {
 			})
 	}
 	return (
-		<Btn3
+		<Btn
 			btnText={
 				<div>
 					<Img

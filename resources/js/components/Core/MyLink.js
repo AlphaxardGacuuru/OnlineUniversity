@@ -1,13 +1,23 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
-const MyLink = ({ text, linkTo, className }) => (
-	<Link
-		to={linkTo}
-		className={`btn btn-outline-primary rounded-pill text-capitalize ${className}`}>
-		{text}
-	</Link>
-)
+const MyLink = ({ text, linkTo, className }) => {
+	const location = useLocation()
+
+	return (
+		<Link
+			to={linkTo}
+			className={`${
+				location.pathname.match("/admin/")
+					? "btn-outline-primary"
+					: location.pathname.match("/instructor/")
+					? "btn-outline-danger"
+					: "btn-outline-success"
+			} btn rounded-pill text-capitalize ${className}`}>
+			{text}
+		</Link>
+	)
+}
 
 MyLink.defaultProps = {
 	linkTo: "/",

@@ -6,6 +6,7 @@ import MyLink from "@/components/Core/MyLink"
 import PaginationLinks from "@/components/Core/PaginationLinks"
 
 import PersonSVG from "@/svgs/PersonSVG"
+import HeroIcon from "@/components/Core/HeroIcon"
 
 const index = (props) => {
 	// Get Instructors
@@ -61,9 +62,9 @@ const index = (props) => {
 								<span className="fs-4">{instructors.meta?.total}</span>
 								<h4>Total Instructors</h4>
 							</div>
-							<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
+							<HeroIcon>
 								<PersonSVG />
-							</div>
+							</HeroIcon>
 						</div>
 						{/* Total End */}
 					</div>

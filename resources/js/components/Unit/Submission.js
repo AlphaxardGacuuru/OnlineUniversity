@@ -129,7 +129,7 @@ const Submission = (props) => {
 							{/* Form */}
 							<div
 								className={`flex-grow-1 me-2 mb-1 ${
-									location.pathname.match("/student") &&
+									location.pathname.match("/student/") &&
 									props.materialTab == "Learning Reflection" &&
 									submission.userId == props.auth.id
 										? "d-none"
@@ -190,7 +190,7 @@ const Submission = (props) => {
 
 			{submissions
 				.filter((submission) =>
-					location.pathname.match("/student") &&
+					location.pathname.match("/student/") &&
 					props.materialTab == "Learning Reflection"
 						? submission.userId == props.auth.id
 						: true
@@ -221,7 +221,7 @@ const Submission = (props) => {
 							<Btn
 								btnText="view"
 								btnClass={`btn-sm btn-secondary mb-1 ${
-									location.pathname.match("/student") &&
+									location.pathname.match("/student/") &&
 									props.materialTab == "Learning Reflection" &&
 									submission.userId != props.auth.id
 										? "d-none"

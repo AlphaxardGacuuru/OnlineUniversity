@@ -7,6 +7,7 @@ import PaginationLinks from "@/components/Core/PaginationLinks"
 
 import PersonSVG from "@/svgs/PersonSVG"
 import CourseSVG from "@/svgs/CourseSVG"
+import HeroIcon from "@/components/Core/HeroIcon"
 
 const index = (props) => {
 	// Get Courses
@@ -61,9 +62,9 @@ const index = (props) => {
 								<span className="fs-4">{courses.meta?.total}</span>
 								<h4>Total Courses</h4>
 							</div>
-							<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
+							<HeroIcon>
 								<CourseSVG />
-							</div>
+							</HeroIcon>
 						</div>
 						{/* Total End */}
 					</div>
@@ -190,13 +191,13 @@ const index = (props) => {
 										<td className="text-end">
 											<div className="d-flex">
 												<MyLink
-													linkTo={`/admin/courses/${course.id}/show`}
+													linkTo={`courses/${course.id}/show`}
 													text="view"
 													className="btn-sm me-2"
 												/>
 
 												<MyLink
-													linkTo={`/admin/courses/${course.id}/edit`}
+													linkTo={`courses/${course.id}/edit`}
 													text="edit"
 													className="btn-sm"
 												/>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
 import Img from "@/components/Core/Img"
-import Btn3 from "@/components/Core/Btn3"
+import Btn from "@/components/Core/Btn"
 import DiscussionForum from "@/components/Unit/DiscussionForum"
 import Submission from "@/components/Unit/Submission"
 
@@ -150,7 +150,7 @@ const show = (props) => {
 															<td>{material.title}</td>
 															<td>
 																<div className="d-flex justify-content-end">
-																	<Btn3
+																	<Btn
 																		btnText="view"
 																		btnClass="btn-outline-success  btn-sm me-1"
 																		onClick={() =>

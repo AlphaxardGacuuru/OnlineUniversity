@@ -5,6 +5,7 @@ import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
 
 import StaffSVG from "@/svgs/StaffSVG"
+import HeroIcon from "@/components/Core/HeroIcon"
 
 const index = (props) => {
 	// Get Staff
@@ -54,9 +55,9 @@ const index = (props) => {
 								<span className="fs-4">{staff.length}</span>
 								<h4>Total Staff</h4>
 							</div>
-							<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
+							<HeroIcon>
 								<StaffSVG />
-							</div>
+							</HeroIcon>
 						</div>
 						{/* Total End */}
 					</div>

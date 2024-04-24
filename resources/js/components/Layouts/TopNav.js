@@ -38,9 +38,9 @@ const TopNav = (props) => {
 
 	// Show Admin Nav based on Location
 	const showTopNav =
-		!location.pathname.match("/student") &&
-		!location.pathname.match("/admin") &&
-		!location.pathname.match("/instructor")
+		!location.pathname.match("/student/") &&
+		!location.pathname.match("/admin/") &&
+		!location.pathname.match("/instructor/")
 			? "d-block"
 			: "d-none"
 
@@ -158,7 +158,7 @@ const TopNav = (props) => {
 											{/* Admin */}
 											{props.auth.accountType == "admin" && (
 												<Link
-													to="/admin"
+													to="/admin/dashboard"
 													className="site-btn btn-dark dropdown-item">
 													ADMIN
 												</Link>
@@ -167,7 +167,7 @@ const TopNav = (props) => {
 											{/* Instructor */}
 											{props.auth.accountType == "instructor" && (
 												<Link
-													to="/instructor"
+													to="/instructor/profile"
 													className="site-btn btn-dark dropdown-item">
 													INSTRUCTOR
 												</Link>
@@ -176,7 +176,7 @@ const TopNav = (props) => {
 											{/* Student */}
 											{props.auth.accountType == "student" && (
 												<Link
-													to="/student"
+													to="/student/profile"
 													className="site-btn btn-dark dropdown-item">
 													STUDENT
 												</Link>
@@ -185,40 +185,11 @@ const TopNav = (props) => {
 										</div>
 
 										{props.auth.name == "Guest" ? (
-											<div className="dropdown">
-												{/* Login Dropdown */}
-												<button
-													className="site-btn btn-dark dropdown-toggle"
-													type="button"
-													data-bs-toggle="dropdown"
-													aria-expanded="false">
-													Login
-												</button>
-												<ul className="dropdown-menu p-0">
-													<li>
-														<Link
-															to="/admin/login"
-															className="site-btn btn-dark dropdown-item">
-															ADMIN
-														</Link>
-													</li>
-													<li>
-														<Link
-															to="/instructor/login"
-															className="site-btn btn-dark dropdown-item">
-															INSTRUCTOR
-														</Link>
-													</li>
-													<li>
-														<Link
-															to="/student/login"
-															className="site-btn btn-dark dropdown-item">
-															STUDENT
-														</Link>
-													</li>
-												</ul>
-												{/* Login Dropdown End */}
-											</div>
+											<Link
+												to="/login"
+												className="site-btn btn-dark dropdown-item">
+												LOGIN
+											</Link>
 										) : (
 											<div className="header-social-area d-flex align-items-center">
 												{/* Avatar Dropdown */}

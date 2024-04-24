@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3"
 
-import Btn3 from "@/components/Core/Btn3"
+import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
 
 const FlutterWaveHookBtn = (props) => {
@@ -42,7 +42,7 @@ const FlutterWaveHookBtn = (props) => {
 	}
 
 	return (
-		<Btn3
+		<Btn
 			btnText={
 				<div>
 					<Img

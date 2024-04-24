@@ -80,9 +80,6 @@ Route::get("fee-statements/{id}", [UserController::class, "feeStatements"]);
 // Course
 Route::get("courses/by-user-id/{id}", [CourseController::class, "byUserId"]);
 
-// Billables
-Route::get("billables/admission/{id}", [BillableController::class, "admissionById"]);
-
 // Unit
 Route::get("units/by-user-id/{id}", [UnitController::class, "byUserId"]);
 

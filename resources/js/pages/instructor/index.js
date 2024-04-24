@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 
-import MyLink2 from "@/components/Core/MyLink2"
+import MyLink from "@/components/Core/MyLink"
 import Img from "@/components/Core/Img"
 
 import UnitSVG from "@/svgs/UnitSVG"
@@ -117,7 +117,7 @@ const index = (props) => {
 										<td className="text-success">{course.price}</td>
 										<td className="text-end">
 											<div className="d-flex">
-												<MyLink2
+												<MyLink
 													linkTo={`/instructor/courses/${course.id}/show`}
 													text="view"
 													className="btn-sm me-2"
@@ -176,7 +176,7 @@ const index = (props) => {
 										<td>{unit.credits}</td>
 										<td>
 											<div className="d-flex justify-content-end">
-												<MyLink2
+												<MyLink
 													linkTo={`/instructor/units/${unit.id}/show`}
 													text="view"
 													className="btn-sm me-2"

@@ -6,6 +6,7 @@ import Img from "@/components/Core/Img"
 
 import DepartmentSVG from "@/svgs/DepartmentSVG"
 import PersonSVG from "@/svgs/PersonSVG"
+import HeroIcon from "@/components/Core/HeroIcon"
 
 const show = (props) => {
 	var { id } = useParams()
@@ -105,9 +106,9 @@ const show = (props) => {
 									<span className="fs-4">{faculty.departments?.length}</span>
 									<h4>Total Departments</h4>
 								</div>
-								<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
+								<HeroIcon>
 									<DepartmentSVG />
-								</div>
+								</HeroIcon>
 							</div>
 							{/* Total End */}
 						</div>
@@ -223,9 +224,9 @@ const show = (props) => {
 									<span className="fs-4">{faculty.instructors?.length}</span>
 									<h4>Total Instructors</h4>
 								</div>
-								<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
+								<HeroIcon>
 									<PersonSVG />
-								</div>
+								</HeroIcon>
 							</div>
 							{/* Total End */}
 						</div>

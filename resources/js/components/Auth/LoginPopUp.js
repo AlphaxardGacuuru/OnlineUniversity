@@ -74,7 +74,7 @@ const LoginPopUp = (props) => {
 		props.auth.name == "Guest" &&
 		!location.pathname.match("/socialite") &&
 		!location.pathname.match("/register") &&
-		!location.pathname.match("/admin")
+		!location.pathname.match("/admin/")
 
 	return (
 		<div className={blur ? "menu-open" : ""}>

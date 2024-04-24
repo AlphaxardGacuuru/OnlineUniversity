@@ -7,6 +7,7 @@ import PaginationLinks from "@/components/Core/PaginationLinks"
 
 import PersonSVG from "@/svgs/PersonSVG"
 import WalletSVG from "@/svgs/WalletSVG"
+import HeroIcon from "@/components/Core/HeroIcon"
 
 const wallet = (props) => {
 	// Get Wallet Transactions
@@ -85,9 +86,9 @@ const wallet = (props) => {
 								</span>
 								<h4 className="px-5">Balance</h4>
 							</div>
-							<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
+							<HeroIcon>
 								<WalletSVG />
-							</div>
+							</HeroIcon>
 						</div>
 					</div>
 				</div>

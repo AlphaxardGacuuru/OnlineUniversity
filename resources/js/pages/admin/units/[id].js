@@ -8,6 +8,7 @@ import Btn from "@/components/Core/Btn"
 import MaterialSVG from "@/svgs/MaterialSVG"
 import PersonSVG from "@/svgs/PersonSVG"
 import StudentSVG from "@/svgs/StudentSVG"
+import HeroIcon from "@/components/Core/HeroIcon"
 
 const show = (props) => {
 	var { id } = useParams()
@@ -121,9 +122,9 @@ const show = (props) => {
 									<span className="fs-4">{syllabus.length}</span>
 									<h4>Total Weeks</h4>
 								</div>
-								<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
+								<HeroIcon>
 									<MaterialSVG />
-								</div>
+								</HeroIcon>
 							</div>
 							{/* Total End */}
 						</div>
@@ -366,9 +367,9 @@ const show = (props) => {
 									<span className="fs-4">{unit.instructors?.length}</span>
 									<h4>Total Instructors</h4>
 								</div>
-								<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
+								<HeroIcon>
 									<PersonSVG />
-								</div>
+								</HeroIcon>
 							</div>
 							{/* Total End */}
 						</div>
@@ -502,9 +503,9 @@ const show = (props) => {
 									<span className="fs-4">{unit.students?.length}</span>
 									<h4>Total Students</h4>
 								</div>
-								<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
+								<HeroIcon>
 									<StudentSVG />
-								</div>
+								</HeroIcon>
 							</div>
 							{/* Total End */}
 						</div>

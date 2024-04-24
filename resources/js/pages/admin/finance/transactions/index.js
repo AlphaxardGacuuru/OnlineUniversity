@@ -7,6 +7,7 @@ import PaginationLinks from "@/components/Core/PaginationLinks"
 
 import MoneySVG from "@/svgs/MoneySVG"
 import TransactionSVG from "@/svgs/TransactionSVG"
+import HeroIcon from "@/components/Core/HeroIcon"
 
 const index = (props) => {
 	// Get Card Transactions
@@ -44,9 +45,9 @@ const index = (props) => {
 								<span className="fs-4">KES {mpesaTotal}</span>
 								<h4>Total Mpesa Transactions</h4>
 							</div>
-							<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
+							<HeroIcon>
 								<TransactionSVG />
-							</div>
+							</HeroIcon>
 						</div>
 						{/* Mpesa Total End */}
 					</div>

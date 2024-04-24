@@ -8,10 +8,8 @@ import Courses from "@/pages/courses"
 import Elements from "@/pages/elements"
 
 import AdminNav from "@/components/Layouts/AdminNav"
-import InstructorNav from "@/components/Layouts/InstructorNav"
-import StudentNav from "@/components/Layouts/StudentNav"
 
-import AdminLogin from "@/pages/admin/login"
+import Login from "@/pages/login"
 import AdminDashboard from "@/pages/admin/index"
 
 import AdminFinanceTransaction from "@/pages/admin/finance/transactions/index"
@@ -58,39 +56,13 @@ import AdminChat from "@/pages/admin/chats/index"
 import AdminChatNew from "@/pages/admin/chats/new"
 import AdminChatView from "@/pages/admin/chats/[id]"
 
-import InstructorLogin from "@/pages/instructor/login"
 import Instructor from "@/pages/instructor/index"
-
-import InstructorCourseShow from "@/pages/instructor/courses/[id]"
-
-import InstructorUnitShow from "@/pages/instructor/units/[id]"
 
 import InstructorResources from "@/pages/instructor/resources/index"
 
-import StudentLogin from "@/pages/student/login"
 import Student from "@/pages/student/index"
 
-import StudentUnitShow from "@/pages/student/units/[id]"
-
-import StudentCourses from "@/pages/student/courses/index"
-import StudentCourseShow from "@/pages/student/courses/[id]"
-
 const RouteList = ({ GLOBAL_STATE }) => {
-	const authRoutes = [
-		{
-			path: "/student/login",
-			component: <StudentLogin {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/login",
-			component: <AdminLogin {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/instructor/login",
-			component: <InstructorLogin {...GLOBAL_STATE} />,
-		},
-	]
-
 	const routes = [
 		{
 			path: "/",
@@ -112,12 +84,16 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			path: "/elements",
 			component: <Elements {...GLOBAL_STATE} />,
 		},
+		{
+			path: "/login",
+			component: <Login {...GLOBAL_STATE} />,
+		},
 	]
 
 	// Admin Routes
 	const adminRoutes = [
 		{
-			path: "/admin",
+			path: "/admin/dashboard",
 			component: <AdminDashboard {...GLOBAL_STATE} />,
 		},
 		{
@@ -256,16 +232,16 @@ const RouteList = ({ GLOBAL_STATE }) => {
 
 	const instructorRoutes = [
 		{
-			path: "/instructor",
+			path: "/instructor/profile",
 			component: <Instructor {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/instructor/courses/:id/show",
-			component: <InstructorCourseShow {...GLOBAL_STATE} />,
+			component: <AdminCourseShow {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/instructor/units/:id/show",
-			component: <InstructorUnitShow {...GLOBAL_STATE} />,
+			component: <AdminUnitShow {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/instructor/resources",
@@ -287,20 +263,20 @@ const RouteList = ({ GLOBAL_STATE }) => {
 
 	const studentRoutes = [
 		{
-			path: "/student",
+			path: "/student/profile",
 			component: <Student {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/student/courses",
-			component: <StudentCourses {...GLOBAL_STATE} />,
+			component: <AdminCourses {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/student/courses/:id/show",
-			component: <StudentCourseShow {...GLOBAL_STATE} />,
+			component: <AdminCourseShow {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/student/units/:id/show",
-			component: <StudentUnitShow {...GLOBAL_STATE} />,
+			component: <AdminUnitShow {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/student/chats",
@@ -318,17 +294,6 @@ const RouteList = ({ GLOBAL_STATE }) => {
 
 	return (
 		<React.Fragment>
-			{/* Auth Routes */}
-			{authRoutes.map((route, key) => (
-				<Route
-					key={key}
-					path={route.path}
-					exact
-					render={() => route.component}
-				/>
-			))}
-			{/* Auth Routes End */}
-
 			{/* Landing Page routes */}
 			{routes.map((route, key) => (
 				<Route
@@ -340,8 +305,8 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			))}
 			{/* Landing Page routes End */}
 
-			{/* Admin Routes */}
 			<AdminNav {...GLOBAL_STATE}>
+				{/* Admin Routes */}
 				{adminRoutes.map((route, key) => (
 					<Route
 						key={key}
@@ -350,11 +315,9 @@ const RouteList = ({ GLOBAL_STATE }) => {
 						render={() => route.component}
 					/>
 				))}
-			</AdminNav>
-			{/* Admin Routes End */}
+				{/* Admin Routes End */}
 
-			{/* Instructor Routes */}
-			<InstructorNav {...GLOBAL_STATE}>
+				{/* Instructor Routes */}
 				{instructorRoutes.map((route, key) => (
 					<Route
 						key={key}
@@ -363,11 +326,9 @@ const RouteList = ({ GLOBAL_STATE }) => {
 						render={() => route.component}
 					/>
 				))}
-			</InstructorNav>
-			{/* Instructor Routes End */}
+				{/* Instructor Routes End */}
 
-			{/* Student Routes */}
-			<StudentNav {...GLOBAL_STATE}>
+				{/* Student Routes */}
 				{studentRoutes.map((route, key) => (
 					<Route
 						key={key}
@@ -376,8 +337,8 @@ const RouteList = ({ GLOBAL_STATE }) => {
 						render={() => route.component}
 					/>
 				))}
-			</StudentNav>
-			{/* Student Routes End */}
+				{/* Student Routes End */}
+			</AdminNav>
 		</React.Fragment>
 	)
 }

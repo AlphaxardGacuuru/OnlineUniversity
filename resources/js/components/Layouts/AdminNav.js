@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { Link, useLocation, useHistory, withRouter } from "react-router-dom"
 
+import AdminNavLinks from "@/components/Layouts/AdminNavLinks"
+import InstructorNavLinks from "@/components/Layouts/InstructorNavLinks"
+import StudentNavLinks from "@/components/Layouts/StudentNavLinks"
+
 import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
@@ -11,18 +15,7 @@ import CloseSVG from "@/svgs/CloseSVG"
 import LogoutSVG from "@/svgs/LogoutSVG"
 import DownloadSVG from "@/svgs/DownloadSVG"
 import MenuSVG from "@/svgs/MenuSVG"
-import PersonSVG from "@/svgs/PersonSVG"
-import HomeSVG from "@/svgs/HomeSVG"
-import FacultySVG from "@/svgs/FacultySVG"
-import CourseSVG from "@/svgs/CourseSVG"
-import StaffSVG from "@/svgs/StaffSVG"
-import StudentSVG from "@/svgs/StudentSVG"
 import ChevronRightSVG from "@/svgs/ChevronRightSVG"
-import SessionSVG from "@/svgs/SessionSVG"
-import MoneySVG from "@/svgs/MoneySVG"
-import TransactionSVG from "@/svgs/TransactionSVG"
-import WalletSVG from "@/svgs/WalletSVG"
-import ChatSVG from "@/svgs/ChatSVG"
 import BellSVG from "@/svgs/BellSVG"
 
 const AdminMenu = (props) => {
@@ -36,14 +29,16 @@ const AdminMenu = (props) => {
 
 	useEffect(() => {
 		var isInAdminPage =
-			location.pathname.match("/admin") &&
-			!location.pathname.match("/admin/login") &&
-			!location.pathname.match("/admin/register")
+			location.pathname.match("/admin/") ||
+			location.pathname.match("/instructor/") ||
+			location.pathname.match("/student/") ||
+			(!location.pathname.match("/login") &&
+				!location.pathname.match("/register"))
 
 		// Handle Redirects for Admin
 		if (isInAdminPage) {
-			if (props.auth.accountType != "staff") {
-				setTimeout(() => router.push("/admin/login"), 2000)
+			if (props.auth.name == "Guest") {
+				setTimeout(() => router.push("/login"), 2000)
 			}
 		}
 	}, [props.location])
@@ -90,27 +85,13 @@ const AdminMenu = (props) => {
 
 	// Show Admin Nav based on Location
 	const showAdminNav =
-		location.pathname.match("/admin") &&
-		!location.pathname.match("/admin/login") &&
-		!location.pathname.match("/admin/register")
+		location.pathname.match("/admin/") ||
+		location.pathname.match("/instructor/") ||
+		(location.pathname.match("/student/") &&
+			!location.pathname.match("/admin/login") &&
+			!location.pathname.match("/admin/register"))
 			? "d-block"
 			: "d-none"
-
-	// Function for showing active color
-	const active = (check) => {
-		return (
-			location.pathname.match(check) &&
-			"rounded-end-pill text-primary bg-primary-subtle"
-		)
-	}
-
-	// Function for showing active color
-	const activeStrict = (check) => {
-		return (
-			location.pathname == check &&
-			"rounded-end-pill text-primary bg-primary-subtle"
-		)
-	}
 
 	return (
 		<React.Fragment>
@@ -118,7 +99,14 @@ const AdminMenu = (props) => {
 				id="MyElement"
 				className={props.adminMenu + " " + showAdminNav}>
 				{/* <!-- ***** Header Area Start ***** --> */}
-				<header className="header-area bg-primary shadow">
+				<header
+					className={`header-area shadow ${
+						location.pathname.match("/admin/")
+							? " bg-primary"
+							: location.pathname.match("/instructor/")
+							? "bg-danger"
+							: "bg-success"
+					}`}>
 					<div className="container-fluid p-0">
 						<div className="row">
 							<div className="col-12">
@@ -333,180 +321,32 @@ const AdminMenu = (props) => {
 					</div>
 				</header>
 				<br />
-				{/* Remove for profile page for better background image */}
-				{location.pathname.match(/profile/) ? (
-					<br className="hidden" />
-				) : (
-					<span>
-						<br />
-						<br className="hidden" />
-					</span>
-				)}
 
 				{/* <!-- ***** Side Menu Area Start ***** --> */}
-				<div className="leftMenu d-flex align-items-center justify-content-start bg-primary">
+				<div
+					className={`leftMenu d-flex align-items-center justify-content-start  ${
+						location.pathname.match("/admin/")
+							? " bg-primary"
+							: location.pathname.match("/instructor/")
+							? "bg-danger"
+							: "bg-success"
+					}`}>
 					<div
 						className="sonarNav wow fadeInUp w-100 mt-4"
 						data-wow-delay="1s">
 						<nav>
 							<ul className="m-0 p-0">
-								{/* Dashboard Link */}
-								<li className="nav-item">
-									<Link
-										to={`/admin`}
-										className={`nav-link ${activeStrict("/admin")}`}>
-										<div className="nav-link-icon">
-											<HomeSVG />
-										</div>
-										<div className="nav-link-text">Dashboard</div>
-									</Link>
-								</li>
-								{/* Dashboard Link End */}
-								{/* Finance Links */}
-								<li className="nav-item">
-									<a
-										href="#"
-										className={`nav-link accordion-button ${active(
-											"/admin/finance/"
-										)}`}
-										data-bs-toggle="collapse"
-										data-bs-target="#collapseFinance"
-										aria-expanded="false"
-										aria-controls="collapseFinance">
-										<div className="nav-link-icon">
-											<MoneySVG />
-										</div>
-										<div className="nav-link-text">Finance</div>
-									</a>
+								{location.pathname.match("/admin/") && <AdminNavLinks />}
 
-									{/* Collapse */}
-									<div
-										className={!location.pathname.match("finance") ? "collapse" : ""}
-										id="collapseFinance">
-										<ol className="ms-4">
-											{/* Transactions */}
-											<li className="nav-item">
-												<Link
-													to={`/admin/finance/transactions`}
-													className={`nav-link ${activeStrict(
-														"/admin/finance/transactions"
-													)}`}>
-													<div className="nav-link-icon">
-														<TransactionSVG />
-													</div>
-													<div className="nav-link-text">Trasactions</div>
-												</Link>
-											</li>
-											{/* Transactions End */}
-											{/* Wallet */}
-											<li className="nav-item">
-												<Link
-													to={`/admin/finance/wallet`}
-													className={`nav-link ${activeStrict(
-														"/admin/finance/wallet"
-													)}`}>
-													<div className="nav-link-icon">
-														<WalletSVG />
-													</div>
-													<div className="nav-link-text">Wallet</div>
-												</Link>
-											</li>
-											{/* Wallet End */}
-										</ol>
-									</div>
-								</li>
-								{/* Collapse End */}
-								{/* Finance Links End */}
-								{/* Customers Link */}
-								<li className="nav-item">
-									<Link
-										to={`/admin/instructors`}
-										className={`nav-link ${active("/admin/instructors")}`}>
-										<div className="nav-link-icon">
-											<PersonSVG />
-										</div>
-										<div className="nav-link-text">Instructors</div>
-									</Link>
-								</li>
-								{/* Customers Link End */}
-								{/* Clubs Link */}
-								<li className="nav-item">
-									<Link
-										to={`/admin/students`}
-										className={`nav-link ${
-											active("/admin/students") || active("/admin/students")
-										}`}>
-										<div className="nav-link-icon">
-											<StudentSVG />
-										</div>
-										<div className="nav-link-text">Students</div>
-									</Link>
-								</li>
-								{/* Clubs Link End */}
-								{/* Faculties Link */}
-								<li className="nav-item">
-									<Link
-										to={`/admin/faculties`}
-										className={`nav-link ${active("/admin/faculties")}`}>
-										<div className="nav-link-icon">
-											<FacultySVG />
-										</div>
-										<div className="nav-link-text">Faculties</div>
-									</Link>
-								</li>
-								{/* Faculties Link End */}
-								{/* Courses Link */}
-								<li className="nav-item">
-									<Link
-										to={`/admin/courses`}
-										className={`nav-link ${
-											active("/admin/courses") ||
-											active("/admin/units") ||
-											active("/admin/materials")
-										}`}>
-										<div className="nav-link-icon">
-											<CourseSVG />
-										</div>
-										<div className="nav-link-text">Courses</div>
-									</Link>
-								</li>
-								{/* Courses Link End */}
-								{/* Sessions Link */}
-								<li className="nav-item">
-									<Link
-										to={`/admin/sessions`}
-										className={`nav-link ${active("/admin/sessions")}`}>
-										<div className="nav-link-icon">
-											<SessionSVG />
-										</div>
-										<div className="nav-link-text">Sessions</div>
-									</Link>
-								</li>
-								{/* Sessions Link End */}
-								{/* Staff Links */}
-								<li className="nav-item">
-									<Link
-										to={`/admin/staff`}
-										className={`nav-link ${active("/admin/staff")}`}>
-										<div className="nav-link-icon">
-											<StaffSVG />
-										</div>
-										<div className="nav-link-text">Staff</div>
-									</Link>
-								</li>
-								{/* Staff Link End */}
-								{/* Chat Links */}
-								{/* <li className="nav-item">
-									<Link
-										to={`/admin/chats`}
-										className={`nav-link ${active("/admin/chats")}`}>
-										<div className="nav-link-icon">
-											<ChatSVG />
-										</div>
-										<div className="nav-link-text">Chat</div>
-									</Link>
-								</li> */}
-								{/* Chat Link End */}
+								{/* Instructor Routes */}
+								{location.pathname.match("/instructor/") && (
+									<InstructorNavLinks />
+								)}
+								{/* Instructor Routes End */}
+
+								{/* Student Routes */}
+								{location.pathname.match("/student/") && <StudentNavLinks />}
+								{/* Student Routes End */}
 							</ul>
 						</nav>
 					</div>
@@ -522,19 +362,26 @@ const AdminMenu = (props) => {
 							<div key={key}>
 								{key < props.page.path.length - 1 ? (
 									<MyLink
-										linkTo={`/admin/${path}`}
-										className="btn btn-sm btn-outline-primary my-3"
+										linkTo={path}
+										className="btn-sm my-3"
 										text={path}
 									/>
 								) : (
 									<Btn
-										btnClass="btn btn-sm btn-primary my-3"
+										btnClass="btn-sm my-3"
 										btnText={path}
 									/>
 								)}
 
 								{key < props.page.path.length - 1 && (
-									<span className="text-primary">
+									<span
+										className={
+											location.pathname.match("/admin/")
+												? "text-primary"
+												: location.pathname.match("/instructor/")
+												? "text-danger"
+												: "text-success" + " text-white"
+										}>
 										<ChevronRightSVG />
 									</span>
 								)}

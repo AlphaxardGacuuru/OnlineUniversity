@@ -6,6 +6,7 @@ import MyLink from "@/components/Core/MyLink"
 
 import PersonSVG from "@/svgs/PersonSVG"
 import FacultySVG from "@/svgs/FacultySVG"
+import HeroIcon from "@/components/Core/HeroIcon"
 
 const index = (props) => {
 	// Get Faculties
@@ -42,7 +43,7 @@ const index = (props) => {
 				props.getErrors(err)
 			})
 	}
-	
+
 	return (
 		<div className="row">
 			<div className="col-sm-12">
@@ -55,9 +56,9 @@ const index = (props) => {
 								<span className="fs-4">{faculties.length}</span>
 								<h4>Total Faculties</h4>
 							</div>
-							<div className="fs-1 py-3 px-4 bg-primary-subtle text-primary rounded-circle">
+							<HeroIcon>
 								<FacultySVG />
-							</div>
+							</HeroIcon>
 						</div>
 						{/* Total End */}
 					</div>

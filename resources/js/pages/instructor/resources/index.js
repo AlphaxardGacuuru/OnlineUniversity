@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 
-import Btn2 from "@/components/Core/Btn2"
+import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
-import MyLink2 from "@/components/Core/MyLink2"
+import MyLink from "@/components/Core/MyLink"
 
 import PersonSVG from "@/svgs/PersonSVG"
 import ResourceSVG from "@/svgs/ResourceSVG"
@@ -87,7 +87,7 @@ const index = (props) => {
 									<td>{resource.name}</td>
 									<td className="text-end">
 										<div className="d-flex">
-											<Btn2
+											<Btn
 												btnText="view"
 												btnClass="btn-outline-danger btn-sm me-2"
 												onClick={() => view(resource.link)}

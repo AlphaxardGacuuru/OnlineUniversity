@@ -7,6 +7,7 @@ import NewChatSVG from "@/svgs/NewChatSVG"
 const Chat = (props) => {
 	const location = useLocation()
 
+	const [tab, setTab] = useState("all")
 	const [admin, setAdmin] = useState({})
 	const [chatThreads, setChatThreads] = useState([])
 
@@ -16,6 +17,10 @@ const Chat = (props) => {
 		props.get("staff/1", setAdmin)
 		props.get("chats", setChatThreads)
 	}, [])
+
+	const active = (activeTab) => {
+		return activeTab == tab ? "bg-light" : "bg-secondary-subtle"
+	}
 
 	return (
 		<div className="row">
@@ -34,6 +39,29 @@ const Chat = (props) => {
 					}>
 					<NewChatSVG />
 				</Link>
+
+				{/* Tabs */}
+				{location.pathname.match("/admin/") && (
+					<div className="d-flex justify-content-between flex-wrap mb-2">
+						<div
+							className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+								"mine"
+							)}`}
+							style={{ cursor: "pointer" }}
+							onClick={() => setTab("mine")}>
+							My Chats
+						</div>
+						<div
+							className={`card shadow-sm flex-grow-1 text-center mb-2 py-2 px-4 ${active(
+								"all"
+							)}`}
+							style={{ cursor: "pointer" }}
+							onClick={() => setTab("all")}>
+							All Chats
+						</div>
+					</div>
+				)}
+				{/* Tabs End */}
 
 				{/* Default Thread */}
 				{chatThreads.length == 0 && (

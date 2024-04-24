@@ -132,14 +132,17 @@ class StudentService extends Service
         }
 
         if ($request->filled("courseId")) {
-            // Delete UserCourse
-            UserCourse::where("user_id", $id)->delete();
+            // Check if User Course Exists
+            $userCourseDoesntExist = UserCourse::where("user_id", $id)
+                ->where("course_id", $request->courseId)
+                ->doesntExist();
 
-            // Add UserCourse
-            $userCourse = new UserCourse;
-            $userCourse->user_id = $student->id;
-            $userCourse->course_id = $request->input("courseId");
-            $userCourse->save();
+            if ($userCourseDoesntExist) {
+                $userCourse = new UserCourse;
+                $userCourse->user_id = $student->id;
+                $userCourse->course_id = $request->input("courseId");
+                $userCourse->save();
+            }
         }
 
         if ($request->filled("unitId")) {

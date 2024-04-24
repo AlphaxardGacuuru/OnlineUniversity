@@ -16,7 +16,7 @@ export default function NewChat(props) {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "New Chat", path: ["chats"] })
+		props.setPage({ name: "New Chat", path: ["chats", "new"] })
 		props.getPaginated("users", setUsers)
 	}, [])
 
