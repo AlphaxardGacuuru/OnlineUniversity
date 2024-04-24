@@ -18,10 +18,12 @@ import AdminFinanceWalletCreate from "@/pages/admin/finance/wallet/create"
 
 import AdminInstructors from "@/pages/admin/instructors/index"
 import AdminInstructorCreate from "@/pages/admin/instructors/create"
+import AdminInstructorShow from "@/pages/admin/instructors/[id]"
 import AdminInstructorEdit from "@/pages/admin/instructors/edit/[id]"
 
 import AdminStudents from "@/pages/admin/students/index"
 import AdminStudentCreate from "@/pages/admin/students/create"
+import AdminStudentShow from "@/pages/admin/students/[id]"
 import AdminStudentEdit from "@/pages/admin/students/edit/[id]"
 
 import AdminStaff from "@/pages/admin/staff/index"
@@ -117,6 +119,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminInstructorCreate {...GLOBAL_STATE} />,
 		},
 		{
+			path: "/admin/instructors/:id/show",
+			component: <AdminInstructorShow {...GLOBAL_STATE} />,
+		},
+		{
 			path: "/admin/instructors/:id/edit",
 			component: <AdminInstructorEdit {...GLOBAL_STATE} />,
 		},
@@ -127,6 +133,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/students/create",
 			component: <AdminStudentCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/students/:id/show",
+			component: <AdminStudentShow {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/students/:id/edit",

@@ -7,8 +7,8 @@ import {
 import MyLink from "@/components/Core/MyLink"
 import Img from "@/components/Core/Img"
 import Btn from "@/components/Core/Btn"
-import DiscussionForum from "@/components/Unit/DiscussionForum"
-import Submission from "@/components/Unit/Submission"
+import DiscussionForum from "@/components/Units/DiscussionForum"
+import Submission from "@/components/Units/Submission"
 
 import MaterialSVG from "@/svgs/MaterialSVG"
 import PersonSVG from "@/svgs/PersonSVG"

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react"
 
-import MyLink from "@/components/Core/MyLink"
 import Img from "@/components/Core/Img"
 
-import UnitSVG from "@/svgs/UnitSVG"
-import CourseSVG from "@/svgs/CourseSVG"
-import MoneySVG from "@/svgs/MoneySVG"
+import CourseList from "@/components/Courses/CourseList"
+import UnitList from "@/components/Units/UnitList"
+import FeeStatementList from "@/components/FeeStatement/FeeStatementList"
 
-const index = (props) => {
+const show = (props) => {
 	const [tab, setTab] = useState("courses")
 	const [courses, setCourses] = useState([])
 	const [units, setUnits] = useState([])
@@ -20,13 +19,6 @@ const index = (props) => {
 		props.get(`units/by-user-id/${props.auth.id}`, setUnits, null, false)
 		props.get(`fee-statements/${props.auth.id}`, setFees, null, false)
 	}, [])
-
-	var balance = 0
-
-	// Check if balance can be retrieved
-	if (fees.statement && fees.statement[0]) {
-		balance = fees.statement[0].balance
-	}
 
 	const active = (activeTab) => {
 		return activeTab == tab ? "bg-light" : "bg-secondary-subtle"
@@ -67,7 +59,7 @@ const index = (props) => {
 						)}`}
 						style={{ cursor: "pointer" }}
 						onClick={() => setTab("courses")}>
-						My Courses
+						Courses
 					</div>
 					<div
 						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
@@ -75,7 +67,7 @@ const index = (props) => {
 						)}`}
 						style={{ cursor: "pointer" }}
 						onClick={() => setTab("units")}>
-						My Units
+						Units
 					</div>
 					<div
 						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
@@ -83,199 +75,37 @@ const index = (props) => {
 						)}`}
 						style={{ cursor: "pointer" }}
 						onClick={() => setTab("fee-statements")}>
-						My Fee Statements
+						Fee Statements
 					</div>
 				</div>
 				{/* Tabs End */}
 
 				{/* Courses Tab */}
-				<div className={activeTab("courses")}>
-					{/* Data */}
-					<div className="card shadow-sm p-2">
-						<div className="d-flex justify-content-between">
-							{/* Total */}
-							<div className="d-flex justify-content-between w-100 align-items-center mx-4">
-								<div>
-									<span className="fs-4">{courses.length}</span>
-									<h4>Total Courses</h4>
-								</div>
-								<div className="fs-1 py-3 px-4 bg-success-subtle text-success rounded-circle">
-									<CourseSVG />
-								</div>
-							</div>
-							{/* Total End */}
-						</div>
-					</div>
-					{/* Data End */}
-
-					<br />
-
-					{/* Table */}
-					<div className="table-responsive">
-						<table className="table table-hover">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>Name</th>
-									<th>Description</th>
-									<th>Department</th>
-									<th>Faculty</th>
-									<th>Duration (Months)</th>
-									<th>Price (KES)</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								{courses.map((course, key) => (
-									<tr key={key}>
-										<td>{key + 1}</td>
-										<td>{course.name}</td>
-										<td>{course.description}</td>
-										<td>{course.departmentName}</td>
-										<td>{course.facultyName}</td>
-										<td>{course.duration}</td>
-										<td className="text-success">{course.price}</td>
-										<td className="text-end">
-											<div className="d-flex">
-												<MyLink
-													linkTo={`/courses/${course.id}/show`}
-													text="view"
-													className="btn-sm me-2"
-												/>
-											</div>
-										</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
-					{/* Table End */}
-				</div>
+				<CourseList
+					{...props}
+					courses={courses}
+					activeTab={activeTab("courses")}
+				/>
 				{/* Courses Tab End */}
 
 				{/* Units Tab */}
-				<div className={activeTab("units")}>
-					{/* Data */}
-					<div className="card shadow-sm mb-2 p-2">
-						<div className="d-flex justify-content-between">
-							{/* Total */}
-							<div className="d-flex justify-content-between w-100 align-items-center mx-4">
-								<div>
-									<span className="fs-4">{units.length}</span>
-									<h4>Total Units</h4>
-								</div>
-								<div className="fs-1 py-3 px-4 bg-success-subtle text-success rounded-circle">
-									<UnitSVG />
-								</div>
-							</div>
-							{/* Total End */}
-						</div>
-					</div>
-					{/* Data End */}
-
-					{/* Table */}
-					<div className="table-responsive">
-						<table className="table table-hover">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>Name</th>
-									<th>Description</th>
-									<th>Student</th>
-									<th>Credits</th>
-									<th>Action</th>
-								</tr>
-								{units.map((unit, key) => (
-									<tr key={key}>
-										<td>{key + 1}</td>
-										<td>{unit.name}</td>
-										<td>{unit.description}</td>
-										<td>{unit.studentName}</td>
-										<td>{unit.credits}</td>
-										<td>
-											<div className="d-flex justify-content-end">
-												<MyLink
-													linkTo={`/units/${unit.id}/show`}
-													text="view"
-													className="btn-sm me-2"
-												/>
-											</div>
-										</td>
-									</tr>
-								))}
-							</thead>
-						</table>
-					</div>
-					{/* Table End */}
-				</div>
+				<UnitList
+					{...props}
+					units={units}
+					activeTab={activeTab("units")}
+				/>
 				{/* Units Tab End */}
 
 				{/* Fee Statements Tab */}
-				<div className={activeTab("fee-statements")}>
-					{/* Data */}
-					<div className="card shadow-sm p-2">
-						<div className="d-flex justify-content-between">
-							{/* Total */}
-							<div className="d-flex justify-content-between w-100 align-items-center mx-4">
-								<div>
-									<span className="fs-4 text-success">KES {fees.paid}</span>
-									<h4>Total Fees Paid</h4>
-								</div>
-								<div>
-									<span className="fs-4 text-warning">KES {balance}</span>
-									<h4>Total Balance Remaining</h4>
-								</div>
-								<div className="fs-1 py-3 px-4 bg-success-subtle text-success rounded-circle">
-									<MoneySVG />
-								</div>
-							</div>
-							{/* Total End */}
-						</div>
-					</div>
-					{/* Data End */}
-
-					<br />
-
-					{/* Table */}
-					<div className="table-responsive">
-						<table className="table table-hover">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>Date</th>
-									<th>Description</th>
-									<th>Money In (KES)</th>
-									<th>Money Out (KES)</th>
-									<th>Balance (KES)</th>
-								</tr>
-							</thead>
-							<tbody>
-								{fees.statement?.map((feeStatement, key) => (
-									<tr key={key}>
-										<td>{key + 1}</td>
-										<td>{feeStatement.created_at}</td>
-										<td>{feeStatement.type}</td>
-										<td className="text-success">{feeStatement.credit}</td>
-										<td className="text-warning">{feeStatement.debit}</td>
-										<td
-											className={
-												feeStatement.balance > 0
-													? "text-warning"
-													: "text-success"
-											}>
-											{feeStatement.balance}
-										</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
-					{/* Table End */}
-				</div>
+				<FeeStatementList
+					{...props}
+					fees={fees}
+					activeTab={activeTab("fee-statements")}
+				/>
 				{/* Fee Statements Tab End */}
 			</div>
 		</div>
 	)
 }
 
-export default index
+export default show

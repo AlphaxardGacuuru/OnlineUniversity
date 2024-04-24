@@ -236,6 +236,12 @@ const index = (props) => {
 										<td className="text-end">
 											<div className="d-flex">
 												<MyLink
+													linkTo={`/students/${student.id}/show`}
+													text="view"
+													className="btn-sm me-1"
+												/>
+
+												<MyLink
 													linkTo={`/students/${student.id}/edit`}
 													text="edit"
 													className="btn-sm"
