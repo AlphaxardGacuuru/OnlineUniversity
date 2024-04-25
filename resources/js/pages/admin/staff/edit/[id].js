@@ -10,6 +10,9 @@ const edit = (props) => {
 	var { id } = useParams()
 
 	const [staff, setStaff] = useState({})
+	const [roles, setRoles] = useState([])
+	const [userRoles, setUserRoles] = useState([])
+
 	const [name, setName] = useState()
 	const [email, setEmail] = useState()
 	const [phone, setPhone] = useState()
@@ -22,11 +25,25 @@ const edit = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Edit Staff", path: ["staff", "edit"] })
-
-		Axios.get(`/api/staff/${id}`).then((res) => {
+		// Fetch Staff
+		Axios.get(`api/staff/${id}`).then((res) => {
 			setStaff(res.data.data)
+			setUserRoles(res.data.data.roles.map((role) => role.id))
 		})
+		// Fetch Roles
+		props.get("roles", setRoles)
 	}, [])
+
+	// Handle Permission checkboxes
+	const handleUserRoles = (roleId) => {
+		var exists = userRoles.includes(roleId)
+
+		var newRoles = exists
+			? userRoles.filter((item) => item != roleId)
+			: [...userRoles, roleId]
+
+		setUserRoles(newRoles)
+	}
 
 	/*
 	 * Submit Form
@@ -42,6 +59,7 @@ const edit = (props) => {
 			gender: gender,
 			originLocation: originLocation,
 			currentLocation: currentLocation,
+			userRoles: userRoles,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -103,8 +121,7 @@ const edit = (props) => {
 						type="text"
 						name="nationality"
 						className="form-control mb-2 me-2"
-						onChange={(e) => setOriginLocation(e.target.value)}
-						required={true}>
+						onChange={(e) => setOriginLocation(e.target.value)}>
 						<option value="">Nationality</option>
 						{Countries().map((country, key) => (
 							<option
@@ -120,8 +137,7 @@ const edit = (props) => {
 						type="text"
 						name="currentLocation"
 						className="form-control mb-2 me-2"
-						onChange={(e) => setCurrentLocation(e.target.value)}
-						required={true}>
+						onChange={(e) => setCurrentLocation(e.target.value)}>
 						<option value="">Current Country</option>
 						{Countries().map((country, key) => (
 							<option
@@ -133,6 +149,30 @@ const edit = (props) => {
 						))}
 					</select>
 
+					{/* Roles */}
+					<div className="form-group">
+						<label htmlFor="">Roles</label>
+						<div className="d-flex justify-content-center flex-wrap">
+							{roles.map((role, key) => (
+								<div
+									key={key}
+									className="border-bottom m-1 p-2">
+									<label key={key}>
+										<input
+											type="checkbox"
+											id=""
+											name="entities"
+											defaultChecked={staff.roleNames.includes(role.name)}
+											onClick={(e) => handleUserRoles(role.id)}
+										/>
+										<span className="text-capitalize me-2"> {role.name}</span>
+									</label>
+								</div>
+							))}
+						</div>
+					</div>
+					{/* Roles End */}
+
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
 							btnText="update"
@@ -140,7 +180,7 @@ const edit = (props) => {
 						/>
 					</div>
 
-					<center>
+					<center className="mb-5">
 						<MyLink
 							linkTo="/staff"
 							text="back to staff"

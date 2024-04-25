@@ -23,12 +23,7 @@ import AdminInstructorEdit from "@/pages/admin/instructors/edit/[id]"
 
 import AdminStudents from "@/pages/admin/students/index"
 import AdminStudentCreate from "@/pages/admin/students/create"
-import AdminStudentShow from "@/pages/admin/students/[id]"
 import AdminStudentEdit from "@/pages/admin/students/edit/[id]"
-
-import AdminStaff from "@/pages/admin/staff/index"
-import AdminStaffCreate from "@/pages/admin/staff/create"
-import AdminStaffEdit from "@/pages/admin/staff/edit/[id]"
 
 import AdminFaculties from "@/pages/admin/faculties/index"
 import AdminFacultyCreate from "@/pages/admin/faculties/create"
@@ -58,11 +53,15 @@ import AdminChat from "@/pages/admin/chats/index"
 import AdminChatNew from "@/pages/admin/chats/new"
 import AdminChatView from "@/pages/admin/chats/[id]"
 
-import Instructor from "@/pages/instructor/index"
+import AdminStaff from "@/pages/admin/staff/index"
+import AdminStaffCreate from "@/pages/admin/staff/create"
+import AdminStaffEdit from "@/pages/admin/staff/edit/[id]"
 
-import InstructorResources from "@/pages/instructor/resources/index"
+import AdminRoleIndex from "@/pages/admin/role"
+import AdminRoleCreate from "@/pages/admin/role/create"
+import AdminRoleEdit from "@/pages/admin/role/edit/[id]"
 
-import Student from "@/pages/student/index"
+import AdminResources from "@/pages/admin/resources/index"
 
 const RouteList = ({ GLOBAL_STATE }) => {
 	const routes = [
@@ -136,23 +135,11 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		},
 		{
 			path: "/admin/students/:id/show",
-			component: <AdminStudentShow {...GLOBAL_STATE} />,
+			component: <AdminInstructorShow {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/students/:id/edit",
 			component: <AdminStudentEdit {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/staff",
-			component: <AdminStaff {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/staff/create",
-			component: <AdminStaffCreate {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/staff/:id/edit",
-			component: <AdminStaffEdit {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/faculties",
@@ -238,12 +225,33 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			path: "/admin/chats/view/:id",
 			component: <AdminChatView {...GLOBAL_STATE} />,
 		},
+		{
+			path: "/admin/staff",
+			component: <AdminStaff {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/staff/create",
+			component: <AdminStaffCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/staff/:id/edit",
+			component: <AdminStaffEdit {...GLOBAL_STATE} />,
+		},
+		{ path: "/admin/roles", component: <AdminRoleIndex {...GLOBAL_STATE} /> },
+		{
+			path: "/admin/roles/create",
+			component: <AdminRoleCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/roles/:id/edit",
+			component: <AdminRoleEdit {...GLOBAL_STATE} />,
+		},
 	]
 
 	const instructorRoutes = [
 		{
-			path: "/instructor/profile",
-			component: <Instructor {...GLOBAL_STATE} />,
+			path: "/instructor/:id/show",
+			component: <AdminInstructorShow {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/instructor/courses/:id/show",
@@ -255,7 +263,7 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		},
 		{
 			path: "/instructor/resources",
-			component: <InstructorResources {...GLOBAL_STATE} />,
+			component: <AdminResources {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/instructor/chats",
@@ -273,8 +281,8 @@ const RouteList = ({ GLOBAL_STATE }) => {
 
 	const studentRoutes = [
 		{
-			path: "/student/profile",
-			component: <Student {...GLOBAL_STATE} />,
+			path: "/student/:id/show",
+			component: <AdminInstructorShow {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/student/courses",
@@ -287,6 +295,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/student/units/:id/show",
 			component: <AdminUnitShow {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/student/resources",
+			component: <AdminResources {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/student/chats",

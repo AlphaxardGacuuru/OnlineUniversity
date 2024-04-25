@@ -98,15 +98,17 @@ const StudentList = (props) => {
 			<div className="table-responsive">
 				<table className="table table-hover">
 					<thead>
-						<tr>
-							<th colSpan="7"></th>
-							<th className="text-end">
-								<MyLink
-									linkTo="/students/create"
-									text="add student"
-								/>
-							</th>
-						</tr>
+						{location.pathname.match("/admin/") && (
+							<tr>
+								<th colSpan="7"></th>
+								<th className="text-end">
+									<MyLink
+										linkTo="/students/create"
+										text="add student"
+									/>
+								</th>
+							</tr>
+						)}
 						<tr>
 							<th>#</th>
 							<th></th>
@@ -152,14 +154,14 @@ const StudentList = (props) => {
 									<td>{student.departmentName}</td>
 									<td>
 										<div className="d-flex justify-content-end">
-											<MyLink
-												linkTo={`/students/${student.id}/view`}
-												text="view"
-												className="btn-sm me-1"
-											/>
-
 											{location.pathname.match("/admin/") && (
 												<React.Fragment>
+													<MyLink
+														linkTo={`/students/${student.id}/show`}
+														text="view"
+														className="btn-sm me-1"
+													/>
+
 													<MyLink
 														linkTo={`/students/${student.id}/edit`}
 														text="edit"
@@ -188,7 +190,7 @@ const StudentList = (props) => {
 																			data-bs-dismiss="modal"
 																			aria-label="Close"></button>
 																	</div>
-																	<div className="modal-body text-wrap text-start">
+																	<div className="modal-body text-start text-wrap text-start">
 																		Are you sure you want to delete{" "}
 																		{student.name}.
 																	</div>

@@ -5,6 +5,8 @@ namespace App\Http\Services;
 use App\Http\Resources\StaffResource;
 use App\Http\Services\Service;
 use App\Models\User;
+use App\Models\UserRole;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class StaffService extends Service
@@ -46,6 +48,18 @@ class StaffService extends Service
         $staff->password = Hash::make($request->input("email"));
         $staff->account_type = "staff";
 
+        DB::transaction(function () use ($staff, $request) {
+            $staff->save();
+
+            foreach ($request->userRoles as $roleId) {
+                $userRole = new UserRole();
+                $userRole->user_id = $staff->id;
+                $userRole->role_id = $roleId;
+                $userRole->save();
+            }
+
+        });
+
         $saved = $staff->save();
 
         $message = $staff->name . " created successfully";
@@ -86,6 +100,31 @@ class StaffService extends Service
 
         if ($request->filled("password")) {
             $staff->password = Hash::make($request->input("email"));
+        }
+
+        if (count($request->input("userRoles")) > 0) {
+            foreach ($request->input("userRoles") as $roleId) {
+                // Check if role already exists
+                $userRoleDoesntExist = UserRole::where("user_id", $staff->id)
+                    ->where("role_id", $roleId)
+                    ->doesntExist();
+
+                if ($userRoleDoesntExist) {
+                    $userRole = new UserRole();
+                    $userRole->user_id = $staff->id;
+                    $userRole->role_id = $roleId;
+                    $userRole->save();
+                } else {
+                    // Remove roles not included
+                    UserRole::where("user_id", $staff->id)
+                        ->whereNotIn("role_id", $request->userRoles)
+                        ->delete();
+                }
+            }
+        } else {
+            // Remove roles not included
+            UserRole::where("user_id", $staff->id)
+                ->delete();
         }
 
         $saved = $staff->save();

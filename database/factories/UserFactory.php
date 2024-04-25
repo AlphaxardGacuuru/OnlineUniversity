@@ -103,7 +103,7 @@ class UserFactory extends Factory
             'phone' => '0721721357',
             'password' => Hash::make('cikumuhandi@gmail.com'),
             'remember_token' => Str::random(10),
-            'gender' => 'male',
+            'gender' => 'female',
             'account_type' => 'student',
         ]);
     }

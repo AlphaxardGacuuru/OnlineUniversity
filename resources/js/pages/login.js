@@ -18,11 +18,11 @@ const login = (props) => {
 		if (props.auth.name != "Guest") {
 			// Handle Redirects
 			if (props.auth.accountType == "staff") {
-				router.push("/admin/dashboard")
+				router.push(`/admin/dashboard`)
 			} else if (props.auth.accountType == "instructor") {
-				router.push("/instructor/profile")
+				router.push(`/instructor/${props.auth.id}/show`)
 			} else {
-				router.push("/student/profile")
+				router.push(`/student/${props.auth.id}/show`)
 			}
 		}
 	}, [])

@@ -9,6 +9,7 @@ import CloseSVG from "@/svgs/CloseSVG"
 import LogoutSVG from "@/svgs/LogoutSVG"
 import DownloadSVG from "@/svgs/DownloadSVG"
 import MenuSVG from "@/svgs/MenuSVG"
+import LogoSVG from "@/svgs/LogoSVG"
 
 const TopNav = (props) => {
 	const location = useLocation()
@@ -74,7 +75,7 @@ const TopNav = (props) => {
 				className={`${menu} ${showTopNav}`}>
 				{/* <!-- ***** Header Area Start ***** --> */}
 				<header
-					className="header-area shadow py-3"
+					className="header-area shadow py-1"
 					style={{ backgroundColor: "#d82a4e" }}>
 					<div className="container-fluid p-0">
 						<div className="row">
@@ -87,10 +88,10 @@ const TopNav = (props) => {
 												to="/"
 												className="text-white fs-1">
 												<Img
-													src="/storage/img/logo-horizontal.png"
+													src="/storage/img/android-chrome-512x512.png"
 													style={{
-														width: "150px",
-														height: "50px",
+														width: "2em",
+														height: "auto",
 													}}
 												/>
 											</Link>
@@ -156,7 +157,7 @@ const TopNav = (props) => {
 									<div className="menu-content-area d-flex align-items-center">
 										<div className="d-flex align-items-center justify-content-between">
 											{/* Admin */}
-											{props.auth.accountType == "admin" && (
+											{props.auth.accountType == "staff" && (
 												<Link
 													to="/admin/dashboard"
 													className="site-btn btn-dark dropdown-item">
@@ -167,7 +168,7 @@ const TopNav = (props) => {
 											{/* Instructor */}
 											{props.auth.accountType == "instructor" && (
 												<Link
-													to="/instructor/profile"
+													to={`/instructor/${props.auth.id}/show`}
 													className="site-btn btn-dark dropdown-item">
 													INSTRUCTOR
 												</Link>
@@ -176,7 +177,7 @@ const TopNav = (props) => {
 											{/* Student */}
 											{props.auth.accountType == "student" && (
 												<Link
-													to="/student/profile"
+													to={`/student/${props.auth.id}/show`}
 													className="site-btn btn-dark dropdown-item">
 													STUDENT
 												</Link>

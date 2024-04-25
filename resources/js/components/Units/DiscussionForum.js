@@ -143,7 +143,7 @@ const DiscussionForum = (props) => {
 								data-bs-dismiss="modal"
 								aria-label="Close"></button>
 						</div>
-						<div className="modal-body">
+						<div className="modal-body text-start">
 							<iframe
 								src={attachment}
 								style={{ width: "100%", height: "30em" }}></iframe>

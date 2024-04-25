@@ -189,7 +189,11 @@ const index = (props) => {
 										<td>{staff.email}</td>
 										<td>{staff.phone}</td>
 										<td className="text-capitalize">{staff.gender}</td>
-										<td>{staff.role}</td>
+										<td>
+											{staff.roleNames.map((role, key) => (
+												<span key={key}>| {role}</span>
+											))}
+										</td>
 										<td>{staff.createdAt}</td>
 										<td className="text-end">
 											<div className="d-flex">
@@ -221,7 +225,7 @@ const index = (props) => {
 																		data-bs-dismiss="modal"
 																		aria-label="Close"></button>
 																</div>
-																<div className="modal-body text-wrap">
+																<div className="modal-body text-start text-start text-wrap">
 																	Are you sure you want to delete {staff.name}.
 																</div>
 																<div className="modal-footer justify-content-between">

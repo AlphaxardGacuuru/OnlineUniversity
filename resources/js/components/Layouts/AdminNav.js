@@ -348,16 +348,20 @@ const AdminMenu = (props) => {
 						data-wow-delay="1s">
 						<nav>
 							<ul className="m-0 p-0">
-								{location.pathname.match("/admin/") && <AdminNavLinks />}
+								{location.pathname.match("/admin/") && (
+									<AdminNavLinks {...props} />
+								)}
 
 								{/* Instructor Routes */}
 								{location.pathname.match("/instructor/") && (
-									<InstructorNavLinks />
+									<InstructorNavLinks {...props} />
 								)}
 								{/* Instructor Routes End */}
 
 								{/* Student Routes */}
-								{location.pathname.match("/student/") && <StudentNavLinks />}
+								{location.pathname.match("/student/") && (
+									<StudentNavLinks {...props} />
+								)}
 								{/* Student Routes End */}
 							</ul>
 						</nav>

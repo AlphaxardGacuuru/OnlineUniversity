@@ -108,6 +108,11 @@ class User extends Authenticatable
         return $this->hasMany(UserUnit::class);
     }
 
+    public function userRoles()
+    {
+        return $this->hasMany(UserRole::class);
+    }
+
     /*
      * Custom functions
      */
@@ -174,5 +179,45 @@ class User extends Authenticatable
         return $this->userCourses()
             ->first()
             ?->approved_by;
+    }
+	
+    public function roleNames()
+    {
+        $roles = [];
+
+        foreach ($this->userRoles as $userRole) {
+            array_push($roles, $userRole->role->name);
+        }
+
+        return $roles;
+    }
+
+    // Returns all roles
+    public function roles()
+    {
+        $roles = [];
+
+        foreach ($this->userRoles as $userRole) {
+            array_push($roles, $userRole->role);
+        }
+
+        return collect($roles);
+    }
+
+    // Returns an array of permissions
+    public function permissions()
+    {
+        $permissions = [];
+
+        foreach ($this->userRoles as $userRole) {
+            $roleEntities = $userRole->role->permissions;
+
+            array_push($permissions, $roleEntities);
+        }
+
+        // Combine array and get unique
+        return collect($permissions)
+            ->collapse()
+            ->unique();
     }
 }

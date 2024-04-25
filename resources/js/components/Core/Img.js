@@ -3,7 +3,7 @@ import React from "react"
 const Img = ({ src, width, height, className, style, alt }) => {
 	return (
 		<img
-			src={src}
+			src={src ?? "/storage/img/android-chrome-512x512.png"}
 			width={width}
 			height={height}
 			className={className}

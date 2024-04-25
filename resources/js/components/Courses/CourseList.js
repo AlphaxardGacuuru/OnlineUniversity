@@ -36,8 +36,8 @@ const CourseList = (props) => {
 							<th>#</th>
 							<th>Name</th>
 							<th>Description</th>
-							<th>Department</th>
 							<th>Faculty</th>
+							<th>Department</th>
 							<th>Duration (Months)</th>
 							<th>Price (KES)</th>
 							<th>Action</th>
@@ -49,8 +49,8 @@ const CourseList = (props) => {
 								<td>{key + 1}</td>
 								<td>{course.name}</td>
 								<td>{course.description}</td>
-								<td>{course.departmentName}</td>
 								<td>{course.facultyName}</td>
+								<td>{course.departmentName}</td>
 								<td>{course.duration}</td>
 								<td className="text-success">{course.price}</td>
 								<td className="text-end">

@@ -269,7 +269,7 @@ const index = (props) => {
 																		data-bs-dismiss="modal"
 																		aria-label="Close"></button>
 																</div>
-																<div className="modal-body text-wrap">
+																<div className="modal-body text-start text-wrap">
 																	Are you sure you want to delete {student.name}
 																	.
 																</div>

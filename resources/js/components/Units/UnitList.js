@@ -75,17 +75,25 @@ const UnitList = (props) => {
 						<tr>
 							<th>#</th>
 							<th>Name</th>
-							<th>Description</th>
-							<th>Student</th>
+							<th>Code</th>
+							<th>Year</th>
+							<th>Semester</th>
 							<th>Credits</th>
 							<th>Action</th>
 						</tr>
 						{props.units?.map((unit, key) => (
-							<tr key={key}>
+							<tr
+								key={key}
+								className={
+									key == 0 && props.auth.id == props.userId
+										? "table-danger"
+										: ""
+								}>
 								<td>{key + 1}</td>
 								<td>{unit.name}</td>
-								<td>{unit.description}</td>
-								<td>{unit.studentName}</td>
+								<td>{unit.code}</td>
+								<td>{unit.year}</td>
+								<td>{unit.semester}</td>
 								<td>{unit.credits}</td>
 								<td>
 									<div className="d-flex justify-content-end">
@@ -146,7 +154,7 @@ const UnitList = (props) => {
 																		data-bs-dismiss="modal"
 																		aria-label="Close"></button>
 																</div>
-																<div className="modal-body text-wrap">
+																<div className="modal-body text-start text-wrap">
 																	Are you sure you want to delete {unit.name}.
 																</div>
 																<div className="modal-footer justify-content-between">

@@ -14,6 +14,7 @@ import WalletSVG from "@/svgs/WalletSVG"
 import ChatSVG from "@/svgs/ChatSVG"
 import LinkSVG from "@/svgs/LinkSVG"
 import ResourceSVG from "@/svgs/ResourceSVG"
+import PersonGearSVG from "@/svgs/PersonGearSVG"
 
 const AdminNavLinks = () => {
 	const location = useLocation()
@@ -165,18 +166,6 @@ const AdminNavLinks = () => {
 				</Link>
 			</li>
 			{/* Sessions Link End */}
-			{/* Staff Links */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/staff`}
-					className={`nav-link ${active("/admin/staff")}`}>
-					<div className="nav-link-icon">
-						<StaffSVG />
-					</div>
-					<div className="nav-link-text">Staff</div>
-				</Link>
-			</li>
-			{/* Staff Link End */}
 			{/* Chat Links */}
 			{/* <li className="nav-item">
 									<Link
@@ -189,6 +178,30 @@ const AdminNavLinks = () => {
 									</Link>
 								</li> */}
 			{/* Chat Link End */}
+			{/* Staff Links */}
+			<li className="nav-item">
+				<Link
+					to={`/admin/staff`}
+					className={`nav-link ${active("/admin/staff")}`}>
+					<div className="nav-link-icon">
+						<StaffSVG />
+					</div>
+					<div className="nav-link-text">Staff</div>
+				</Link>
+			</li>
+			{/* Staff Link End */}
+			{/* Roles Links */}
+			<li className="nav-item">
+				<Link
+					to={`/admin/roles`}
+					className={`nav-link ${active("/admin/roles")}`}>
+					<div className="nav-link-icon">
+						<PersonGearSVG />
+					</div>
+					<div className="nav-link-text">Roles</div>
+				</Link>
+			</li>
+			{/* Roles Link End */}
 		</React.Fragment>
 	)
 }

@@ -22,7 +22,6 @@ const InstructorList = (props) => {
 				// Remove row
 				props.setCourse && props.get(`courses/${id}`, props.setCourse)
 				props.setFaculty && props.get(`faculties/${id}`, props.setFaculty)
-
 			})
 			.catch((err) => props.getErrors(err))
 	}
@@ -100,23 +99,22 @@ const InstructorList = (props) => {
 			<div className="table-responsive">
 				<table className="table table-hover">
 					<thead>
-						<tr>
-							<th colSpan="7"></th>
-							<th className="text-end">
-								<MyLink
-									linkTo="/instructors/create"
-									text="add instructor"
-								/>
-							</th>
-						</tr>
+						{location.pathname.match("/admin/") && (
+							<tr>
+								<th colSpan="4"></th>
+								<th className="text-end">
+									<MyLink
+										linkTo="/instructors/create"
+										text="add instructor"
+									/>
+								</th>
+							</tr>
+						)}
 						<tr>
 							<th>#</th>
 							<th></th>
 							<th>Name</th>
 							<th>Email</th>
-							<th>Phone</th>
-							<th>Gender</th>
-							<th>Department</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -149,18 +147,16 @@ const InstructorList = (props) => {
 									</td>
 									<td>{instructor.name}</td>
 									<td>{instructor.email}</td>
-									<td>{instructor.phone}</td>
-									<td className="text-capitalize">{instructor.gender}</td>
-									<td>{instructor.departmentName}</td>
 									<td>
 										<div className="d-flex justify-content-end">
-											<MyLink
-												linkTo={`/instructors/${instructor.id}/view`}
-												text="view"
-												className="btn-sm me-1"
-											/>
 											{location.pathname.match("/admin/") && (
 												<React.Fragment>
+													<MyLink
+														linkTo={`/instructors/${instructor.id}/show`}
+														text="view"
+														className="btn-sm me-1"
+													/>
+
 													<MyLink
 														linkTo={`/instructors/${instructor.id}/edit`}
 														text="edit"
@@ -189,7 +185,7 @@ const InstructorList = (props) => {
 																			data-bs-dismiss="modal"
 																			aria-label="Close"></button>
 																	</div>
-																	<div className="modal-body text-wrap text-start">
+																	<div className="modal-body text-start text-wrap text-start">
 																		Are you sure you want to delete{" "}
 																		{instructor.name}.
 																	</div>

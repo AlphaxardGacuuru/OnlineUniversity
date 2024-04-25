@@ -19,6 +19,7 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MPESATransactionController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubmissionController;
@@ -57,15 +58,16 @@ Route::apiResources([
     "courses" => CourseController::class,
     "billables" => BillableController::class,
     "units" => UnitController::class,
+    "materials" => MaterialController::class,
     "discussion-forums" => DiscussionForumController::class,
     "discussion-forum-ratings" => DiscussionForumRatingController::class,
     "submissions" => SubmissionController::class,
     "grades" => GradeController::class,
     "sessions" => AcademicSessionController::class,
-    "staff" => StaffController::class,
-    "chats" => ChatController::class,
     "resources" => ResourceController::class,
-    "materials" => MaterialController::class,
+    "chats" => ChatController::class,
+    "staff" => StaffController::class,
+    "roles" => RoleController::class,
     'notifications' => NotificationController::class,
 ]);
 

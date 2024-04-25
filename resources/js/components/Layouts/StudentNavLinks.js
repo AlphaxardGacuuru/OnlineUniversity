@@ -6,7 +6,7 @@ import CourseSVG from "@/svgs/CourseSVG"
 import LinkSVG from "@/svgs/LinkSVG"
 import ResourceSVG from "@/svgs/ResourceSVG"
 
-const StudentNavLinks = () => {
+const StudentNavLinks = (props) => {
 	const location = useLocation()
 
 	// Function for showing active color
@@ -30,8 +30,8 @@ const StudentNavLinks = () => {
 			{/* Profile Link */}
 			<li className="nav-item">
 				<Link
-					to={`/student/profile`}
-					className={`nav-link ${activeStrict("/student/profile")}`}>
+					to={`/student/${props.auth.id}/show`}
+					className={`nav-link ${active(/^\/student\/\d+\/show$/)}`}>
 					<div className="nav-link-icon">
 						<PersonSVG />
 					</div>

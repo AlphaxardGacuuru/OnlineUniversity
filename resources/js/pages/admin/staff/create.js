@@ -15,13 +15,27 @@ const create = (props) => {
 	const [gender, setGender] = useState()
 	const [originLocation, setOriginLocation] = useState()
 	const [currentLocation, setCurrentLocation] = useState()
+	const [roles, setRoles] = useState([])
+	const [userRoles, setUserRoles] = useState([])
 	const [loading, setLoading] = useState()
 
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Add Staff", path: ["staff", "create"] })
+		props.get("roles", setRoles)
 	}, [])
+
+	// Handle Permission checkboxes
+	const handleUserRoles = (roleId) => {
+		var exists = userRoles.includes(roleId)
+
+		var newRoles = exists
+			? userRoles.filter((item) => item != roleId)
+			: [...userRoles, roleId]
+
+		setUserRoles(newRoles)
+	}
 
 	/*
 	 * Submit Form
@@ -37,6 +51,7 @@ const create = (props) => {
 			gender: gender,
 			originLocation: originLocation,
 			currentLocation: currentLocation,
+			userRoles: userRoles,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -124,14 +139,37 @@ const create = (props) => {
 						))}
 					</select>
 
-					<div className="d-flex justify-content-end">
+					{/* Roles */}
+					<div className="form-group">
+						<label htmlFor="">Roles</label>
+						<div className="d-flex justify-content-center flex-wrap">
+							{roles.map((role, key) => (
+								<div
+									key={key}
+									className="border-bottom m-1 p-2">
+									<label key={key}>
+										<input
+											type="checkbox"
+											id=""
+											name="entities"
+											onChange={(e) => handleUserRoles(role.id)}
+										/>
+										<span className="text-capitalize me-2"> {role.name}</span>
+									</label>
+								</div>
+							))}
+						</div>
+					</div>
+					{/* Roles End */}
+
+					<div className="d-flex justify-content-end mb-2">
 						<Btn
 							btnText="add staff"
 							loading={loading}
 						/>
 					</div>
 
-					<div className="d-flex justify-content-center">
+					<div className="d-flex justify-content-center mb-5">
 						<MyLink
 							linkTo="/staff"
 							text="back to staff"
