@@ -7,15 +7,22 @@ import NewChatSVG from "@/svgs/NewChatSVG"
 const Chat = (props) => {
 	const location = useLocation()
 
-	const [tab, setTab] = useState("all")
+	const [tab, setTab] = useState("mine")
 	const [admin, setAdmin] = useState({})
 	const [chatThreads, setChatThreads] = useState([])
+
+	const getChatThreads = () => props.get("chats", setChatThreads)
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Chats", path: ["chats"] })
 		props.get("staff/1", setAdmin)
-		props.get("chats", setChatThreads)
+
+		// Fetch Chats
+		const chatInterval = setInterval(() => getChatThreads(), 5000)
+
+		// Cleanup function to clear the interval on component unmount
+		return () => clearInterval(chatInterval)
 	}, [])
 
 	const active = (activeTab) => {

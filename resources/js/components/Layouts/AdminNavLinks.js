@@ -167,16 +167,16 @@ const AdminNavLinks = () => {
 			</li>
 			{/* Sessions Link End */}
 			{/* Chat Links */}
-			{/* <li className="nav-item">
-									<Link
-										to={`/admin/chats`}
-										className={`nav-link ${active("/admin/chats")}`}>
-										<div className="nav-link-icon">
-											<ChatSVG />
-										</div>
-										<div className="nav-link-text">Chat</div>
-									</Link>
-								</li> */}
+			<li className="nav-item">
+				<Link
+					to={`/admin/chats`}
+					className={`nav-link ${active("/admin/chats")}`}>
+					<div className="nav-link-icon">
+						<ChatSVG />
+					</div>
+					<div className="nav-link-text">Chat</div>
+				</Link>
+			</li>
 			{/* Chat Link End */}
 			{/* Staff Links */}
 			<li className="nav-item">

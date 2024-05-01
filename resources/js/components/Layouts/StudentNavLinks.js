@@ -5,6 +5,7 @@ import PersonSVG from "@/svgs/PersonSVG"
 import CourseSVG from "@/svgs/CourseSVG"
 import LinkSVG from "@/svgs/LinkSVG"
 import ResourceSVG from "@/svgs/ResourceSVG"
+import ChatSVG from "@/svgs/ChatSVG"
 
 const StudentNavLinks = (props) => {
 	const location = useLocation()
@@ -56,16 +57,16 @@ const StudentNavLinks = (props) => {
 			</li>
 			{/* Courses Link End */}
 			{/* Chat Links */}
-			{/* <li className="nav-item">
-									<Link
-										to={`/student/chats`}
-										className={`nav-link ${active("/student/chats")}`}>
-										<div className="nav-link-icon">
-											<ChatSVG />
-										</div>
-										<div className="nav-link-text">Chat</div>
-									</Link>
-								</li> */}
+			<li className="nav-item">
+				<Link
+					to={`/student/chats`}
+					className={`nav-link ${active("/student/chats")}`}>
+					<div className="nav-link-icon">
+						<ChatSVG />
+					</div>
+					<div className="nav-link-text">Chat</div>
+				</Link>
+			</li>
 			{/* Chat Link End */}
 			{/* Resources Link */}
 			<li className="nav-item">
