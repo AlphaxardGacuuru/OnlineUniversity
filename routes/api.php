@@ -45,6 +45,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('auth', [UserController::class, 'auth']);
 
+// Place Above Route::apiResources in order to match route
+// Chat 
+Route::get("chats/all-threads", [ChatController::class, "allThreads"]);
+
 Route::apiResources([
     "card-transactions" => CardTransactionController::class,
     "mpesa-transactions" => MPESATransactionController::class,

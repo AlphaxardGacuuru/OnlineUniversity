@@ -185,7 +185,7 @@ const InstructorList = (props) => {
 																			data-bs-dismiss="modal"
 																			aria-label="Close"></button>
 																	</div>
-																	<div className="modal-body text-start text-wrap text-start">
+																	<div className="modal-body text-wrap text-start">
 																		Are you sure you want to delete{" "}
 																		{instructor.name}.
 																	</div>

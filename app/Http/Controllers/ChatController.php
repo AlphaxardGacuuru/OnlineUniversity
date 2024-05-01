@@ -54,9 +54,9 @@ class ChatController extends Controller
      * @param  \App\Models\Chat  $chat
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        return $this->service->show($id);
+        return $this->service->show($request, $id);
     }
 
     /**
@@ -86,5 +86,13 @@ class ChatController extends Controller
             "message" => $message,
             "data" => $chat,
         ], 200);
+    }
+
+    /*
+     * Fetch All Threads
+     */
+    public function allThreads()
+    {
+        return $this->service->allThreads();
     }
 }

@@ -52,7 +52,7 @@ import AdminSessionEdit from "@/pages/admin/sessions/edit/[id]"
 import AdminChat from "@/pages/admin/chats/index"
 import AdminChatNew from "@/pages/admin/chats/new"
 import AdminChatView from "@/pages/admin/chats/[id]"
-
+import AdminChatViewAll from "@/pages/admin/chats/[userId][to]"
 import AdminStaff from "@/pages/admin/staff/index"
 import AdminStaffCreate from "@/pages/admin/staff/create"
 import AdminStaffEdit from "@/pages/admin/staff/edit/[id]"
@@ -224,6 +224,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/chats/view/:id",
 			component: <AdminChatView {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/chats/view/:id/:to",
+			component: <AdminChatViewAll {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/staff",

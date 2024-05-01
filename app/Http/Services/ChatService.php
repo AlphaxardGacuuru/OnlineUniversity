@@ -65,12 +65,14 @@ class ChatService extends Service
      * @param  \App\Models\Chat  $chat
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($request, $id)
     {
-        $chats = Chat::where("user_id", $this->id)
+		$userId = $request->to ?? $this->id;
+
+        $chats = Chat::where("user_id", $userId)
             ->where("to", $id)
             ->orWhere("user_id", $id)
-            ->where("to", $this->id)
+            ->where("to", $userId)
             ->orderBy('id', 'ASC')
             ->get();
 
@@ -115,5 +117,44 @@ class ChatService extends Service
         $deleted = $chat->delete();
 
         return [$deleted, "Chat deleted", $chat];
+    }
+
+    /*
+     * All Threads
+     */
+    public function allThreads()
+    {
+        $userIdsWhoSentAChat = Chat::select("user_id", "to")
+            ->get()
+            ->map(fn($chat) => [
+                "userId" => $chat->user_id,
+                "to" => $chat->to,
+            ])
+            ->unique()
+            ->values();
+
+        $allChatThreads = [];
+
+        // Get Chat and Generate Chat Threads
+        foreach ($userIdsWhoSentAChat as $userIdAndTo) {
+            $chat = Chat::where('user_id', $userIdAndTo["userId"])
+                ->where('to', $userIdAndTo["to"])
+                ->orderBy('id', 'DESC')
+                ->first();
+
+            array_push($allChatThreads, [
+                'id' => $chat->id,
+                'name' => $chat->user->name,
+                'avatar' => $chat->user->avatar,
+                'accountType' => $chat->user->account_type,
+                'userId' => $chat->user_id,
+                'to' => $chat->to,
+                'text' => $chat->text,
+                // 'hasMedia' => $chat->media,
+                'createdAt' => $chat->created_at,
+            ]);
+        }
+
+        return ["data" => $allChatThreads];
     }
 }
