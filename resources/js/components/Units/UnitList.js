@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 import MyLink from "@/components/Core/MyLink"
 import Btn from "@/components/Core/Btn"
 import HeroIcon from "@/components/Core/HeroIcon"
+import DeleteModal from "@/components/Core/DeleteModal"
 
 import UnitSVG from "@/svgs/UnitSVG"
 
@@ -60,7 +61,7 @@ const UnitList = (props) => {
 					{/* Total */}
 					<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 						<div>
-							<span className="fs-4">{props.units?.length}</span>
+							<span className="fs-4">{props.units.meta?.total}</span>
 							<h4>Total Units</h4>
 						</div>
 						<HeroIcon>
@@ -71,6 +72,49 @@ const UnitList = (props) => {
 				</div>
 			</div>
 			{/* Data End */}
+
+			<br />
+
+			{/* Filters */}
+			<div className="card shadow-sm p-4">
+				<div className="d-flex flex-wrap">
+					{/* Name */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<input
+							id=""
+							type="text"
+							name="name"
+							placeholder="Search by Name"
+							className="form-control"
+							onChange={(e) => props.setNameQuery(e.target.value)}
+						/>
+					</div>
+					{/* Name End */}
+					{/* Year */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<input
+							type="number"
+							placeholder="Search by Year"
+							className="form-control"
+							onChange={(e) => props.setYearQuery(e.target.value)}
+						/>
+					</div>
+					{/* Year End */}
+					{/* Semester */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<input
+							type="number"
+							placeholder="Search by Semester"
+							className="form-control"
+							onChange={(e) => props.setSemesterQuery(e.target.value)}
+						/>
+					</div>
+					{/* Semester End */}
+				</div>
+			</div>
+			{/* Filters End */}
+
+			<br />
 
 			{/* Table */}
 			<div className="table-responsive">
@@ -85,7 +129,7 @@ const UnitList = (props) => {
 							<th>Credits</th>
 							<th>Action</th>
 						</tr>
-						{props.units?.map((unit, key) => (
+						{props.units.data?.map((unit, key) => (
 							<tr
 								key={key}
 								className={
@@ -128,70 +172,25 @@ const UnitList = (props) => {
 											</React.Fragment>
 										)}
 
-										{location.pathname.match("/admin/") && (
-											<React.Fragment>
-												<MyLink
-													linkTo={`/units/${unit.id}/edit`}
-													text="edit"
-													className="btn-sm"
-												/>
+										{location.pathname.match("/admin/") &&
+											location.pathname.match("/course/") && (
+												<React.Fragment>
+													<MyLink
+														linkTo={`/units/${unit.id}/edit`}
+														text="edit"
+														className="btn-sm"
+													/>
 
-												<div className="mx-1">
-													{/* Confirm Delete Modal End */}
-													<div
-														className="modal fade"
-														id={`deleteUnitModal${key}`}
-														tabIndex="-1"
-														aria-labelledby="deleteModalLabel"
-														aria-hidden="true">
-														<div className="modal-dialog">
-															<div className="modal-content">
-																<div className="modal-header">
-																	<h1
-																		id="deleteModalLabel"
-																		className="modal-title fs-5 text-danger">
-																		Delete Course
-																	</h1>
-																	<button
-																		type="button"
-																		className="btn-close"
-																		data-bs-dismiss="modal"
-																		aria-label="Close"></button>
-																</div>
-																<div className="modal-body text-start text-wrap">
-																	Are you sure you want to delete {unit.name}.
-																</div>
-																<div className="modal-footer justify-content-between">
-																	<button
-																		type="button"
-																		className="btn btn-light rounded-pill"
-																		data-bs-dismiss="modal">
-																		Close
-																	</button>
-																	<button
-																		type="button"
-																		className="btn btn-danger rounded-pill"
-																		data-bs-dismiss="modal"
-																		onClick={() => onDeleteUnit(unit.id)}>
-																		Delete
-																	</button>
-																</div>
-															</div>
-														</div>
+													<div className="mx-1">
+														<DeleteModal
+															index={`unit${key}`}
+															model={unit}
+															modelName="Unit"
+															onDelete={onDeleteUnit}
+														/>
 													</div>
-													{/* Confirm Delete Modal End */}
-
-													{/* Button trigger modal */}
-													<button
-														type="button"
-														className="btn btn-sm btn-outline-danger rounded-pill"
-														data-bs-toggle="modal"
-														data-bs-target={`#deleteUnitModal${key}`}>
-														Delete
-													</button>
-												</div>
-											</React.Fragment>
-										)}
+												</React.Fragment>
+											)}
 									</div>
 								</td>
 							</tr>

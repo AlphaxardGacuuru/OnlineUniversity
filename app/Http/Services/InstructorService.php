@@ -286,7 +286,7 @@ class InstructorService extends Service
     {
         if ($request->filled("name")) {
             $query = $query
-                ->where("name", "LIKE", "%" . $request->name . "%");
+                ->where("name", "LIKE", "%" . $request->input("name") . "%");
         }
 
         if ($request->filled("gender")) {

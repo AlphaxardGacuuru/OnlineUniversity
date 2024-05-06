@@ -19,7 +19,7 @@ import Doughnut from "@/components/Charts/Doughnut"
 import MoneySVG from "@/svgs/MoneySVG"
 
 const index = (props) => {
-	const [dashboard, setDashboard] = useState({})
+	const [dashboard, setDashboard] = useState(props.getLocalStorage("dashboard") ?? {})
 	const [instructors, setInstructors] = useState([])
 	const [students, setStudents] = useState([])
 	const [staff, setStaff] = useState([])
@@ -28,7 +28,10 @@ const index = (props) => {
 		// Set page
 		props.setPage({ name: "Dashboard", path: ["/"] })
 
-		Axios.get("/api/admin").then((res) => setDashboard(res.data))
+		Axios.get("/api/admin").then((res) => {
+			setDashboard(res.data)
+			props.setLocalStorage("dashboard", res.data)
+	})
 		props.get("instructors", setInstructors)
 		props.get("students", setStudents)
 		props.get("staff", setStaff)

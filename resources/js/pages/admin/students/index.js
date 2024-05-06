@@ -4,7 +4,7 @@ import StudentList from "@/components/Students/StudentList"
 
 const index = (props) => {
 	// Get Students
-	const [students, setStudents] = useState([])
+	const [students, setStudents] = useState(props.getLocalStorage("students"))
 	const [loading, setLoading] = useState()
 
 	const [nameQuery, setNameQuery] = useState("")
@@ -24,7 +24,8 @@ const index = (props) => {
 			gender=${genderQuery}&
 			facultyId=${facultyQuery}&
 			departmentId=${departmentQuery}`,
-			setStudents
+			setStudents,
+			"students"
 		)
 	}, [nameQuery, genderQuery, facultyQuery, departmentQuery])
 

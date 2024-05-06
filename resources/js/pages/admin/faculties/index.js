@@ -8,13 +8,13 @@ import HeroIcon from "@/components/Core/HeroIcon"
 
 const index = (props) => {
 	// Get Faculties
-	const [faculties, setFaculties] = useState([])
+	const [faculties, setFaculties] = useState(props.getLocalStorage("faculties"))
 	const [loading, setLoading] = useState()
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Faculties", path: ["faculties"] })
-		props.get("faculties", setFaculties)
+		props.get("faculties", setFaculties, "faculties")
 	}, [])
 
 	/*

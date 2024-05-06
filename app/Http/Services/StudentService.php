@@ -19,7 +19,7 @@ class StudentService extends Service
      */
     public function index($request)
     {
-        $studentsQuery = User::where("account_type", "instructor");
+        $studentsQuery = User::where("account_type", "student");
 
         $studentsQuery = $this->search($studentsQuery, $request);
 
@@ -200,7 +200,7 @@ class StudentService extends Service
     {
         if ($request->filled("name")) {
             $query = $query
-                ->where("name", "LIKE", "%" . $request->name . "%");
+                ->where("name", "LIKE", "%" . $request->input("name") . "%");
         }
 
         if ($request->filled("gender")) {

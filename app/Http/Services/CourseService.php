@@ -23,8 +23,10 @@ class CourseService extends Service
                 "data" => $courses,
             ], 200);
         }
+		
+        $coursesQuery = new Course;
 
-        $coursesQuery = $this->search($request);
+        $coursesQuery = $this->search($coursesQuery, $request);
 
         $courses = $coursesQuery
             ->orderBy("id", "DESC")
@@ -113,19 +115,17 @@ class CourseService extends Service
     /*
      * Handle Search
      */
-    public function search($request)
+    public function search($query, $request)
     {
-        $coursesQuery = new Course;
-
         if ($request->filled("name")) {
-            $coursesQuery = $coursesQuery
-                ->where("name", "LIKE", "%" . $request->name . "%");
+            $query = $query
+                ->where("name", "LIKE", "%" . $request->input("name") . "%");
         }
 
         $facultyId = $request->input("facultyId");
 
         if ($request->filled("facultyId")) {
-            $coursesQuery = $coursesQuery
+            $query = $query
                 ->whereHas("department.faculty", function ($query) use ($facultyId) {
                     $query->where("faculty_id", $facultyId);
                 });
@@ -134,19 +134,19 @@ class CourseService extends Service
         $departmentId = $request->input("departmentId");
 
         if ($request->filled("departmentId")) {
-            $coursesQuery = $coursesQuery
+            $query = $query
                 ->where("department_id", $departmentId);
         }
 
         $userId = $request->input("userId");
 
         if ($request->filled("userId")) {
-            $coursesQuery = $coursesQuery
+            $query = $query
                 ->whereHas("users", function ($query) use ($userId) {
                     $query->where("user_id", $userId);
                 });
         }
 
-        return $coursesQuery;
+        return $query;
     }
 }

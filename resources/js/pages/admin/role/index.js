@@ -9,13 +9,13 @@ import HeroIcon from "@/components/Core/HeroIcon"
 
 const index = (props) => {
 	// Get Role
-	const [roles, setRoles] = useState([])
+	const [roles, setRoles] = useState(props.getLocalStorage("roles"))
 	const [loading, setLoading] = useState()
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Roles", path: ["role"] })
-		props.get("roles", setRoles)
+		props.get("roles", setRoles, "roles")
 	}, [])
 
 	/*

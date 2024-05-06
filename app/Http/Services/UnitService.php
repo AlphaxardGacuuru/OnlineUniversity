@@ -23,8 +23,14 @@ class UnitService extends Service
                 "data" => $units,
             ], 200);
         }
+		
+        $unitsQuery = new Unit;
 
-        $units = Unit::orderBy("id", "DESC")->paginate(20);
+        $unitsQuery = $this->search($unitsQuery, $request);
+
+        $units = $unitsQuery
+            ->orderBy("id", "DESC")
+            ->paginate(20);
 
         return UnitResource::collection($units);
     }
@@ -151,19 +157,27 @@ class UnitService extends Service
     /*
      * Handle Search
      */
-    public function search($request)
+    public function search($query, $request)
     {
-        $unitsQuery = new Unit;
+        $query = new Unit;
 
         if ($request->filled("name")) {
-            $unitsQuery = $unitsQuery
-                ->where("name", "LIKE", "%" . $request->name . "%");
+            $query = $query
+                ->where("name", "LIKE", "%" . $request->input("name") . "%");
+        }
+
+        if ($request->filled("year")) {
+            $query = $query->where("year", $request->input("year"));
+        }
+
+        if ($request->filled("semester")) {
+            $query = $query->where("semester", $request->input("semester"));
         }
 
         $facultyId = $request->input("facultyId");
 
         if ($request->filled("facultyId")) {
-            $unitsQuery = $unitsQuery
+            $query = $query
                 ->whereHas("department.faculty", function ($query) use ($facultyId) {
                     $query->where("faculty_id", $facultyId);
                 });
@@ -172,7 +186,7 @@ class UnitService extends Service
         $departmentId = $request->input("departmentId");
 
         if ($request->filled("departmentId")) {
-            $unitsQuery = $unitsQuery
+            $query = $query
                 ->whereHas("course.department", function ($query) use ($departmentId) {
                     $query->where("department_id", $departmentId);
                 });
@@ -181,12 +195,12 @@ class UnitService extends Service
         $userId = $request->input("userId");
 
         if ($request->filled("userId")) {
-            $unitsQuery = $unitsQuery
+            $query = $query
                 ->whereHas("users", function ($query) use ($userId) {
                     $query->where("user_id", $userId);
                 });
         }
 
-        return $unitsQuery;
+        return $query;
     }
 }

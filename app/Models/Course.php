@@ -45,7 +45,7 @@ class Course extends Model
      * Relationships
      */
 
-    public function courses()
+    public function users()
     {
         return $this->belongsToMany(User::class, 'user_courses');
     }

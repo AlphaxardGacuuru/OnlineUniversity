@@ -11,7 +11,7 @@ import StaffSVG from "@/svgs/StaffSVG"
 
 const index = (props) => {
 	// Get Staff
-	const [staff, setStaff] = useState([])
+	const [staff, setStaff] = useState(props.getLocalStorage("staff"))
 	const [roles, setRoles] = useState([])
 	const [loading, setLoading] = useState()
 
@@ -31,7 +31,8 @@ const index = (props) => {
 			name=${nameQuery}&
 			gender=${genderQuery}&
 			roleId=${roleQuery}`,
-			setStaff
+			setStaff,
+			"staff"
 		)
 	}, [nameQuery, genderQuery, roleQuery])
 

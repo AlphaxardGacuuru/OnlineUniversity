@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import {
+	useHistory,
 	useLocation,
 	useParams,
 } from "react-router-dom/cjs/react-router-dom.min"
@@ -9,12 +10,23 @@ import Img from "@/components/Core/Img"
 import CourseList from "@/components/Courses/CourseList"
 import UnitList from "@/components/Units/UnitList"
 import FeeStatementList from "@/components/FeeStatement/FeeStatementList"
+import DeleteModal from "@/components/Core/DeleteModal"
+import MyLink from "@/components/Core/MyLink"
 
 const show = (props) => {
 	const { id } = useParams()
 	const location = useLocation()
+	const router = useHistory()
 
 	const [tab, setTab] = useState("courses")
+
+	const [nameQuery, setNameQuery] = useState("")
+	const [unitNameQuery, setUnitNameQuery] = useState("")
+	const [facultyQuery, setFacultyQuery] = useState("")
+	const [departmentQuery, setDepartmentQuery] = useState("")
+	const [yearQuery, setYearQuery] = useState("")
+	const [semesterQuery, setSemesterQuery] = useState("")
+
 	const [user, setUser] = useState({})
 	const [courses, setCourses] = useState([])
 	const [units, setUnits] = useState([])
@@ -37,11 +49,43 @@ const show = (props) => {
 			name: capitalize(pagePath),
 			path: [`${pagePath}s`, pagePath],
 		})
-		props.get(`${pagePath}s/${id}`, setUser, null, false)
-		props.get(`courses/by-user-id/${id}`, setCourses, null, false)
-		props.get(`units/by-user-id/${id}`, setUnits, null, false)
-		props.get(`fee-statements/${id}`, setFees, null, false)
+		props.get(`${pagePath}s/${id}`, setUser)
+		props.get(`fee-statements/${id}`, setFees)
 	}, [])
+
+	// Fetch on Type
+	useEffect(() => {
+		props.getPaginated(
+			`courses?userId=${id}&
+			name=${nameQuery}&
+			facultyId=${facultyQuery}&
+			departmentId=${departmentQuery}`,
+			setCourses
+		)
+	}, [nameQuery, facultyQuery, departmentQuery])
+
+	useEffect(() => {
+		props.getPaginated(
+			`units?userId=${id}&
+			name=${unitNameQuery}&
+			year=${yearQuery}&
+			semester=${semesterQuery}`,
+			setUnits
+		)
+	}, [unitNameQuery, yearQuery, semesterQuery])
+
+	/*
+	 * Delete Instructor
+	 */
+	const onDeleteInstructor = (instructorId) => {
+		Axios.delete(`/api/instructors/${instructorId}`)
+			.then((res) => {
+				props.setMessages([res.data.message])
+				// Redirect to Instructors
+				router.push("/admin/instructors")
+			})
+			.catch((err) => props.getErrors(err))
+	}
 
 	const active = (activeTab) => {
 		return activeTab == tab ? "bg-light" : "bg-secondary-subtle"
@@ -71,6 +115,27 @@ const show = (props) => {
 					<h6 className="text-capitalize">{user.accountType}</h6>
 					<h6>{user.facultyName}</h6>
 					<h6>{user.departmentName}</h6>
+					{location.pathname.match("/admin/") && (
+						<React.Fragment>
+							<hr />
+							<div className="d-flex justify-content-between">
+								<MyLink
+									linkTo={`/instructors/${id}/edit`}
+									text="edit"
+									className="btn-sm"
+								/>
+
+								<div className="mx-1">
+									<DeleteModal
+										index={`instructor`}
+										model={user}
+										modelName="Instructor"
+										onDelete={onDeleteInstructor}
+									/>
+								</div>
+							</div>
+						</React.Fragment>
+					)}
 				</div>
 			</div>
 			<div className="col-sm-8">
@@ -110,6 +175,10 @@ const show = (props) => {
 					{...props}
 					activeTab={activeTab("courses")}
 					courses={courses}
+					setCourses={setCourses}
+					setNameQuery={setNameQuery}
+					setFacultyQuery={setFacultyQuery}
+					setDepartmentQuery={setDepartmentQuery}
 				/>
 				{/* Courses Tab End */}
 
@@ -118,7 +187,11 @@ const show = (props) => {
 					{...props}
 					activeTab={activeTab("units")}
 					units={units}
+					setUnits={setUnits}
 					userId={id}
+					setNameQuery={setUnitNameQuery}
+					setYearQuery={setYearQuery}
+					setSemesterQuery={setSemesterQuery}
 				/>
 				{/* Units Tab End */}
 

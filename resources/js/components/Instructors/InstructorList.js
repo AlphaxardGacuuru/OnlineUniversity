@@ -184,24 +184,25 @@ const InstructorList = (props) => {
 											className="btn-sm me-1"
 										/>
 
-										{location.pathname.match("/admin/") && (
-											<React.Fragment>
-												<MyLink
-													linkTo={`/instructors/${instructor.id}/edit`}
-													text="edit"
-													className="btn-sm"
-												/>
-
-												<div className="mx-1">
-													<DeleteModal
-														index={`instructor${key}`}
-														model={instructor}
-														modelName="Instructor"
-														onDelete={onDeleteInstructor}
+										{location.pathname.match("/admin/") &&
+											location.pathname.match("/instructors") && (
+												<React.Fragment>
+													<MyLink
+														linkTo={`/instructors/${instructor.id}/edit`}
+														text="edit"
+														className="btn-sm"
 													/>
-												</div>
-											</React.Fragment>
-										)}
+
+													<div className="mx-1">
+														<DeleteModal
+															index={`instructor${key}`}
+															model={instructor}
+															modelName="Instructor"
+															onDelete={onDeleteInstructor}
+														/>
+													</div>
+												</React.Fragment>
+											)}
 									</div>
 								</td>
 							</tr>

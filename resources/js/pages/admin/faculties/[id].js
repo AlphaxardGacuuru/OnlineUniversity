@@ -13,13 +13,54 @@ const show = (props) => {
 	var { id } = useParams()
 
 	const [faculty, setFaculty] = useState({})
+	const [instructors, setInstructors] = useState([])
+	const [students, setStudents] = useState([])
 	const [tab, setTab] = useState("departments")
+
+	const [nameQuery, setNameQuery] = useState("")
+	const [genderQuery, setGenderQuery] = useState("")
+	const [facultyQuery, setFacultyQuery] = useState("")
+	const [departmentQuery, setDepartmentQuery] = useState("")
+
+	const [studentNameQuery, setStudentNameQuery] = useState("")
+	const [studentGenderQuery, setStudentGenderQuery] = useState("")
+	const [studentFacultyQuery, setStudentFacultyQuery] = useState("")
+	const [studentDepartmentQuery, setStudentDepartmentQuery] = useState("")
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "View Faculty", path: ["faculties", "view"] })
 		props.get(`faculties/${id}`, setFaculty)
 	}, [])
+
+	useEffect(() => {
+		props.getPaginated(
+			`instructors?
+			facaultyId=${id}&
+			name=${nameQuery}&
+			gender=${genderQuery}&
+			facultyId=${facultyQuery}&
+			departmentId=${departmentQuery}`,
+			setInstructors
+		)
+	}, [nameQuery, genderQuery, facultyQuery, departmentQuery])
+
+	useEffect(() => {
+		props.getPaginated(
+			`students?
+			facaultyId=${id}&
+			name=${studentNameQuery}&
+			gender=${studentGenderQuery}&
+			facultyId=${studentFacultyQuery}&
+			departmentId=${studentDepartmentQuery}`,
+			setStudents
+		)
+	}, [
+		studentNameQuery,
+		studentGenderQuery,
+		studentFacultyQuery,
+		studentDepartmentQuery,
+	])
 
 	const active = (activeTab) => {
 		return activeTab == tab ? "bg-light" : "bg-secondary-subtle"
@@ -200,8 +241,13 @@ const show = (props) => {
 				{/* Instructors Tab */}
 				<InstructorList
 					{...props}
-					instructors={faculty.instructors}
+					instructors={instructors}
+					setInstructors={setInstructors}
 					activeTab={activeTab("instructors")}
+					setNameQuery={setNameQuery}
+					setGenderQuery={setGenderQuery}
+					setFacultyQuery={setFacultyQuery}
+					setDepartmentQuery={setDepartmentQuery}
 					setFaculty={setFaculty}
 				/>
 				{/* Instructors Tab End */}
@@ -209,9 +255,14 @@ const show = (props) => {
 				{/* Students Tab */}
 				<StudentList
 					{...props}
-					students={faculty.students}
+					students={students}
+					setStudents={setStudents}
 					activeTab={activeTab("students")}
 					setFaculty={setFaculty}
+					setNameQuery={setStudentNameQuery}
+					setGenderQuery={setStudentGenderQuery}
+					setFacultyQuery={setStudentFacultyQuery}
+					setDepartmentQuery={setStudentDepartmentQuery}
 				/>
 				{/* Students Tab End */}
 			</div>

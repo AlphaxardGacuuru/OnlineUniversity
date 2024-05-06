@@ -4,7 +4,7 @@ import CourseList from "@/components/Courses/CourseList"
 
 const index = (props) => {
 	// Get Courses
-	const [courses, setCourses] = useState([])
+	const [courses, setCourses] = useState(props.getLocalStorage("courses"))
 
 	const [nameQuery, setNameQuery] = useState("")
 	const [facultyQuery, setFacultyQuery] = useState("")
@@ -22,7 +22,8 @@ const index = (props) => {
 			name=${nameQuery}&
 			facultyId=${facultyQuery}&
 			departmentId=${departmentQuery}`,
-			setCourses
+			setCourses,
+			"courses"
 		)
 	}, [nameQuery, facultyQuery, departmentQuery])
 
@@ -34,7 +35,7 @@ const index = (props) => {
 					{...props}
 					courses={courses}
 					setCourses={setCourses}
-					activeTab={"menu-open"}
+					activeTab={"d-block"}
 					setNameQuery={setNameQuery}
 					setFacultyQuery={setFacultyQuery}
 					setDepartmentQuery={setDepartmentQuery}

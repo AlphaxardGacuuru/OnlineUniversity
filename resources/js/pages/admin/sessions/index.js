@@ -9,7 +9,7 @@ import SessionSVG from "@/svgs/SessionSVG"
 
 const index = (props) => {
 	// Get Sessions
-	const [sessions, setSessions] = useState([])
+	const [sessions, setSessions] = useState(props.getLocalStorage("sessions"))
 	const [courses, setCourses] = useState([])
 
 	const [courseQuery, setCourseQuery] = useState("")
@@ -29,7 +29,8 @@ const index = (props) => {
 			courseId=${courseQuery}&
 			year=${yearQuery}&
 			semester=${semesterQuery}`,
-			setSessions
+			setSessions,
+			"sessions"
 		)
 	}, [courseQuery, yearQuery, semesterQuery])
 
