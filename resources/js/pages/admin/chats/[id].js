@@ -27,7 +27,7 @@ const ChatThread = (props) => {
 		Axios.get(`api/users/${id}`).then((res) => {
 			setUser(res.data.data)
 			// Set page
-			props.setPage({ name: res.data.data.name, path: ["chats"] })
+			props.setPage({ name: res.data.data.name, path: ["chats", `chats/${res.data.data.id}/show`] })
 		})
 
 		// Fetch Chats

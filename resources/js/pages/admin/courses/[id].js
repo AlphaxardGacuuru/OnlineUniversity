@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react"
-import {
-	useParams,
-} from "react-router-dom/cjs/react-router-dom.min"
+import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import UnitList from "@/components/Units/UnitList"
@@ -13,11 +11,15 @@ const show = (props) => {
 	var { id } = useParams()
 
 	const [course, setCourse] = useState({})
+	const [units, setUnits] = useState([])
+	const [instructors, setInstructors] = useState([])
+	const [students, setStudents] = useState([])
+	const [billables, setBillables] = useState([])
 	const [session, setSession] = useState({})
 	const [tab, setTab] = useState("units")
 	const [hasBalance, setHasBalance] = useState()
 	const [loading, setLoading] = useState()
-	
+
 	const getCourse = () => {
 		Axios.get(`api/courses/${id}`)
 			.then((res) => {
@@ -28,12 +30,6 @@ const show = (props) => {
 				props.setPaymentDescription(`Payment of Fees for ${res.data.data.name}`)
 				props.setPaymentAmount(res.data.data.price)
 			})
-			.catch((err) => props.getErrors(err))
-	}
-
-	const getCurrentSession = () => {
-		Axios.get(`api/sessions/by-course-id/${id}`)
-			.then((res) => setSession(res.data.data))
 			.catch((err) => props.getErrors(err))
 	}
 
@@ -49,15 +45,18 @@ const show = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "View Course", path: ["courses", "view"] })
-
-		// Fetch Course
 		getCourse()
-
-		// Fetch Current Session
-		getCurrentSession()
-
-		// Fetch Fee Statement
 		getFeeStatement()
+		// Fetch Session
+		props.get(`sessions/current-by-course-id/${id}`, setSession)
+		// Fetch Units
+		props.get(`units?courseId=${id}`, setUnits)
+		// Fetch Instructors
+		props.get(`instructors?courseId=${id}`, setInstructors)
+		// Fetch Students
+		props.get(`students?courseId=${id}`, setStudents)
+		// Fetch Billables
+		props.get(`billables?courseId=${id}`, setBillables)
 
 		// Close Pay Menu
 		return () => props.setShowPayMenu("")
@@ -159,10 +158,10 @@ const show = (props) => {
 					</div>
 					<div
 						className={`card shadow-sm flex-grow-1 text-center mb-2 py-2 px-4 ${active(
-							"fee-statements"
+							"billables"
 						)}`}
 						style={{ cursor: "pointer" }}
-						onClick={() => setTab("fee-statements")}>
+						onClick={() => setTab("billables")}>
 						Fee Structure
 					</div>
 				</div>
@@ -172,7 +171,7 @@ const show = (props) => {
 				<UnitList
 					{...props}
 					activeTab={activeTab("units")}
-					units={course.units}
+					units={units}
 					session={session}
 					courseId={id}
 					setCourse={setCourse}
@@ -182,7 +181,7 @@ const show = (props) => {
 				{/* Instructors Tab */}
 				<InstructorList
 					{...props}
-					instructors={course.instructors}
+					instructors={instructors}
 					activeTab={activeTab("instructors")}
 					setCourse={setCourse}
 				/>
@@ -191,7 +190,7 @@ const show = (props) => {
 				{/* Students Tab */}
 				<StudentList
 					{...props}
-					students={course.students}
+					students={students}
 					activeTab={activeTab("students")}
 					setCourse={setCourse}
 				/>
@@ -200,8 +199,8 @@ const show = (props) => {
 				{/* Billables Tab */}
 				<BillableList
 					{...props}
-					billables={course.billables}
-					activeTab={activeTab("fee-statements")}
+					billables={billables}
+					activeTab={activeTab("billables")}
 					setCourse={setCourse}
 				/>
 				{/* Billables Tab End */}

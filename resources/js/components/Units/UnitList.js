@@ -43,7 +43,11 @@ const UnitList = (props) => {
 			.then((res) => {
 				props.setMessages([res.data.message])
 				// Remove row
-				props.get(`courses/${props.courseId}`, props.setCourse)
+				props.setUnits({
+					meta: props.units.meta,
+					links: props.units.links,
+					data: props.units.data.filter((unit) => unit.id != unitId),
+				})
 			})
 			.catch((err) => props.getErrors(err))
 	}

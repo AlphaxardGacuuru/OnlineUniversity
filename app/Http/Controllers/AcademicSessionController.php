@@ -18,9 +18,9 @@ class AcademicSessionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->service->index();
+        return $this->service->index($request);
     }
 
     /**
@@ -103,10 +103,10 @@ class AcademicSessionController extends Controller
     }
 
     /*
-     * By Course Id
+     * Current Session By Course ID
      */
-    public function byCourseId(Request $request, $id)
+    public function currentByCourseId(Request $request, $id)
     {
-        return $this->service->byCourseId($id);
+        return $this->service->currentByCourseId($id);
     }
 }

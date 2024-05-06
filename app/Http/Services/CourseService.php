@@ -19,12 +19,16 @@ class CourseService extends Service
                 ->orderBy("id", "DESC")
                 ->get();
 
-				return response([
-					"data" => $courses
-				], 200);
+            return response([
+                "data" => $courses,
+            ], 200);
         }
 
-        $courses = Course::orderBy("id", "DESC")->paginate(20);
+        $coursesQuery = $this->search($request);
+
+        $courses = $coursesQuery
+            ->orderBy("id", "DESC")
+            ->paginate(20);
 
         return CourseResource::collection($courses);
     }
@@ -107,16 +111,42 @@ class CourseService extends Service
     }
 
     /*
-     * By User ID
+     * Handle Search
      */
-    public function byUserId($id)
+    public function search($request)
     {
-        // Retrieve the user by ID with its associated courses
-        $user = User::with('courses')->find($id);
+        $coursesQuery = new Course;
 
-        // Access the courses related to the user
-        $courses = $user->courses;
+        if ($request->filled("name")) {
+            $coursesQuery = $coursesQuery
+                ->where("name", "LIKE", "%" . $request->name . "%");
+        }
 
-        return CourseResource::collection($courses);
+        $facultyId = $request->input("facultyId");
+
+        if ($request->filled("facultyId")) {
+            $coursesQuery = $coursesQuery
+                ->whereHas("department.faculty", function ($query) use ($facultyId) {
+                    $query->where("faculty_id", $facultyId);
+                });
+        }
+
+        $departmentId = $request->input("departmentId");
+
+        if ($request->filled("departmentId")) {
+            $coursesQuery = $coursesQuery
+                ->where("department_id", $departmentId);
+        }
+
+        $userId = $request->input("userId");
+
+        if ($request->filled("userId")) {
+            $coursesQuery = $coursesQuery
+                ->whereHas("users", function ($query) use ($userId) {
+                    $query->where("user_id", $userId);
+                });
+        }
+
+        return $coursesQuery;
     }
 }

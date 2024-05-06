@@ -69,36 +69,4 @@ class Course extends Model
 	{
 		return $this->hasMany(Billable::class);
 	}
-
-    /*
-     * Custom functions
-     */
-
-    public function instructors()
-    {
-        return $this->userCourses()
-            ->get()
-            ->map(fn($userCourse) => $userCourse->user()
-                    ->where("account_type", "instructor")
-                    ->first())
-            ->filter();
-    }
-
-    public function students()
-    {
-        return $this->userCourses()
-            ->get()
-            ->map(fn($userCourse) => $userCourse->user()
-                    ->where("account_type", "student")
-                    ->first())
-            ->filter();
-    }
-
-	public function admission()
-	{
-		return $this->billables()
-		->where("name", "Admission Fee")
-		->first()
-		?->price;
-	}
 }

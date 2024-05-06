@@ -1,31 +1,44 @@
 import React, { useEffect, useState } from "react"
 
-import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
 
-import StaffSVG from "@/svgs/StaffSVG"
 import HeroIcon from "@/components/Core/HeroIcon"
+import PaginationLinks from "@/components/Core/PaginationLinks"
+import DeleteModal from "@/components/Core/DeleteModal"
+
+import StaffSVG from "@/svgs/StaffSVG"
 
 const index = (props) => {
 	// Get Staff
 	const [staff, setStaff] = useState([])
 	const [roles, setRoles] = useState([])
 	const [loading, setLoading] = useState()
+
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
-	const [dateQuery, setDateQuery] = useState("")
+	const [roleQuery, setRoleQuery] = useState("")
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Staff", path: ["staff"] })
-		props.get("staff", setStaff)
+		props.get("roles?idAndName=true", setRoles)
 	}, [])
+
+	useEffect(() => {
+		props.getPaginated(
+			`staff?
+			name=${nameQuery}&
+			gender=${genderQuery}&
+			roleId=${roleQuery}`,
+			setStaff
+		)
+	}, [nameQuery, genderQuery, roleQuery])
 
 	/*
 	 * Delete
 	 */
-	const onDelete = (staffId) => {
+	const onDeleteStaff = (staffId) => {
 		// Toggle loader
 		setLoading(true)
 
@@ -52,7 +65,7 @@ const index = (props) => {
 						{/* Total */}
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 							<div>
-								<span className="fs-4">{staff.length}</span>
+								<span className="fs-4">{staff.meta?.total}</span>
 								<h4>Total Staff</h4>
 							</div>
 							<HeroIcon>
@@ -109,32 +122,20 @@ const index = (props) => {
 								{roles.map((role, key) => (
 									<option
 										key={key}
-										value="male">
+										value={role.id}>
 										{role.name}
 									</option>
 								))}
 							</select>
 						</div>
 						{/* Role End */}
-						{/* Date */}
-						{/* <div className="flex-grow-1">
-							<input
-								id=""
-								type="date"
-								name="daterange"
-								placeholder="Search by Date Joined"
-								className="form-control"
-								onChange={(e) => setDateQuery(e.target.value)}
-							/>
-						</div> */}
-						{/* Date End */}
 					</div>
 				</div>
 				{/* Filters End */}
 
 				<br />
 
-				<div className="table-responsive">
+				<div className="table-responsive mb-5 pb-2">
 					<table className="table table-hover">
 						<thead>
 							<tr>
@@ -159,110 +160,60 @@ const index = (props) => {
 							</tr>
 						</thead>
 						<tbody>
-							{staff
-								.filter((staff) => {
-									var name = staff.name.toLowerCase()
-									var query = nameQuery.toLowerCase()
-
-									return name.match(query)
-								})
-								.filter((staff) => {
-									if (genderQuery) {
-										return staff.gender == genderQuery
-									} else {
-										return true
-									}
-								})
-								.map((staff, key) => (
-									<tr key={key}>
-										<td>{key + 1}</td>
-										<td>
-											<Img
-												src={staff.avatar}
-												className="rounded-circle"
-												width="25px"
-												height="25px"
-												alt="Avatar"
+							{staff.data?.map((staff, key) => (
+								<tr key={key}>
+									<td>{key + 1}</td>
+									<td>
+										<Img
+											src={staff.avatar}
+											className="rounded-circle"
+											width="25px"
+											height="25px"
+											alt="Avatar"
+										/>
+									</td>
+									<td>{staff.name}</td>
+									<td>{staff.email}</td>
+									<td>{staff.phone}</td>
+									<td className="text-capitalize">{staff.gender}</td>
+									<td>
+										{staff.roleNames.map((role, key) => (
+											<span key={key}>
+												{key != 0 && <span className="mx-1">|</span>}
+												{role}
+											</span>
+										))}
+									</td>
+									<td>{staff.createdAt}</td>
+									<td className="text-end">
+										<div className="d-flex">
+											<MyLink
+												linkTo={`/staff/${staff.id}/edit`}
+												text="edit"
+												className="btn-sm"
 											/>
-										</td>
-										<td>{staff.name}</td>
-										<td>{staff.email}</td>
-										<td>{staff.phone}</td>
-										<td className="text-capitalize">{staff.gender}</td>
-										<td>
-											{staff.roleNames.map((role, key) => (
-												<span key={key}>| {role}</span>
-											))}
-										</td>
-										<td>{staff.createdAt}</td>
-										<td className="text-end">
-											<div className="d-flex">
-												<MyLink
-													linkTo={`/staff/${staff.id}/edit`}
-													text="edit"
-													className="btn-sm"
+
+											<div className="mx-1">
+												<DeleteModal
+													index={`staff${key}`}
+													model={staff}
+													modelName="Staff"
+													onDelete={onDeleteStaff}
 												/>
-
-												<div className="mx-1">
-													{/* Confirm Delete Modal End */}
-													<div
-														className="modal fade"
-														id={`deleteModal${key}`}
-														tabIndex="-1"
-														aria-labelledby="deleteModalLabel"
-														aria-hidden="true">
-														<div className="modal-dialog">
-															<div className="modal-content">
-																<div className="modal-header">
-																	<h1
-																		id="deleteModalLabel"
-																		className="modal-title fs-5 text-danger">
-																		Delete Staff
-																	</h1>
-																	<button
-																		type="button"
-																		className="btn-close"
-																		data-bs-dismiss="modal"
-																		aria-label="Close"></button>
-																</div>
-																<div className="modal-body text-start text-wrap">
-																	Are you sure you want to delete {staff.name}.
-																</div>
-																<div className="modal-footer justify-content-between">
-																	<button
-																		type="button"
-																		className="btn btn-light rounded-pill"
-																		data-bs-dismiss="modal">
-																		Close
-																	</button>
-																	<button
-																		type="button"
-																		className="btn btn-danger rounded-pill"
-																		data-bs-dismiss="modal"
-																		onClick={() => onDelete(staff.id)}>
-																		Delete
-																	</button>
-																</div>
-															</div>
-														</div>
-													</div>
-													{/* Confirm Delete Modal End */}
-
-													{/* Button trigger modal */}
-													<button
-														type="button"
-														className="btn btn-sm btn-outline-danger rounded-pill"
-														data-bs-toggle="modal"
-														data-bs-target={`#deleteModal${key}`}>
-														Delete
-													</button>
-												</div>
 											</div>
-										</td>
-									</tr>
-								))}
+										</div>
+									</td>
+								</tr>
+							))}
 						</tbody>
 					</table>
+					{/* Pagination Links */}
+					<PaginationLinks
+						list={staff}
+						getPaginated={props.getPaginated}
+						setState={setStaff}
+					/>
+					{/* Pagination Links End */}
 				</div>
 			</div>
 		</div>

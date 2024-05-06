@@ -1,31 +1,42 @@
 import React, { useEffect, useState } from "react"
 
-import Btn from "@/components/Core/Btn"
-import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
 
-import PersonSVG from "@/svgs/PersonSVG"
-import SessionSVG from "@/svgs/SessionSVG"
 import HeroIcon from "@/components/Core/HeroIcon"
+import PaginationLinks from "@/components/Core/PaginationLinks"
+
+import SessionSVG from "@/svgs/SessionSVG"
 
 const index = (props) => {
 	// Get Sessions
 	const [sessions, setSessions] = useState([])
+	const [courses, setCourses] = useState([])
+
+	const [courseQuery, setCourseQuery] = useState("")
+	const [yearQuery, setYearQuery] = useState("")
+	const [semesterQuery, setSemesterQuery] = useState("")
 	const [loading, setLoading] = useState()
-	const [nameQuery, setNameQuery] = useState("")
-	const [genderQuery, setGenderQuery] = useState("")
-	const [dateQuery, setDateQuery] = useState("")
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Sessions", path: ["sessions"] })
-		props.get("sessions", setSessions)
+		props.get("courses?idAndName=true", setCourses)
 	}, [])
+
+	useEffect(() => {
+		props.getPaginated(
+			`sessions?
+			courseId=${courseQuery}&
+			year=${yearQuery}&
+			semester=${semesterQuery}`,
+			setSessions
+		)
+	}, [courseQuery, yearQuery, semesterQuery])
 
 	/*
 	 * Delete
 	 */
-	const onDelete = (sessionId) => {
+	const onDeleteSession = (sessionId) => {
 		// Toggle loader
 		setLoading(true)
 
@@ -34,8 +45,12 @@ const index = (props) => {
 				props.setMessages([res.data.message])
 				// Toggle loader
 				setLoading(true)
-				// Delete rows
-				setSessions(sessions.filter((session) => session.id != sessionId))
+				// Remove row
+				setSessions({
+					meta: sessions.meta,
+					links: sessions.links,
+					data: sessions.data.filter((session) => session.id != sessionId),
+				})
 			})
 			.catch((err) => {
 				// Toggle loader
@@ -53,7 +68,7 @@ const index = (props) => {
 						{/* Total */}
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 							<div>
-								<span className="fs-4">{sessions.length}</span>
+								<span className="fs-4">{sessions.meta?.total}</span>
 								<h4>Total Sessions</h4>
 							</div>
 							<HeroIcon>
@@ -67,7 +82,54 @@ const index = (props) => {
 
 				<br />
 
-				<div className="table-responsive">
+				{/* Filters */}
+				<div className="card shadow-sm p-4">
+					<div className="d-flex flex-wrap">
+						{/* Course */}
+						<div className="flex-grow-1 me-2 mb-2">
+							<select
+								type="text"
+								placeholder="Search by Gender"
+								className="form-control me-2"
+								onChange={(e) => setCourseQuery(e.target.value)}>
+								<option value="">Search by Course</option>
+								{courses.map((course, key) => (
+									<option
+										key={key}
+										value={course.id}>
+										{course.name}
+									</option>
+								))}
+							</select>
+						</div>
+						{/* Course End */}
+						{/* Year */}
+						<div className="flex-grow-1 me-2 mb-2">
+							<input
+								type="number"
+								placeholder="Search by Year"
+								className="form-control"
+								onChange={(e) => setYearQuery(e.target.value)}
+							/>
+						</div>
+						{/* Year End */}
+						{/* Semester */}
+						<div className="flex-grow-1 me-2 mb-2">
+							<input
+								type="number"
+								placeholder="Search by Semester"
+								className="form-control"
+								onChange={(e) => setSemesterQuery(e.target.value)}
+							/>
+						</div>
+						{/* Semester End */}
+					</div>
+				</div>
+				{/* Filters End */}
+
+				<br />
+
+				<div className="table-responsive mb-5 pb-2">
 					<table className="table table-hover">
 						<thead>
 							<tr>
@@ -90,9 +152,9 @@ const index = (props) => {
 							</tr>
 						</thead>
 						<tbody>
-							{sessions.map((session, key) => (
+							{sessions.data?.map((session, key) => (
 								<tr key={key}>
-									<td>{key + 1}</td>
+									<td>{props.iterator(key, sessions)}</td>
 									<td>{session.courseName}</td>
 									<td>{session.year}</td>
 									<td>{session.semester}</td>
@@ -142,7 +204,7 @@ const index = (props) => {
 																	type="button"
 																	className="btn btn-danger rounded-pill"
 																	data-bs-dismiss="modal"
-																	onClick={() => onDelete(session.id)}>
+																	onClick={() => onDeleteSession(session.id)}>
 																	Delete
 																</button>
 															</div>
@@ -166,6 +228,13 @@ const index = (props) => {
 							))}
 						</tbody>
 					</table>
+					{/* Pagination Links */}
+					<PaginationLinks
+						list={sessions}
+						getPaginated={props.getPaginated}
+						setState={setSessions}
+					/>
+					{/* Pagination Links End */}
 				</div>
 			</div>
 		</div>

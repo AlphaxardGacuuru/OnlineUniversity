@@ -4,16 +4,19 @@ namespace App\Http\Services;
 
 use App\Http\Resources\AcademicSessionResource;
 use App\Models\AcademicSession;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AcademicSessionService extends Service
 {
     /*
      * Get Academic Sessions
      */
-    public function index()
+    public function index($request)
     {
-        $academicSessions = AcademicSession::orderBy("id", "DESC")->paginate(20);
+        $academicSessionsQuery = $this->search($request);
+
+        $academicSessions = $academicSessionsQuery
+            ->orderBy("id", "DESC")
+            ->paginate(20);
 
         return AcademicSessionResource::collection($academicSessions);
     }
@@ -96,9 +99,9 @@ class AcademicSessionService extends Service
     }
 
     /*
-     * By Course Id
+     * Current Session By Course Id
      */
-    public function byCourseId($id)
+    public function currentByCourseId($id)
     {
         $academicSession = AcademicSession::where("course_id", $id)
             ->where("starts_at", "<=", now())
@@ -108,11 +111,38 @@ class AcademicSessionService extends Service
 
         // Check if exists
         if (!$academicSession) {
-			return response([
-				"errors" => ["Course doesn't have an ongoing Session"]
-			], 422);
+            return response([
+                "errors" => ["Course doesn't have an ongoing Session"],
+            ], 422);
         }
 
         return new AcademicSessionResource($academicSession);
+    }
+
+    /*
+     * Handle Search
+     */
+    public function search($request)
+    {
+        $academicSessionsQuery = new AcademicSession;
+
+        $courseId = $request->input("courseId");
+
+        if ($request->filled("courseId")) {
+            $academicSessionsQuery = $academicSessionsQuery
+                ->where("course_id", $courseId);
+        }
+
+        if ($request->filled("year")) {
+            $academicSessionsQuery = $academicSessionsQuery
+                ->where("year", $request->year);
+        }
+
+        if ($request->filled("semester")) {
+            $academicSessionsQuery = $academicSessionsQuery
+                ->where("semester", "LIKE", $request->semester);
+        }
+
+        return $academicSessionsQuery;
     }
 }

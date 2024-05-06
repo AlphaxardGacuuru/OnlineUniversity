@@ -101,12 +101,4 @@ class CourseController extends Controller
             "data" => $course,
         ], 200);
     }
-
-    /*
-     * By User ID
-     */
-    public function byUserId($id)
-    {
-        return $this->service->byUserId($id);
-    }
 }

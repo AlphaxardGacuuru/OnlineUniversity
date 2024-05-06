@@ -46,7 +46,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('auth', [UserController::class, 'auth']);
 
 // Place Above Route::apiResources in order to match route
-// Chat 
+// Chat
 Route::get("chats/all-threads", [ChatController::class, "allThreads"]);
 
 Route::apiResources([
@@ -83,17 +83,11 @@ Route::get("admin", [AdminController::class, "index"]);
 // User
 Route::get("fee-statements/{id}", [UserController::class, "feeStatements"]);
 
-// Course
-Route::get("courses/by-user-id/{id}", [CourseController::class, "byUserId"]);
-
-// Unit
-Route::get("units/by-user-id/{id}", [UnitController::class, "byUserId"]);
-
 // Material
 Route::get("materials/by-unit-id/{id}", [MaterialController::class, "byUnitId"]);
 
-// Academic Session
-Route::get("sessions/by-course-id/{id}", [AcademicSessionController::class, "byCourseId"]);
+// Current Academic Session By Course ID
+Route::get("sessions/current-by-course-id/{id}", [AcademicSessionController::class, "currentByCourseId"]);
 
 // Kopokopo STK Push
 Route::post("stk-push", [MPESATransactionController::class, 'stkPush']);

@@ -78,6 +78,16 @@ class User extends Authenticatable
      * Relationships
      */
 
+    public function faculties()
+    {
+        return $this->belongsToMany(Faculty::class, 'user_faculties');
+    }
+
+    public function departments()
+    {
+        return $this->belongsToMany(Department::class, 'user_departments');
+    }
+
     public function courses()
     {
         return $this->belongsToMany(Course::class, 'user_courses');
@@ -86,6 +96,11 @@ class User extends Authenticatable
     public function units()
     {
         return $this->belongsToMany(Unit::class, 'user_units');
+    }
+
+    public function roleAssociation()
+    {
+        return $this->belongsToMany(Role::class, 'user_roles');
     }
 
     public function userFaculties()
@@ -178,45 +193,30 @@ class User extends Authenticatable
     {
         return $this->userCourses()
             ->first()
-            ?->approved_by;
-    }
-	
-    public function roleNames()
-    {
-        $roles = [];
-
-        foreach ($this->userRoles as $userRole) {
-            array_push($roles, $userRole->role->name);
-        }
-
-        return $roles;
+        ?->approved_by;
     }
 
-    // Returns all roles
+    /*
+     * Returns all roles
+     */
     public function roles()
     {
-        $roles = [];
+        return $this->userRoles
+            ->map(fn($userRole) => $userRole->role);
+    }
 
-        foreach ($this->userRoles as $userRole) {
-            array_push($roles, $userRole->role);
-        }
-
-        return collect($roles);
+    public function roleNames()
+    {
+        return $this->roles()
+            ->map(fn($role) => $role->name);
     }
 
     // Returns an array of permissions
     public function permissions()
     {
-        $permissions = [];
-
-        foreach ($this->userRoles as $userRole) {
-            $roleEntities = $userRole->role->permissions;
-
-            array_push($permissions, $roleEntities);
-        }
-
         // Combine array and get unique
-        return collect($permissions)
+        return $this->roles()
+            ->map(fn($role) => $role->permissions)
             ->collapse()
             ->unique();
     }

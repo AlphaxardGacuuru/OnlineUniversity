@@ -14,11 +14,13 @@ class StaffService extends Service
     /*
      * Get All Staff
      */
-    public function index()
+    public function index($request)
     {
-        $staff = User::where("account_type", "staff")
+        $staffQuery = $this->search($request);
+
+        $staff = $staffQuery
             ->orderBy("id", "DESC")
-            ->get();
+            ->paginate(20);
 
         return StaffResource::collection($staff);
     }
@@ -161,5 +163,34 @@ class StaffService extends Service
         $deleted = $staff->delete();
 
         return [$deleted, $staff->name . " deleted"];
+    }
+
+    /*
+     * Handle Search
+     */
+    public function search($request)
+    {
+        $staffQuery = User::where("account_type", "staff");
+
+        if ($request->filled("name")) {
+            $staffQuery = $staffQuery
+                ->where("name", "LIKE", "%" . $request->name . "%");
+        }
+
+        if ($request->filled("gender")) {
+            $staffQuery = $staffQuery
+                ->where("gender", $request->input("gender"));
+        }
+
+        $roleId = $request->input("roleId");
+
+        if ($request->filled("roleId")) {
+            $staffQuery = $staffQuery
+                ->whereHas("roleAssociation", function ($query) use ($roleId) {
+                    $query->where("role_id", $roleId);
+                });
+        }
+
+        return $staffQuery;
     }
 }

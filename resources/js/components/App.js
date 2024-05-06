@@ -61,25 +61,45 @@ function App() {
 	const [paymentAmount, setPaymentAmount] = useState()
 
 	// Function for fetching data from API
-	const get = (endpoint, setState, storage = null, errors = true) => {
+	const get = (
+		endpoint,
+		setState,
+		storage = null,
+		errors = true,
+	) => {
 		Axios.get(`/api/${endpoint}`)
 			.then((res) => {
+				// Set State
 				var data = res.data ? res.data.data : []
 				setState(data)
+				// Set Local Storage
 				storage && setLocalStorage(storage, data)
 			})
-			.catch(() => errors && setErrors([`Failed to fetch ${endpoint}`]))
+			.catch(() => {
+				// Show Errors
+				errors && setErrors([`Failed to fetch ${endpoint}`])
+			})
 	}
 
 	// Function for fetching data from API
-	const getPaginated = (endpoint, setState, storage = null, errors = true) => {
+	const getPaginated = (
+		endpoint,
+		setState,
+		storage = null,
+		errors = true,
+	) => {
 		Axios.get(`/api/${endpoint}`)
 			.then((res) => {
+				// Set State
 				var data = res.data ? res.data : []
 				setState(data)
+				// Set Local Storage
 				storage && setLocalStorage(storage, data)
 			})
-			.catch(() => errors && setErrors([`Failed to fetch ${endpoint}`]))
+			.catch(() => {
+				// Set Errors
+				errors && setErrors([`Failed to fetch ${endpoint}`])
+			})
 	}
 
 	// Function for showing iteration

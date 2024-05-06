@@ -106,12 +106,4 @@ class UnitController extends Controller
             "data" => $unit,
         ], 200);
     }
-
-	/*
-	* By User ID
-	*/ 
-	public function byUserId($id)
-	{
-		return $this->service->byUserId($id);	
-	}
 }

@@ -7,13 +7,35 @@ use App\Models\Billable;
 
 class BillableService extends Service
 {
-	/*
-	* Get Admission Billable by Course ID
-	*/ 
-	public function admissionById($id)
-	{
-		$admissionBillable = Billable::where("course_id", $id)->first();
+    public function index($request)
+    {
+        $billablesQuery = new Billable;
 
-		return new BillableResource($admissionBillable);
-	}
+        $billablesQuery = $this->search($billablesQuery, $request);
+
+        $billables = $billablesQuery
+            ->orderBy("id", "DESC")
+            ->paginate(20);
+
+        return BillableResource::collection($billables);
+    }
+
+    /*
+     * Handle Search
+     */
+    public function search($query, $request)
+    {
+        if ($request->filled("name")) {
+            $query = $query
+                ->where("name", "LIKE", "%" . $request->name . "%");
+        }
+
+        $courseId = $request->input("courseId");
+
+        if ($request->filled("courseId")) {
+            $query = $query->where("course_id", $courseId);
+        }
+
+        return $query;
+    }
 }

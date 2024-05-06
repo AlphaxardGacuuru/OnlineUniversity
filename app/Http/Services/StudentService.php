@@ -17,9 +17,13 @@ class StudentService extends Service
     /*
      * Get All Students
      */
-    public function index()
+    public function index($request)
     {
-        $students = User::where("account_type", "student")
+        $studentsQuery = User::where("account_type", "instructor");
+
+        $studentsQuery = $this->search($studentsQuery, $request);
+
+        $students = $studentsQuery
             ->orderBy("id", "DESC")
             ->paginate(20);
 
@@ -187,5 +191,59 @@ class StudentService extends Service
         $deleted = $student->delete();
 
         return [$deleted, $student->name . " deleted"];
+    }
+
+    /*
+     * Handle Search
+     */
+    public function search($query, $request)
+    {
+        if ($request->filled("name")) {
+            $query = $query
+                ->where("name", "LIKE", "%" . $request->name . "%");
+        }
+
+        if ($request->filled("gender")) {
+            $query = $query
+                ->where("gender", $request->input("gender"));
+        }
+
+        $facultyId = $request->input("facultyId");
+
+        if ($request->filled("facultyId")) {
+            $query = $query
+                ->whereHas("faculties", function ($query) use ($facultyId) {
+                    $query->where("faculty_id", $facultyId);
+                });
+        }
+
+        $departmentId = $request->input("departmentId");
+
+        if ($request->filled("departmentId")) {
+            $query = $query
+                ->whereHas("departments", function ($query) use ($departmentId) {
+                    $query->where("department_id", $departmentId);
+                });
+        }
+
+        $courseId = $request->input("courseId");
+
+        if ($request->filled("courseId")) {
+            $query = $query
+                ->whereHas("courses", function ($query) use ($courseId) {
+                    $query->where("course_id", $courseId);
+                });
+        }
+
+        $unitId = $request->input("unitId");
+
+        if ($request->filled("unitId")) {
+            $query = $query
+                ->whereHas("units", function ($query) use ($unitId) {
+                    $query->where("unit_id", $unitId);
+                });
+        }
+
+        return $query;
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Services;
 use App\Http\Resources\UnitResource;
 use App\Http\Services\Service;
 use App\Models\Unit;
-use App\Models\User;
 use App\Models\UserUnit;
 
 class UnitService extends Service
@@ -150,16 +149,44 @@ class UnitService extends Service
     }
 
     /*
-     * By User ID
+     * Handle Search
      */
-    public function byUserId($id)
+    public function search($request)
     {
-        // Retrieve the user by ID with its associated units
-        $user = User::with('units')->find($id);
+        $unitsQuery = new Unit;
 
-        // Access the units related to the user
-        $units = $user->units;
+        if ($request->filled("name")) {
+            $unitsQuery = $unitsQuery
+                ->where("name", "LIKE", "%" . $request->name . "%");
+        }
 
-        return UnitResource::collection($units);
+        $facultyId = $request->input("facultyId");
+
+        if ($request->filled("facultyId")) {
+            $unitsQuery = $unitsQuery
+                ->whereHas("department.faculty", function ($query) use ($facultyId) {
+                    $query->where("faculty_id", $facultyId);
+                });
+        }
+
+        $departmentId = $request->input("departmentId");
+
+        if ($request->filled("departmentId")) {
+            $unitsQuery = $unitsQuery
+                ->whereHas("course.department", function ($query) use ($departmentId) {
+                    $query->where("department_id", $departmentId);
+                });
+        }
+
+        $userId = $request->input("userId");
+
+        if ($request->filled("userId")) {
+            $unitsQuery = $unitsQuery
+                ->whereHas("users", function ($query) use ($userId) {
+                    $query->where("user_id", $userId);
+                });
+        }
+
+        return $unitsQuery;
     }
 }

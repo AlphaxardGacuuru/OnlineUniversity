@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react"
 
-import Btn from "@/components/Core/Btn"
-import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
+import DeleteModal from "@/components/Core/DeleteModal"
 
-import PersonSVG from "@/svgs/PersonSVG"
 import FacultySVG from "@/svgs/FacultySVG"
 import HeroIcon from "@/components/Core/HeroIcon"
 
@@ -12,9 +10,6 @@ const index = (props) => {
 	// Get Faculties
 	const [faculties, setFaculties] = useState([])
 	const [loading, setLoading] = useState()
-	const [nameQuery, setNameQuery] = useState("")
-	const [genderQuery, setGenderQuery] = useState("")
-	const [dateQuery, setDateQuery] = useState("")
 
 	useEffect(() => {
 		// Set page
@@ -25,7 +20,7 @@ const index = (props) => {
 	/*
 	 * Delete
 	 */
-	const onDelete = (facultyId) => {
+	const onDeleteFaculty = (facultyId) => {
 		// Toggle loader
 		setLoading(true)
 
@@ -107,58 +102,12 @@ const index = (props) => {
 											/>
 
 											<div className="mx-1">
-												{/* Confirm Delete Modal End */}
-												<div
-													className="modal fade"
-													id={`deleteModal${key}`}
-													tabIndex="-1"
-													aria-labelledby="deleteModalLabel"
-													aria-hidden="true">
-													<div className="modal-dialog">
-														<div className="modal-content">
-															<div className="modal-header">
-																<h1
-																	id="deleteModalLabel"
-																	className="modal-title fs-5 text-danger">
-																	Delete Faculty
-																</h1>
-																<button
-																	type="button"
-																	className="btn-close"
-																	data-bs-dismiss="modal"
-																	aria-label="Close"></button>
-															</div>
-															<div className="modal-body text-start text-wrap">
-																Are you sure you want to delete {faculty.name}.
-															</div>
-															<div className="modal-footer justify-content-between">
-																<button
-																	type="button"
-																	className="btn btn-light rounded-pill"
-																	data-bs-dismiss="modal">
-																	Close
-																</button>
-																<button
-																	type="button"
-																	className="btn btn-danger rounded-pill"
-																	data-bs-dismiss="modal"
-																	onClick={() => onDelete(faculty.id)}>
-																	Delete
-																</button>
-															</div>
-														</div>
-													</div>
-												</div>
-												{/* Confirm Delete Modal End */}
-
-												{/* Button trigger modal */}
-												<button
-													type="button"
-													className="btn btn-sm btn-outline-danger rounded-pill"
-													data-bs-toggle="modal"
-													data-bs-target={`#deleteModal${key}`}>
-													Delete
-												</button>
+												<DeleteModal
+													index={`faculty${key}`}
+													model={faculty}
+													modelName="Faculty"
+													onDelete={onDeleteFaculty}
+												/>
 											</div>
 										</div>
 									</td>

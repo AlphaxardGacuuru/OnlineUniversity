@@ -44,8 +44,15 @@ const AdminMenu = (props) => {
 		}
 	}, [props.location])
 
-	useEffect(() => {
+	const getNotifications = () =>
 		props.get("notifications", setNotifications, null, false)
+
+	useEffect(() => {
+		// Fetch Chats
+		const notificationInterval = setInterval(() => getNotifications(), 5000)
+
+		// Cleanup function to clear the interval on component unmount
+		return () => clearInterval(notificationInterval)
 	}, [])
 
 	const onNotification = () => {
@@ -140,9 +147,7 @@ const AdminMenu = (props) => {
 														height: "auto",
 													}}
 												/>
-												<span className="hidden">
-													<LogoSVG />
-												</span>
+												{/* <span className="hidden"><LogoSVG /></span> */}
 											</Link>
 										</div>
 									</div>

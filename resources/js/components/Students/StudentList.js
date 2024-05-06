@@ -1,16 +1,25 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink from "@/components/Core/MyLink"
 import Img from "@/components/Core/Img"
+import DeleteModal from "@/components/Core/DeleteModal"
 
 import HeroIcon from "@/components/Core/HeroIcon"
 
-import StudentSVG from "@/svgs/StudentSVG"
+import PersonSVG from "@/svgs/PersonSVG"
+import PaginationLinks from "@/components/Core/PaginationLinks"
 
 const StudentList = (props) => {
-	const [nameQuery, setNameQuery] = useState("")
-	const [genderQuery, setGenderQuery] = useState("")
-	const [dateQuery, setDateQuery] = useState("")
+	const location = useLocation()
+
+	const [faculties, setFaculties] = useState([])
+	const [departments, setDepartments] = useState([])
+
+	useEffect(() => {
+		props.get("faculties?idAndName=true", setFaculties)
+		props.get("departments?idAndName=true", setDepartments)
+	}, [])
 
 	/*
 	 * Delete Student
@@ -20,7 +29,13 @@ const StudentList = (props) => {
 			.then((res) => {
 				props.setMessages([res.data.message])
 				// Remove row
-				props.setCourse && props.get(`courses/${courseId}`, props.setCourse)
+				props.setStudents({
+					meta: props.students.meta,
+					links: props.students.links,
+					data: props.students.data.filter(
+						(students) => students.id != studentId
+					),
+				})
 			})
 			.catch((err) => props.getErrors(err))
 	}
@@ -33,11 +48,11 @@ const StudentList = (props) => {
 					{/* Total */}
 					<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 						<div>
-							<span className="fs-4">{props.students?.length}</span>
-							<h4>Total Instructors</h4>
+							<span className="fs-4">{props.students.meta?.total}</span>
+							<h4>Total Students</h4>
 						</div>
 						<HeroIcon>
-							<StudentSVG />
+							<PersonSVG />
 						</HeroIcon>
 					</div>
 					{/* Total End */}
@@ -58,7 +73,7 @@ const StudentList = (props) => {
 							name="name"
 							placeholder="Search by Name"
 							className="form-control"
-							onChange={(e) => setNameQuery(e.target.value)}
+							onChange={(e) => props.setNameQuery(e.target.value)}
 						/>
 					</div>
 					{/* Name End */}
@@ -70,169 +85,138 @@ const StudentList = (props) => {
 							name="name"
 							placeholder="Search by Gender"
 							className="form-control me-2"
-							onChange={(e) => setGenderQuery(e.target.value)}>
+							onChange={(e) => props.setGenderQuery(e.target.value)}>
 							<option value="">Search by Gender</option>
 							<option value="male">Male</option>
 							<option value="female">Female</option>
 						</select>
 					</div>
 					{/* Gender End */}
-					{/* Date */}
-					{/* <div className="flex-grow-1">
-							<input
-								id=""
-								type="date"
-								name="daterange"
-								placeholder="Search by Date Joined"
-								className="form-control"
-								onChange={(e) => setDateQuery(e.target.value)}
-							/>
-						</div> */}
-					{/* Date End */}
+					{/* Faculty */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<select
+							id=""
+							type="text"
+							name="name"
+							placeholder="Search by Faculty"
+							className="form-control me-2"
+							onChange={(e) => props.setFacultyQuery(e.target.value)}>
+							<option value="">Search by Faculty</option>
+							{faculties.map((faculty, key) => (
+								<option
+									key={key}
+									value={faculty.id}>
+									{faculty.name}
+								</option>
+							))}
+						</select>
+					</div>
+					{/* Faculty End */}
+					{/* Department */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<select
+							id=""
+							type="text"
+							name="name"
+							placeholder="Search by Gender"
+							className="form-control me-2"
+							onChange={(e) => props.setDepartmentQuery(e.target.value)}>
+							<option value="">Search by Department</option>
+							{departments.map((department, key) => (
+								<option
+									key={key}
+									value={department.id}>
+									{department.name}
+								</option>
+							))}
+						</select>
+					</div>
+					{/* Department End */}
 				</div>
 			</div>
 			{/* Filters End */}
 
 			<br />
 
-			<div className="table-responsive">
+			<div className="table-responsive mb-5 pb-2">
 				<table className="table table-hover">
 					<thead>
-						{location.pathname.match("/admin/") && (
-							<tr>
-								<th colSpan="7"></th>
-								<th className="text-end">
-									<MyLink
-										linkTo="/students/create"
-										text="add student"
-									/>
-								</th>
-							</tr>
-						)}
+						<tr>
+							<th colSpan="7"></th>
+							<th className="text-end">
+								<MyLink
+									linkTo="/students/create"
+									text="add student"
+								/>
+							</th>
+						</tr>
 						<tr>
 							<th>#</th>
 							<th></th>
 							<th>Name</th>
 							<th>Email</th>
-							<th>Phone</th>
 							<th>Gender</th>
+							<th>Faculty</th>
 							<th>Department</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
-						{props.students
-							?.filter((student) => {
-								var name = student.name.toLowerCase()
-								var query = nameQuery.toLowerCase()
-
-								return name.match(query)
-							})
-							.filter((student) => {
-								if (genderQuery) {
-									return student.gender == genderQuery
-								} else {
-									return true
-								}
-							})
-							.map((student, key) => (
-								<tr key={key}>
-									<td>{key + 1}</td>
-									<td>
-										<Img
-											src={student.avatar}
-											className="rounded-circle"
-											width="25px"
-											height="25px"
-											alt="Avatar"
+						{props.students.data?.map((student, key) => (
+							<tr key={key}>
+								<td>{props.iterator(key, props.students)}</td>
+								<td>
+									<Img
+										src={student.avatar}
+										className="rounded-circle"
+										style={{ minWidth: "3em", height: "3em" }}
+										alt="Avatar"
+									/>
+								</td>
+								<td>{student.name}</td>
+								<td>{student.email}</td>
+								<td className="text-capitalize">{student.gender}</td>
+								<td>{student.facultyName}</td>
+								<td>{student.departmentName}</td>
+								<td className="text-end">
+									<div className="d-flex">
+										<MyLink
+											linkTo={`/students/${student.id}/show`}
+											text="view"
+											className="btn-sm me-1"
 										/>
-									</td>
-									<td>{student.name}</td>
-									<td>{student.email}</td>
-									<td>{student.phone}</td>
-									<td className="text-capitalize">{student.gender}</td>
-									<td>{student.departmentName}</td>
-									<td>
-										<div className="d-flex justify-content-end">
-											{location.pathname.match("/admin/") && (
-												<React.Fragment>
-													<MyLink
-														linkTo={`/students/${student.id}/show`}
-														text="view"
-														className="btn-sm me-1"
+
+										{location.pathname.match("/admin/") && (
+											<React.Fragment>
+												<MyLink
+													linkTo={`/students/${student.id}/edit`}
+													text="edit"
+													className="btn-sm"
+												/>
+
+												<div className="mx-1">
+													<DeleteModal
+														index={`student${key}`}
+														model={student}
+														modelName="Student"
+														onDelete={onDeleteStudent}
 													/>
-
-													<MyLink
-														linkTo={`/students/${student.id}/edit`}
-														text="edit"
-														className="btn-sm"
-													/>
-
-													<div className="mx-1">
-														{/* Confirm Delete Modal End */}
-														<div
-															className="modal fade"
-															id={`deleteStudentModal${key}`}
-															tabIndex="-1"
-															aria-labelledby="deleteModalLabel"
-															aria-hidden="true">
-															<div className="modal-dialog">
-																<div className="modal-content">
-																	<div className="modal-header">
-																		<h1
-																			id="deleteModalLabel"
-																			className="modal-title fs-5 text-danger">
-																			Delete Student
-																		</h1>
-																		<button
-																			type="button"
-																			className="btn-close"
-																			data-bs-dismiss="modal"
-																			aria-label="Close"></button>
-																	</div>
-																	<div className="modal-body text-start text-wrap text-start">
-																		Are you sure you want to delete{" "}
-																		{student.name}.
-																	</div>
-																	<div className="modal-footer justify-content-between">
-																		<button
-																			type="button"
-																			className="btn btn-light rounded-pill"
-																			data-bs-dismiss="modal">
-																			Close
-																		</button>
-																		<button
-																			type="button"
-																			className="btn btn-danger rounded-pill"
-																			data-bs-dismiss="modal"
-																			onClick={() =>
-																				onDeleteStudent(student.id)
-																			}>
-																			Delete
-																		</button>
-																	</div>
-																</div>
-															</div>
-														</div>
-														{/* Confirm Delete Modal End */}
-
-														{/* Button trigger modal */}
-														<button
-															type="button"
-															className="btn btn-sm btn-outline-danger rounded-pill"
-															data-bs-toggle="modal"
-															data-bs-target={`#deleteStudentModal${key}`}>
-															Delete
-														</button>
-													</div>
-												</React.Fragment>
-											)}
-										</div>
-									</td>
-								</tr>
-							))}
+												</div>
+											</React.Fragment>
+										)}
+									</div>
+								</td>
+							</tr>
+						))}
 					</tbody>
 				</table>
+				{/* Pagination Links */}
+				<PaginationLinks
+					list={props.students}
+					getPaginated={props.getPaginated}
+					setState={props.setStudents}
+				/>
+				{/* Pagination Links End */}
 			</div>
 		</div>
 	)
