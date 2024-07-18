@@ -48,15 +48,17 @@ const show = (props) => {
 		getCourse()
 		getFeeStatement()
 		// Fetch Session
-		props.get(`sessions/current-by-course-id/${id}`, setSession)
+		Axios.get(`api/sessions/current-by-course-id/${id}`)
+			.then((res) => setSession(res.data.data))
+			.catch((err) => props.getErrors(err))
 		// Fetch Units
-		props.get(`units?courseId=${id}`, setUnits)
+		props.getPaginated(`units?courseId=${id}`, setUnits)
 		// Fetch Instructors
-		props.get(`instructors?courseId=${id}`, setInstructors)
+		props.getPaginated(`instructors?courseId=${id}`, setInstructors)
 		// Fetch Students
-		props.get(`students?courseId=${id}`, setStudents)
+		props.getPaginated(`students?courseId=${id}`, setStudents)
 		// Fetch Billables
-		props.get(`billables?courseId=${id}`, setBillables)
+		props.getPaginated(`billables?courseId=${id}`, setBillables)
 
 		// Close Pay Menu
 		return () => props.setShowPayMenu("")
@@ -97,28 +99,49 @@ const show = (props) => {
 			<div className="col-sm-4">
 				<div className="card mb-2 p-4 text-center shadow">
 					<h4>{course.name}</h4>
+					{/* Check if user is student and course is in session */}
 					{props.auth.accountType == "student" && session.id && (
 						<React.Fragment>
-							{!props.auth.courseApprovedBy ? (
-								<Btn
-									btnText={`Request enrollment @ KES ${course.admission}`}
-									btnClass="btn-success mt-2"
-									onClick={
-										hasBalance
-											? () => props.setShowPayMenu("menu-open")
-											: selfEnrollCourse
-									}
-									loading={loading}
-								/>
+							{/* Check if user has requested enrollment for course and is not enrolled in another course */}
+							{props.auth.courseId == id && props.auth.courseId ? (
+								<React.Fragment>
+									{/* Check if enrollment is approved */}
+									{props.auth.courseApprovedBy ? (
+										<Btn
+											text={`self enroll @ KES ${course.admissionFee}`}
+											className="btn-success mt-2"
+											onClick={
+												hasBalance
+													? () => props.setShowPayMenu("menu-open")
+													: selfEnrollCourse
+											}
+											loading={loading}
+										/>
+									) : (
+										<React.Fragment>
+											{/* Check if course is approved */}
+											{props.auth.courseDeniedBy ? (
+												<Btn
+													text="enrollment denied"
+													className="btn-success mt-2"
+													loading={loading}
+												/>
+											) : (
+												<Btn
+													text="enrollment awaiting approval"
+													className="btn-success mt-2"
+													loading={loading}
+												/>
+											)}
+										</React.Fragment>
+									)}
+								</React.Fragment>
 							) : (
+								// User not Enrolled in this or other course
 								<Btn
-									btnText={`self enroll @ KES ${course.price}`}
-									btnClass="btn-success mt-2"
-									onClick={
-										hasBalance
-											? () => props.setShowPayMenu("menu-open")
-											: selfEnrollCourse
-									}
+									text="Request enrollment"
+									className="btn-success mt-2"
+									onClick={selfEnrollCourse}
 									loading={loading}
 								/>
 							)}

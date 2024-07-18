@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('type')->nullable();
             $table->longText('rich_text')->nullable();
             $table->string('media')->nullable();
+            $table->jsonb('quiz')->nullable();
             $table->foreignId('unit_id')
                 ->constrained()
                 ->onUpdate('cascade')

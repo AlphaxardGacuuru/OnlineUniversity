@@ -24,6 +24,7 @@ import AdminInstructorEdit from "@/pages/admin/instructors/edit/[id]"
 import AdminStudents from "@/pages/admin/students/index"
 import AdminStudentCreate from "@/pages/admin/students/create"
 import AdminStudentEdit from "@/pages/admin/students/edit/[id]"
+import AdminEnrollments from "@/pages/admin/students/enrollments"
 
 import AdminFaculties from "@/pages/admin/faculties/index"
 import AdminFacultyCreate from "@/pages/admin/faculties/create"
@@ -140,6 +141,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/students/:id/edit",
 			component: <AdminStudentEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/students/enrollments",
+			component: <AdminEnrollments {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/faculties",

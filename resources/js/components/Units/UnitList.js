@@ -158,12 +158,14 @@ const UnitList = (props) => {
 											<React.Fragment>
 												{props.auth.accountType == "student" &&
 													props.auth.courseId == props.courseId &&
+													props.auth.courseApprovedBy &&
+													!hasBalance &&
 													unit.year == props.session.year &&
 													unit.semester == props.session.semester && (
 														<div className="d-flex justify-content-end">
 															<Btn
-																btnText="self enroll"
-																btnClass="btn-sm btn-success me-2"
+																text="self enroll"
+																className="btn-sm btn-success me-2"
 																onClick={() => selfEnrollUnit(unit.id)}
 																loading={loading}
 															/>

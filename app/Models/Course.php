@@ -69,4 +69,16 @@ class Course extends Model
 	{
 		return $this->hasMany(Billable::class);
 	}
+
+	/*
+	* Custom
+	*/ 
+
+	public function admissionFee()
+	{
+		return $this->billables()
+		->where("name", "Admission Fee")
+		->first()
+		?->price;
+	}
 }

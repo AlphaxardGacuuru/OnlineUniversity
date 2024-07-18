@@ -33,6 +33,7 @@ class MaterialService extends Service
         $material->type = $request->input("type");
         $material->rich_text = $request->input("richText");
         $material->media = $request->input("media");
+        $material->quiz = $request->input("quiz");
         $material->unit_id = $request->input("unitId");
 
         $saved = $material->save();
@@ -85,6 +86,10 @@ class MaterialService extends Service
             Storage::disk("public")->delete($oldMedia);
 
             $material->media = $request->input("media");
+        }
+
+        if ($request->input("quiz")) {
+            $material->quiz = $request->input("quiz");
         }
 
         $saved = $material->save();

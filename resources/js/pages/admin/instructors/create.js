@@ -294,7 +294,7 @@ const create = (props) => {
 
 				<center className="mt-4 mb-5">
 					<Btn
-						btnText="add instructor"
+						text="add instructor"
 						loading={loading}
 					/>
 

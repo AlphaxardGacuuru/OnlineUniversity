@@ -88,8 +88,8 @@ const index = (props) => {
 									<td className="text-end">
 										<div className="d-flex">
 											<Btn
-												btnText="view"
-												btnClass="btn-outline-danger btn-sm me-2"
+												text="view"
+												className="btn-outline-danger btn-sm me-2"
 												onClick={() => view(resource.link)}
 											/>
 										</div>

@@ -15,6 +15,7 @@ import ChatSVG from "@/svgs/ChatSVG"
 import LinkSVG from "@/svgs/LinkSVG"
 import ResourceSVG from "@/svgs/ResourceSVG"
 import PersonGearSVG from "@/svgs/PersonGearSVG"
+import EnrollmentSVG from "@/svgs/EnrollmentSVG"
 
 const AdminNavLinks = () => {
 	const location = useLocation()
@@ -112,20 +113,59 @@ const AdminNavLinks = () => {
 				</Link>
 			</li>
 			{/* Customers Link End */}
-			{/* Students Link */}
+			{/* Students Links */}
 			<li className="nav-item">
-				<Link
-					to={`/admin/students`}
-					className={`nav-link ${
-						active("/admin/students") || active("/admin/students")
-					}`}>
+				<a
+					href="#"
+					className={`nav-link accordion-button ${active("/admin/students")}`}
+					data-bs-toggle="collapse"
+					data-bs-target="#collapseStudent"
+					aria-expanded="false"
+					aria-controls="collapseStudent">
 					<div className="nav-link-icon">
-						<StudentSVG />
+						<MoneySVG />
 					</div>
 					<div className="nav-link-text">Students</div>
-				</Link>
+				</a>
+
+				{/* Collapse */}
+				<div
+					className={
+						!location.pathname.match("/admin/students") ? "collapse" : ""
+					}
+					id="collapseStudent">
+					<ol className="ms-4">
+						{/* Students Link */}
+						<li className="nav-item">
+							<Link
+								to={`/admin/students`}
+								className={`nav-link ${activeStrict("/admin/students")}`}>
+								<div className="nav-link-icon">
+									<StudentSVG />
+								</div>
+								<div className="nav-link-text">Students</div>
+							</Link>
+						</li>
+						{/* Students Link End */}
+						{/* Enrollments Link */}
+						<li className="nav-item">
+							<Link
+								to={`/admin/students/enrollments`}
+								className={`nav-link ${activeStrict(
+									"/admin/students/enrollments"
+								)}`}>
+								<div className="nav-link-icon">
+									<EnrollmentSVG />
+								</div>
+								<div className="nav-link-text">Enrollments</div>
+							</Link>
+						</li>
+						{/* Enrollments Link End */}
+					</ol>
+				</div>
+				{/* Collapse End */}
 			</li>
-			{/* Students Link End */}
+			{/* Students Links End */}
 			{/* Faculties Link */}
 			<li className="nav-item">
 				<Link

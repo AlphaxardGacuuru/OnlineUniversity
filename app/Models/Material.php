@@ -12,6 +12,15 @@ class Material extends Model
     use HasFactory;
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+		'quiz' => 'array'
+    ];
+
+    /**
      * Accesors.
      *
      * @return \Illuminate\Database\Eloquent\Casts\Attribute

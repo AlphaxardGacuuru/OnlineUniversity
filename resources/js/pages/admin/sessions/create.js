@@ -114,6 +114,7 @@ const create = (props) => {
 						placeholder="Year"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setYear(parseInt(e.target.value))}
+						required={true}
 					/>
 
 					<input
@@ -122,6 +123,7 @@ const create = (props) => {
 						placeholder="Semester"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setSemester(parseInt(e.target.value))}
+						required={true}
 					/>
 
 					<label
@@ -135,6 +137,7 @@ const create = (props) => {
 						placeholder="Starts At"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setStartsAt(e.target.value)}
+						required={true}
 					/>
 
 					<label
@@ -148,11 +151,12 @@ const create = (props) => {
 						placeholder="Ends At"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setEndsAt(e.target.value)}
+						required={true}
 					/>
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							btnText="create session"
+							text="create session"
 							loading={loading}
 						/>
 					</div>

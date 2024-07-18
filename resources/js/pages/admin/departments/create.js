@@ -60,7 +60,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							btnText="add department"
+							text="add department"
 							loading={loading}
 						/>
 					</div>

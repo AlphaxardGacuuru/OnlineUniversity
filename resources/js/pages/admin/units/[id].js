@@ -30,6 +30,9 @@ const show = (props) => {
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
 
+	const [instructors, setInstructors] = useState([])
+	const [students, setStudents] = useState([])
+
 	const [unitSession] = (props.auth?.unitSessions || [{}])
 		.filter((unitSession) => unitSession.unitId == id)
 		.map((unitSession) => unitSession)
@@ -48,8 +51,13 @@ const show = (props) => {
 				setUnit(res.data.data)
 			})
 			.catch((err) => props.setErrors([`Failed to fetch unit/${id}`]))
+
 		// Fetch Materials
 		props.get(`materials/by-unit-id/${id}`, setSyllabus)
+		// Fetch Instructors
+		props.getPaginated(`instructors?unitId=${id}`, setInstructors)
+		// Fetch Students
+		props.getPaginated(`students?unitId=${id}`, setStudents)
 	}, [])
 
 	const active = (activeTab) => {
@@ -234,8 +242,8 @@ const show = (props) => {
 															<td>
 																<div className="d-flex justify-content-end">
 																	<Btn
-																		btnText="view"
-																		btnClass="btn-sm me-1"
+																		text="view"
+																		className="btn-sm me-1"
 																		onClick={() =>
 																			handleMaterialTab(
 																				material.title,
@@ -438,7 +446,7 @@ const show = (props) => {
 				{/* Instructors Tab */}
 				<InstructorList
 					{...props}
-					instructors={unit.instructors}
+					instructors={instructors}
 					activeTab={activeTab("instructors")}
 				/>
 				{/* Instructors Tab End */}
@@ -446,7 +454,7 @@ const show = (props) => {
 				{/* Students Tab */}
 				<StudentList
 					{...props}
-					students={unit.students}
+					students={students}
 					activeTab={activeTab("students")}
 				/>
 				{/* Students Tab End */}

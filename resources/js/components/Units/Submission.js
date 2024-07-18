@@ -157,7 +157,7 @@ const Submission = (props) => {
 
 									<div className="text-end">
 										<Btn
-											btnText="submit grade"
+											text="submit grade"
 											loading={loading}
 										/>
 									</div>
@@ -221,8 +221,8 @@ const Submission = (props) => {
 							{/* Name End */}
 							{/* Media */}
 							<Btn
-								btnText="view"
-								btnClass={`btn-sm btn-secondary mb-1 ${
+								text="view"
+								className={`btn-sm btn-secondary mb-1 ${
 									location.pathname.match("/student/") &&
 									props.materialTab == "Learning Reflection" &&
 									submission.userId != props.auth.id

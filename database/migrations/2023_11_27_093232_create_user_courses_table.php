@@ -18,9 +18,14 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('course_id')->constrained();
             $table->unsignedBigInteger('approved_by')->nullable();
+            $table->unsignedBigInteger('denied_by')->nullable();
             $table->timestamps();
 
             $table->foreign('approved_by')
+                ->references('id')
+                ->on('users');
+
+            $table->foreign('denied_by')
                 ->references('id')
                 ->on('users');
         });

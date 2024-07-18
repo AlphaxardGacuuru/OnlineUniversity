@@ -82,4 +82,12 @@ class UserController extends Controller
 	{
 		return $this->service->feeStatements($id);
 	}
+
+	/*
+	* Enrollments
+	*/ 
+	public function enrollments(Request $request)
+	{
+		return $this->service->enrollments($request);
+	}
 }

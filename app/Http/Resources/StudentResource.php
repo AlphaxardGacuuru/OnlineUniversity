@@ -29,6 +29,8 @@ class StudentResource extends JsonResource
             "departmentName" => $this->department()?->name,
             "courseId" => $this->course()?->id,
             "courseName" => $this->course()?->name,
+			"courseApprovedBy" => $this->course()?->approved_by,
+			"courseDeniedBy" => $this->course()?->denied_by,
             "createdAt" => $this->created_at,
         ];
     }

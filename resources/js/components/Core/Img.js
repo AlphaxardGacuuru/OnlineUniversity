@@ -15,7 +15,7 @@ const Img = ({ src, width, height, className, style, alt }) => {
 }
 
 Img.defaultProps = {
-	src: "/storage/img/party-people.png",
+	src: "/storage/img/android-chrome-512x512.png",
 	alt: "image",
 }
 

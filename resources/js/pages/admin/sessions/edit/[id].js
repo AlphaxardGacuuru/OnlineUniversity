@@ -30,7 +30,10 @@ const edit = (props) => {
 		// Get Course
 		Axios.get(`api/sessions/${id}`).then((res) => {
 			setSession(res.data.data)
-			setCourse({ id: res.data.data.courseId.toString(), name: res.data.data.courseName })
+			setCourse({
+				id: res.data.data.courseId.toString(),
+				name: res.data.data.courseName,
+			})
 		})
 		// Get Courses
 		props.get("courses?idAndName=true", setCourses)
@@ -161,7 +164,7 @@ const edit = (props) => {
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							btnText="update session"
+							text="update session"
 							loading={loading}
 						/>
 					</div>

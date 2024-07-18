@@ -2,10 +2,12 @@
 
 namespace App\Http\Services;
 
+use App\Http\Resources\EnrollmentResource;
 use App\Http\Resources\UserResource;
 use App\Models\CardTransaction;
 use App\Models\MPESATransaction;
 use App\Models\User;
+use App\Models\UserCourse;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
@@ -167,5 +169,30 @@ class UserService extends Service
                 "paid" => $feesPaid,
             ],
         ];
+    }
+
+    /*
+     * Enrollments
+     */
+    public function enrollments($request)
+    {
+        $enrollmentQuery = UserCourse::orderBy("id", "DESC");
+
+        $name = $request->input("name");
+
+        if ($request->filled("name")) {
+            $enrollmentQuery = $enrollmentQuery
+                ->whereHas("user", function ($query) use ($name) {
+                    $query->where("name", "LIKE", "%" . $name . "%");
+                });
+        }
+
+        if ($request->filled("deniedBy")) {
+            $enrollmentQuery = $enrollmentQuery->whereNotNull("denied_by");
+        }
+
+        $enrollments = $enrollmentQuery->paginate(20);
+
+        return EnrollmentResource::collection($enrollments);
     }
 }

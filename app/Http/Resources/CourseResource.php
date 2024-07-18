@@ -24,6 +24,7 @@ class CourseResource extends JsonResource
             "facultyName" => $this->department?->faculty->name,
             "departmentId" => $this->department_id,
             "departmentName" => $this->department?->name,
+            "admissionFee" => $this->admissionFee(),
         ];
     }
 }

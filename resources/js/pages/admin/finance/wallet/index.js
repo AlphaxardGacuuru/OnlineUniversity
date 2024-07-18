@@ -169,7 +169,7 @@ const wallet = (props) => {
 												/>
 
 												<Btn
-													btnText="transfer"
+													text="transfer"
 													loading={loading}
 												/>
 											</div>

@@ -30,7 +30,7 @@ const BillableList = (props) => {
 					{/* Total */}
 					<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 						<div>
-							<span className="fs-4">{props.billables?.length}</span>
+							<span className="fs-4">{props.billables.meta?.total}</span>
 							<h4>Total Billables</h4>
 						</div>
 						<HeroIcon>
@@ -69,7 +69,7 @@ const BillableList = (props) => {
 						</tr>
 					</thead>
 					<tbody>
-						{props.billables?.map((billable, key) => (
+						{props.billables.data?.map((billable, key) => (
 							<tr key={key}>
 								<td>{key + 1}</td>
 								<td>{billable.name}</td>

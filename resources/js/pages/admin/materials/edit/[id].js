@@ -230,7 +230,7 @@ const edit = (props) => {
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							btnText="update learning resource"
+							text="update learning resource"
 							loading={loading}
 						/>
 					</div>

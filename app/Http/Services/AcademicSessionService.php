@@ -112,7 +112,7 @@ class AcademicSessionService extends Service
         // Check if exists
         if (!$academicSession) {
             return response([
-                "errors" => ["Course doesn't have an ongoing Session"],
+                "errors" => ["course" => ["Course doesn't have an ongoing Session"]],
             ], 422);
         }
 

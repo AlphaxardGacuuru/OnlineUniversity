@@ -128,7 +128,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-end">
 						<Btn
-							btnText="add student"
+							text="add student"
 							loading={loading}
 						/>
 					</div>

@@ -389,8 +389,8 @@ const AdminMenu = (props) => {
 									/>
 								) : (
 									<Btn
-										btnClass="btn-sm my-2"
-										btnText={path}
+										className="btn-sm my-2"
+										text={path}
 									/>
 								)}
 

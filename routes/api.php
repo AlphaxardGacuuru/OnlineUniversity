@@ -82,6 +82,7 @@ Route::get("admin", [AdminController::class, "index"]);
 
 // User
 Route::get("fee-statements/{id}", [UserController::class, "feeStatements"]);
+Route::get("enrollments", [UserController::class, "enrollments"]);
 
 // Material
 Route::get("materials/by-unit-id/{id}", [MaterialController::class, "byUnitId"]);

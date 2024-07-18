@@ -161,7 +161,7 @@ const SocialMediaInput = (props) => {
 						<Button
 							type="submit"
 							btnclassName="btn-outline-dark"
-							btnText={props.btnText}
+							text={props.btnText}
 							loading={loading}
 						/>
 					</div>

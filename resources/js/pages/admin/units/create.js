@@ -204,7 +204,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							btnText="add unit"
+							text="add unit"
 							loading={loading}
 						/>
 					</div>

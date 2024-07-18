@@ -9,6 +9,8 @@ import "react-quill/dist/quill.snow.css"
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 
+import PlusSVG from "@/svgs/PlusSVG"
+
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond"
 
@@ -49,6 +51,16 @@ const create = (props) => {
 	const [media, setMedia] = useState("media")
 	const [loading, setLoading] = useState()
 
+	const questionPrototype = {
+		question: "",
+		answerA: "",
+		answerB: "",
+		answerC: "",
+		answerD: "",
+		correctAnswer: "",
+	}
+	const [questions, setQuestions] = useState([questionPrototype])
+
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
@@ -72,6 +84,17 @@ const create = (props) => {
 		"Review Quiz",
 		"Final Exam",
 	]
+
+	/*
+	 * Remove question
+	 */
+	const removeQuestion = (index) => {
+		var newQuestions = questions.filter((question, key) => key != index)
+		// Remove input inorder for input values to reflect
+		setQuestions([])
+		// Set questions with removed input
+		setTimeout(() => setQuestions(newQuestions), 100)
+	}
 
 	/*
 	 * Submit Form
@@ -108,10 +131,11 @@ const create = (props) => {
 	return (
 		<div className="row">
 			<div className="col-sm-2"></div>
-			<div className="col-sm-8">
+			<div className="col-sm-8 my-5">
 				<form
 					onSubmit={onSubmit}
 					className="mb-5">
+					{/* Learning Resource Type Start */}
 					<select
 						type="text"
 						name="title"
@@ -128,7 +152,9 @@ const create = (props) => {
 							</option>
 						))}
 					</select>
+					{/* Learning Resource Type End */}
 
+					{/* Description Start */}
 					<input
 						type="text"
 						name="description"
@@ -136,7 +162,9 @@ const create = (props) => {
 						className="form-control mb-2 me-2"
 						onChange={(e) => setDescription(e.target.value)}
 					/>
+					{/* Description End */}
 
+					{/* Week Start */}
 					<input
 						type="number"
 						name="week"
@@ -145,7 +173,9 @@ const create = (props) => {
 						onChange={(e) => setWeek(e.target.value)}
 						required={true}
 					/>
+					{/* Week End */}
 
+					{/* Week Start Date Start */}
 					<label
 						htmlFor=""
 						className="ms-1">
@@ -158,7 +188,9 @@ const create = (props) => {
 						onChange={(e) => setStartsAt(e.target.value)}
 						required={true}
 					/>
+					{/* Week Start Date End */}
 
+					{/* Week End Date Start */}
 					<label
 						htmlFor=""
 						className="ms-1">
@@ -171,53 +203,230 @@ const create = (props) => {
 						onChange={(e) => setEndsAt(e.target.value)}
 						required={true}
 					/>
+					{/* Week End Date End */}
 
+					{/* Type Start */}
 					<select
 						type="text"
 						name="type"
-						className="form-control mb-2 me-2"
+						className="form-control mt-4 mb-2 me-2"
 						onChange={(e) => setType(e.target.value)}>
-						<option value="">Choose Type</option>
-						<option value="">Multi-Choice</option>
+						<option value="">Choose Content</option>
+						<option value="media">Media</option>
+						<option value="multi_choice">Multi-Choice</option>
 					</select>
+					{/* Type End */}
 
-					<div className="bg-white">
-						<ReactQuill
-							theme="snow"
-							value={richText}
-							onChange={setRichText}
-						/>
-					</div>
+					{/* Text Box Start */}
+					{type == "media" && (
+						<div className="bg-white">
+							<ReactQuill
+								theme="snow"
+								value={richText}
+								onChange={setRichText}
+							/>
+						</div>
+					)}
+					{/* Text Box End */}
 
-					<h6 className="p-2">Add Media</h6>
-					<div className="card shadow-sm p-2">
-						<FilePond
-							name="filepond-thumbnail"
-							labelIdle='Drag & Drop your Image or <span class="filepond--label-action text-dark"> Browse </span>'
-							imageCropAspectRatio="16:9"
-							// acceptedFileTypes={["*"]}
-							// stylePanelAspectRatio="16:9"
-							allowRevert={true}
-							server={{
-								url: `${props.url}/api/filepond`,
-								process: {
-									url: "/materials",
-									onload: (res) => setMedia(res),
-									onerror: (err) => console.log(err.response.data),
-								},
-								revert: {
-									url: `/materials/${media.substr(17)}`,
-									onload: (res) => props.setMessages([res]),
-								},
-							}}
-						/>
-					</div>
-					<br />
-					<br />
+					{/* Media Start */}
+					{type == "media" && (
+						<React.Fragment>
+							<h6 className="p-2">Add Media</h6>
+							<div className="card shadow-sm p-2">
+								<FilePond
+									name="filepond-thumbnail"
+									labelIdle='Drag & Drop your Image or <span class="filepond--label-action text-dark"> Browse </span>'
+									imageCropAspectRatio="16:9"
+									// acceptedFileTypes={["*"]}
+									// stylePanelAspectRatio="16:9"
+									allowRevert={true}
+									server={{
+										url: `${props.url}/api/filepond`,
+										process: {
+											url: "/materials",
+											onload: (res) => setMedia(res),
+											onerror: (err) => console.log(err.response.data),
+										},
+										revert: {
+											url: `/materials/${media.substr(17)}`,
+											onload: (res) => props.setMessages([res]),
+										},
+									}}
+								/>
+							</div>
+							<br />
+							<br />
+						</React.Fragment>
+					)}
+					{/* Media End */}
+
+					{/* Multi Choice Start */}
+					{type == "multi_choice" && (
+						<React.Fragment>
+							{questions.map((question, key) => (
+								<div
+									key={key}
+									className="card bg-secondary-subtle my-2 p-2">
+									{/* Label Start */}
+									<div className="d-flex justify-content-between">
+										<label htmlFor="">
+											<h5>Question {key + 1}</h5>
+										</label>
+										{key > 0 && (
+											<Btn
+												text="remove question"
+												className="btn-sm mb-2"
+												onClick={(e) => {
+													e.preventDefault()
+													removeQuestion(key)
+												}}
+											/>
+										)}
+									</div>
+									{/* Label End */}
+
+									{/* Question Start */}
+									<input
+										type="text"
+										placeholder="Which of the below is..."
+										className="form-control mb-2"
+										defaultValue={questions[key].question}
+										onChange={(e) => {
+											questions[key] = {
+												question: e.target.value,
+												answerA: questions[key].answerA,
+												answerB: questions[key].answerB,
+												answerC: questions[key].answerC,
+												answerD: questions[key].answerD,
+												correctAnwer: questions[key].correctAnswer,
+											}
+											setQuestions(questions)
+										}}
+										required={true}
+									/>
+									{/* Question End */}
+
+									{/* Answers Start */}
+									<label htmlFor="">Answers</label>
+									<input
+										type="text"
+										placeholder="Answer A"
+										className="form-control mb-2"
+										defaultValue={questions[key].answerA}
+										onChange={(e) => {
+											questions[key] = {
+												question: questions[key].question,
+												answerA: e.target.value,
+												answerB: questions[key].answerB,
+												answerC: questions[key].answerC,
+												answerD: questions[key].answerD,
+												correctAnwer: questions[key].correctAnswer,
+											}
+											setQuestions(questions)
+										}}
+										required={true}
+									/>
+									<input
+										type="text"
+										placeholder="Answer B"
+										className="form-control mb-2"
+										defaultValue={questions[key].answerB}
+										onChange={(e) => {
+											questions[key] = {
+												question: questions[key].question,
+												answerA: questions[key].answerA,
+												answerB: e.target.value,
+												answerC: questions[key].answerC,
+												answerD: questions[key].answerD,
+												correctAnwer: questions[key].correctAnswer,
+											}
+											setQuestions(questions)
+										}}
+										required={true}
+									/>
+									<input
+										type="text"
+										placeholder="Answer C"
+										className="form-control mb-2"
+										defaultValue={questions[key].answerC}
+										onChange={(e) => {
+											questions[key] = {
+												question: questions[key].question,
+												answerA: questions[key].answerA,
+												answerB: questions[key].answerB,
+												answerC: e.target.value,
+												answerD: questions[key].answerD,
+												correctAnwer: questions[key].correctAnswer,
+											}
+											setQuestions(questions)
+										}}
+										required={true}
+									/>
+									<input
+										type="text"
+										placeholder="Answer D"
+										className="form-control mb-2"
+										defaultValue={questions[key].answerD}
+										onChange={(e) => {
+											questions[key] = {
+												question: questions[key].question,
+												answerA: questions[key].answerA,
+												answerB: questions[key].answerB,
+												answerC: questions[key].answerC,
+												answerD: e.target.value,
+												correctAnwer: questions[key].correctAnswer,
+											}
+											setQuestions(questions)
+										}}
+										required={true}
+									/>
+									<select
+										className="form-control mb-2"
+										defaultValue={questions[key].answerD}
+										onChange={(e) => {
+											questions[key] = {
+												question: questions[key].question,
+												answerA: questions[key].answerA,
+												answerB: questions[key].answerB,
+												answerC: questions[key].answerC,
+												answerD: e.target.value,
+												correctAnwer: questions[key].correctAnswer,
+											}
+											setQuestions(questions)
+										}}
+										required={true}>
+										<option value="">Select Correct Answer</option>
+										<option value="A">A</option>
+										<option value="B">B</option>
+										<option value="C">C</option>
+										<option value="D">D</option>
+									</select>
+									{/* Answers End */}
+
+									{/* Add Question Start */}
+									{key == questions.length - 1 && (
+										<div className="d-flex justify-content-end">
+											<Btn
+												text="add question"
+												className="btn-sm mb-2"
+												onClick={(e) => {
+													e.preventDefault()
+													setQuestions([...questions, questionPrototype])
+												}}
+											/>
+										</div>
+									)}
+									{/* Add Question End */}
+								</div>
+							))}
+						</React.Fragment>
+					)}
+					{/* Multi Choice End */}
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							btnText="add learning resource"
+							text="add learning resource"
 							loading={loading}
 						/>
 					</div>

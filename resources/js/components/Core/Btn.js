@@ -1,7 +1,7 @@
 import React from "react"
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
-const Btn = ({ btnStyle, btnClass, btnText, onClick, loading, disabled }) => {
+const Btn = ({ btnStyle, className, text, onClick, loading, disabled }) => {
 	const location = useLocation()
 
 	return (
@@ -13,10 +13,10 @@ const Btn = ({ btnStyle, btnClass, btnText, onClick, loading, disabled }) => {
 					: location.pathname.match("/instructor/")
 					? "btn-danger"
 					: "btn-success"
-			} btn rounded-pill text-capitalize ${btnClass}`}
+			} btn rounded-pill text-capitalize ${className}`}
 			onClick={onClick}
 			disabled={disabled}>
-			{btnText}
+			{text}
 			{loading && (
 				<div
 					className="text-white spinner-border spinner-border-sm border-2 my-auto mx-2"

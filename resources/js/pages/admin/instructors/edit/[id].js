@@ -304,7 +304,7 @@ const edit = (props) => {
 
 				<center className="mt-4 mb-5">
 					<Btn
-						btnText="update"
+						text="update"
 						loading={loading}
 					/>
 
