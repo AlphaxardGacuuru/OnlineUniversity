@@ -18,7 +18,7 @@ class BillableFactory extends Factory
     {
         return [
             "name" => "Admission Fee",
-            "description" => "Admission Fee",
+            "description" => "",
             "price" => 2000,
             "year" => 1,
             "semester" => 1,

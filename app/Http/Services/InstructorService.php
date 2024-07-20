@@ -41,7 +41,8 @@ class InstructorService extends Service
 
         $instructors = $instructorsQuery
             ->orderBy("id", "DESC")
-            ->paginate(20);
+            ->paginate(20)
+            ->appends(['courseId' => $request->input("courseId")]);
 
         return InstructorResource::collection($instructors);
     }

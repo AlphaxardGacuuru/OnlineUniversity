@@ -29,8 +29,10 @@ class UnitService extends Service
         $unitsQuery = $this->search($unitsQuery, $request);
 
         $units = $unitsQuery
-            ->orderBy("id", "DESC")
-            ->paginate(20);
+            ->orderBy("year", "ASC")
+            ->orderBy("semester", "ASC")
+            ->paginate(20)
+            ->appends(['courseId' => $request->input("courseId")]);
 
         return UnitResource::collection($units);
     }
@@ -190,6 +192,12 @@ class UnitService extends Service
                 ->whereHas("course.department", function ($query) use ($departmentId) {
                     $query->where("department_id", $departmentId);
                 });
+        }
+
+        $courseId = $request->input("courseId");
+
+        if ($request->filled("courseId")) {
+            $query = $query->where("course_id", $courseId);
         }
 
         $userId = $request->input("userId");

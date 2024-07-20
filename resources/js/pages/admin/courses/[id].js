@@ -195,9 +195,11 @@ const show = (props) => {
 					{...props}
 					activeTab={activeTab("units")}
 					units={units}
+					setUnits={setUnits}
 					session={session}
 					courseId={id}
 					setCourse={setCourse}
+					hasBalance={hasBalance}
 				/>
 				{/* Units Tab End */}
 
@@ -205,6 +207,7 @@ const show = (props) => {
 				<InstructorList
 					{...props}
 					instructors={instructors}
+					setInstructors={setInstructors}
 					activeTab={activeTab("instructors")}
 					setCourse={setCourse}
 				/>
@@ -214,6 +217,7 @@ const show = (props) => {
 				<StudentList
 					{...props}
 					students={students}
+					setStudents={setStudents}
 					activeTab={activeTab("students")}
 					setCourse={setCourse}
 				/>
@@ -223,6 +227,7 @@ const show = (props) => {
 				<BillableList
 					{...props}
 					billables={billables}
+					setBillables={setBillables}
 					activeTab={activeTab("billables")}
 					setCourse={setCourse}
 				/>

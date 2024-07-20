@@ -6,6 +6,8 @@ import HeroIcon from "@/components/Core/HeroIcon"
 
 import BillableSVG from "@/svgs/BillableSVG"
 
+import PaginationLinks from "@/components/Core/PaginationLinks"
+
 const BillableList = (props) => {
 	const location = useLocation()
 
@@ -44,7 +46,7 @@ const BillableList = (props) => {
 
 			<br />
 
-			<div className="table-responsive">
+			<div className="table-responsive mb-5 pb-2">
 				<table className="table table-hover">
 					<thead>
 						{location.pathname.match("/admin/") && (
@@ -70,7 +72,17 @@ const BillableList = (props) => {
 					</thead>
 					<tbody>
 						{props.billables.data?.map((billable, key) => (
-							<tr key={key}>
+							<tr
+								key={key}
+								className={
+									billable.year == 1
+										? "table-primary"
+										: billable.year == 2
+										? "table-warning"
+										: billable.year == 3
+										? "table-success"
+										: "table-secondary"
+								}>
 								<td>{key + 1}</td>
 								<td>{billable.name}</td>
 								<td>{billable.description}</td>
@@ -147,6 +159,13 @@ const BillableList = (props) => {
 						))}
 					</tbody>
 				</table>
+				{/* Pagination Links */}
+				<PaginationLinks
+					list={props.billables}
+					getPaginated={props.getPaginated}
+					setState={props.setBillables}
+				/>
+				{/* Pagination Links End */}
 			</div>
 		</div>
 	)

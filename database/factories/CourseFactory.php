@@ -21,7 +21,7 @@ class CourseFactory extends Factory
             "name" => "",
             "description" => fake()->realTextBetween($minNbChars = 160, $maxNbChars = 200, $indexSize = 2),
 			"duration" => rand(0, 9),
-			"price" => rand(0, 9) * 10000,
+			// "price" => rand(0, 9) * 10000,
             'created_at' => Carbon::now()->subDay(rand(3, 12)),
         ];
     }

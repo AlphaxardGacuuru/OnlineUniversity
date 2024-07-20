@@ -8,6 +8,8 @@ import DeleteModal from "@/components/Core/DeleteModal"
 
 import UnitSVG from "@/svgs/UnitSVG"
 
+import PaginationLinks from "@/components/Core/PaginationLinks"
+
 const UnitList = (props) => {
 	const location = useLocation()
 
@@ -117,7 +119,7 @@ const UnitList = (props) => {
 			<br />
 
 			{/* Table */}
-			<div className="table-responsive">
+			<div className="table-responsive mb-5 pb-2">
 				<table className="table table-hover">
 					<thead>
 						<tr>
@@ -132,11 +134,18 @@ const UnitList = (props) => {
 						{props.units.data?.map((unit, key) => (
 							<tr
 								key={key}
-								className={
-									key == 0 && props.auth.id == props.userId
-										? "table-danger"
-										: ""
-								}>
+								className={`
+									${
+										unit.year == 1
+											? "table-primary"
+											: unit.year == 2
+											? "table-warning"
+											: unit.year == 3
+											? "table-success"
+											: "table-secondary"
+									}
+									${key == 0 && props.auth.id == props.userId ? "table-danger" : ""}
+								`}>
 								<td>{key + 1}</td>
 								<td>{unit.name}</td>
 								<td>{unit.code}</td>
@@ -159,7 +168,7 @@ const UnitList = (props) => {
 												{props.auth.accountType == "student" &&
 													props.auth.courseId == props.courseId &&
 													props.auth.courseApprovedBy &&
-													!hasBalance &&
+													!props.hasBalance &&
 													unit.year == props.session.year &&
 													unit.semester == props.session.semester && (
 														<div className="d-flex justify-content-end">
@@ -199,6 +208,13 @@ const UnitList = (props) => {
 						))}
 					</thead>
 				</table>
+				{/* Pagination Links */}
+				<PaginationLinks
+					list={props.units}
+					getPaginated={props.getPaginated}
+					setState={props.setUnits}
+				/>
+				{/* Pagination Links End */}
 			</div>
 			{/* Table End */}
 		</div>

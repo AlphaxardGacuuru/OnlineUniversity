@@ -272,7 +272,7 @@ const AdminMenu = (props) => {
 													<div className="dropdown-menu rounded-0 m-0 p-0 bg-white">
 														<Link
 															to={`/admin/staff/edit/${props.auth.id}`}
-															className="p-2 px-3 pt-3 dropdown-item">
+															className="p-2 dropdown-item">
 															<div className="d-flex">
 																<div className="align-items-center">
 																	<Img
@@ -295,7 +295,7 @@ const AdminMenu = (props) => {
 																				  "instructor"
 																				? "text-danger"
 																				: "text-success"
-																		} text-wrap text-capitalize`}>
+																		} text-wrap text-capitalize mb-0`}>
 																		{props.auth?.accountType}
 																	</p>
 																</div>
@@ -303,7 +303,7 @@ const AdminMenu = (props) => {
 														</Link>
 														<Link
 															to="/download"
-															className="p-2 px-3 dropdown-item"
+															className="p-2 dropdown-item"
 															style={{
 																display: props.downloadLink ? "block" : "none",
 															}}>
@@ -316,7 +316,7 @@ const AdminMenu = (props) => {
 														</Link>
 														<Link
 															to="#"
-															className="p-2 px-3 dropdown-item"
+															className="p-2 dropdown-item"
 															onClick={(e) => logout(e)}>
 															<h6 className="fs-6">
 																<span className="me-2">

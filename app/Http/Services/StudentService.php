@@ -25,7 +25,8 @@ class StudentService extends Service
 
         $students = $studentsQuery
             ->orderBy("id", "DESC")
-            ->paginate(20);
+            ->paginate(20)
+            ->appends(['courseId' => $request->input("courseId")]);
 
         return StudentResource::collection($students);
     }

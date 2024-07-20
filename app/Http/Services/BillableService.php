@@ -14,8 +14,10 @@ class BillableService extends Service
         $billablesQuery = $this->search($billablesQuery, $request);
 
         $billables = $billablesQuery
-            ->orderBy("id", "DESC")
-            ->paginate(20);
+            ->orderBy("year", "ASC")
+            ->orderBy("semester", "ASC")
+            ->paginate(20)
+            ->appends(['courseId' => $request->input("courseId")]);
 
         return BillableResource::collection($billables);
     }

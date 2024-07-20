@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('duration');
-            $table->string('price');
+            $table->string('price')->default(0);
             $table->foreignId('department_id')
                 ->nullable()
                 ->constrained()
