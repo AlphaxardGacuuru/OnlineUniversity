@@ -53,6 +53,8 @@ class UserService extends Service
         /* Update profile */
         $user = User::findOrFail($id);
 
+        $message = "Account updated";
+
         if ($request->filled('name')) {
             $user->name = $request->input('name');
         }
@@ -62,9 +64,25 @@ class UserService extends Service
             $user->password = Hash::make($request->input('phone'));
         }
 
+        if ($request->filled("approved")) {
+            $userCourse = UserCourse::find($request->enrollmentId);
+            $userCourse->approved_by = $request->action ? $this->id : NULL;
+            $userCourse->save();
+
+            $message = "Account approved";
+        }
+
+        if ($request->filled("denied")) {
+            $userCourse = UserCourse::find($request->enrollmentId);
+            $userCourse->denied_by = $request->action ? $this->id : NULL;
+            $userCourse->save();
+
+            $message = "Account denied";
+        }
+
         $saved = $user->save();
 
-        return [$saved, "Account updated", $user];
+        return [$saved, $message, $user];
     }
 
     /*
@@ -187,8 +205,22 @@ class UserService extends Service
                 });
         }
 
-        if ($request->filled("deniedBy")) {
-            $enrollmentQuery = $enrollmentQuery->whereNotNull("denied_by");
+        if ($request->filled("status")) {
+            switch ($request->filled("status")) {
+                case "pending":
+                    $enrollmentQuery = $enrollmentQuery
+                        ->whereNull("approved_by")
+                        ->whereNull("denied_by");
+                    break;
+
+                case "approved":
+                    $enrollmentQuery = $enrollmentQuery->whereNotNull("approved_by");
+                    break;
+
+                default:
+                    $enrollmentQuery = $enrollmentQuery->whereNotNull("denied_by");
+                    break;
+            }
         }
 
         $enrollments = $enrollmentQuery->paginate(20);

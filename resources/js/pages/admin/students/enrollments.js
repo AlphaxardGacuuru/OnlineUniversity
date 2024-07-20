@@ -13,7 +13,8 @@ const enrollments = (props) => {
 	const [enrollments, setEnrollments] = useState(
 		props.getLocalStorage("enrollments")
 	)
-	const [loading, setLoading] = useState()
+	const [loading1, setLoading1] = useState()
+	const [loading2, setLoading2] = useState()
 
 	const [nameQuery, setNameQuery] = useState("")
 	const [statusQuery, setStatusQuery] = useState("")
@@ -23,15 +24,63 @@ const enrollments = (props) => {
 		props.setPage({ name: "Enrollments", path: ["enrollments"] })
 	}, [])
 
-	useEffect(() => {
+	const getEnrollments = () => {
 		props.getPaginated(
 			`enrollments?
 			name=${nameQuery}&
-			deniedBy=${statusQuery}`,
+			status=${statusQuery}`,
 			setEnrollments,
 			"enrollments"
 		)
+	}
+
+	useEffect(() => {
+		getEnrollments()
 	}, [nameQuery, statusQuery])
+
+	/*
+	 * Approve
+	 */
+	const onApprove = (userId, enrollmentId, action) => {
+		setLoading1(true)
+
+		Axios.put(`api/users/${userId}`, {
+			enrollmentId: enrollmentId,
+			approved: true,
+			action: action,
+		})
+			.then((res) => {
+				setLoading1(false)
+				props.setMessages([res.data.message])
+				getEnrollments()
+			})
+			.catch((err) => {
+				setLoading1(false)
+				props.getErrors(err)
+			})
+	}
+
+	/*
+	 * Deny
+	 */
+	const onDeny = (userId, enrollmentId, action) => {
+		setLoading2(true)
+
+		Axios.put(`api/users/${userId}`, {
+			enrollmentId: enrollmentId,
+			denied: true,
+			action: action,
+		})
+			.then((res) => {
+				setLoading2(false)
+				props.setMessages([res.data.message])
+				getEnrollments()
+			})
+			.catch((err) => {
+				setLoading2(false)
+				props.getErrors(err)
+			})
+	}
 
 	return (
 		<div className="row">
@@ -77,6 +126,8 @@ const enrollments = (props) => {
 								className="form-control me-2"
 								onChange={(e) => setStatusQuery(e.target.value)}>
 								<option value="">Search by Status</option>
+								<option value="pending">Pending</option>
+								<option value="approved">Approved</option>
 								<option value="denied">Declined</option>
 							</select>
 						</div>
@@ -122,33 +173,51 @@ const enrollments = (props) => {
 									<td>{enrollment.approvedBy}</td>
 									<td>{enrollment.deniedBy}</td>
 									<td>
-										<span
+										<div
 											className={`${
 												enrollment.approvedBy
 													? "bg-success-subtle"
 													: enrollment.deniedBy
 													? "bg-danger-subtle"
 													: "bg-warning-subtle"
-											} rounded-pill py-2 px-4`}>
+											} rounded-pill text-center py-1 px-3`}>
 											{enrollment.approvedBy
 												? "Approved"
 												: enrollment.deniedBy
-												? "Approved"
+												? "Denied"
 												: "Pending"}
-										</span>
+										</div>
 									</td>
 									<td className="text-end">
 										<div className="d-flex justify-content-end">
-											<Btn
-												text="approve"
-												className="btn-sm me-1"
-												onClick={() => onApprove(enrollment.id)}
-											/>
-											<Btn
-												text="decline"
-												className="btn-sm btn-danger"
-												onClick={() => onDecline(enrollment.id)}
-											/>
+											{!enrollment.deniedBy && (
+												<Btn
+													text={enrollment.approvedBy ? "Unapprove" : "Approve"}
+													className="btn-sm me-1"
+													onClick={() =>
+														onApprove(
+															enrollment.userId,
+															enrollment.id,
+															enrollment.approvedBy ? false : true
+														)
+													}
+													loading={loading1}
+												/>
+											)}
+											{!enrollment.approvedBy && (
+												<Btn
+													text={enrollment.deniedBy ? "Undeny" : "Deny"}
+													className="btn-sm btn-danger"
+													onClick={() =>
+														onDeny(
+															enrollment.userId,
+															enrollment.id,
+															enrollment.deniedBy ? false : true
+														)
+													}
+													loading={loading2}
+												/>
+											)}
 										</div>
 									</td>
 								</tr>

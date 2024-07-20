@@ -16,14 +16,14 @@ class EnrollmentResource extends JsonResource
     {
         return [
 			"id" => $this->id,
-			"userId" => $this->userId,
+			"userId" => $this->user->id,
 			"userAvatar" => $this->user->avatar,
 			"userName" => $this->user->name,
 			"userEmail" => $this->user->email,
 			"userGender" => $this->user->gender,
 			"courseName" => $this->course->name,
-			"approvedBy" => $this->approved_by,
-			"deniedBy" => $this->denied_by,
+			"approvedBy" => $this->approvedBy?->name,
+			"deniedBy" => $this->deniedBy?->name,
 			"updatedAt" => $this->updated_at,
 			"createdAt" => $this->created_at,
 		];

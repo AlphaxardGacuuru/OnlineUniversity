@@ -53,7 +53,20 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            "name" => "nullable",
+            "phone" => "nullable",
+            "approved" => "nullable",
+            "denied" => "nullable",
+        ]);
+
+        [$saved, $message, $user] = $this->service->update($request, $id);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $user,
+        ], 200);
     }
 
     /**
@@ -79,15 +92,15 @@ class UserController extends Controller
      * Fee Statements
      */
     public function feeStatements($id)
-	{
-		return $this->service->feeStatements($id);
-	}
+    {
+        return $this->service->feeStatements($id);
+    }
 
-	/*
-	* Enrollments
-	*/ 
-	public function enrollments(Request $request)
-	{
-		return $this->service->enrollments($request);
-	}
+    /*
+     * Enrollments
+     */
+    public function enrollments(Request $request)
+    {
+        return $this->service->enrollments($request);
+    }
 }

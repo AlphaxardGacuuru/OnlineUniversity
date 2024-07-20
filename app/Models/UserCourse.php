@@ -22,4 +22,18 @@ class UserCourse extends Model
 	{
 		return $this->belongsTo(Course::class);
 	}
+	
+	public function approvedBy()
+	{
+		return $this->belongsTo(User::class, "approved_by");
+	}
+	
+	public function deniedBy()
+	{
+		return $this->belongsTo(User::class, "denied_by");
+	}
+
+	/*
+	* Custom
+	*/
 }
