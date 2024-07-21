@@ -228,6 +228,8 @@ const show = (props) => {
 					{...props}
 					billables={billables}
 					setBillables={setBillables}
+					session={session}
+					courseId={id}
 					activeTab={activeTab("billables")}
 					setCourse={setCourse}
 				/>

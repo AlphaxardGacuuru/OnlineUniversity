@@ -139,15 +139,17 @@ const InstructorList = (props) => {
 			<div className="table-responsive mb-5 pb-2">
 				<table className="table table-hover">
 					<thead>
-						<tr>
-							<th colSpan="7"></th>
-							<th className="text-end">
-								<MyLink
-									linkTo="/instructors/create"
-									text="add instructor"
-								/>
-							</th>
-						</tr>
+						{location.pathname.match("/admin") && (
+							<tr>
+								<th colSpan="7"></th>
+								<th className="text-end">
+									<MyLink
+										linkTo="/instructors/create"
+										text="add instructor"
+									/>
+								</th>
+							</tr>
+						)}
 						<tr>
 							<th>#</th>
 							<th></th>

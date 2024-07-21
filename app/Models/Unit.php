@@ -20,7 +20,7 @@ class Unit extends Model
 
     public function course()
     {
-        return belongsTo(Course::class);
+        return $this->belongsTo(Course::class);
     }
 
     public function userUnits()

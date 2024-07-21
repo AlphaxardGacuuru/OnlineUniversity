@@ -31,6 +31,7 @@ class InstructorResource extends JsonResource
             "courseId" => $this->course()?->id,
             "courseName" => $this->course()?->name,
             "courseIds" => $this->courses->map((fn($course) => $course->id)),
+            "unitIds" => $this->units->map((fn($unit) => $unit->id)),
             "createdAt" => $this->created_at,
         ];
     }

@@ -54,7 +54,7 @@ const BillableList = (props) => {
 								<th colSpan="6"></th>
 								<th className="text-end">
 									<MyLink
-										linkTo="/billables/create"
+										linkTo={`/billables/${props.courseId}/create`}
 										text="add billable"
 									/>
 								</th>

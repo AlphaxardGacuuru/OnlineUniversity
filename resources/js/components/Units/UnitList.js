@@ -122,6 +122,17 @@ const UnitList = (props) => {
 			<div className="table-responsive mb-5 pb-2">
 				<table className="table table-hover">
 					<thead>
+						{location.pathname.match("/admin") && (
+							<tr>
+								<th colSpan="6"></th>
+								<th className="text-end">
+									<MyLink
+										linkTo={`/units/${props.courseId}/create`}
+										text="add unit"
+									/>
+								</th>
+							</tr>
+						)}
 						<tr>
 							<th>#</th>
 							<th>Name</th>
@@ -155,13 +166,20 @@ const UnitList = (props) => {
 								<td>
 									<div className="d-flex justify-content-end">
 										{props.auth.unitIds?.includes(unit.id) ||
-										props.auth.accountType == "staff" ? (
+										location.pathname.match("admin") ? (
 											<div className="d-flex justify-content-end">
 												<MyLink
 													linkTo={`/units/${unit.id}/show`}
 													text="view"
 													className="btn-sm me-1"
 												/>
+												{location.pathname.match("admin") && (
+													<MyLink
+														linkTo={`/units/${unit.id}/edit`}
+														text="edit"
+														className="btn-sm me-1"
+													/>
+												)}
 											</div>
 										) : (
 											<React.Fragment>

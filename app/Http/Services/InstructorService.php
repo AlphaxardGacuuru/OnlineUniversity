@@ -4,6 +4,8 @@ namespace App\Http\Services;
 
 use App\Http\Resources\InstructorResource;
 use App\Http\Services\Service;
+use App\Models\Course;
+use App\Models\Unit;
 use App\Models\User;
 use App\Models\UserCourse;
 use App\Models\UserDepartment;
@@ -103,11 +105,22 @@ class InstructorService extends Service
             }
 
             // Add UserUnit
-            if ($request->filled("unitId")) {
-                $userUnit = new UserUnit;
-                $userUnit->user_id = $instructor->id;
-                $userUnit->unit_id = $request->input("unitId");
-                $userUnit->save();
+            if ($request->filled("unitIds")) {
+                foreach ($request->unitIds as $unitId) {
+                    // Get Course Session
+                    $courseId = Unit::find($unitId)->course->id;
+                    $currentSession = Course::find($courseId)->currentSession();
+
+                    // Check if session exists
+                    if ($currentSession) {
+                        $userUnit = new UserUnit;
+                        $userUnit->user_id = $instructor->id;
+                        $userUnit->unit_id = $unitId;
+$userUnit->academic_session_id = $currentSession->id;
+
+                        $userUnit->save();
+                    }
+                }
             }
 
             return $saved;
@@ -223,25 +236,38 @@ class InstructorService extends Service
                 ->delete();
         }
 
-        // Update Unit
-        if ($request->filled("unitId")) {
-            // If user has opted to remove
-            if ($request->input("unitId") == "remove") {
-                UserUnit::where("user_id", $id)->delete();
-            }
+        // Add UserUnit
+        if (count($request->unitIds) > 0) {
+            foreach ($request->unitIds as $unitId) {
+                // Check if unit already exists
+                $userUnitDoesntExist = UserUnit::where("unit_id", $unitId)
+                    ->where("user_id", $id)
+                    ->doesntExist();
 
-            // Delete UserUnit
-            $doesntExist = UserUnit::where("user_id", $id)
-                ->where("unit_id", $request->input("unitId"))
-                ->doesntExist();
+                if ($userUnitDoesntExist) {
+                    // Get Course Session
+                    $courseId = Unit::find($unitId)->course->id;
+                    $currentSession = Course::find($courseId)->currentSession();
 
-            // Add UserUnit
-            if ($doesntExist) {
-                $userUnit = new UserUnit;
-                $userUnit->user_id = $instructor->id;
-                $userUnit->unit_id = $request->input("unitId");
-                $userUnit->save();
+                    // Check if session exists
+                    if ($currentSession) {
+                        $userUnit = new UserUnit;
+                        $userUnit->user_id = $id;
+                        $userUnit->unit_id = $unitId;
+                        $userUnit->academic_session_id = $currentSession->id;
+                        $userUnit->save();
+                    }
+                } else {
+                    // Remove units not included
+                    UserUnit::where("user_id", $id)
+                        ->whereNotIn("unit_id", $request->unitIds)
+                        ->delete();
+                }
             }
+        } else {
+            // Remove units not included
+            UserUnit::where("user_id", $id)
+                ->delete();
         }
 
         $saved = $instructor->save();

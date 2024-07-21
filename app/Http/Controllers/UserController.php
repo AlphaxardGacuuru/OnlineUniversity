@@ -87,20 +87,4 @@ class UserController extends Controller
     {
         return $this->service->auth();
     }
-
-    /*
-     * Fee Statements
-     */
-    public function feeStatements($id)
-    {
-        return $this->service->feeStatements($id);
-    }
-
-    /*
-     * Enrollments
-     */
-    public function enrollments(Request $request)
-    {
-        return $this->service->enrollments($request);
-    }
 }

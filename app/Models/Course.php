@@ -65,20 +65,34 @@ class Course extends Model
         return $this->hasMany(UserCourse::class);
     }
 
-	public function billables()
-	{
-		return $this->hasMany(Billable::class);
-	}
+    public function billables()
+    {
+        return $this->hasMany(Billable::class);
+    }
 
-	/*
-	* Custom
-	*/ 
+    public function academicSessions()
+    {
+        return $this->hasMany(AcademicSession::class);
+    }
 
-	public function admissionFee()
-	{
-		return $this->billables()
-		->where("name", "Admission Fee")
-		->first()
-		?->price;
-	}
+    /*
+     * Custom
+     */
+
+    public function currentSession()
+    {
+        return $this->academicSessions()
+            ->where("starts_at", "<=", now())
+            ->where("ends_at", ">=", now())
+            ->orderBy("id", "DESC")
+            ->first();
+    }
+
+    public function admissionFee()
+    {
+        return $this->billables()
+            ->where("name", "Admission Fee")
+            ->first()
+        ?->price;
+    }
 }

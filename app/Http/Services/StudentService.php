@@ -2,13 +2,18 @@
 
 namespace App\Http\Services;
 
+use App\Http\Resources\EnrollmentResource;
 use App\Http\Resources\StudentResource;
 use App\Http\Services\Service;
+use App\Models\CardTransaction;
+use App\Models\Invoice;
+use App\Models\MPESATransaction;
 use App\Models\User;
 use App\Models\UserCourse;
 use App\Models\UserDepartment;
 use App\Models\UserFaculty;
 use App\Models\UserUnit;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -192,6 +197,104 @@ class StudentService extends Service
         $deleted = $student->delete();
 
         return [$deleted, $student->name . " deleted"];
+    }
+
+    /*
+     * Fee Statements
+     */
+    public function feeStatements($id)
+    {
+        // Retrieve the user by ID with its associated courses
+        $invoices = Invoice::where("user_id", $id)
+            ->select("invoices.id", "amount as debit", "invoices.created_at")
+            ->get();
+
+        $cardPaymentQuery = CardTransaction::select("id", "amount as credit", "created_at")
+            ->where("user_id", $id);
+
+        $mpesaPaymentQuery = MPESATransaction::select("id", "amount as credit", "created_at")
+            ->where("user_id", $id);
+
+        // Calculate total fees paid
+        $feesPaid = $cardPaymentQuery->sum("amount") + $mpesaPaymentQuery->sum("amount");
+
+        $cardPayments = $cardPaymentQuery->get();
+
+        $mpesaPayments = $mpesaPaymentQuery->get();
+
+        $balance = 0;
+
+        $feeStatements = $invoices
+            ->concat($cardPayments)
+            ->concat($mpesaPayments)
+            ->sortBy(fn($item) => Carbon::parse($item->created_at))
+            ->values()
+            ->map(function ($item) use (&$balance) {
+
+                // Calculate balance
+                if ($item->credit) {
+                    $balance -= $item->credit;
+                } else {
+                    $balance += $item->debit;
+                }
+
+                $item->balance = number_format($balance);
+                $item->type = $item->credit ? "Fees Paid" : $item->name;
+                $item->credit = number_format($item->credit);
+                $item->debit = number_format($item->debit);
+
+                return $item;
+            })
+            ->reverse()
+            ->values();
+
+        return [
+            "data" => [
+                "statement" => $feeStatements,
+                "paid" => $feesPaid,
+            ],
+        ];
+    }
+
+    /*
+     * Enrollments
+     */
+    public function enrollments($request)
+    {
+        $enrollmentQuery = UserCourse::whereHas("user", function ($query) {
+            $query->where("account_type", "student");
+        })->orderBy("id", "DESC");
+
+        $name = $request->input("name");
+
+        if ($request->filled("name")) {
+            $enrollmentQuery = $enrollmentQuery
+                ->whereHas("user", function ($query) use ($name) {
+                    $query->where("name", "LIKE", "%" . $name . "%");
+                });
+        }
+
+        if ($request->filled("status")) {
+            switch ($request->filled("status")) {
+                case "pending":
+                    $enrollmentQuery = $enrollmentQuery
+                        ->whereNull("approved_by")
+                        ->whereNull("denied_by");
+                    break;
+
+                case "approved":
+                    $enrollmentQuery = $enrollmentQuery->whereNotNull("approved_by");
+                    break;
+
+                default:
+                    $enrollmentQuery = $enrollmentQuery->whereNotNull("denied_by");
+                    break;
+            }
+        }
+
+        $enrollments = $enrollmentQuery->paginate(20);
+
+        return EnrollmentResource::collection($enrollments);
     }
 
     /*

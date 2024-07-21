@@ -124,6 +124,17 @@ const CourseList = (props) => {
 			<div className="table-responsive mb-5 pb-2">
 				<table className="table table-hover">
 					<thead>
+						{location.pathname.match("/admin") && (
+							<tr>
+								<th colSpan="7"></th>
+								<th className="text-end">
+									<MyLink
+										linkTo="/courses/create"
+										text="add course"
+									/>
+								</th>
+							</tr>
+						)}
 						<tr>
 							<th>#</th>
 							<th>Name</th>

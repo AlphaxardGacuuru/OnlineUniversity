@@ -81,8 +81,8 @@ Route::apiResources([
 Route::get("admin", [AdminController::class, "index"]);
 
 // User
-Route::get("fee-statements/{id}", [UserController::class, "feeStatements"]);
-Route::get("enrollments", [UserController::class, "enrollments"]);
+Route::get("fee-statements/{id}", [StudentController::class, "feeStatements"]);
+Route::get("enrollments", [StudentController::class, "enrollments"]);
 
 // Material
 Route::get("materials/by-unit-id/{id}", [MaterialController::class, "byUnitId"]);

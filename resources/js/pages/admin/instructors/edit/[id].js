@@ -21,11 +21,12 @@ const edit = (props) => {
 	const [currentLocation, setCurrentLocation] = useState()
 	const [facultyId, setFacultyId] = useState()
 	const [departmentId, setDepartmentId] = useState()
-	const [courseId, setCourseId] = useState()
 	const [faculties, setFaculties] = useState([])
 	const [departments, setDepartments] = useState([])
 	const [courses, setCourses] = useState([])
 	const [courseIds, setCourseIds] = useState([])
+	const [units, setUnits] = useState([])
+	const [unitIds, setUnitIds] = useState([])
 	const [loading, setLoading] = useState()
 
 	var educationList = ["phd", " masters", "degree", "certificate"]
@@ -40,14 +41,16 @@ const edit = (props) => {
 			setFacultyId(res.data.data.facultyId.toString())
 			setDepartmentId(res.data.data.departmentId.toString())
 			setCourseIds(res.data.data.courseIds)
+			setUnitIds(res.data.data.unitIds)
 		})
 		props.get("faculties", setFaculties)
 		props.get("departments", setDepartments)
 		props.get("courses?idAndName=true", setCourses)
+		props.get("units?idAndName=true", setUnits)
 	}, [])
 
 	/*
-	 * Handle Instructor selects
+	 * Handle Course selects
 	 */
 	const handleCourseIds = (id) => {
 		if (id) {
@@ -58,6 +61,21 @@ const edit = (props) => {
 				: [...courseIds, id]
 
 			setCourseIds(newCourseIds)
+		}
+	}
+
+	/*
+	 * Handle Unit selects
+	 */
+	const handleUnitIds = (id) => {
+		if (id) {
+			var exists = unitIds.includes(id)
+
+			var newUnitIds = exists
+				? unitIds.filter((item) => item != id)
+				: [...unitIds, id]
+
+			setUnitIds(newUnitIds)
 		}
 	}
 
@@ -79,6 +97,7 @@ const edit = (props) => {
 			facultyId: facultyId,
 			departmentId: departmentId,
 			courseIds: courseIds,
+			unitIds: unitIds,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -221,6 +240,7 @@ const edit = (props) => {
 								))}
 						</select>
 
+						{/* Courses Start */}
 						<div className="d-flex">
 							<select
 								name="courseId"
@@ -298,6 +318,87 @@ const edit = (props) => {
 								{/* Close Icon End */}
 							</div>
 						))}
+						{/* Courses End */}
+
+						{/* Units Start */}
+						<div className="d-flex">
+							<select
+								name="unitId"
+								className="form-control mb-3 me-2"
+								onChange={(e) =>
+									handleUnitIds(Number.parseInt(e.target.value))
+								}
+								disabled={unitIds.length > 0}>
+								<option value="">Select Unit</option>
+								{units
+									.filter((unit) => courseIds.includes(unit.courseId))
+									.map((unit, key) => (
+										<option
+											key={key}
+											value={unit.id}
+											className="text-primary"
+											selected={unit.id == unitIds[0]}>
+											{unit.name}
+										</option>
+									))}
+							</select>
+							{/* Close Icon */}
+							<span
+								className="text-primary"
+								style={{ cursor: "pointer" }}
+								onClick={() => setUnitIds(unitIds.slice(0, 0))}>
+								<CloseSVG />
+							</span>
+							{/* Close Icon End */}
+						</div>
+
+						{unitIds.map((input, key1) => (
+							<div
+								className="d-flex"
+								key={key1}>
+								<select
+									name="unitId"
+									className="form-control mb-3 me-2"
+									onChange={(e) =>
+										handleUnitIds(Number.parseInt(e.target.value))
+									}
+									disabled={unitIds.length > key1 + 1}>
+									<option value="">Select Unit</option>
+									{units
+										.filter((unit) => courseIds.includes(unit.courseId))
+										.map((unit, key2) => (
+											<option
+												key={key2}
+												value={!unitIds.includes(unit.id) && unit.id}
+												className={
+													unitIds.includes(unit.id)
+														? "text-secondary"
+														: "text-primary"
+												}
+												selected={unit.id == unitIds[key1 + 1]}>
+												{unit.name}
+											</option>
+										))}
+								</select>
+								{/* Close Icon */}
+								<span
+									className={
+										key1 == unitIds.length - 1
+											? "invisible text-primary"
+											: "text-primary"
+									}
+									style={{ cursor: "pointer" }}
+									onClick={() =>
+										setUnitIds(
+											unitIds.filter((unitId, index) => index != key1 + 1)
+										)
+									}>
+									<CloseSVG />
+								</span>
+								{/* Close Icon End */}
+							</div>
+						))}
+						{/* Units End */}
 					</div>
 					<div className="col-sm-2"></div>
 				</div>
