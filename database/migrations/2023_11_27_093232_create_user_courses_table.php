@@ -28,6 +28,8 @@ return new class extends Migration
             $table->foreign('denied_by')
                 ->references('id')
                 ->on('users');
+
+            $table->unique(['user_id', 'course_id']);
         });
     }
 

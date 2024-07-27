@@ -5,8 +5,11 @@ namespace App\Http\Services;
 use App\Http\Resources\EnrollmentResource;
 use App\Http\Resources\StudentResource;
 use App\Http\Services\Service;
+use App\Models\AcademicSession;
+use App\Models\Billable;
 use App\Models\CardTransaction;
 use App\Models\Invoice;
+use App\Models\InvoiceBillable;
 use App\Models\MPESATransaction;
 use App\Models\User;
 use App\Models\UserCourse;
@@ -148,10 +151,13 @@ class StudentService extends Service
                 ->doesntExist();
 
             if ($userCourseDoesntExist) {
-                $userCourse = new UserCourse;
-                $userCourse->user_id = $student->id;
-                $userCourse->course_id = $request->input("courseId");
-                $userCourse->save();
+                DB::transaction(function () use ($request) {
+
+                    $userCourse = new UserCourse;
+                    $userCourse->user_id = $this->id;
+                    $userCourse->course_id = $request->courseId;
+                    $userCourse->save();
+                });
             }
         }
 
@@ -161,6 +167,60 @@ class StudentService extends Service
             $userUnit->unit_id = $request->input("unitId");
             $userUnit->academic_session_id = $request->input("sessionId");
             $userUnit->save();
+        }
+
+		// Approve Course
+        if ($request->filled("approved")) {
+            DB::transaction(function () use ($request) {
+
+                // Update approved_by
+                $userCourse = UserCourse::find($request->courseId);
+                $userCourse->approved_by = $request->action ? $this->id : null;
+                $userCourse->save();
+
+                // Fetch Academic Session
+                $academicSession = AcademicSession::first($request->academicSessionId);
+
+                $billables = Billable::where("course_id", $request->courseId)
+                    ->where("year", $academicSession->year)
+                    ->where("semester", $academicSession->semester)
+                    ->get();
+
+                $billablePrices = $billables->map(fn($billable) => $billable->prices);
+
+                if ($request->action) {
+                    $invoice = new Invoice;
+                    $invoice->user_id = $userCourse->user_id;
+                    $invoice->amount = $billablePrices;
+                    $invoice->balance = $billablePrices;
+                    $invoice->created_by = $this->id;
+                    $invoice->save();
+
+                    foreach ($billables as $billable) {
+                        $billableDoesntExist = InvoiceBillable::where("invoice_id", $userCourse->user_id)
+                            ->where("billable_id", $billable->id)
+                            ->exists();
+
+                        // Create InvoiceBillable if it doesnt exist
+                        if ($billableDoesntExist) {
+                            $invoiceBillable = new InvoiceBillable;
+                            $invoiceBillable->invoice_id = $invoice->id;
+                            $invoiceBillable->billable_id = $billable->id;
+                            $invoiceBillable->save();
+                        }
+                    }
+                }
+            });
+
+            $message = "Account approved";
+        }
+
+        if ($request->filled("denied")) {
+            $userCourse = UserCourse::find($request->courseId);
+            $userCourse->denied_by = $request->action ? $this->id : null;
+            $userCourse->save();
+
+            $message = "Account denied";
         }
 
         $saved = $student->save();

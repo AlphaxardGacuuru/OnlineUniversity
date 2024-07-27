@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             UnitSeeder::class,
 			MaterialSeeder::class,
 			BillableSeeder::class,
+			AcademicSessionSeeder::class
         ]);
     }
 }

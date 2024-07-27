@@ -45,12 +45,14 @@ const show = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "View Course", path: ["courses", "view"] })
+
 		getCourse()
 		getFeeStatement()
-		// Fetch Session
-		Axios.get(`api/sessions/current-by-course-id/${id}`)
-			.then((res) => setSession(res.data.data))
-			.catch((err) => props.getErrors(err))
+	}, [props.auth])
+
+	useEffect(() => {
+		// Fetch Academin Session
+		props.get(`sessions/current-by-course-id/${id}`, setSession)
 		// Fetch Units
 		props.getPaginated(`units?courseId=${id}`, setUnits)
 		// Fetch Instructors
@@ -71,7 +73,7 @@ const show = (props) => {
 		// Show loader
 		setLoading(true)
 
-		Axios.put(`/api/students/${props.auth.id}`, {
+		Axios.post(`/api/charge-enrollment-fee`, {
 			courseId: id,
 		})
 			.then((res) => {
@@ -79,6 +81,8 @@ const show = (props) => {
 				props.setMessages([res.data.message])
 				// Fetch Auth
 				props.get("auth", props.setAuth, "auth")
+				// Show Pay menu
+				props.setShowPayMenu("menu-open")
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -103,19 +107,13 @@ const show = (props) => {
 					{props.auth.accountType == "student" && session.id && (
 						<React.Fragment>
 							{/* Check if user has requested enrollment for course and is not enrolled in another course */}
-							{props.auth.courseId == id && props.auth.courseId ? (
+							{props.auth.courseId == id ? (
 								<React.Fragment>
 									{/* Check if enrollment is approved */}
 									{props.auth.courseApprovedBy ? (
 										<Btn
-											text={`self enroll @ KES ${course.admissionFee}`}
+											text="Enrolled"
 											className="btn-success mt-2"
-											onClick={
-												hasBalance
-													? () => props.setShowPayMenu("menu-open")
-													: selfEnrollCourse
-											}
-											loading={loading}
 										/>
 									) : (
 										<React.Fragment>
@@ -137,13 +135,24 @@ const show = (props) => {
 									)}
 								</React.Fragment>
 							) : (
-								// User not Enrolled in this or other course
-								<Btn
-									text="Request enrollment"
-									className="btn-success mt-2"
-									onClick={selfEnrollCourse}
-									loading={loading}
-								/>
+								<React.Fragment>
+									{/* User not Enrolled in this or other course */}
+									{hasBalance ? (
+										<Btn
+											text={`pay KES ${course.admissionFee} to enroll`}
+											className="btn-success mt-2"
+											onClick={() => props.setShowPayMenu("menu-open")}
+											loading={loading}
+										/>
+									) : (
+										<Btn
+											text={`Request enrollment @ KES ${course.admissionFee}`}
+											className="btn-success mt-2"
+											onClick={selfEnrollCourse}
+											loading={loading}
+										/>
+									)}
+								</React.Fragment>
 							)}
 							{hasBalance && (
 								<p className="mb-0 text-warning">Balance KES {hasBalance}</p>

@@ -39,9 +39,9 @@ class MPESATransactionService extends Service
         $resource = $event['resource'];
 
         // Get username
-        $betterPhone = substr_replace($resource['sender_phone_number'], '0', 0, -9);
+        $formatedPhone = substr_replace($resource['sender_phone_number'], '0', 0, -9);
 
-        $user = User::where('phone', $betterPhone)->first();
+        $user = User::where('phone', $formatedPhone)->first();
 
         $mpesaTransaction = new MPESATransaction;
         $mpesaTransaction->kopokopo_id = $request->data['id'];
@@ -78,8 +78,8 @@ class MPESATransactionService extends Service
     public function stkPush($request)
     {
         // Get phone in better format
-        // $betterPhone = substr_replace(auth('sanctum')->user()->phone, '+254', 0, -9);
-        $betterPhone = substr_replace("0700364446", '+254', 0, -9);
+        // $formatedPhone = substr_replace(auth('sanctum')->user()->phone, '+254', 0, -9);
+        $formatedPhone = substr_replace("0700364446", '+254', 0, -9);
 
         // Get first and last name
         $parts = explode(" ", auth('sanctum')->user()->name);
@@ -108,7 +108,7 @@ class MPESATransactionService extends Service
             'tillNumber' => 'K433842',
             'firstName' => $firstname,
             'lastName' => $lastname,
-            'phoneNumber' => $betterPhone,
+            'phoneNumber' => $formatedPhone,
             'amount' => $request->input('amount'),
             'currency' => 'KES',
             'email' => auth('sanctum')->user()->email,

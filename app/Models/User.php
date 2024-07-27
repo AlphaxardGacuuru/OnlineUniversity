@@ -150,6 +150,7 @@ class User extends Authenticatable
             ->first();
     }
 
+	// Get the latest course, this compensates for multiple courses
     public function course()
     {
         return $this->userCourses()

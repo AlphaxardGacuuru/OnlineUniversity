@@ -116,8 +116,7 @@ class InstructorService extends Service
                         $userUnit = new UserUnit;
                         $userUnit->user_id = $instructor->id;
                         $userUnit->unit_id = $unitId;
-$userUnit->academic_session_id = $currentSession->id;
-
+                        $userUnit->academic_session_id = $currentSession->id;
                         $userUnit->save();
                     }
                 }

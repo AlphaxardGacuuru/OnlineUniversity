@@ -24,6 +24,7 @@ class EnrollmentResource extends JsonResource
 			"courseName" => $this->course->name,
 			"approvedBy" => $this->approvedBy?->name,
 			"deniedBy" => $this->deniedBy?->name,
+			"currentSessionId" => $this->course->currentSession()?->id,
 			"updatedAt" => $this->updated_at,
 			"createdAt" => $this->created_at,
 		];

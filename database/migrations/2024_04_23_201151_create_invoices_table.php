@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("user_id")->constrained();
             $table->integer('amount');
             $table->integer('paid')->default(0);
             $table->integer('balance');

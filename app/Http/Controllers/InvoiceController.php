@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\InvoiceService;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
+	public function __construct(protected InvoiceService $service)
+	{
+		// 
+	}
+
     /**
      * Display a listing of the resource.
      *
@@ -60,5 +66,22 @@ class InvoiceController extends Controller
     public function destroy(Invoice $invoice)
     {
         //
+    }
+    /*
+     * Charge Enrollment Fee
+     */
+    public function chargeEnrollmentFee(Request $request)
+    {
+        $this->validate($request, [
+            "courseId" => "required",
+        ]);
+
+        [$saved, $message, $data] = $this->service->chargeEnrollmentFee($request);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $data,
+        ], 200);
     }
 }

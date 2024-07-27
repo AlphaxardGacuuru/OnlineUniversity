@@ -60,22 +60,6 @@ class UserService extends Service
             $user->password = Hash::make($request->input('phone'));
         }
 
-        if ($request->filled("approved")) {
-            $userCourse = UserCourse::find($request->enrollmentId);
-            $userCourse->approved_by = $request->action ? $this->id : NULL;
-            $userCourse->save();
-
-            $message = "Account approved";
-        }
-
-        if ($request->filled("denied")) {
-            $userCourse = UserCourse::find($request->enrollmentId);
-            $userCourse->denied_by = $request->action ? $this->id : NULL;
-            $userCourse->save();
-
-            $message = "Account denied";
-        }
-
         $saved = $user->save();
 
         return [$saved, $message, $user];

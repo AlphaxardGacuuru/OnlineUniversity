@@ -13,6 +13,7 @@ use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\FilePondController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\KopokopoRecipientController;
 use App\Http\Controllers\KopokopoTransferController;
 use App\Http\Controllers\MaterialController;
@@ -93,6 +94,9 @@ Route::get("sessions/current-by-course-id/{id}", [AcademicSessionController::cla
 // Kopokopo STK Push
 Route::post("stk-push", [MPESATransactionController::class, 'stkPush']);
 Route::post("kopokopo-initiate-transfer", [KopokopoTransferController::class, 'initiateTransfer']);
+
+// Invoice
+Route::post("charge-enrollment-fee", [InvoiceController::class, 'chargeEnrollmentFee']);
 
 /*
  * Filepond Controller

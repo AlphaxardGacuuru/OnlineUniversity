@@ -13,8 +13,8 @@ const enrollments = (props) => {
 	const [enrollments, setEnrollments] = useState(
 		props.getLocalStorage("enrollments")
 	)
-	const [loading1, setLoading1] = useState()
-	const [loading2, setLoading2] = useState()
+	const [approvalLoading, setApprovalLoading] = useState()
+	const [denialLoading, setDenialLoading] = useState()
 
 	const [nameQuery, setNameQuery] = useState("")
 	const [statusQuery, setStatusQuery] = useState("")
@@ -42,20 +42,20 @@ const enrollments = (props) => {
 	 * Approve
 	 */
 	const onApprove = (userId, enrollmentId, action) => {
-		setLoading1(true)
+		setApprovalLoading(enrollmentId)
 
-		Axios.put(`api/users/${userId}`, {
+		Axios.put(`api/students/${userId}`, {
 			enrollmentId: enrollmentId,
 			approved: true,
 			action: action,
 		})
 			.then((res) => {
-				setLoading1(false)
+				setApprovalLoading(false)
 				props.setMessages([res.data.message])
 				getEnrollments()
 			})
 			.catch((err) => {
-				setLoading1(false)
+				setApprovalLoading(false)
 				props.getErrors(err)
 			})
 	}
@@ -64,20 +64,21 @@ const enrollments = (props) => {
 	 * Deny
 	 */
 	const onDeny = (userId, enrollmentId, action) => {
-		setLoading2(true)
+		setDenialLoading(enrollmentId)
 
-		Axios.put(`api/users/${userId}`, {
-			enrollmentId: enrollmentId,
+		Axios.put(`api/students/${userId}`, {
+			courseId: enrollmentId,
 			denied: true,
 			action: action,
+			academicSessionId: academicSessionId,
 		})
 			.then((res) => {
-				setLoading2(false)
+				setDenialLoading(false)
 				props.setMessages([res.data.message])
 				getEnrollments()
 			})
 			.catch((err) => {
-				setLoading2(false)
+				setDenialLoading(false)
 				props.getErrors(err)
 			})
 	}
@@ -190,7 +191,7 @@ const enrollments = (props) => {
 									</td>
 									<td className="text-end">
 										<div className="d-flex justify-content-end">
-											{!enrollment.deniedBy && (
+											{!enrollment.deniedBy && enrollment.currentSessionId && (
 												<Btn
 													text={enrollment.approvedBy ? "Unapprove" : "Approve"}
 													className="btn-sm me-1"
@@ -201,7 +202,7 @@ const enrollments = (props) => {
 															enrollment.approvedBy ? false : true
 														)
 													}
-													loading={loading1}
+													loading={approvalLoading}
 												/>
 											)}
 											{!enrollment.approvedBy && (
@@ -215,7 +216,7 @@ const enrollments = (props) => {
 															enrollment.deniedBy ? false : true
 														)
 													}
-													loading={loading2}
+													loading={denialLoading}
 												/>
 											)}
 										</div>
