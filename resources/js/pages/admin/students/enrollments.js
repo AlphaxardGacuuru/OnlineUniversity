@@ -41,18 +41,28 @@ const enrollments = (props) => {
 	/*
 	 * Approve
 	 */
-	const onApprove = (userId, enrollmentId, action) => {
+	const onApprove = (enrollmentId, userId, courseId, action) => {
 		setApprovalLoading(enrollmentId)
 
-		Axios.put(`api/students/${userId}`, {
-			enrollmentId: enrollmentId,
-			approved: true,
-			action: action,
-		})
+		// Fetch Academin Session
+		Axios.get(`api/sessions/current-by-course-id/${courseId}`)
 			.then((res) => {
-				setApprovalLoading(false)
-				props.setMessages([res.data.message])
-				getEnrollments()
+				// Approve
+				Axios.put(`api/students/${userId}`, {
+					userCourseId: enrollmentId,
+					approved: true,
+					action: action,
+					academicSessionId: res.data.data.id,
+				})
+					.then((res) => {
+						setApprovalLoading(false)
+						props.setMessages([res.data.message])
+						getEnrollments()
+					})
+					.catch((err) => {
+						setApprovalLoading(false)
+						props.getErrors(err)
+					})
 			})
 			.catch((err) => {
 				setApprovalLoading(false)
@@ -63,19 +73,28 @@ const enrollments = (props) => {
 	/*
 	 * Deny
 	 */
-	const onDeny = (userId, enrollmentId, action) => {
+	const onDeny = (enrollmentId, userId, courseId, action) => {
 		setDenialLoading(enrollmentId)
 
-		Axios.put(`api/students/${userId}`, {
-			courseId: enrollmentId,
-			denied: true,
-			action: action,
-			academicSessionId: academicSessionId,
-		})
+		// Fetch Academin Session
+		Axios.get(`api/sessions/current-by-course-id/${courseId}`)
 			.then((res) => {
-				setDenialLoading(false)
-				props.setMessages([res.data.message])
-				getEnrollments()
+				// Deny
+				Axios.put(`api/students/${userId}`, {
+					userCourseId: enrollmentId,
+					denied: true,
+					action: action,
+					academicSessionId: res.data.data.id,
+				})
+					.then((res) => {
+						setDenialLoading(false)
+						props.setMessages([res.data.message])
+						getEnrollments()
+					})
+					.catch((err) => {
+						setDenialLoading(false)
+						props.getErrors(err)
+					})
 			})
 			.catch((err) => {
 				setDenialLoading(false)
@@ -197,8 +216,9 @@ const enrollments = (props) => {
 													className="btn-sm me-1"
 													onClick={() =>
 														onApprove(
-															enrollment.userId,
 															enrollment.id,
+															enrollment.userId,
+															enrollment.courseId,
 															enrollment.approvedBy ? false : true
 														)
 													}
@@ -211,8 +231,9 @@ const enrollments = (props) => {
 													className="btn-sm btn-danger"
 													onClick={() =>
 														onDeny(
-															enrollment.userId,
 															enrollment.id,
+															enrollment.userId,
+															enrollment.courseId,
 															enrollment.deniedBy ? false : true
 														)
 													}

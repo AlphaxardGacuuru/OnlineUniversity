@@ -67,9 +67,9 @@ const show = (props) => {
 	}, [])
 
 	/*
-	 * Self Enroll
+	 * Create Invoice
 	 */
-	const selfEnrollCourse = () => {
+	const createInvoice = () => {
 		// Show loader
 		setLoading(true)
 
@@ -90,6 +90,28 @@ const show = (props) => {
 			})
 	}
 
+	/*
+	 * Self Enroll Course
+	 */
+	const enrollCourse = () => {
+		// Show loader
+		setLoading(true)
+
+		Axios.put(`/api/students/${props.auth.id}`, {
+			courseId: id,
+		})
+			.then((res) => {
+				setLoading(false)
+				props.setMessages([res.data.message])
+				// Fetch Auth
+				props.get("auth", props.setAuth, "auth")
+			})
+			.catch((err) => {
+				setLoading(false)
+				props.getErrors(err)
+			})
+	}
+
 	const active = (activeTab) => {
 		return activeTab == tab ? "bg-light" : "bg-secondary-subtle"
 	}
@@ -98,13 +120,16 @@ const show = (props) => {
 		return activeTab == tab ? "d-block" : "d-none"
 	}
 
+	var isStudentAndCourseIsInSession =
+		props.auth.accountType == "student" && session.id
+
 	return (
 		<div className="row">
 			<div className="col-sm-4">
 				<div className="card mb-2 p-4 text-center shadow">
 					<h4>{course.name}</h4>
 					{/* Check if user is student and course is in session */}
-					{props.auth.accountType == "student" && session.id && (
+					{isStudentAndCourseIsInSession && (
 						<React.Fragment>
 							{/* Check if user has requested enrollment for course and is not enrolled in another course */}
 							{props.auth.courseId == id ? (
@@ -116,39 +141,43 @@ const show = (props) => {
 											className="btn-success mt-2"
 										/>
 									) : (
-										<React.Fragment>
-											{/* Check if course is approved */}
-											{props.auth.courseDeniedBy ? (
-												<Btn
-													text="enrollment denied"
-													className="btn-success mt-2"
-													loading={loading}
-												/>
-											) : (
-												<Btn
-													text="enrollment awaiting approval"
-													className="btn-success mt-2"
-													loading={loading}
-												/>
-											)}
-										</React.Fragment>
+										<Btn
+											text={`enrollment ${
+												props.auth.courseDeniedBy
+													? " denied"
+													: "awaiting approval"
+											}`}
+											className="btn-success mt-2"
+											loading={loading}
+										/>
 									)}
 								</React.Fragment>
 							) : (
 								<React.Fragment>
 									{/* User not Enrolled in this or other course */}
 									{hasBalance ? (
-										<Btn
-											text={`pay KES ${course.admissionFee} to enroll`}
-											className="btn-success mt-2"
-											onClick={() => props.setShowPayMenu("menu-open")}
-											loading={loading}
-										/>
+										<React.Fragment>
+											{parseFloat(hasBalance.replace(/,/g, "")) <= 0 ? (
+												<Btn
+													text={`enroll`}
+													className="btn-success mt-2"
+													onClick={enrollCourse}
+													loading={loading}
+												/>
+											) : (
+												<Btn
+													text={`pay KES ${hasBalance} to enroll`}
+													className="btn-success mt-2"
+													onClick={() => props.setShowPayMenu("menu-open")}
+													loading={loading}
+												/>
+											)}
+										</React.Fragment>
 									) : (
 										<Btn
 											text={`Request enrollment @ KES ${course.admissionFee}`}
 											className="btn-success mt-2"
-											onClick={selfEnrollCourse}
+											onClick={createInvoice}
 											loading={loading}
 										/>
 									)}

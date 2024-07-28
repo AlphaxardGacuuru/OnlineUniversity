@@ -20,7 +20,7 @@ const UnitList = (props) => {
 	 */
 	const selfEnrollUnit = (unitId) => {
 		// Show loader
-		setLoading(true)
+		setLoading(unitId)
 
 		Axios.put(`/api/students/${props.auth.id}`, {
 			unitId: unitId,
@@ -54,6 +54,13 @@ const UnitList = (props) => {
 			})
 			.catch((err) => props.getErrors(err))
 	}
+
+	const isStudentAndEnrolledToCourse =
+		props.auth.accountType == "student" &&
+		props.auth.courseId == props.courseId &&
+		props.auth.courseApprovedBy
+
+	const doesntHaveBalance = parseFloat(props.hasBalance?.replace(/,/g, "")) <= 0
 
 	return (
 		<div className={props.activeTab}>
@@ -183,10 +190,8 @@ const UnitList = (props) => {
 											</div>
 										) : (
 											<React.Fragment>
-												{props.auth.accountType == "student" &&
-													props.auth.courseId == props.courseId &&
-													props.auth.courseApprovedBy &&
-													!props.hasBalance &&
+												{isStudentAndEnrolledToCourse &&
+													doesntHaveBalance &&
 													unit.year == props.session.year &&
 													unit.semester == props.session.semester && (
 														<div className="d-flex justify-content-end">
@@ -194,7 +199,7 @@ const UnitList = (props) => {
 																text="self enroll"
 																className="btn-sm btn-success me-2"
 																onClick={() => selfEnrollUnit(unit.id)}
-																loading={loading}
+																loading={loading == unit.id}
 															/>
 														</div>
 													)}

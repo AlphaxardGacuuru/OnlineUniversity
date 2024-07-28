@@ -21,6 +21,7 @@ class EnrollmentResource extends JsonResource
 			"userName" => $this->user->name,
 			"userEmail" => $this->user->email,
 			"userGender" => $this->user->gender,
+			"courseId" => $this->course->id,
 			"courseName" => $this->course->name,
 			"approvedBy" => $this->approvedBy?->name,
 			"deniedBy" => $this->deniedBy?->name,
