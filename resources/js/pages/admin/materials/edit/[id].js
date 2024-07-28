@@ -36,15 +36,25 @@ const edit = (props) => {
 	var { id } = useParams()
 
 	const [material, setMaterial] = useState({})
-	const [title, setTitle] = useState()
+	const [title, setTitle] = useState(material.title)
 	const [description, setDescription] = useState()
 	const [week, setWeek] = useState("")
 	const [startsAt, setStartsAt] = useState()
 	const [endsAt, setEndsAt] = useState()
-	const [type, setType] = useState()
 	const [richText, setRichText] = useState("")
 	const [media, setMedia] = useState("")
 	const [loading, setLoading] = useState()
+
+	const questionPrototype = {
+		question: "",
+		answerA: "",
+		answerB: "",
+		answerC: "",
+		answerD: "",
+		correctAnswer: "",
+	}
+	const [questions, setQuestions] = useState([questionPrototype])
+	const [time, setTime] = useState()
 
 	// Get Faculties and Departments
 	useEffect(() => {
@@ -59,6 +69,9 @@ const edit = (props) => {
 			.then((res) => {
 				setMaterial(res.data.data)
 				setRichText(res.data.data.richText)
+				setTitle(res.data.data.title)
+				setQuestions(res.data.data.questions.questions)
+				setTime(res.data.data.questions.time)
 				// Set page
 				props.setPage({
 					name: "Edit Learning Resource",
@@ -84,10 +97,24 @@ const edit = (props) => {
 	]
 
 	/*
+	 * Remove question
+	 */
+	const removeQuestion = (index) => {
+		var newQuestions = questions.filter((question, key) => key != index)
+		// Remove input inorder for input values to reflect
+		setQuestions([])
+		// Set questions with removed input
+		setTimeout(() => setQuestions(newQuestions), 100)
+	}
+
+	/*
 	 * Submit Form
 	 */
 	const onSubmit = (e) => {
 		e.preventDefault()
+
+		// Add meta to questions
+		var questionsWithMeta = { time: time, questions: questions }
 
 		setLoading(true)
 
@@ -97,9 +124,9 @@ const edit = (props) => {
 			week: week,
 			startsAt: startsAt,
 			endsAt: endsAt,
-			type: type,
 			richText: richText,
 			media: media,
+			questions: questionsWithMeta,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -121,11 +148,11 @@ const edit = (props) => {
 			<div className="col-sm-8">
 				<form
 					onSubmit={onSubmit}
-					className="mb-5">
+					className="my-5">
+					{/* Title Start */}
 					<select
 						type="text"
 						name="title"
-						defaultValue="Title"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setTitle(e.target.value)}>
 						<option value="">Choose Learning Resource</option>
@@ -138,7 +165,9 @@ const edit = (props) => {
 							</option>
 						))}
 					</select>
+					{/* Title End */}
 
+					{/* Description Start */}
 					<input
 						type="text"
 						name="description"
@@ -146,7 +175,9 @@ const edit = (props) => {
 						className="form-control mb-2 me-2"
 						onChange={(e) => setDescription(e.target.value)}
 					/>
+					{/* Description End */}
 
+					{/* Week Start */}
 					<input
 						type="number"
 						name="week"
@@ -154,7 +185,9 @@ const edit = (props) => {
 						className="form-control mb-2 me-2"
 						onChange={(e) => setWeek(e.target.value)}
 					/>
+					{/* Week End */}
 
+					{/* Week Start Date Start */}
 					<label
 						htmlFor=""
 						className="ms-1">
@@ -167,7 +200,9 @@ const edit = (props) => {
 						className="form-control mb-2 me-2"
 						onChange={(e) => setStartsAt(e.target.value)}
 					/>
+					{/* Week Start Date End */}
 
+					{/* Week End Date Start */}
 					<label
 						htmlFor=""
 						className="ms-1">
@@ -180,53 +215,249 @@ const edit = (props) => {
 						className="form-control mb-2 me-2"
 						onChange={(e) => setEndsAt(e.target.value)}
 					/>
+					{/* Week End Date End */}
 
-					<select
-						type="text"
-						name="type"
-						className="form-control mb-2 me-2"
-						onChange={(e) => setType(e.target.value)}>
-						<option value="">Choose Type</option>
-						<option
-							value="Multi-Choice"
-							selected={material.title == "Multi-Choice" && true}>
-							Multi-Choice
-						</option>
-					</select>
+					{/* Text Box Start */}
+					{[
+						"Learning Guide",
+						"Discussion Forum",
+						"Written Assignment",
+						"Learning Reflection",
+					].includes(title) && (
+						<React.Fragment>
+							<div className="bg-white">
+								<ReactQuill
+									theme="snow"
+									value={richText}
+									onChange={setRichText}
+								/>
+							</div>
+							{/* Text Box End */}
 
-					<div className="bg-white">
-						<ReactQuill
-							theme="snow"
-							value={richText}
-							onChange={setRichText}
-						/>
-					</div>
+							{/* Media Start */}
+							<h6 className="p-2">Add Media</h6>
+							<div className="card shadow-sm p-2">
+								<FilePond
+									name="filepond-thumbnail"
+									labelIdle='Drag & Drop your Image or <span class="filepond--label-action text-dark"> Browse </span>'
+									imageCropAspectRatio="16:9"
+									// acceptedFileTypes={["*"]}
+									// stylePanelAspectRatio="16:9"
+									allowRevert={true}
+									server={{
+										url: `${props.url}/api/filepond`,
+										process: {
+											url: "/materials",
+											onload: (res) => setMedia(res),
+											onerror: (err) => console.log(err.response.data),
+										},
+										revert: {
+											url: `/materials/${media.substr(17)}`,
+											onload: (res) => props.setMessages([res]),
+										},
+									}}
+								/>
+							</div>
+							<br />
+							<br />
+						</React.Fragment>
+					)}
+					{/* Media End */}
 
-					<h6 className="p-2">Add Media</h6>
-					<div className="card shadow-sm p-2">
-						<FilePond
-							name="filepond-thumbnail"
-							labelIdle='Drag & Drop your Image or <span class="filepond--label-action text-dark"> Browse </span>'
-							imageCropAspectRatio="16:9"
-							// acceptedFileTypes={["*"]}
-							// stylePanelAspectRatio="16:9"
-							allowRevert={true}
-							server={{
-								url: `${props.url}/api/filepond`,
-								process: {
-									url: "/materials",
-									onload: (res) => setMedia(res),
-									onerror: (err) => console.log(err.response.data),
-								},
-								revert: {
-									url: `/materials/${media.substr(17)}`,
-									onload: (res) => props.setMessages([res]),
-								},
-							}}
-						/>
-					</div>
-					<br />
-					<br />
+					{/* Multi Choice Start */}
+					{[
+						"Self-Quiz",
+						"CAT 1",
+						"CAT 2",
+						"Review Quiz",
+						"Final Exam",
+					].includes(title) && (
+						<React.Fragment>
+							{/* Time Start */}
+							<input
+								type="number"
+								placeholder="Quiz Time in minutes"
+								className="form-control mb-2"
+								defaultValue={time}
+								onChange={(e) => setTime(e.target.value)}
+								required={true}
+							/>
+							{/* Time End */}
+
+							{questions.map((question, key) => (
+								<div
+									key={key}
+									className="card bg-secondary-subtle my-2 p-2">
+									{/* Label Start */}
+									<div className="d-flex justify-content-between">
+										<label htmlFor="">
+											<h5>Question {key + 1}</h5>
+										</label>
+										{key > 0 && (
+											<Btn
+												text="remove question"
+												className="btn-sm mb-2"
+												onClick={(e) => {
+													e.preventDefault()
+													removeQuestion(key)
+												}}
+											/>
+										)}
+									</div>
+									{/* Label End */}
+
+									{/* Question Start */}
+									<input
+										type="text"
+										placeholder="Which of the below is..."
+										className="form-control mb-2"
+										defaultValue={questions[key].question}
+										onChange={(e) => {
+											questions[key] = {
+												question: e.target.value,
+												answerA: questions[key].answerA,
+												answerB: questions[key].answerB,
+												answerC: questions[key].answerC,
+												answerD: questions[key].answerD,
+												correctAnswer: questions[key].correctAnswer,
+											}
+											setQuestions(questions)
+										}}
+										required={true}
+									/>
+									{/* Question End */}
+
+									{/* Answers Start */}
+									<label htmlFor="">Answers</label>
+									<input
+										type="text"
+										placeholder="Answer A"
+										className="form-control mb-2"
+										defaultValue={questions[key].answerA}
+										onChange={(e) => {
+											questions[key] = {
+												question: questions[key].question,
+												answerA: e.target.value,
+												answerB: questions[key].answerB,
+												answerC: questions[key].answerC,
+												answerD: questions[key].answerD,
+												correctAnswer: questions[key].correctAnswer,
+											}
+											setQuestions(questions)
+										}}
+										required={true}
+									/>
+									<input
+										type="text"
+										placeholder="Answer B"
+										className="form-control mb-2"
+										defaultValue={questions[key].answerB}
+										onChange={(e) => {
+											questions[key] = {
+												question: questions[key].question,
+												answerA: questions[key].answerA,
+												answerB: e.target.value,
+												answerC: questions[key].answerC,
+												answerD: questions[key].answerD,
+												correctAnswer: questions[key].correctAnswer,
+											}
+											setQuestions(questions)
+										}}
+										required={true}
+									/>
+									<input
+										type="text"
+										placeholder="Answer C"
+										className="form-control mb-2"
+										defaultValue={questions[key].answerC}
+										onChange={(e) => {
+											questions[key] = {
+												question: questions[key].question,
+												answerA: questions[key].answerA,
+												answerB: questions[key].answerB,
+												answerC: e.target.value,
+												answerD: questions[key].answerD,
+												correctAnswer: questions[key].correctAnswer,
+											}
+											setQuestions(questions)
+										}}
+										required={true}
+									/>
+									<input
+										type="text"
+										placeholder="Answer D"
+										className="form-control mb-2"
+										defaultValue={questions[key].answerD}
+										onChange={(e) => {
+											questions[key] = {
+												question: questions[key].question,
+												answerA: questions[key].answerA,
+												answerB: questions[key].answerB,
+												answerC: questions[key].answerC,
+												answerD: e.target.value,
+												correctAnswer: questions[key].correctAnswer,
+											}
+											setQuestions(questions)
+										}}
+										required={true}
+									/>
+									<select
+										className="form-control mb-2"
+										onChange={(e) => {
+											questions[key] = {
+												question: questions[key].question,
+												answerA: questions[key].answerA,
+												answerB: questions[key].answerB,
+												answerC: questions[key].answerC,
+												answerD: questions[key].answerD,
+												correctAnswer: e.target.value,
+											}
+											setQuestions(questions)
+										}}
+										required={true}>
+										<option value="">Select Correct Answer</option>
+										<option
+											value="A"
+											selected={questions[key].correctAnswer == "A"}>
+											A
+										</option>
+										<option
+											value="B"
+											selected={questions[key].correctAnswer == "B"}>
+											B
+										</option>
+										<option
+											value="C"
+											selected={questions[key].correctAnswer == "C"}>
+											C
+										</option>
+										<option
+											value="D"
+											selected={questions[key].correctAnswer == "D"}>
+											D
+										</option>
+									</select>
+									{/* Answers End */}
+
+									{/* Add Question Start */}
+									{key == questions.length - 1 && (
+										<div className="d-flex justify-content-end">
+											<Btn
+												text="add question"
+												className="btn-sm mb-2"
+												onClick={(e) => {
+													e.preventDefault()
+													setQuestions([...questions, questionPrototype])
+												}}
+											/>
+										</div>
+									)}
+									{/* Add Question End */}
+								</div>
+							))}
+						</React.Fragment>
+					)}
+					{/* Multi Choice End */}
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn

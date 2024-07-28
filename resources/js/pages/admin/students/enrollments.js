@@ -212,16 +212,18 @@ const enrollments = (props) => {
 										<div className="d-flex justify-content-end">
 											{!enrollment.deniedBy && enrollment.currentSessionId && (
 												<Btn
-													text={enrollment.approvedBy ? "Unapprove" : "Approve"}
+													text={enrollment.approvedBy ? "Approved" : "Approve"}
 													className="btn-sm me-1"
-													onClick={() =>
-														onApprove(
-															enrollment.id,
-															enrollment.userId,
-															enrollment.courseId,
-															enrollment.approvedBy ? false : true
-														)
-													}
+													onClick={() => {
+														if (!enrollment.approvedBy) {
+															onApprove(
+																enrollment.id,
+																enrollment.userId,
+																enrollment.courseId,
+																enrollment.approvedBy ? false : true
+															)
+														}
+													}}
 													loading={approvalLoading}
 												/>
 											)}

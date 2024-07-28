@@ -24,8 +24,8 @@ class MaterialResource extends JsonResource
             "startsAtFormatted" => Carbon::parse($this->starts_at)->format('d M Y'),
             "endsAt" => $this->ends_at,
             "endsAtFormatted" => Carbon::parse($this->ends_at)->format('d M Y'),
-            "type" => $this->type,
             "richText" => $this->rich_text,
+            "questions" => $this->questions,
             "unitId" => $this->unit_id,
             "createdAt" => $this->created_at,
         ];

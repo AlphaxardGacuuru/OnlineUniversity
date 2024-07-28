@@ -30,10 +30,9 @@ class MaterialService extends Service
         $material->week = $request->input("week");
         $material->starts_at = $request->input("startsAt");
         $material->ends_at = $request->input("endsAt");
-        $material->type = $request->input("type");
         $material->rich_text = $request->input("richText");
         $material->media = $request->input("media");
-        $material->quiz = $request->input("quiz");
+        $material->questions = $request->input("questions");
         $material->unit_id = $request->input("unitId");
 
         $saved = $material->save();
@@ -50,35 +49,35 @@ class MaterialService extends Service
     {
         $material = Material::findOrFail($id);
 
-        if ($request->input("title")) {
+        if ($request->filled("title")) {
             $material->title = $request->input("title");
         }
 
-        if ($request->input("description")) {
+        if ($request->filled("description")) {
             $material->description = $request->input("description");
         }
 
-        if ($request->input("week")) {
+        if ($request->filled("week")) {
             $material->week = $request->input("week");
         }
 
-        if ($request->input("startsAt")) {
+        if ($request->filled("startsAt")) {
             $material->starts_at = $request->input("startsAt");
         }
 
-        if ($request->input("endsAt")) {
+        if ($request->filled("endsAt")) {
             $material->ends_at = $request->input("endsAt");
         }
 
-        if ($request->input("type")) {
-            $material->type = $request->input("type");
-        }
-
-        if ($request->input("richText")) {
+        if ($request->filled("richText")) {
             $material->rich_text = $request->input("richText");
         }
 
-        if ($request->input("media")) {
+        if ($request->filled("questions")) {
+            $material->questions = $request->input("questions");
+        }
+
+        if ($request->filled("media")) {
 
             // Get old media and delete it
             $oldMedia = substr($material->media, 9);
@@ -88,8 +87,8 @@ class MaterialService extends Service
             $material->media = $request->input("media");
         }
 
-        if ($request->input("quiz")) {
-            $material->quiz = $request->input("quiz");
+        if ($request->filled("questions")) {
+            $material->questions = $request->input("questions");
         }
 
         $saved = $material->save();

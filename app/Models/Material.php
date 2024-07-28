@@ -17,7 +17,7 @@ class Material extends Model
      * @var array<string, string>
      */
     protected $casts = [
-		'quiz' => 'array'
+		'questions' => 'array'
     ];
 
     /**

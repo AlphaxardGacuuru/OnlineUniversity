@@ -175,7 +175,7 @@ class StudentService extends Service
 
                 // Update approved_by
                 $userCourse = UserCourse::find($request->userCourseId);
-                $userCourse->approved_by = $request->action ? $this->id : null;
+                $userCourse->approved_by = $this->id;
                 $userCourse->save();
 
                 // Fetch Academic Session
@@ -211,15 +211,6 @@ class StudentService extends Service
                             }
                         }
                     }
-                } else {
-                    // Fetch Academic Session
-                    $academicSession = AcademicSession::find($request->academicSessionId);
-
-                    // Delete Billables and Invoice
-                    $billables = Billable::where("course_id", $request->courseId)
-                        ->where("year", $academicSession->year)
-                        ->where("semester", $academicSession->semester)
-                        ->get();
                 }
             });
 

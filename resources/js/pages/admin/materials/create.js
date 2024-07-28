@@ -9,8 +9,6 @@ import "react-quill/dist/quill.snow.css"
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 
-import PlusSVG from "@/svgs/PlusSVG"
-
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond"
 
@@ -46,9 +44,8 @@ const create = (props) => {
 	const [week, setWeek] = useState()
 	const [startsAt, setStartsAt] = useState()
 	const [endsAt, setEndsAt] = useState()
-	const [type, setType] = useState()
 	const [richText, setRichText] = useState("")
-	const [media, setMedia] = useState("media")
+	const [media, setMedia] = useState("")
 	const [loading, setLoading] = useState()
 
 	const questionPrototype = {
@@ -60,6 +57,7 @@ const create = (props) => {
 		correctAnswer: "",
 	}
 	const [questions, setQuestions] = useState([questionPrototype])
+	const [time, setTime] = useState()
 
 	// Get Faculties and Departments
 	useEffect(() => {
@@ -102,16 +100,20 @@ const create = (props) => {
 	const onSubmit = (e) => {
 		e.preventDefault()
 
+		// Add meta to questions
+		var questionsWithMeta = { time: time, questions: questions }
+
 		setLoading(true)
+
 		Axios.post("/api/materials", {
 			title: title,
 			description: description,
 			week: week,
 			startsAt: startsAt,
 			endsAt: endsAt,
-			type: type,
 			richText: richText,
 			media: media,
+			questions: questions[0].question && questionsWithMeta,
 			unitId: id,
 		})
 			.then((res) => {
@@ -134,7 +136,7 @@ const create = (props) => {
 			<div className="col-sm-8 my-5">
 				<form
 					onSubmit={onSubmit}
-					className="mb-5">
+					className="my-5">
 					{/* Learning Resource Type Start */}
 					<select
 						type="text"
@@ -205,33 +207,24 @@ const create = (props) => {
 					/>
 					{/* Week End Date End */}
 
-					{/* Type Start */}
-					<select
-						type="text"
-						name="type"
-						className="form-control mt-4 mb-2 me-2"
-						onChange={(e) => setType(e.target.value)}>
-						<option value="">Choose Content</option>
-						<option value="media">Media</option>
-						<option value="multi_choice">Multi-Choice</option>
-					</select>
-					{/* Type End */}
-
 					{/* Text Box Start */}
-					{type == "media" && (
-						<div className="bg-white">
-							<ReactQuill
-								theme="snow"
-								value={richText}
-								onChange={setRichText}
-							/>
-						</div>
-					)}
-					{/* Text Box End */}
-
-					{/* Media Start */}
-					{type == "media" && (
+					{[
+						"Learning Guide",
+						"Discussion Forum",
+						"Written Assignment",
+						"Learning Reflection",
+					].includes(title) && (
 						<React.Fragment>
+							<div className="bg-white">
+								<ReactQuill
+									theme="snow"
+									value={richText}
+									onChange={setRichText}
+								/>
+							</div>
+							{/* Text Box End */}
+
+							{/* Media Start */}
 							<h6 className="p-2">Add Media</h6>
 							<div className="card shadow-sm p-2">
 								<FilePond
@@ -262,8 +255,24 @@ const create = (props) => {
 					{/* Media End */}
 
 					{/* Multi Choice Start */}
-					{type == "multi_choice" && (
+					{[
+						"Self-Quiz",
+						"CAT 1",
+						"CAT 2",
+						"Review Quiz",
+						"Final Exam",
+					].includes(title) && (
 						<React.Fragment>
+							{/* Time Start */}
+							<input
+								type="number"
+								placeholder="Quiz Time in minutes"
+								className="form-control mb-2"
+								onChange={(e) => setTime(e.target.value)}
+								required={true}
+							/>
+							{/* Time End */}
+
 							{questions.map((question, key) => (
 								<div
 									key={key}
@@ -299,7 +308,7 @@ const create = (props) => {
 												answerB: questions[key].answerB,
 												answerC: questions[key].answerC,
 												answerD: questions[key].answerD,
-												correctAnwer: questions[key].correctAnswer,
+												correctAnswer: questions[key].correctAnswer,
 											}
 											setQuestions(questions)
 										}}
@@ -321,7 +330,7 @@ const create = (props) => {
 												answerB: questions[key].answerB,
 												answerC: questions[key].answerC,
 												answerD: questions[key].answerD,
-												correctAnwer: questions[key].correctAnswer,
+												correctAnswer: questions[key].correctAnswer,
 											}
 											setQuestions(questions)
 										}}
@@ -339,7 +348,7 @@ const create = (props) => {
 												answerB: e.target.value,
 												answerC: questions[key].answerC,
 												answerD: questions[key].answerD,
-												correctAnwer: questions[key].correctAnswer,
+												correctAnswer: questions[key].correctAnswer,
 											}
 											setQuestions(questions)
 										}}
@@ -357,7 +366,7 @@ const create = (props) => {
 												answerB: questions[key].answerB,
 												answerC: e.target.value,
 												answerD: questions[key].answerD,
-												correctAnwer: questions[key].correctAnswer,
+												correctAnswer: questions[key].correctAnswer,
 											}
 											setQuestions(questions)
 										}}
@@ -375,7 +384,7 @@ const create = (props) => {
 												answerB: questions[key].answerB,
 												answerC: questions[key].answerC,
 												answerD: e.target.value,
-												correctAnwer: questions[key].correctAnswer,
+												correctAnswer: questions[key].correctAnswer,
 											}
 											setQuestions(questions)
 										}}
@@ -383,15 +392,15 @@ const create = (props) => {
 									/>
 									<select
 										className="form-control mb-2"
-										defaultValue={questions[key].answerD}
+										defaultValue={questions[key].correctAnswer}
 										onChange={(e) => {
 											questions[key] = {
 												question: questions[key].question,
 												answerA: questions[key].answerA,
 												answerB: questions[key].answerB,
 												answerC: questions[key].answerC,
-												answerD: e.target.value,
-												correctAnwer: questions[key].correctAnswer,
+												answerD: questions[key].answerD,
+												correctAnswer: e.target.value,
 											}
 											setQuestions(questions)
 										}}

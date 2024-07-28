@@ -16,14 +16,15 @@ class UnitService extends Service
     {
         if ($request->filled("idAndName")) {
             $units = Unit::select("id", "name", "code", "course_id as courseId")
-                ->orderBy("id", "DESC")
+                ->orderBy("year", "ASC")
+                ->orderBy("semester", "ASC")
                 ->get();
 
             return response([
                 "data" => $units,
             ], 200);
         }
-		
+
         $unitsQuery = new Unit;
 
         $unitsQuery = $this->search($unitsQuery, $request);

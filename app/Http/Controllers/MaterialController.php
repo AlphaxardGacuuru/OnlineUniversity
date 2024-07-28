@@ -37,8 +37,8 @@ class MaterialController extends Controller
             "week" => "required|integer",
             "startsAt" => "required|date",
             "endsAt" => "required|date",
-            "type" => "nullable|string",
             "richText" => "nullable|string",
+            "questions" => "nullable|array",
             "media" => "nullable|string",
             "unitId" => "required|string",
         ]);
@@ -78,8 +78,8 @@ class MaterialController extends Controller
             "week" => "nullable|integer",
             "startsAt" => "nullable|date",
             "endsAt" => "nullable|date",
-            "type" => "nullable|string",
             "richText" => "nullable|string",
+            "questions" => "nullable|array",
             "media" => "nullable|string",
             "unitId" => "nullable|string",
         ]);

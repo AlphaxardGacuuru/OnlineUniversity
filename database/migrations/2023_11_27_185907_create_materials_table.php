@@ -16,14 +16,13 @@ return new class extends Migration
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->unsignedInteger('week');
             $table->timestamp('starts_at')->nullable();
             $table->timestamp('ends_at')->nullable();
-            $table->string('type')->nullable();
             $table->longText('rich_text')->nullable();
             $table->string('media')->nullable();
-            $table->jsonb('quiz')->nullable();
+            $table->jsonb('questions')->nullable();
             $table->foreignId('unit_id')
                 ->constrained()
                 ->onUpdate('cascade')
