@@ -17,6 +17,7 @@ class Submission extends Model
      * @var array<string, string>
      */
     protected $casts = [
+		'answers' => 'array',
         'updated_at' => 'datetime:d M Y',
         'created_at' => 'datetime:d M Y',
     ];

@@ -20,6 +20,9 @@ const show = (props) => {
 	const [hasBalance, setHasBalance] = useState()
 	const [loading, setLoading] = useState()
 
+	const [nameQuery, setNameQuery] = useState("")
+	const [codeQuery, setCodeQuery] = useState("")
+
 	const getCourse = () => {
 		Axios.get(`api/courses/${id}`)
 			.then((res) => {
@@ -36,8 +39,10 @@ const show = (props) => {
 	const getFeeStatement = () => {
 		Axios.get(`api/fee-statements/${props.auth.id}`)
 			.then((res) => {
-				setHasBalance(res.data.data.statement[0].balance)
-				props.setPaymentAmount(res.data.data.statement[0].balance)
+				var [statements] = res.data.data.statement
+
+				setHasBalance(statements?.balance)
+				props.setPaymentAmount(statements?.balance)
 			})
 			.catch((err) => props.getErrors(err))
 	}
@@ -54,17 +59,34 @@ const show = (props) => {
 		// Fetch Academin Session
 		props.get(`sessions/current-by-course-id/${id}`, setSession)
 		// Fetch Units
-		props.getPaginated(`units?courseId=${id}`, setUnits)
+		props.getPaginated(
+			`units?courseId=${id}&
+			name=${nameQuery}`,
+			setUnits
+		)
 		// Fetch Instructors
-		props.getPaginated(`instructors?courseId=${id}`, setInstructors)
+		props.getPaginated(
+			`instructors?courseId=${id}&
+			name=${nameQuery}&
+			code=${codeQuery}&`,
+			setInstructors
+		)
 		// Fetch Students
-		props.getPaginated(`students?courseId=${id}`, setStudents)
+		props.getPaginated(
+			`students?courseId=${id}&
+			name=${nameQuery}`,
+			setStudents
+		)
 		// Fetch Billables
-		props.getPaginated(`billables?courseId=${id}`, setBillables)
+		props.getPaginated(
+			`billables?courseId=${id}&
+			name=${nameQuery}`,
+			setBillables
+		)
 
 		// Close Pay Menu
 		return () => props.setShowPayMenu("")
-	}, [])
+	}, [nameQuery])
 
 	/*
 	 * Create Invoice
@@ -238,6 +260,8 @@ const show = (props) => {
 					courseId={id}
 					setCourse={setCourse}
 					hasBalance={hasBalance}
+					setNameQuery={setNameQuery}
+					setCodeQuery={setCodeQuery}
 				/>
 				{/* Units Tab End */}
 
@@ -248,6 +272,7 @@ const show = (props) => {
 					setInstructors={setInstructors}
 					activeTab={activeTab("instructors")}
 					setCourse={setCourse}
+					setNameQuery={setNameQuery}
 				/>
 				{/* Instructors Tab End */}
 
@@ -258,6 +283,7 @@ const show = (props) => {
 					setStudents={setStudents}
 					activeTab={activeTab("students")}
 					setCourse={setCourse}
+					setNameQuery={setNameQuery}
 				/>
 				{/* Students Tab End */}
 
@@ -270,6 +296,7 @@ const show = (props) => {
 					courseId={id}
 					activeTab={activeTab("billables")}
 					setCourse={setCourse}
+					setNameQuery={setNameQuery}
 				/>
 				{/* Billables Tab End */}
 			</div>

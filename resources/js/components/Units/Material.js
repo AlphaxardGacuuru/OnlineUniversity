@@ -1,5 +1,5 @@
-import React from 'react'
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
+import React from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink from "@/components/Core/MyLink"
 import Img from "@/components/Core/Img"
@@ -122,12 +122,15 @@ const Material = (props) => {
 																text="view"
 																className="btn-sm me-1"
 																onClick={() =>
-																	props.handleMaterialTab(
-																		material.title,
-																		material.richText,
-																		syllabus.week,
-																		syllabus.isActive
-																	)
+																	props.setMaterial({
+																		id: material.id,
+																		title: material.title,
+																		description: material.description,
+																		richText: material.richText,
+																		questions: material.questions,
+																		week: syllabus.week,
+																		isActive: syllabus.isActive,
+																	})
 																}
 															/>
 

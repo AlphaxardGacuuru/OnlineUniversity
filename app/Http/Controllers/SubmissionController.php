@@ -31,7 +31,17 @@ class SubmissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+
+		]);
+
+		[$saved, $message, $submission] = $this->service->store($request);
+
+		return response([
+			"status" => $saved,
+			"message" => $message,
+			"data" => $submission
+		], 200);
     }
 
     /**

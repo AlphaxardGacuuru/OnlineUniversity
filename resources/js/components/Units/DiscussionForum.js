@@ -10,8 +10,6 @@ import StarFilledSVG from "@/svgs/StarFilledSVG"
 import StarSVG from "@/svgs/StarSVG"
 
 const DiscussionForum = (props) => {
-	let { id } = useParams()
-
 	const [chats, setChats] = useState([])
 	const [user, setUser] = useState({})
 	const [attachment, setAttachment] = useState()
@@ -26,15 +24,18 @@ const DiscussionForum = (props) => {
 
 	// Fetch Chats
 	const getChats = () => {
-		Axios.get(
-			`api/discussion-forums/${props.unitId}?sessionId=${props.sessionId}`
-		)
-			.then((res) => {
-				setChats(res.data.data)
-				// Recurse
-				setTimeout(() => getChats(), 2000)
-			})
-			.catch((err) => props.getErrors(err))
+		if (props.unitId && props.sessionId) {
+			Axios.get(
+				`api/discussion-forums/${props.unitId}?
+				sessionId=${props.sessionId}`
+			)
+				.then((res) => {
+					setChats(res.data.data)
+					// Recurse
+					setTimeout(() => getChats(), 2000)
+				})
+				.catch((err) => props.getErrors(err))
+		}
 	}
 
 	useEffect(() => {

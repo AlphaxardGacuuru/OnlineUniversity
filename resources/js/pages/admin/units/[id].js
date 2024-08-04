@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react"
-import {
-	useLocation,
-	useParams,
-} from "react-router-dom/cjs/react-router-dom.min"
+import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
+import Material from "@/components/Units/Material"
 import DiscussionForum from "@/components/Units/DiscussionForum"
 import Submission from "@/components/Units/Submission"
-import Quiz from "@/components/Units/Quiz"
+import Questions from "@/components/Units/Questions"
 
 import InstructorList from "@/components/Instructors/InstructorList"
 import StudentList from "@/components/Students/StudentList"
-
-import Material from "@/components/Units/Material"
 
 const show = (props) => {
 	var { id } = useParams()
@@ -19,16 +15,13 @@ const show = (props) => {
 	const [unit, setUnit] = useState({})
 	const [syllabus, setSyllabus] = useState([])
 	const [tab, setTab] = useState("materials")
-	const [materialTab, setMaterialTab] = useState("Learning Guide")
-	const [richText, setRichText] = useState("")
-	const [week, setWeek] = useState("")
-	const [isActive, setIsActive] = useState()
 
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
 	const [facultyQuery, setFacultyQuery] = useState("")
 	const [departmentQuery, setDepartmentQuery] = useState("")
 
+	const [material, setMaterial] = useState({})
 	const [instructors, setInstructors] = useState([])
 	const [students, setStudents] = useState([])
 
@@ -79,62 +72,11 @@ const show = (props) => {
 	}
 
 	const materialActive = (activeTab) => {
-		return activeTab == materialTab ? "bg-light" : "bg-secondary-subtle"
+		return activeTab == material.title ? "bg-light" : "bg-secondary-subtle"
 	}
 
 	const activeTab = (activeTab) => {
 		return activeTab == tab ? "d-block" : "d-none"
-	}
-
-	/*
-	 * Handle Material Change
-	 */
-	const handleMaterialTab = (title, richText, syllabusWeek, isActive) => {
-		// Check Type of material clicked
-		if (title == "Learning Guide") {
-			setMaterialTab("Learning Guide")
-			setRichText(richText)
-		} else if (title == "Discussion Forum") {
-			setMaterialTab("Discussion Forum")
-			setRichText(richText)
-			setWeek(syllabusWeek)
-			setIsActive(isActive)
-		} else if (title == "Written Assignment") {
-			setMaterialTab("Written Assignment")
-			setRichText(richText)
-			setWeek(syllabusWeek)
-			setIsActive(isActive)
-		} else if (title == "Learning Reflection") {
-			setMaterialTab("Learning Reflection")
-			setRichText(richText)
-			setWeek(syllabusWeek)
-			setIsActive(isActive)
-		} else if (title == "Self-Quiz") {
-			setMaterialTab("Self-Quiz")
-			setRichText(richText)
-			setWeek(syllabusWeek)
-			setIsActive(isActive)
-		} else if (title == "CAT 1") {
-			setMaterialTab("CAT 1")
-			setRichText(richText)
-			setWeek(syllabusWeek)
-			setIsActive(isActive)
-		} else if (title == "CAT 2") {
-			setMaterialTab("CAT 2")
-			setRichText(richText)
-			setWeek(syllabusWeek)
-			setIsActive(isActive)
-		} else if (title == "Review Quiz") {
-			setMaterialTab("Review Quiz")
-			setRichText(richText)
-			setWeek(syllabusWeek)
-			setIsActive(isActive)
-		} else if (title == "Final Exam") {
-			setMaterialTab("Final Exam")
-			setRichText(richText)
-			setWeek(syllabusWeek)
-			setIsActive(isActive)
-		}
 	}
 
 	return (
@@ -151,10 +93,10 @@ const show = (props) => {
 				{/* Materials Tab */}
 				<Material
 					{...props}
-					handleMaterialTab={handleMaterialTab}
 					syllabus={syllabus}
 					setSyllabus={setSyllabus}
 					courseId={id}
+					setMaterial={setMaterial}
 				/>
 				{/* Materials Tab End */}
 			</div>
@@ -221,7 +163,7 @@ const show = (props) => {
 					<div className="d-flex justify-content-between flex-wrap mb-2">
 						<div
 							className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${materialActive(
-								"Self-Quiz"
+								"Self Quiz"
 							)}`}>
 							Self-Quiz
 						</div>
@@ -251,52 +193,80 @@ const show = (props) => {
 						</div>
 					</div>
 					{/* Material Tabs End */}
-					{/* Materials Tab */}
-					<div className="card shadow-sm mb-2 py-5 p-2">
-						{richText ? (
-							<div
-								dangerouslySetInnerHTML={{ __html: richText }}
-								className="px-5"
-							/>
+					{/* Description Start */}
+					<div className="card shadow-sm mb-2 p-2">
+						<h5>Description</h5>
+						{material.description ? (
+							material.description
 						) : (
-							<div className="d-flex justify-content-center p-5 text-muted">
-								Nothing to show
-							</div>
+							<div className="text-muted">No Description to show</div>
 						)}
 					</div>
-					{/* Materials Tab End */}
+					{/* Description End */}
+					{/* Rich Text */}
+					{[
+						"Learning Guide",
+						"Discussion Forum",
+						"Written Assignment",
+						"Learning Reflection",
+					].includes(material.title) && (
+						<div className="card shadow-sm mb-2 py-5 p-2">
+							{material.richText ? (
+								<div
+									dangerouslySetInnerHTML={{ __html: material.richText }}
+									className="px-5"
+								/>
+							) : (
+								<div className="d-flex justify-content-center p-5 text-muted">
+									No Rich text to show
+								</div>
+							)}
+						</div>
+					)}
+					{/* Rich Text End */}
 					{/* Discussion Forum */}
-					{materialTab == "Discussion Forum" && isActive && (
+					{material.title == "Discussion Forum" && material.isActive && (
 						<DiscussionForum
 							{...props}
 							sessionId={unitSession?.sessionId}
 							unitId={unitSession?.unitId}
-							week={week}
+							week={material.week}
 						/>
 					)}
 					{/* Discussion Forum End */}
 					{/* Submission */}
-					{(materialTab == "Written Assignment" ||
-						materialTab == "Learning Reflection") &&
-						isActive && (
+					{(material.title == "Written Assignment" ||
+						material.title == "Learning Reflection") &&
+						material.isActive && (
 							<Submission
 								{...props}
 								sessionId={unitSession?.sessionId}
 								unitId={id}
-								week={week}
-								materialTab={materialTab}
+								materialId={material.id}
+								materialTab={material.title}
 							/>
 						)}
 					{/* Submission End */}
 
 					{/* Quiz Start */}
 					{[
-						"Self-Quiz",
+						"Self Quiz",
 						"CAT 1",
 						"CAT 2",
 						"Review Quiz",
 						"Final Exam",
-					].includes(materialTab) && <Quiz {...props} />}
+					].includes(material.title) &&
+						material.questions &&
+						material.isActive && (
+							<Questions
+								{...props}
+								questions={material.questions}
+								sessionId={unitSession?.sessionId}
+								unitId={id}
+								materialId={material.id}
+								materialTab={material.title}
+							/>
+						)}
 					{/* Quiz End */}
 				</div>
 				{/* Materials Tab End */}

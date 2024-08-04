@@ -89,7 +89,7 @@ const edit = (props) => {
 		"Discussion Forum",
 		"Written Assignment",
 		"Learning Reflection",
-		"Self-Quiz",
+		"Self Quiz",
 		"CAT 1",
 		"CAT 2",
 		"Review Quiz",

@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('submissions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->foreignId('academic_session_id')
                 ->constrained()
                 ->onUpdate('cascade')
@@ -23,13 +27,13 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('user_id')
+            $table->foreignId('material_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->integer('week');
             $table->string('type');
             $table->string('attachment')->nullable();
+            $table->jsonb('answers')->nullable();
             $table->timestamps();
         });
     }

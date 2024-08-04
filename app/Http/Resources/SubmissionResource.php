@@ -24,6 +24,7 @@ class SubmissionResource extends JsonResource
             "week" => $this->week,
             "type" => $this->type,
             "attachment" => $this->attachment,
+            "answers" => $this->answers,
             "updatedAt" => $this->updated_at,
             "createdAt" => $this->created_at,
 		];

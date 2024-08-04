@@ -93,7 +93,7 @@ class FilePondController extends Controller
 
     /*
      * Store Submissions */
-    public function storeSubmission(Request $request, $sessionId, $unitId, $week, $userId, $type)
+    public function storeSubmission(Request $request, $sessionId, $unitId, $materialId, $userId, $type)
     {
         $this->validate($request, [
             "filepond-file" => "required|file",
@@ -107,7 +107,7 @@ class FilePondController extends Controller
 
         $submissionQuery = Submission::where("academic_session_id", $sessionId)
             ->where("unit_id", $unitId)
-            ->where("week", $week)
+            ->where("material_id", $materialId)
             ->where("user_id", $userId)
             ->where("type", $type);
 
@@ -118,7 +118,7 @@ class FilePondController extends Controller
             $submission = new Submission;
             $submission->academic_session_id = $sessionId;
             $submission->unit_id = $unitId;
-            $submission->week = $week;
+            $submission->material_id = $materialId;
             $submission->user_id = $userId;
             $submission->type = $type;
             $submission->attachment = $attachment;

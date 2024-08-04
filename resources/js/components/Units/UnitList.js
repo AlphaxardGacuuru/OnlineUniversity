@@ -99,6 +99,18 @@ const UnitList = (props) => {
 						/>
 					</div>
 					{/* Name End */}
+					{/* Code */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<input
+							id=""
+							type="text"
+							name="name"
+							placeholder="Search by Code"
+							className="form-control"
+							onChange={(e) => props.setCodeQuery(e.target.value)}
+						/>
+					</div>
+					{/* Code End */}
 					{/* Year */}
 					<div className="flex-grow-1 me-2 mb-2">
 						<input

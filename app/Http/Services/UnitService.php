@@ -169,6 +169,11 @@ class UnitService extends Service
                 ->where("name", "LIKE", "%" . $request->input("name") . "%");
         }
 
+        if ($request->filled("code")) {
+            $query = $query
+                ->where("code", "LIKE", "%" . $request->input("code") . "%");
+        }
+
         if ($request->filled("year")) {
             $query = $query->where("year", $request->input("year"));
         }

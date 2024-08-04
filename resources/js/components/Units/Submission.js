@@ -38,22 +38,21 @@ const Submission = (props) => {
 	const [comments, setComments] = useState()
 	const [loading, setLoading] = useState()
 
-	const url = `submissions/${props.sessionId}/${props.unitId}/${props.week}/${props.auth.id}/${props.materialTab}`
+	const url = `submissions/${props.sessionId}/${props.unitId}/${props.materialId}/${props.auth.id}/${props.materialTab}`
 
 	var modalBtn = useRef()
 
-	useEffect(
-		() =>
-			props.get(
+	useEffect(() => {
+		if (props.sessionId) {
+			props.getPaginated(
 				`submissions?
 				sessionId=${props.sessionId}&
 				unitId=${props.unitId}&
-				week=${props.week}&
-				type=${props.materialTab}`,
+				materialId=${props.materialId}`,
 				setSubmissions
-			),
-		[props.materialTab, props.messages]
-	)
+			)
+		}
+	}, [props.materialTab, props.messages])
 
 	/*
 	 * Handle Showing Attachment
@@ -190,8 +189,8 @@ const Submission = (props) => {
 			</div>
 			{/* Filepond End */}
 
-			{submissions
-				.filter((submission) =>
+			{submissions.data
+				?.filter((submission) =>
 					location.pathname.match("/student/") &&
 					props.materialTab == "Learning Reflection"
 						? submission.userId == props.auth.id

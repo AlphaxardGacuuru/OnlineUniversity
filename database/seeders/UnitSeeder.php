@@ -18,12 +18,14 @@ class UnitSeeder extends Seeder
         $courses = Course::all();
 
         foreach ($courses as $course) {
-            Unit::factory()
-                ->count(rand(35, 40))
-                ->create([
-                    "code" => substr($course->department->name, 0, 3) . "-" . rand(100, 999),
-                    "course_id" => $course->id,
-                ]);
+            // Loop to get unique code names
+            for ($i = 0; $i < rand(35, 40); $i++) {
+                Unit::factory()
+                    ->create([
+                        "code" => substr($course->department->name, 0, 3) . "-" . rand(100, 999),
+                        "course_id" => $course->id,
+                    ]);
+            }
         }
     }
 }
