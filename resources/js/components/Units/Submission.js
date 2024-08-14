@@ -170,23 +170,25 @@ const Submission = (props) => {
 			{/* View Attachment Modal End */}
 
 			{/* Filepond */}
-			<div className="card shadow-sm mb-1">
-				<FilePond
-					name="filepond-file"
-					className="m-2"
-					labelIdle='Drag & Drop your File or <span class="filepond--label-action text-dark"> Browse </span>'
-					acceptedFileTypes={["application/pdf"]}
-					allowRevert={true}
-					server={{
-						url: `/api/filepond/`,
-						process: {
-							url: url,
-							onload: (res) => props.setMessages([res]),
-							onerror: (err) => console.log(err.response.data),
-						},
-					}}
-				/>
-			</div>
+			{location.pathname.match("/student/") && (
+				<div className="card shadow-sm mb-1">
+					<FilePond
+						name="filepond-file"
+						className="m-2"
+						labelIdle='Drag & Drop your File or <span class="filepond--label-action text-dark"> Browse </span>'
+						acceptedFileTypes={["application/pdf"]}
+						allowRevert={true}
+						server={{
+							url: `/api/filepond/`,
+							process: {
+								url: url,
+								onload: (res) => props.setMessages([res]),
+								onerror: (err) => console.log(err.response.data),
+							},
+						}}
+					/>
+				</div>
+			)}
 			{/* Filepond End */}
 
 			{submissions.data

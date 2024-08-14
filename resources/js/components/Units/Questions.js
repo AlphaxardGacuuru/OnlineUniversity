@@ -21,14 +21,19 @@ const Questions = (props) => {
 		)
 			.then((res) => {
 				setCanAttempt(res.data.data.length == 0)
-				setAnswers(res.data.data[0].answers)
+				if (res.data.data[0]) {
+					setAnswers(res.data.data[0].answers)
+					setCanReview(true)
+				}
 			})
 			.catch((err) => props.getErrors(err))
 
 		return () => {
 			setAttempting(false)
+			setTime(props.questions.time * 60)
 			setCanAttempt(false)
 			setCanReview(false)
+			setAnswers([])
 		}
 	}, [props.materialId])
 
@@ -90,21 +95,6 @@ const Questions = (props) => {
 						/>
 					) : (
 						<React.Fragment>
-							{time > 0 && canAttempt ? (
-								<button
-									type="button"
-									className="btn btn-primary btn-sm btn-success rounded-pill ms-2"
-									data-bs-toggle="modal"
-									data-bs-target="#exampleModal">
-									Start Attempt
-								</button>
-							) : (
-								<Btn
-									text={`review ${props.materialTab}`}
-									className="btn-sm btn-danger ms-2"
-									onClick={() => setCanReview(true)}
-								/>
-							)}
 							{/* Modal Start */}
 							<div
 								className="modal fade"
@@ -148,108 +138,178 @@ const Questions = (props) => {
 								</div>
 							</div>
 							{/* Modal End */}
+							{time > 0 && canAttempt ? (
+								<button
+									type="button"
+									className="btn btn-primary btn-sm btn-success rounded-pill ms-2"
+									data-bs-toggle="modal"
+									data-bs-target="#exampleModal">
+									Start Attempt
+								</button>
+							) : (
+								<React.Fragment>
+									{canReview && (
+										<Btn
+											text={`reviewing ${props.materialTab}`}
+											className="btn-sm btn-danger ms-2"
+										/>
+									)}
+								</React.Fragment>
+							)}
 						</React.Fragment>
 					)}
 				</div>
 			</div>
-			{attempting ||
-				(canReview && (
-					<React.Fragment>
-						{props.questions.questions?.map((question, key) => (
-							<div
-								key={key}
-								className="card shadow-sm me-1 mb-2 py-2 px-3">
-								<h5>Question {key + 1}</h5>
-								<h6>{question.question}</h6>
-								<form action="">
-									<label className="d-block">
-										<input
-											type="radio"
-											name={`answer${key}`}
-											value="A"
-											className="me-1"
-											checked={answers[key]?.student == "A"}
-											disabled={!canAttempt}
-											onChange={(e) => {
-												answers[key] = {
-													student: e.target.value,
-													correct: question.correctAnswer,
-												}
-												setAnswers(answers)
-												// Submit Answers
-												onAnswer()
-											}}
-										/>
-										{question.answerA}
-									</label>
-									<label className="d-block">
-										<input
-											type="radio"
-											name={`answer${key}`}
-											value="B"
-											className="me-1"
-											checked={answers[key]?.student == "B"}
-											disabled={!canAttempt}
-											onChange={(e) => {
-												answers[key] = {
-													student: e.target.value,
-													correct: question.correctAnswer,
-												}
-												setAnswers(answers)
-												// Submit Answers
-												onAnswer()
-											}}
-										/>
-										{question.answerB}
-									</label>
-									<label className="d-block">
-										<input
-											type="radio"
-											name={`answer${key}`}
-											value="C"
-											className="me-1"
-											checked={answers[key]?.student == "C"}
-											disabled={!canAttempt}
-											onChange={(e) => {
-												answers[key] = {
-													student: e.target.value,
-													correct: question.correctAnswer,
-												}
-												setAnswers(answers)
-												// Submit Answers
-												onAnswer()
-											}}
-										/>
-										{question.answerC}
-									</label>
-									<label className="d-block">
-										<input
-											type="radio"
-											name={`answer${key}`}
-											value="D"
-											className="me-1"
-											checked={answers[key]?.student == "D"}
-											disabled={!canAttempt}
-											onChange={(e) => {
-												answers[key] = {
-													student: e.target.value,
-													correct: question.correctAnswer,
-												}
-												setAnswers(answers)
-												// Submit Answers
-												onAnswer()
-											}}
-										/>
-										{question.answerD}
-									</label>
-									<small className="text-success text-bold">
-										Correct Answer: {question.correctAnswer}
-									</small>
-								</form>
-							</div>
-						))}
-					</React.Fragment>
-				))}
+			{attempting ? (
+				<React.Fragment>
+					{props.questions.questions?.map((question, key) => (
+						<div
+							key={key}
+							className="card shadow-sm me-1 mb-2 py-2 px-3">
+							<h5>Question {key + 1}</h5>
+							<h6>{question.question}</h6>
+							<form action="">
+								<label className="d-block">
+									<input
+										type="radio"
+										name={`answer${key}`}
+										value="A"
+										className="me-1"
+										onChange={(e) => {
+											answers[key] = {
+												student: e.target.value,
+												correct: question.correctAnswer,
+											}
+											setAnswers(answers)
+											// Submit Answers
+											onAnswer()
+										}}
+									/>
+									{question.answerA}
+								</label>
+								<label className="d-block">
+									<input
+										type="radio"
+										name={`answer${key}`}
+										value="B"
+										className="me-1"
+										onChange={(e) => {
+											answers[key] = {
+												student: e.target.value,
+												correct: question.correctAnswer,
+											}
+											setAnswers(answers)
+											// Submit Answers
+											onAnswer()
+										}}
+									/>
+									{question.answerB}
+								</label>
+								<label className="d-block">
+									<input
+										type="radio"
+										name={`answer${key}`}
+										value="C"
+										className="me-1"
+										onChange={(e) => {
+											answers[key] = {
+												student: e.target.value,
+												correct: question.correctAnswer,
+											}
+											setAnswers(answers)
+											// Submit Answers
+											onAnswer()
+										}}
+									/>
+									{question.answerC}
+								</label>
+								<label className="d-block">
+									<input
+										type="radio"
+										name={`answer${key}`}
+										value="D"
+										className="me-1"
+										onChange={(e) => {
+											answers[key] = {
+												student: e.target.value,
+												correct: question.correctAnswer,
+											}
+											setAnswers(answers)
+											// Submit Answers
+											onAnswer()
+										}}
+									/>
+									{question.answerD}
+								</label>
+							</form>
+						</div>
+					))}
+				</React.Fragment>
+			) : (
+				<React.Fragment>
+					{canReview && (
+						<React.Fragment>
+							{props.questions.questions?.map((question, key) => (
+								<div
+									key={key}
+									className="card shadow-sm me-1 mb-2 py-2 px-3">
+									<h5>Question {key + 1}</h5>
+									<h6>{question.question}</h6>
+									<form action="">
+										<label className="d-block">
+											<input
+												type="radio"
+												name={`answer${key}`}
+												value="A"
+												className="me-1"
+												checked={answers[key]?.student == "A"}
+												disabled={true}
+											/>
+											{question.answerA}
+										</label>
+										<label className="d-block">
+											<input
+												type="radio"
+												name={`answer${key}`}
+												value="B"
+												className="me-1"
+												checked={answers[key]?.student == "B"}
+												disabled={true}
+											/>
+											{question.answerB}
+										</label>
+										<label className="d-block">
+											<input
+												type="radio"
+												name={`answer${key}`}
+												value="C"
+												className="me-1"
+												checked={answers[key]?.student == "C"}
+												disabled={true}
+											/>
+											{question.answerC}
+										</label>
+										<label className="d-block">
+											<input
+												type="radio"
+												name={`answer${key}`}
+												value="D"
+												className="me-1"
+												checked={answers[key]?.student == "D"}
+												disabled={true}
+											/>
+											{question.answerD}
+										</label>
+										<small className="text-success text-bold">
+											Correct Answer: {question.correctAnswer}
+										</small>
+									</form>
+								</div>
+							))}
+						</React.Fragment>
+					)}
+				</React.Fragment>
+			)}
 		</React.Fragment>
 	)
 }

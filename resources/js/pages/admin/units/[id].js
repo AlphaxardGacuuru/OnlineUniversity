@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom/cjs/react-router-dom.min"
+import {
+	useLocation,
+	useParams,
+} from "react-router-dom/cjs/react-router-dom.min"
+
+import MyLink from "@/components/Core/MyLink"
 
 import Material from "@/components/Units/Material"
 import DiscussionForum from "@/components/Units/DiscussionForum"
@@ -11,6 +16,8 @@ import StudentList from "@/components/Students/StudentList"
 
 const show = (props) => {
 	var { id } = useParams()
+
+	const location = useLocation()
 
 	const [unit, setUnit] = useState({})
 	const [syllabus, setSyllabus] = useState([])
@@ -88,6 +95,15 @@ const show = (props) => {
 					<h6>Year {unit.year}</h6>
 					<h6>Semester {unit.semester}</h6>
 					<h6>Credit {unit.credits}</h6>
+					{/* Grades Link Start */}
+					{!location.pathname.match("/student/") && (
+						<MyLink
+							linkTo={`/units/${id}/grades`}
+							text="view grade book"
+							className="btn-sm mt-4 me-1"
+						/>
+					)}
+					{/* Grades Link End */}
 				</div>
 
 				{/* Materials Tab */}
@@ -257,7 +273,8 @@ const show = (props) => {
 						"Final Exam",
 					].includes(material.title) &&
 						material.questions &&
-						material.isActive && (
+						material.isActive &&
+						location.pathname.match("/student/") && (
 							<Questions
 								{...props}
 								questions={material.questions}

@@ -266,7 +266,7 @@ const edit = (props) => {
 
 					{/* Multi Choice Start */}
 					{[
-						"Self-Quiz",
+						"Self Quiz",
 						"CAT 1",
 						"CAT 2",
 						"Review Quiz",

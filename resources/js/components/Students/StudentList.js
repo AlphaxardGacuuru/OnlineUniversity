@@ -182,20 +182,24 @@ const StudentList = (props) => {
 								<td>{student.departmentName}</td>
 								<td className="text-end">
 									<div className="d-flex">
+										{/* View Start */}
 										<MyLink
 											linkTo={`/students/${student.id}/show`}
 											text="view"
 											className="btn-sm me-1"
 										/>
+										{/* View End */}
 
 										{location.pathname.match("/admin/") &&
 											location.pathname.match("/students") && (
 												<React.Fragment>
+													{/* Edit Start */}
 													<MyLink
 														linkTo={`/students/${student.id}/edit`}
 														text="edit"
 														className="btn-sm"
 													/>
+													{/* Edit End */}
 
 													<div className="mx-1">
 														<DeleteModal

@@ -43,6 +43,8 @@ import AdminUnitCreate from "@/pages/admin/units/create"
 import AdminUnitShow from "@/pages/admin/units/[id]"
 import AdminUnitEdit from "@/pages/admin/units/edit/[id]"
 
+import AdminGrades from "@/pages/admin/grades/index"
+
 import AdminMaterialCreate from "@/pages/admin/materials/create"
 import AdminMaterialEdit from "@/pages/admin/materials/edit/[id]"
 
@@ -199,6 +201,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminUnitEdit {...GLOBAL_STATE} />,
 		},
 		{
+			path: "/admin/units/:id/grades",
+			component: <AdminGrades {...GLOBAL_STATE} />,
+		},
+		{
 			path: "/admin/materials/:id/create",
 			component: <AdminMaterialCreate {...GLOBAL_STATE} />,
 		},
@@ -269,6 +275,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/instructor/units/:id/show",
 			component: <AdminUnitShow {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/instructor/units/:id/grades",
+			component: <AdminGrades {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/instructor/resources",
