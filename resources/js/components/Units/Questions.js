@@ -3,8 +3,20 @@ import React, { useEffect, useState } from "react"
 import Btn from "@/components/Core/Btn"
 
 const Questions = (props) => {
+	/*
+	 * Set Start Time
+	 */
+	const setStartTime = () => {
+		var [existingTime] = props.getLocalStorage(props.materialTab)
+
+		var existsAndIsCurrentUsers =
+			existingTime && existingTime.userId == props.auth.id
+
+		return existsAndIsCurrentUsers ? existingTime.time : 0.1 * 60
+	}
+
 	const [attempting, setAttempting] = useState(false)
-	const [time, setTime] = useState(props.questions.time * 60)
+	const [time, setTime] = useState(setStartTime)
 
 	const [canAttempt, setCanAttempt] = useState()
 	const [canReview, setCanReview] = useState()
@@ -30,7 +42,7 @@ const Questions = (props) => {
 
 		return () => {
 			setAttempting(false)
-			setTime(props.questions.time * 60)
+			setTime(setStartTime)
 			setCanAttempt(false)
 			setCanReview(false)
 			setAnswers([])
@@ -46,10 +58,23 @@ const Questions = (props) => {
 			intervalId = setInterval(() => {
 				setTime((prevTime) => {
 					if (prevTime > 0) {
+						// Save time to Local Storage
+						props.setLocalStorage(props.materialTab, [
+							{
+								userId: props.auth.id,
+								time: prevTime - 1,
+							},
+						])
+
 						return prevTime - 1
 					} else {
 						clearInterval(intervalId)
 						setAttempting(false)
+						// Remove time from Local Storage
+						localStorage.removeItem(props.materialTab)
+						// Send an empty submission
+						onAnswer()
+
 						return 0
 					}
 				})
@@ -57,6 +82,7 @@ const Questions = (props) => {
 		} else if (!attempting && time !== 0) {
 			clearInterval(intervalId)
 		}
+
 		return () => clearInterval(intervalId)
 	}, [props.materialId, attempting, time])
 

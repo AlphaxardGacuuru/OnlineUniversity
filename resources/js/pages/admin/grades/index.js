@@ -20,15 +20,9 @@ const index = (props) => {
 
 	const [unit, setUnit] = useState({})
 
-	const [students, setStudents] = useState([])
-
-	const [faculties, setFaculties] = useState([])
-	const [departments, setDepartments] = useState([])
+	const [submissions, setSubmissions] = useState([])
 
 	const [nameQuery, setNameQuery] = useState("")
-	const [genderQuery, setGenderQuery] = useState("")
-	const [facultyQuery, setFacultyQuery] = useState("")
-	const [departmentQuery, setDepartmentQuery] = useState("")
 
 	useEffect(() => {
 		// Fetch Unit
@@ -41,25 +35,19 @@ const index = (props) => {
 						"courses",
 						`courses/${res.data.data.courseId}/show`,
 						`units/${id}/show`,
-						"grades",
+						"submissions",
 					],
 				})
 				setUnit(res.data.data)
 			})
 			.catch((err) => props.setErrors([`Failed to fetch unit/${id}`]))
 
-		// Fetch Students
+		// Fetch Submissions
 		props.getPaginated(
-			`students?unitId=${id}
-			name=${nameQuery}&
-			gender=${genderQuery}&
-			facultyId=${facultyQuery}&,
-			departmentId=${departmentQuery}`,
-			setStudents
+			`submissions?unitId=${id}
+			name=${nameQuery}`,
+			setSubmissions
 		)
-
-		props.get("faculties?idAndName=true", setFaculties)
-		props.get("departments?idAndName=true", setDepartments)
 	}, [])
 	return (
 		<div>
@@ -69,8 +57,8 @@ const index = (props) => {
 					{/* Total */}
 					<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 						<div>
-							<span className="fs-4">{students.meta?.total}</span>
-							<h4>Total Students</h4>
+							<span className="fs-4">{submissions.meta?.total}</span>
+							<h4>Total Submissions</h4>
 						</div>
 						<HeroIcon>
 							<PersonSVG />
@@ -98,61 +86,6 @@ const index = (props) => {
 						/>
 					</div>
 					{/* Name End */}
-					{/* Gender */}
-					<div className="flex-grow-1 me-2 mb-2">
-						<select
-							id=""
-							type="text"
-							name="name"
-							placeholder="Search by Gender"
-							className="form-control me-2"
-							onChange={(e) => setGenderQuery(e.target.value)}>
-							<option value="">Search by Gender</option>
-							<option value="male">Male</option>
-							<option value="female">Female</option>
-						</select>
-					</div>
-					{/* Gender End */}
-					{/* Faculty */}
-					<div className="flex-grow-1 me-2 mb-2">
-						<select
-							id=""
-							type="text"
-							name="name"
-							placeholder="Search by Faculty"
-							className="form-control me-2"
-							onChange={(e) => setFacultyQuery(e.target.value)}>
-							<option value="">Search by Faculty</option>
-							{faculties.map((faculty, key) => (
-								<option
-									key={key}
-									value={faculty.id}>
-									{faculty.name}
-								</option>
-							))}
-						</select>
-					</div>
-					{/* Faculty End */}
-					{/* Department */}
-					<div className="flex-grow-1 me-2 mb-2">
-						<select
-							id=""
-							type="text"
-							name="name"
-							placeholder="Search by Gender"
-							className="form-control me-2"
-							onChange={(e) => setDepartmentQuery(e.target.value)}>
-							<option value="">Search by Department</option>
-							{departments.map((department, key) => (
-								<option
-									key={key}
-									value={department.id}>
-									{department.name}
-								</option>
-							))}
-						</select>
-					</div>
-					{/* Department End */}
 				</div>
 			</div>
 			{/* Filters End */}
@@ -163,11 +96,7 @@ const index = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th
-								colSpan={3}
-								className="frozen-column">
-								Student
-							</th>
+							<th className="frozen-column">Student</th>
 							<th>Discussion Forum</th>
 							<th>Written Assignment</th>
 							<th>Learning Reflection</th>
@@ -180,33 +109,33 @@ const index = (props) => {
 						</tr>
 					</thead>
 					<tbody>
-						{students.data?.map((grade, key) => (
+						{submissions.data?.map((submission, key) => (
 							<tr key={key}>
 								<td className="frozen-column">
 									<div className="d-flex">
-										<div>{props.iterator(key, students)}</div>
+										<div>{props.iterator(key, submissions)}</div>
 										<Img
-											src={grade.avatar}
+											src={submission.avatar}
 											className="rounded-circle mx-2"
 											style={{ minWidth: "3em", height: "3em" }}
 											alt="Avatar"
 										/>
-										<h6>{grade.name}</h6>
+										<h6>{submission.name}</h6>
 									</div>
 								</td>
-								<td>{grade.discussionForum}</td>
-								<td>{grade.writtenAssignment}</td>
-								<td>{grade.learningReflection}</td>
-								<td>{grade.selfQuiz}</td>
-								<td>{grade.cat1}</td>
-								<td>{grade.cat2}</td>
-								<td>{grade.reviewQuiz}</td>
-								<td>{grade.finalExam}</td>
+								<td>{submission.discussionForum}</td>
+								<td>{submission.writtenAssignment}</td>
+								<td>{submission.learningReflection}</td>
+								<td>{submission.selfQuiz}</td>
+								<td>{submission.cat1}</td>
+								<td>{submission.cat2}</td>
+								<td>{submission.reviewQuiz}</td>
+								<td>{submission.finalExam}</td>
 								<td className="text-end">
 									<div className="d-flex">
 										{/* View Start */}
 										<MyLink
-											linkTo={`/students/${grade.id}/show`}
+											linkTo={`/submissions/${submission.id}/show`}
 											text="view"
 											className="btn-sm me-1"
 										/>
@@ -217,7 +146,7 @@ const index = (props) => {
 												<React.Fragment>
 													{/* Edit Start */}
 													<MyLink
-														linkTo={`/students/${grade.id}/edit`}
+														linkTo={`/submissions/${submission.id}/edit`}
 														text="edit"
 														className="btn-sm"
 													/>
@@ -225,10 +154,10 @@ const index = (props) => {
 
 													<div className="mx-1">
 														<DeleteModal
-															index={`grade${key}`}
-															model={grade}
-															modelName="Student"
-															onDelete={onDeleteStudent}
+															index={`submission${key}`}
+															model={submission}
+															modelName="Submission"
+															onDelete={onDeleteSubmission}
 														/>
 													</div>
 												</React.Fragment>
@@ -241,9 +170,9 @@ const index = (props) => {
 				</table>
 				{/* Pagination Links */}
 				<PaginationLinks
-					list={students}
+					list={submissions}
 					getPaginated={props.getPaginated}
-					setState={setStudents}
+					setState={setSubmissions}
 				/>
 				{/* Pagination Links End */}
 			</div>

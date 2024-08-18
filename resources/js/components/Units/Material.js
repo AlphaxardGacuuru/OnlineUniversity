@@ -123,11 +123,7 @@ const Material = (props) => {
 																className="btn-sm me-1"
 																onClick={() =>
 																	props.setMaterial({
-																		id: material.id,
-																		title: material.title,
-																		description: material.description,
-																		richText: material.richText,
-																		questions: material.questions,
+																		...material,
 																		week: syllabus.week,
 																		isActive: syllabus.isActive,
 																	})
