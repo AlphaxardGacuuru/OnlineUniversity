@@ -77,4 +77,20 @@ class SubmissionController extends Controller
     {
         //
     }
+
+	/*
+	* Grade Book Submissions
+	*/ 
+	public function gradeBookSubmissions(Request $request, $unitId)
+	{
+		return $this->service->gradeBookSubmissions($request, $unitId);
+	}
+
+	/*
+	* Grade Book Discussions
+	*/ 
+	public function gradeBookDiscussions(Request $request, $unitId)
+	{
+		return $this->service->gradeBookDiscussions($request, $unitId);
+	}
 }

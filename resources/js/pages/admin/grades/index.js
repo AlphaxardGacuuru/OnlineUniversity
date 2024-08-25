@@ -18,37 +18,69 @@ const index = (props) => {
 
 	const location = useLocation()
 
-	const [unit, setUnit] = useState({})
-
 	const [submissions, setSubmissions] = useState([])
+	const [discussions, setDiscussions] = useState([])
+	const [weeks, setWeeks] = useState([])
+
+	const [unitSession] = (props.auth?.unitSessions || [{}])
+		.filter((unitSession) => unitSession.unitId == id)
+		.map((unitSession) => unitSession)
 
 	const [nameQuery, setNameQuery] = useState("")
 
-	useEffect(() => {
-		// Fetch Unit
-		Axios.get(`api/units/${id}`)
-			.then((res) => {
-				// Set page
-				props.setPage({
-					name: "Grade Book",
-					path: [
-						"courses",
-						`courses/${res.data.data.courseId}/show`,
-						`units/${id}/show`,
-						"submissions",
-					],
-				})
-				setUnit(res.data.data)
-			})
-			.catch((err) => props.setErrors([`Failed to fetch unit/${id}`]))
+	const [tab, setTab] = useState("Discussion Forum")
 
+	useEffect(() => {
 		// Fetch Submissions
-		props.getPaginated(
-			`submissions?unitId=${id}
+		props.get(
+			`grade-book-submissions/${id}?sessionId=${unitSession?.sessionId || ""}&
 			name=${nameQuery}`,
 			setSubmissions
 		)
+
+		// Fetch Discussions
+		Axios.get(
+			`/api/grade-book-discussions/${id}?sessionId=${
+				unitSession?.sessionId || ""
+			}&
+			name=${nameQuery}`
+		)
+			.then((res) => {
+				console.log(res.data.data)
+				setDiscussions(res.data.data)
+				// Compute weeks
+				let getWeeks = res.data.data
+					.reduce((acc, curr) => {
+						if (curr.data.length > acc.data.length) {
+							return curr
+						}
+						return acc
+					}, res.data.data[0])
+					?.data.map((data) => data.week)
+
+				setWeeks(getWeeks)
+			})
+			.catch((err) => props.getErrors(err))
 	}, [])
+
+	const active = (activeTab) => {
+		return activeTab == tab ? "bg-light" : "bg-secondary-subtle"
+	}
+
+	const activeTab = (activeTab) => {
+		return activeTab == tab ? "d-block" : "d-none"
+	}
+
+	const getSubmissionsTotal = (submission) =>
+		submission.discussionForum +
+		submission.writtenAssignment +
+		submission.learningReflection +
+		submission.selfQuiz +
+		submission.cat1 +
+		submission.cat2 +
+		submission.reviewQuiz +
+		submission.finalExam
+
 	return (
 		<div>
 			{/* Data */}
@@ -57,7 +89,7 @@ const index = (props) => {
 					{/* Total */}
 					<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 						<div>
-							<span className="fs-4">{submissions.meta?.total}</span>
+							<span className="fs-4">{submissions.length}</span>
 							<h4>Total Submissions</h4>
 						</div>
 						<HeroIcon>
@@ -91,8 +123,77 @@ const index = (props) => {
 			{/* Filters End */}
 
 			<br />
+			{/* Tabs */}
+			<div>
+				<div className="d-flex justify-content-between flex-wrap mb-1">
+					<div
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+							"Discussion Forum"
+						)}`}
+						style={{ cursor: "pointer" }}
+						onClick={() => setTab("Discussion Forum")}>
+						Discussion Forum
+					</div>
+					<div
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+							"Submissions"
+						)}`}
+						style={{ cursor: "pointer" }}
+						onClick={() => setTab("Submissions")}>
+						Submissions
+					</div>
+				</div>
+			</div>
+			{/* Tabs End */}
 
-			<div className="table-responsive mb-5 pb-2">
+			<br />
+
+			{/* Discussion Forum Table Start */}
+			<div
+				className={`table-responsive mb-5 pb-2 ${activeTab(
+					"Discussion Forum"
+				)}`}>
+				<table className="table table-hover">
+					<thead>
+						<tr>
+							<th className="frozen-column">Student</th>
+							{/* Get the longest data and use it to loop throught the weeks */}
+							{weeks.map((week, key) => (
+								<th key={key}>Week {week}</th>
+							))}
+							<th>Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						{discussions?.map((discussion, key) => (
+							<tr key={key}>
+								<td className="frozen-column">
+									<div className="d-flex">
+										<div>{key + 1}</div>
+										<Img
+											src={discussion.avatar}
+											className="rounded-circle mx-2"
+											style={{ minWidth: "3em", height: "3em" }}
+											alt="Avatar"
+										/>
+										<h6>{discussion.userName}</h6>
+									</div>
+								</td>
+								{discussion.data.map((week, key) => (
+									<td key={key}>{week.ratings}</td>
+								))}
+								<td>
+									{discussion.data.reduce((acc, week) => acc + week.ratings, 0)}
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			{/* Discussion Forum Table End */}
+
+			{/* Submissions Table Start */}
+			<div className={`table-responsive mb-5 pb-2 ${activeTab("Submissions")}`}>
 				<table className="table table-hover">
 					<thead>
 						<tr>
@@ -105,22 +206,22 @@ const index = (props) => {
 							<th>CAT 2</th>
 							<th>Review Quiz</th>
 							<th>Final Exam</th>
-							<th>Action</th>
+							<th>Total</th>
 						</tr>
 					</thead>
 					<tbody>
-						{submissions.data?.map((submission, key) => (
+						{submissions?.map((submission, key) => (
 							<tr key={key}>
 								<td className="frozen-column">
 									<div className="d-flex">
-										<div>{props.iterator(key, submissions)}</div>
+										<div>{key + 1}</div>
 										<Img
 											src={submission.avatar}
 											className="rounded-circle mx-2"
 											style={{ minWidth: "3em", height: "3em" }}
 											alt="Avatar"
 										/>
-										<h6>{submission.name}</h6>
+										<h6>{submission.userName}</h6>
 									</div>
 								</td>
 								<td>{submission.discussionForum}</td>
@@ -131,51 +232,13 @@ const index = (props) => {
 								<td>{submission.cat2}</td>
 								<td>{submission.reviewQuiz}</td>
 								<td>{submission.finalExam}</td>
-								<td className="text-end">
-									<div className="d-flex">
-										{/* View Start */}
-										<MyLink
-											linkTo={`/submissions/${submission.id}/show`}
-											text="view"
-											className="btn-sm me-1"
-										/>
-										{/* View End */}
-
-										{location.pathname.match("/admin/") &&
-											location.pathname.match("/students") && (
-												<React.Fragment>
-													{/* Edit Start */}
-													<MyLink
-														linkTo={`/submissions/${submission.id}/edit`}
-														text="edit"
-														className="btn-sm"
-													/>
-													{/* Edit End */}
-
-													<div className="mx-1">
-														<DeleteModal
-															index={`submission${key}`}
-															model={submission}
-															modelName="Submission"
-															onDelete={onDeleteSubmission}
-														/>
-													</div>
-												</React.Fragment>
-											)}
-									</div>
-								</td>
+								<td>{getSubmissionsTotal(submission)}</td>
 							</tr>
 						))}
 					</tbody>
 				</table>
-				{/* Pagination Links */}
-				<PaginationLinks
-					list={submissions}
-					getPaginated={props.getPaginated}
-					setState={setSubmissions}
-				/>
-				{/* Pagination Links End */}
 			</div>
+			{/* Submissions Table End */}
 		</div>
 	)
 }

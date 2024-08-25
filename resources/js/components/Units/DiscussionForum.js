@@ -31,8 +31,6 @@ const DiscussionForum = (props) => {
 			)
 				.then((res) => {
 					setChats(res.data.data)
-					// Recurse
-					setTimeout(() => getChats(), 2000)
 				})
 				.catch((err) => props.getErrors(err))
 		}
@@ -40,7 +38,9 @@ const DiscussionForum = (props) => {
 
 	useEffect(() => {
 		// Fetch Chats
-		getChats()
+		let intervalId = setInterval(() => getChats(), 2000)
+
+		return () => clearInterval(intervalId)
 	}, [])
 
 	/*

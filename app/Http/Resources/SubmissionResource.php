@@ -15,18 +15,18 @@ class SubmissionResource extends JsonResource
     public function toArray($request)
     {
         return [
-			"id" => $this->id,
+            "id" => $this->id,
             "userId" => $this->user_id,
-			"userName" => $this->user->name,
-			"userAvatar" => $this->user->avatar,
+            "userName" => $this->user->name,
+            "userAvatar" => $this->user->avatar,
             "academicSessionId" => $this->academic_session_id,
             "unitId" => $this->unit_id,
-            "week" => $this->week,
+            "materialId" => $this->material_id,
             "type" => $this->type,
             "attachment" => $this->attachment,
             "answers" => $this->answers,
             "updatedAt" => $this->updated_at,
             "createdAt" => $this->created_at,
-		];
+        ];
     }
 }

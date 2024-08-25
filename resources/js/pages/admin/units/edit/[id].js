@@ -24,7 +24,7 @@ const edit = (props) => {
 	// Get Units
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Edit Unit", path: ["units", "edit"] })
+		props.setPage({ name: "Edit Course Unit", path: ["units", "edit"] })
 		// Fetch Unit
 		Axios.get(`/api/units/${id}`).then((res) => {
 			var unit = res.data.data

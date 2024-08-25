@@ -27,7 +27,7 @@ const create = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({
-			name: "Add Unit",
+			name: "Add Course Unit",
 			path: ["courses", `courses/${id}/show`, "create"],
 		})
 		// Fetch Instructors

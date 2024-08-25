@@ -37,10 +37,12 @@ const Submission = (props) => {
 	const [grade, setGrade] = useState()
 	const [comments, setComments] = useState()
 	const [loading, setLoading] = useState()
+	const [modalOpen, setModalOpen] = useState(true)
 
-	const url = `submissions/${props.sessionId}/${props.unitId}/${props.materialId}/${props.auth.id}/${props.materialTab}`
+	const url = `submissions/${props.sessionId}/${props.unitId}/${props.material.id}/${props.auth.id}/${props.material.title}`
 
 	var modalBtn = useRef()
+	var modalBtnClose = useRef()
 
 	useEffect(() => {
 		if (props.sessionId) {
@@ -48,11 +50,11 @@ const Submission = (props) => {
 				`submissions?
 				sessionId=${props.sessionId}&
 				unitId=${props.unitId}&
-				materialId=${props.materialId}`,
+				materialId=${props.material.id}`,
 				setSubmissions
 			)
 		}
-	}, [props.materialTab, props.messages])
+	}, [props.material, props.messages])
 
 	/*
 	 * Handle Showing Attachment
@@ -60,7 +62,7 @@ const Submission = (props) => {
 	const handleShowAttachment = (item) => {
 		// Set Submission
 		setSubmission(item)
-		// Click Modal button
+		// Open Modal button
 		modalBtn.current.click()
 	}
 
@@ -79,6 +81,10 @@ const Submission = (props) => {
 			.then((res) => {
 				setLoading(false)
 				props.setMessages([res.data.message])
+				// Close Modal
+				modalBtnClose.current.click()
+				setModalOpen(false)
+				setModalOpen(true)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -98,75 +104,78 @@ const Submission = (props) => {
 				data-bs-target="#staticBackdrop"></button>
 
 			{/* Modal */}
-			<div
-				className="modal fade"
-				id="staticBackdrop"
-				data-bs-backdrop="static"
-				data-bs-keyboard="false"
-				tabIndex="-1"
-				aria-labelledby="staticBackdropLabel"
-				aria-hidden="true">
-				<div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
-					<div className="modal-content">
-						<div className="modal-header">
-							<h1
-								className="modal-title fs-5"
-								id="staticBackdropLabel">
-								Attachment
-							</h1>
-							<button
-								type="button"
-								className="btn-close"
-								data-bs-dismiss="modal"
-								aria-label="Close"></button>
-						</div>
-						<div className="modal-body text-start">
-							<iframe
-								src={submission.attachment}
-								style={{ width: "100%", height: "30em" }}></iframe>
-
-							{/* Form */}
-							<div
-								className={`flex-grow-1 me-2 mb-1 ${
-									location.pathname.match("/student/") &&
-									props.materialTab == "Learning Reflection" &&
-									submission.userId == props.auth.id
-										? "d-none"
-										: "d-block"
-								}`}>
-								<form onSubmit={onSubmit}>
-									{/* Grade */}
-									<input
-										type="number"
-										placeholder="Enter Grade"
-										className="form-control mb-2"
-										max="100"
-										min="0"
-										onChange={(e) => setGrade(parseInt(e.target.value))}
-									/>
-									{/* Grade End */}
-
-									{/* Comments */}
-									<textarea
-										placeholder="Add Comments"
-										className="form-control mb-2"
-										rows="5"
-										onChange={(e) => setComments(e.target.value)}></textarea>
-									{/* Comments End */}
-
-									<div className="text-end">
-										<Btn
-											text="submit grade"
-											loading={loading}
-										/>
-									</div>
-								</form>
+			{modalOpen && (
+				<div
+					className="modal fade"
+					id="staticBackdrop"
+					data-bs-backdrop="static"
+					data-bs-keyboard="false"
+					tabIndex="-1"
+					aria-labelledby="staticBackdropLabel"
+					aria-hidden="true">
+					<div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+						<div className="modal-content">
+							<div className="modal-header">
+								<h1
+									className="modal-title fs-5"
+									id="staticBackdropLabel">
+									{props.material.title} Attachment
+								</h1>
+								<button
+									ref={modalBtnClose}
+									type="button"
+									className="btn-close"
+									data-bs-dismiss="modal"
+									aria-label="Close"></button>
 							</div>
-							{/* Form End */}
+							<div className="modal-body text-start">
+								<iframe
+									src={submission.attachment}
+									style={{ width: "100%", height: "30em" }}></iframe>
+
+								{/* Form */}
+								<div
+									className={`flex-grow-1 me-2 mb-1 ${
+										location.pathname.match("/student/") &&
+										props.material.title == "Learning Reflection" &&
+										submission.userId == props.auth.id
+											? "d-none"
+											: "d-block"
+									}`}>
+									<form onSubmit={onSubmit}>
+										{/* Grade */}
+										<input
+											type="number"
+											placeholder="Enter Grade"
+											className="form-control mb-2"
+											max="100"
+											min="0"
+											onChange={(e) => setGrade(parseInt(e.target.value))}
+										/>
+										{/* Grade End */}
+
+										{/* Comments */}
+										<textarea
+											placeholder="Add Comments"
+											className="form-control mb-2"
+											rows="5"
+											onChange={(e) => setComments(e.target.value)}></textarea>
+										{/* Comments End */}
+
+										<div className="text-end">
+											<Btn
+												text="submit grade"
+												loading={loading}
+											/>
+										</div>
+									</form>
+								</div>
+								{/* Form End */}
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			)}
 			{/* View Attachment Modal End */}
 
 			{/* Filepond */}
@@ -193,8 +202,9 @@ const Submission = (props) => {
 
 			{submissions.data
 				?.filter((submission) =>
+					// Allow Students to view their own submissions if submission type is Learning Reflection
 					location.pathname.match("/student/") &&
-					props.materialTab == "Learning Reflection"
+					props.material.title == "Learning Reflection"
 						? submission.userId == props.auth.id
 						: true
 				)
@@ -225,7 +235,7 @@ const Submission = (props) => {
 								text="view"
 								className={`btn-sm btn-secondary mb-1 ${
 									location.pathname.match("/student/") &&
-									props.materialTab == "Learning Reflection" &&
+									props.material.title == "Learning Reflection" &&
 									submission.userId != props.auth.id
 										? "d-none"
 										: "d-block"

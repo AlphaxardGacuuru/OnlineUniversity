@@ -38,18 +38,18 @@ const show = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "View Unit", path: ["courses", "view"] })
+		props.setPage({ name: "View Course Unit", path: ["courses", "view"] })
 		// Fetch Unit
 		Axios.get(`api/units/${id}`)
 			.then((res) => {
 				// Set page
 				props.setPage({
-					name: "View Unit",
+					name: "View Course Unit",
 					path: ["courses", `courses/${res.data.data.courseId}/show`, "view"],
 				})
 				setUnit(res.data.data)
 			})
-			.catch((err) => props.setErrors([`Failed to fetch unit/${id}`]))
+			.catch((err) => props.setErrors([`Failed to fetch course unit/${id}`]))
 
 		// Fetch Materials
 		props.get(`materials/by-unit-id/${id}`, setSyllabus)
@@ -84,6 +84,22 @@ const show = (props) => {
 
 	const activeTab = (activeTab) => {
 		return activeTab == tab ? "d-block" : "d-none"
+	}
+
+	const showDiscussionForum = () => {
+		if (material.title == "Discussion Forum") {
+			return location.pathname.match("/student/") ? material.isActive : true
+		}
+	}
+
+	const showSubmission = () => {
+		let isInRightTab =
+			material.title == "Written Assignment" ||
+			material.title == "Learning Reflection"
+
+		if (isInRightTab) {
+			return location.pathname.match("/student/") ? material.isActive : true
+		}
 	}
 
 	return (
@@ -241,7 +257,7 @@ const show = (props) => {
 					)}
 					{/* Rich Text End */}
 					{/* Discussion Forum */}
-					{material.title == "Discussion Forum" && material.isActive && (
+					{showDiscussionForum() && (
 						<DiscussionForum
 							{...props}
 							sessionId={unitSession?.sessionId}
@@ -251,17 +267,14 @@ const show = (props) => {
 					)}
 					{/* Discussion Forum End */}
 					{/* Submission */}
-					{(material.title == "Written Assignment" ||
-						material.title == "Learning Reflection") &&
-						material.isActive && (
-							<Submission
-								{...props}
-								sessionId={unitSession?.sessionId}
-								unitId={id}
-								materialId={material.id}
-								materialTab={material.title}
-							/>
-						)}
+					{showSubmission() && (
+						<Submission
+							{...props}
+							sessionId={unitSession?.sessionId}
+							unitId={id}
+							material={material}
+						/>
+					)}
 					{/* Submission End */}
 
 					{/* Quiz Start */}

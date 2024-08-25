@@ -24,8 +24,11 @@ class DiscussionForumRatingService extends Service
             $rating = $getRating->first();
 
             DB::transaction(function () use ($getRating) {
-                // Increment Club Votes
-                DiscussionForum::find($getRating->first()->discussion_forum_id)->decrement("ratings");
+                // Update Club Votes
+                $discussionForum = DiscussionForum::find($getRating->first()->discussion_forum_id);
+                $discussionForum->ratings = $getRating->sum("rating");
+                $discussionForum->save();
+
                 // Delete Rating
                 $getRating->delete();
             });
@@ -38,11 +41,13 @@ class DiscussionForumRatingService extends Service
             $rating->user_id = $this->id;
             $rating->rating = $request->rating;
 
-            DB::transaction(function () use ($rating) {
+            DB::transaction(function () use ($rating, $getRating) {
                 $rating->save();
 
-                // Increment Club Votes
-                DiscussionForum::find($rating->discussion_forum_id)->increment("ratings");
+                // Update Club Votes
+                $discussionForum = DiscussionForum::find($rating->discussion_forum_id);
+                $discussionForum->ratings = $getRating->sum("rating");
+                $discussionForum->save();
             });
 
             $saved = true;

@@ -98,6 +98,10 @@ Route::post("kopokopo-initiate-transfer", [KopokopoTransferController::class, 'i
 // Invoice
 Route::post("charge-enrollment-fee", [InvoiceController::class, 'chargeEnrollmentFee']);
 
+// Grade Book
+Route::get("grade-book-submissions/{unitId}", [SubmissionController::class, 'gradeBookSubmissions']);
+Route::get("grade-book-discussions/{unitId}", [SubmissionController::class, 'gradeBookDiscussions']);
+
 /*
  * Filepond Controller
  */

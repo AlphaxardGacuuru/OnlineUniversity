@@ -2,7 +2,10 @@
 
 namespace App\Http\Services;
 
+use App\Http\Resources\GradeBookDiscussionResource;
+use App\Http\Resources\GradeBookSubmissionResource;
 use App\Http\Resources\SubmissionResource;
+use App\Models\DiscussionForum;
 use App\Models\Submission;
 
 class SubmissionService extends Service
@@ -12,15 +15,13 @@ class SubmissionService extends Service
      */
     public function index($request)
     {
-        $submissionsQuery = Submission::where("academic_session_id", $request->input("sessionId"))
-            ->where("unit_id", $request->input("unitId"))
-            ->where("material_id", $request->input("materialId"));
+        $submissionsQuery = Submission::where("unit_id", $request->input("unitId"));
 
         $submissionsQuery = $this->search($submissionsQuery, $request);
 
         $submissions = $submissionsQuery
             ->orderBy("id", "DESC")
-            ->paginate();
+            ->paginate(20);
 
         return SubmissionResource::collection($submissions);
     }
@@ -65,6 +66,57 @@ class SubmissionService extends Service
     }
 
     /*
+     * Grade Book Submissions
+     */
+    public function gradeBookSubmissions($request, $unitId)
+    {
+        $submissionsQuery = Submission::where("unit_id", $unitId);
+
+        $submissionsQuery = $this->search($submissionsQuery, $request);
+
+        $discussionForums = $this->gradeBookDiscussions($request, $unitId);
+
+        $submissions = $submissionsQuery
+            ->get()
+            ->groupBy("user_id")
+            ->map(function ($submission, $key) use ($discussionForums) {
+                $discussionForums = $discussionForums
+                    ->filter(fn($discussionForum) => $discussionForum["userId"] == $key)
+                    ->first();
+
+                return [
+                    "userId" => $key,
+                    "data" => $submission,
+                    "discussionForums" => $discussionForums ? $discussionForums["data"] : [],
+                ];
+            })
+            ->values();
+
+        return GradeBookSubmissionResource::collection($submissions);
+    }
+
+    /*
+     * Grade Book Discussions
+     */
+    public function gradeBookDiscussions($request, $unitId)
+    {
+        $discussionForumsQuery = DiscussionForum::where("unit_id", $unitId);
+
+        $discussionForumsQuery = $this->search($discussionForumsQuery, $request);
+
+        $discussionForums = $discussionForumsQuery
+            ->get()
+            ->groupBy("user_id")
+            ->map(fn($discussionForum, $key) => [
+                "userId" => $key,
+                "data" => $discussionForum,
+            ])
+            ->values();
+
+        return GradeBookDiscussionResource::collection($discussionForums);
+    }
+
+    /*
      * Handle Search
      */
     public function search($query, $request)
@@ -72,6 +124,16 @@ class SubmissionService extends Service
         if ($request->filled("userId")) {
             $query = $query
                 ->where("user_id", $request->input("userId"));
+        }
+
+        if ($request->filled("sessionId")) {
+            $query = $query
+                ->where("academic_session_id", $request->input("sessionId"));
+        }
+
+        if ($request->filled("materialId")) {
+            $query = $query
+                ->where("material_id", $request->input("materialId"));
         }
 
         return $query;

@@ -32,7 +32,7 @@ const AdminMenu = (props) => {
 		var isInAdminPage =
 			location.pathname.match("/admin/") ||
 			location.pathname.match("/instructor/") ||
-			location.pathname.match("/student/") ||
+			location.pathname.match("/student/") &&
 			(!location.pathname.match("/login") &&
 				!location.pathname.match("/register"))
 
