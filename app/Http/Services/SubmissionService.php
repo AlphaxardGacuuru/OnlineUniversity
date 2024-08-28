@@ -79,7 +79,18 @@ class SubmissionService extends Service
         $submissions = $submissionsQuery
             ->get()
             ->groupBy("user_id")
-            ->map(function ($submission, $key) use ($discussionForums) {
+            ->map(function ($submissionModels, $key) use ($discussionForums) {
+                // Add byInstructor attribute to grades
+                $submission = $submissionModels
+                    ->each(function ($submission) {
+                        $submission->grades
+                            ->each(function ($grade) {
+                                $isInstructor = $grade->user->account_type == "instructor";
+
+                                $grade->byInstructor = $isInstructor ? $grade->user->id : "";
+                            });
+                    });
+
                 $discussionForums = $discussionForums
                     ->filter(fn($discussionForum) => $discussionForum["userId"] == $key)
                     ->first();

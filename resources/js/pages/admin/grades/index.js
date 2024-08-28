@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import {
 	useLocation,
 	useParams,
 } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink from "@/components/Core/MyLink"
+import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
 import DeleteModal from "@/components/Core/DeleteModal"
 
@@ -18,26 +19,23 @@ const index = (props) => {
 
 	const location = useLocation()
 
-	const [submissions, setSubmissions] = useState([])
-	const [discussions, setDiscussions] = useState([])
-	const [weeks, setWeeks] = useState([])
-
 	const [unitSession] = (props.auth?.unitSessions || [{}])
 		.filter((unitSession) => unitSession.unitId == id)
 		.map((unitSession) => unitSession)
 
-	const [nameQuery, setNameQuery] = useState("")
-
+	const [submissions, setSubmissions] = useState([])
+	const [discussions, setDiscussions] = useState([])
 	const [tab, setTab] = useState("Discussion Forum")
+	const [weeks, setWeeks] = useState([])
+	const [grade, setGrade] = useState()
+	const [comments, setComments] = useState()
+	const [submission, setSubmission] = useState({})
+	const [modalOpen, setModalOpen] = useState(true)
+
+	const [nameQuery, setNameQuery] = useState("")
+	const [loading, setLoading] = useState()
 
 	useEffect(() => {
-		// Fetch Submissions
-		props.get(
-			`grade-book-submissions/${id}?sessionId=${unitSession?.sessionId || ""}&
-			name=${nameQuery}`,
-			setSubmissions
-		)
-
 		// Fetch Discussions
 		Axios.get(
 			`/api/grade-book-discussions/${id}?sessionId=${
@@ -46,7 +44,6 @@ const index = (props) => {
 			name=${nameQuery}`
 		)
 			.then((res) => {
-				console.log(res.data.data)
 				setDiscussions(res.data.data)
 				// Compute weeks
 				let getWeeks = res.data.data
@@ -61,7 +58,40 @@ const index = (props) => {
 				setWeeks(getWeeks)
 			})
 			.catch((err) => props.getErrors(err))
+
+		// Fetch Submissions
+		props.get(
+			`grade-book-submissions/${id}?sessionId=${unitSession?.sessionId || ""}&
+			name=${nameQuery}`,
+			setSubmissions
+		)
 	}, [])
+
+	/*
+	 * Grade
+	 */
+	const onEditGrade = (e) => {
+		e.preventDefault()
+		setLoading(true)
+
+		Axios.put("/api/grades", {
+			submissionId: submission.id,
+			grade: grade,
+			comments: comments,
+		})
+			.then((res) => {
+				setLoading(false)
+				props.setMessages([res.data.message])
+				// Close Modal
+				modalBtnClose.current.click()
+				setModalOpen(false)
+				setModalOpen(true)
+			})
+			.catch((err) => {
+				setLoading(false)
+				props.getErrors(err)
+			})
+	}
 
 	const active = (activeTab) => {
 		return activeTab == tab ? "bg-light" : "bg-secondary-subtle"
@@ -73,16 +103,102 @@ const index = (props) => {
 
 	const getSubmissionsTotal = (submission) =>
 		submission.discussionForum +
-		submission.writtenAssignment +
-		submission.learningReflection +
+		submission.writtenAssignment?.grade +
+		submission.learningReflection?.grade +
 		submission.selfQuiz +
 		submission.cat1 +
 		submission.cat2 +
 		submission.reviewQuiz +
 		submission.finalExam
 
+	var modalBtn = useRef()
+	var modalBtnClose = useRef()
+
+	/*
+	 * Handle Showing Attachment
+	 */
+	const handleShowModal = (item) => {
+		// Set Submission
+		setSubmission(item)
+		// Open Modal button
+		modalBtn.current.click()
+	}
+
 	return (
 		<div>
+			{/* Edit Grade Modal */}
+			{/* Button */}
+			<button
+				ref={modalBtn}
+				type="hidden"
+				className="btn btn-sm rounded-pill text-white d-none"
+				data-bs-toggle="modal"
+				data-bs-target="#staticBackdrop"></button>
+
+			{/* Modal */}
+			{modalOpen && (
+				<div
+					className="modal fade"
+					id="staticBackdrop"
+					data-bs-backdrop="static"
+					data-bs-keyboard="false"
+					tabIndex="-1"
+					aria-labelledby="staticBackdropLabel"
+					aria-hidden="true">
+					<div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+						<div className="modal-content">
+							<div className="modal-header">
+								<h1
+									className="modal-title fs-5"
+									id="staticBackdropLabel">
+									Edit
+								</h1>
+								<button
+									ref={modalBtnClose}
+									type="button"
+									className="btn-close"
+									data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div className="modal-body text-start">
+								{/* Form */}
+								<div className={`flex-grow-1 me-2 mb-1`}>
+									<form onSubmit={onEditGrade}>
+										{/* Grade */}
+										<input
+											type="number"
+											placeholder="Enter Grade"
+											className="form-control mb-2"
+											max="100"
+											min="0"
+											onChange={(e) => setGrade(parseInt(e.target.value))}
+										/>
+										{/* Grade End */}
+
+										{/* Comments */}
+										<textarea
+											placeholder="Add Comments"
+											className="form-control mb-2"
+											rows="5"
+											onChange={(e) => setComments(e.target.value)}></textarea>
+										{/* Comments End */}
+
+										<div className="text-end">
+											<Btn
+												text="submit grade"
+												loading={loading}
+											/>
+										</div>
+									</form>
+								</div>
+								{/* Form End */}
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
+			{/* Edit Grade Modal End */}
+
 			{/* Data */}
 			<div className="card shadow-sm p-2">
 				<div className="d-flex justify-content-between">
@@ -224,9 +340,52 @@ const index = (props) => {
 										<h6>{submission.userName}</h6>
 									</div>
 								</td>
-								<td>{submission.discussionForum}</td>
-								<td>{submission.writtenAssignment}</td>
-								<td>{submission.learningReflection}</td>
+								<td>
+									<div className="d-flex justify-content-between">
+										<div className="mx-1">{submission.discussionForum}</div>
+										<div className="mx-1">
+											<Btn
+												text="edit"
+												className={`btn-sm btn-secondary mb-1`}
+												onClick={() =>
+													handleShowModal(submission.discussionForum)
+												}
+											/>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div className="d-flex justify-content-between">
+										<div className="mx-1">
+											{submission.writtenAssignment?.grade}
+										</div>
+										<div className="mx-1">
+											<Btn
+												text="edit"
+												className={`btn-sm btn-secondary mb-1`}
+												onClick={() =>
+													handleShowModal(submission.writtenAssignment)
+												}
+											/>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div className="d-flex justify-content-between">
+										<div className="mx-1">
+											{submission.learningReflection?.grade}
+										</div>
+										<div className="mx-1">
+											<Btn
+												text="edit"
+												className={`btn-sm btn-secondary mb-1`}
+												onClick={() =>
+													handleShowModal(submission.learningReflection)
+												}
+											/>
+										</div>
+									</div>
+								</td>
 								<td>{submission.selfQuiz}</td>
 								<td>{submission.cat1}</td>
 								<td>{submission.cat2}</td>

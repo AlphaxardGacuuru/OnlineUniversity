@@ -14,12 +14,23 @@ class GradeBookSubmissionResource extends JsonResource
 
     public function calculateGrade($type)
     {
-        return $this["data"]
+        $grades = $this["data"]
             ->filter(fn($submission) => $submission->type == $type)
             ->first()
-            ->grades
+            ->grades;
+
+        $instructorId = $grades
+            ->filter(fn($grade) => $grade->byInstructor)
             ->first()
-        ?->grade;
+        ?->byInstructor;
+
+        $totalGrade = $grades
+            ->reduce(fn($acc, $grade) => $acc + $grade->grade);
+
+        return [
+            "instructorId" => $instructorId,
+            "grade" => $totalGrade,
+        ];
     }
 
     public function calculateMarks($type)
