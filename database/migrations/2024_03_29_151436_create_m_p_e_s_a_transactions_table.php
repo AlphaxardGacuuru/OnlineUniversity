@@ -14,8 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('mpesa_transactions', function (Blueprint $table) {
-			$table->id();
-            $table->foreignId("user_id")->constrained()->nullable();
+            $table->id();
+            $table->foreignId("user_id")
+                ->nullable()
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('sender_first_name')->nullable();
             $table->string('sender_middle_name')->nullable();
             $table->string('sender_last_name')->nullable();

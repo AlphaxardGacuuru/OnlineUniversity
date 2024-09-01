@@ -57,7 +57,10 @@ const show = (props) => {
 
 	useEffect(() => {
 		// Fetch Academin Session
-		props.get(`sessions/current-by-course-id/${id}`, setSession)
+		Axios.get(`api/sessions/current-by-course-id/${id}`)
+			.then((res) => setSession(res.data.data))
+			.catch((err) => props.getErrors(err))
+
 		// Fetch Units
 		props.getPaginated(
 			`units?courseId=${id}&
@@ -221,7 +224,7 @@ const show = (props) => {
 						)}`}
 						style={{ cursor: "pointer" }}
 						onClick={() => setTab("units")}>
-						Units
+						Course Units
 					</div>
 					<div
 						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(

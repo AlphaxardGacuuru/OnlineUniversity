@@ -15,7 +15,11 @@ return new class extends Migration
     {
         Schema::create('card_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")->constrained()->nullable();
+            $table->foreignId("user_id")
+                ->nullable()
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string("currency")->nullable();
             $table->string("amount")->nullable();
             $table->string("charged_amount")->nullable();

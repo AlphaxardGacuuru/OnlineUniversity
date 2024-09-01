@@ -155,7 +155,7 @@ const show = (props) => {
 						)}`}
 						style={{ cursor: "pointer" }}
 						onClick={() => setTab("units")}>
-						Units
+						Course Units
 					</div>
 					{location.pathname.match("/student") && (
 						<div

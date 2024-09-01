@@ -66,7 +66,20 @@ class GradeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            "submissionId" => "nullable|integer",
+            "grade" => "nullable|integer|min:0|max:100",
+            "currentGrade" => "nullable|integer",
+            "comments" => "nullable|string|max:65535",
+        ]);
+
+        [$saved, $message, $grade] = $this->service->update($request, $id);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $grade,
+        ], 200);
     }
 
     /**

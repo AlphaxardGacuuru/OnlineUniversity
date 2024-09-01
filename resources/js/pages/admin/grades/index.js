@@ -4,15 +4,12 @@ import {
 	useParams,
 } from "react-router-dom/cjs/react-router-dom.min"
 
-import MyLink from "@/components/Core/MyLink"
 import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
-import DeleteModal from "@/components/Core/DeleteModal"
 
 import HeroIcon from "@/components/Core/HeroIcon"
 
 import PersonSVG from "@/svgs/PersonSVG"
-import PaginationLinks from "@/components/Core/PaginationLinks"
 
 const index = (props) => {
 	var { id } = useParams()
@@ -27,15 +24,34 @@ const index = (props) => {
 	const [discussions, setDiscussions] = useState([])
 	const [tab, setTab] = useState("Discussion Forum")
 	const [weeks, setWeeks] = useState([])
-	const [grade, setGrade] = useState()
+	const [grade, setGrade] = useState({})
+	const [newGrade, setNewGrade] = useState({})
 	const [comments, setComments] = useState()
-	const [submission, setSubmission] = useState({})
 	const [modalOpen, setModalOpen] = useState(true)
 
 	const [nameQuery, setNameQuery] = useState("")
 	const [loading, setLoading] = useState()
 
 	useEffect(() => {
+		// Set page
+		props.setPage({ name: "View Grade Book", path: ["courses", "view"] })
+
+		// Fetch Unit
+		Axios.get(`api/units/${id}`)
+			.then((res) => {
+				// Set page
+				props.setPage({
+					name: "View Grade Book",
+					path: [
+						"courses",
+						`courses/${res.data.data.courseId}/show`,
+						`units/${id}/show`,
+						"grade-book",
+					],
+				})
+			})
+			.catch((err) => props.setErrors([`Failed to fetch course unit/${id}`]))
+
 		// Fetch Discussions
 		Axios.get(
 			`/api/grade-book-discussions/${id}?sessionId=${
@@ -61,11 +77,25 @@ const index = (props) => {
 
 		// Fetch Submissions
 		props.get(
-			`grade-book-submissions/${id}?sessionId=${unitSession?.sessionId || ""}&
+			`grade-book-submissions/${id}?
+			sessionId=${unitSession?.sessionId || ""}&
 			name=${nameQuery}`,
 			setSubmissions
 		)
 	}, [])
+
+	var modalBtn = useRef()
+	var modalBtnClose = useRef()
+
+	/*
+	 * Handle Showing Attachment
+	 */
+	const handleShowModal = (item) => {
+		// Set Grade
+		setGrade(item)
+		// Open Modal button
+		modalBtn.current.click()
+	}
 
 	/*
 	 * Grade
@@ -74,14 +104,22 @@ const index = (props) => {
 		e.preventDefault()
 		setLoading(true)
 
-		Axios.put("/api/grades", {
-			submissionId: submission.id,
-			grade: grade,
+		Axios.put(`/api/grades/${grade.gradedByInstructor}`, {
+			newGrade: newGrade,
+			currentGrade: grade.grade,
 			comments: comments,
 		})
 			.then((res) => {
 				setLoading(false)
 				props.setMessages([res.data.message])
+
+				// Fetch Submissions
+				props.get(
+					`grade-book-submissions/${id}?
+					sessionId=${unitSession?.sessionId || ""}&
+					name=${nameQuery}`,
+					setSubmissions
+				)
 				// Close Modal
 				modalBtnClose.current.click()
 				setModalOpen(false)
@@ -103,27 +141,14 @@ const index = (props) => {
 
 	const getSubmissionsTotal = (submission) =>
 		submission.discussionForum +
-		submission.writtenAssignment?.grade +
-		submission.learningReflection?.grade +
+		submission.writtenAssignment.grade +
+		submission.learningReflection.grade +
 		submission.selfQuiz +
 		submission.cat1 +
 		submission.cat2 +
 		submission.reviewQuiz +
 		submission.finalExam
-
-	var modalBtn = useRef()
-	var modalBtnClose = useRef()
-
-	/*
-	 * Handle Showing Attachment
-	 */
-	const handleShowModal = (item) => {
-		// Set Submission
-		setSubmission(item)
-		// Open Modal button
-		modalBtn.current.click()
-	}
-
+		
 	return (
 		<div>
 			{/* Edit Grade Modal */}
@@ -171,7 +196,7 @@ const index = (props) => {
 											className="form-control mb-2"
 											max="100"
 											min="0"
-											onChange={(e) => setGrade(parseInt(e.target.value))}
+											onChange={(e) => setNewGrade(parseInt(e.target.value))}
 										/>
 										{/* Grade End */}
 
@@ -357,7 +382,7 @@ const index = (props) => {
 								<td>
 									<div className="d-flex justify-content-between">
 										<div className="mx-1">
-											{submission.writtenAssignment?.grade}
+											{submission.writtenAssignment.grade}
 										</div>
 										<div className="mx-1">
 											<Btn
@@ -366,6 +391,7 @@ const index = (props) => {
 												onClick={() =>
 													handleShowModal(submission.writtenAssignment)
 												}
+												disabled={!submission.writtenAssignment.gradedByInstructor}
 											/>
 										</div>
 									</div>
@@ -373,7 +399,7 @@ const index = (props) => {
 								<td>
 									<div className="d-flex justify-content-between">
 										<div className="mx-1">
-											{submission.learningReflection?.grade}
+											{submission.learningReflection.grade}
 										</div>
 										<div className="mx-1">
 											<Btn
@@ -382,6 +408,7 @@ const index = (props) => {
 												onClick={() =>
 													handleShowModal(submission.learningReflection)
 												}
+												disabled={!submission.learningReflection.gradedByInstructor}
 											/>
 										</div>
 									</div>

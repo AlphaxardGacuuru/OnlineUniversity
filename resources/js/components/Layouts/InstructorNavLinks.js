@@ -76,7 +76,7 @@ const InstructorNavLinks = (props) => {
 					<span>
 						<LinkSVG />
 					</span>
-					Links
+					<div className="nav-link-text">Links</div>
 				</a>
 
 				{/* Collapse */}

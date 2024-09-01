@@ -192,13 +192,6 @@ const UnitList = (props) => {
 													text="view"
 													className="btn-sm me-1"
 												/>
-												{location.pathname.match("admin") && (
-													<MyLink
-														linkTo={`/units/${unit.id}/edit`}
-														text="edit"
-														className="btn-sm me-1"
-													/>
-												)}
 											</div>
 										) : (
 											<React.Fragment>
@@ -219,7 +212,7 @@ const UnitList = (props) => {
 										)}
 
 										{location.pathname.match("/admin/") &&
-											location.pathname.match("/course/") && (
+											location.pathname.match("/courses/") && (
 												<React.Fragment>
 													<MyLink
 														linkTo={`/units/${unit.id}/edit`}

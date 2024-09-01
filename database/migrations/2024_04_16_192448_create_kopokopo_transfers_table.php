@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('kopokopo_transfers', function (Blueprint $table) {
             $table->id();
-			$table->foreignId("user_id")->constrained();
+			$table->foreignId("user_id")
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string("kopokopo_id")->nullable();
             $table->string("kopokopo_created_at")->nullable();
             $table->string("amount")->nullable();

@@ -33,4 +33,27 @@ class GradeService extends Service
 
         return [$saved, $message, $grade];
     }
+
+	/*
+	* Update Grade
+	*/ 
+	public function update($request, $id)
+	{
+		$grade = Grade::find($id);
+
+		if ($request->filled("newGrade")) {
+			$otherGrades = $request->currentGrade - $grade->grade;
+			$newGrade = $request->newGrade -$otherGrades;
+
+			$grade->grade = $newGrade;
+		}
+
+		if ($request->filled("comments")) {
+			$grade->comments = $request->comments;
+		}
+
+		$save = $grade->save();
+
+		return [$save, "Grade updated successfully", $grade];
+	}
 }

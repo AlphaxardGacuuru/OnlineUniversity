@@ -83,11 +83,12 @@ class SubmissionService extends Service
                 // Add byInstructor attribute to grades
                 $submission = $submissionModels
                     ->each(function ($submission) {
-                        $submission->grades
+                        $submission
+                            ->grades
                             ->each(function ($grade) {
                                 $isInstructor = $grade->user->account_type == "instructor";
 
-                                $grade->byInstructor = $isInstructor ? $grade->user->id : "";
+                                $grade->gradedByInstructor = $isInstructor ? $grade->id : "";
                             });
                     });
 
