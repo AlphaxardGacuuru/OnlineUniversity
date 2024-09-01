@@ -45,11 +45,6 @@ class Faculty extends Model
         return $this->hasMany(UserFaculty::class, "faculty_id", "id");
     }
 
-    public function userDepartments()
-    {
-        return $this->hasMany(UserDepartment::class);
-    }
-
     /*
      * Custom functions
      */
@@ -58,7 +53,24 @@ class Faculty extends Model
     {
         return $this->departments()
             ->get()
-            ->map(fn($department) => $department->courses)
+			->filter(fn($department) => !is_null($department->courses))
+            ->map(fn($department) => $department->courses)            
+            ->flatten();
+    }
+
+    public function units()
+    {
+        return $this->courses()
+            ->filter(fn($course) => !is_null($course->units))
+            ->map(fn($course) => $course->units)
+            ->flatten();
+    }
+
+    public function materials()
+    {
+        return $this->units()
+            ->filter(fn($units) => !is_null($units->material))
+            ->map(fn($units) => $units->material)
             ->flatten();
     }
 

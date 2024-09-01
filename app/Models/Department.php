@@ -22,4 +22,24 @@ class Department extends Model
     {
         return $this->hasMany(Course::class);
     }
+
+    /*
+     * Custom Functions
+     */
+
+    public function units()
+    {
+        return $this->courses
+            ->filter(fn($course) => !is_null($course->units))
+            ->map(fn($course) => $course->units)
+            ->flatten();
+    }
+
+    public function materials()
+    {
+        return $this->units()
+            ->filter(fn($units) => !is_null($units->material))
+            ->map(fn($units) => $units->material)
+            ->flatten();
+    }
 }

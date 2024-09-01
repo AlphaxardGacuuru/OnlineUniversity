@@ -2,29 +2,32 @@ import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink from "@/components/Core/MyLink"
+import PaginationLinks from "@/components/Core/PaginationLinks"
 
 import HeroIcon from "@/components/Core/HeroIcon"
 import InstructorList from "@/components/Instructors/InstructorList"
 import StudentList from "@/components/Students/StudentList"
 
 import DepartmentSVG from "@/svgs/DepartmentSVG"
+import DeleteModal from "@/components/Core/DeleteModal"
 
 const show = (props) => {
 	var { id } = useParams()
 
 	const [faculty, setFaculty] = useState({})
+	const [departments, setDepartments] = useState([])
 	const [instructors, setInstructors] = useState([])
 	const [students, setStudents] = useState([])
 	const [tab, setTab] = useState("departments")
 
-	const [nameQuery, setNameQuery] = useState("")
-	const [genderQuery, setGenderQuery] = useState("")
-	const [facultyQuery, setFacultyQuery] = useState("")
-	const [departmentQuery, setDepartmentQuery] = useState("")
+	const [departmentNameQuery, setDepartmentNameQuery] = useState("")
+
+	const [instructorNameQuery, setInstructorNameQuery] = useState("")
+	const [instructorGenderQuery, setInstructorGenderQuery] = useState("")
+	const [instructorDepartmentQuery, setInstructorDepartmentQuery] = useState("")
 
 	const [studentNameQuery, setStudentNameQuery] = useState("")
 	const [studentGenderQuery, setStudentGenderQuery] = useState("")
-	const [studentFacultyQuery, setStudentFacultyQuery] = useState("")
 	const [studentDepartmentQuery, setStudentDepartmentQuery] = useState("")
 
 	useEffect(() => {
@@ -35,32 +38,34 @@ const show = (props) => {
 
 	useEffect(() => {
 		props.getPaginated(
+			`departments?
+			facultyId=${id}&
+			name=${departmentNameQuery}`,
+			setDepartments
+		)
+	}, [departmentNameQuery])
+
+	useEffect(() => {
+		props.getPaginated(
 			`instructors?
-			facaultyId=${id}&
-			name=${nameQuery}&
-			gender=${genderQuery}&
-			facultyId=${facultyQuery}&
-			departmentId=${departmentQuery}`,
+			facultyId=${id}&
+			name=${instructorNameQuery}&
+			gender=${instructorGenderQuery}&
+			departmentId=${instructorDepartmentQuery}`,
 			setInstructors
 		)
-	}, [nameQuery, genderQuery, facultyQuery, departmentQuery])
+	}, [instructorNameQuery, instructorGenderQuery, instructorDepartmentQuery])
 
 	useEffect(() => {
 		props.getPaginated(
 			`students?
-			facaultyId=${id}&
+			facultyId=${id}&
 			name=${studentNameQuery}&
 			gender=${studentGenderQuery}&
-			facultyId=${studentFacultyQuery}&
 			departmentId=${studentDepartmentQuery}`,
 			setStudents
 		)
-	}, [
-		studentNameQuery,
-		studentGenderQuery,
-		studentFacultyQuery,
-		studentDepartmentQuery,
-	])
+	}, [studentNameQuery, studentGenderQuery, studentDepartmentQuery])
 
 	const active = (activeTab) => {
 		return activeTab == tab ? "bg-light" : "bg-secondary-subtle"
@@ -77,8 +82,12 @@ const show = (props) => {
 		Axios.delete(`/api/departments/${departmentId}`)
 			.then((res) => {
 				props.setMessages([res.data.message])
-				// Remove row
-				props.get(`faculties/${id}`, setFaculty)
+				// Delete rows
+				setDepartments({
+					meta: departments.meta,
+					links: departments.links,
+					data: departments.data.filter((department) => department.id != departmentId),
+				})
 			})
 			.catch((err) => props.getErrors(err))
 	}
@@ -128,7 +137,7 @@ const show = (props) => {
 							{/* Total */}
 							<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 								<div>
-									<span className="fs-4">{faculty.departments?.length}</span>
+									<span className="fs-4">{departments.meta?.total}</span>
 									<h4>Total Departments</h4>
 								</div>
 								<HeroIcon>
@@ -158,9 +167,9 @@ const show = (props) => {
 									<td>Name</td>
 									<td>Action</td>
 								</tr>
-								{faculty?.departments?.map((department, key) => (
+								{departments.data?.map((department, key) => (
 									<tr key={key}>
-										<td>{key + 1}</td>
+										<td>{props.iterator(key, departments)}</td>
 										<td>{department.name}</td>
 										<td>
 											<div className="d-flex justify-content-start">
@@ -171,61 +180,13 @@ const show = (props) => {
 												/>
 
 												<div className="mx-1">
-													{/* Confirm Delete Modal End */}
-													<div
-														className="modal fade"
-														id={`deleteDepartmentModal${key}`}
-														tabIndex="-1"
-														aria-labelledby="deleteModalLabel"
-														aria-hidden="true">
-														<div className="modal-dialog">
-															<div className="modal-content">
-																<div className="modal-header">
-																	<h1
-																		id="deleteModalLabel"
-																		className="modal-title fs-5 text-danger">
-																		Delete Faculty
-																	</h1>
-																	<button
-																		type="button"
-																		className="btn-close"
-																		data-bs-dismiss="modal"
-																		aria-label="Close"></button>
-																</div>
-																<div className="modal-body text-start text-wrap">
-																	Are you sure you want to delete{" "}
-																	{department.name}.
-																</div>
-																<div className="modal-footer justify-content-between">
-																	<button
-																		type="button"
-																		className="btn btn-light rounded-pill"
-																		data-bs-dismiss="modal">
-																		Close
-																	</button>
-																	<button
-																		type="button"
-																		className="btn btn-danger rounded-pill"
-																		data-bs-dismiss="modal"
-																		onClick={() =>
-																			onDeleteDepartment(department.id)
-																		}>
-																		Delete
-																	</button>
-																</div>
-															</div>
-														</div>
-													</div>
-													{/* Confirm Delete Modal End */}
-
-													{/* Button trigger modal */}
-													<button
-														type="button"
-														className="btn btn-sm btn-outline-danger rounded-pill"
-														data-bs-toggle="modal"
-														data-bs-target={`#deleteDepartmentModal${key}`}>
-														Delete
-													</button>
+													<DeleteModal
+														index={`department${key}`}
+														model={department}
+														modelName="Department"
+														message={`Are you sure you want to delete ${department.name}, it has ${department.courseCount} Courses, ${department.unitCount} Units and ${department.materialCount} Materials`}
+														onDelete={onDeleteDepartment}
+													/>
 												</div>
 											</div>
 										</td>
@@ -233,6 +194,13 @@ const show = (props) => {
 								))}
 							</thead>
 						</table>
+						{/* Pagination Links */}
+						<PaginationLinks
+							list={departments}
+							getPaginated={props.getPaginated}
+							setState={setDepartments}
+						/>
+						{/* Pagination Links End */}
 					</div>
 					{/* Table End */}
 				</div>
@@ -244,10 +212,8 @@ const show = (props) => {
 					instructors={instructors}
 					setInstructors={setInstructors}
 					activeTab={activeTab("instructors")}
-					setNameQuery={setNameQuery}
-					setGenderQuery={setGenderQuery}
-					setFacultyQuery={setFacultyQuery}
-					setDepartmentQuery={setDepartmentQuery}
+					setNameQuery={setInstructorNameQuery}
+					setGenderQuery={setInstructorGenderQuery}
 					setFaculty={setFaculty}
 				/>
 				{/* Instructors Tab End */}
@@ -261,7 +227,6 @@ const show = (props) => {
 					setFaculty={setFaculty}
 					setNameQuery={setStudentNameQuery}
 					setGenderQuery={setStudentGenderQuery}
-					setFacultyQuery={setStudentFacultyQuery}
 					setDepartmentQuery={setStudentDepartmentQuery}
 				/>
 				{/* Students Tab End */}

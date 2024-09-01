@@ -17,10 +17,11 @@ class FacultyResource extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->name,
-            "departments" => $this->departments,
-            "courses" => $this->courses(),
-            "instructors" => $this->instructors(),
-            "students" => $this->students(),
+            "departmentCount" => $this->departments()->count(),
+            "course" => $this->courses(), // For use in Footer
+            "courseCount" => $this->courses()->count(),
+            "unitCount" => $this->units()->count(),
+            "materialCount" => $this->materials()->count(),
             "createdAt" => $this->created_at,
         ];
     }

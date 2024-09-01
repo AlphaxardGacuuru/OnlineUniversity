@@ -13,7 +13,7 @@ class FacultyService extends Service
      */
     public function index()
     {
-        $faculties = Faculty::orderBy("id", "DESC")->get();
+        $faculties = Faculty::orderBy("id", "DESC")->paginate(20);
 
         return FacultyResource::collection($faculties);
     }

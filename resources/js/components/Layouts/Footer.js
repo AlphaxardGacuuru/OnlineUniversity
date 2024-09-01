@@ -54,13 +54,13 @@ const Footer = (props) => {
 				<div className="footer-top">
 					<div className="footer-warp">
 						<div className="row">
-							{faculties.map((faculty, key) => (
+							{faculties.data?.map((faculty, key) => (
 								<div
 									key={key}
 									className="widget-item mb-4">
 									<h4>{faculty.name}</h4>
 									<ul>
-										{faculty.courses.map((course, key) => (
+										{faculty.data?.courses.map((course, key) => (
 											<li key={key}>
 												<a href="">{course.name}</a>
 											</li>

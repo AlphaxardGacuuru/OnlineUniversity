@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 
 import MyLink from "@/components/Core/MyLink"
 import DeleteModal from "@/components/Core/DeleteModal"
+import PaginationLinks from "@/components/Core/PaginationLinks"
 
 import FacultySVG from "@/svgs/FacultySVG"
 import HeroIcon from "@/components/Core/HeroIcon"
@@ -14,7 +15,7 @@ const index = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Faculties", path: ["faculties"] })
-		props.get("faculties", setFaculties, "faculties")
+		props.getPaginated("faculties", setFaculties, "faculties")
 	}, [])
 
 	/*
@@ -30,7 +31,11 @@ const index = (props) => {
 				// Toggle loader
 				setLoading(true)
 				// Delete rows
-				setFaculties(faculties.filter((faculty) => faculty.id != facultyId))
+				setFaculties({
+					meta: faculties.meta,
+					links: faculties.links,
+					data: faculties.data.filter((faculty) => faculty.id != facultyId),
+				})
 			})
 			.catch((err) => {
 				// Toggle loader
@@ -48,7 +53,7 @@ const index = (props) => {
 						{/* Total */}
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 							<div>
-								<span className="fs-4">{faculties.length}</span>
+								<span className="fs-4">{faculties.meta?.total}</span>
 								<h4>Total Faculties</h4>
 							</div>
 							<HeroIcon>
@@ -82,9 +87,9 @@ const index = (props) => {
 							</tr>
 						</thead>
 						<tbody>
-							{faculties.map((faculty, key) => (
+							{faculties.data?.map((faculty, key) => (
 								<tr key={key}>
-									<td>{key + 1}</td>
+									<td>{props.iterator(key, faculties)}</td>
 									<td>{faculty.name}</td>
 									<td>{faculty.createdAt}</td>
 									<td className="text-end">
@@ -106,6 +111,7 @@ const index = (props) => {
 													index={`faculty${key}`}
 													model={faculty}
 													modelName="Faculty"
+													message={`Are you sure you want to delete ${faculty.name}, it has ${faculty.departmentCount} Departments, ${faculty.courseCount} Courses, ${faculty.unitCount} Units and ${faculty.materialCount} Materials`}
 													onDelete={onDeleteFaculty}
 												/>
 											</div>
@@ -115,6 +121,13 @@ const index = (props) => {
 							))}
 						</tbody>
 					</table>
+					{/* Pagination Links */}
+					<PaginationLinks
+						list={faculties}
+						getPaginated={props.getPaginated}
+						setState={setFaculties}
+					/>
+					{/* Pagination Links End */}
 				</div>
 			</div>
 		</div>

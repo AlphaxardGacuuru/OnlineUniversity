@@ -11,9 +11,15 @@ class DepartmentService extends Service
     /*
      * Get All Departments
      */
-    public function index()
-    {
-        $departments = Department::orderBy("id", "DESC")->get();
+    public function index($request)
+    {		
+        $departmentsQuery = new Department;
+
+        $departmentsQuery = $this->search($departmentsQuery, $request);
+
+        $departments = $departmentsQuery
+            ->orderBy("id", "DESC")
+            ->paginate(20);
 
         return DepartmentResource::collection($departments);
     }
@@ -78,5 +84,33 @@ class DepartmentService extends Service
         $message = $department->name . " deleted successfully";
 
         return [$deleted, $message, $department];
+    }
+
+    /*
+     * Handle Search
+     */
+    public function search($query, $request)
+    {
+        if ($request->filled("name")) {
+            $query = $query
+                ->where("name", "LIKE", "%" . $request->input("name") . "%");
+        }
+
+        $facultyId = $request->input("facultyId");
+
+        if ($request->filled("facultyId")) {
+            $query = $query->where("faculty_id", $facultyId);
+        }
+
+        $userId = $request->input("userId");
+
+        if ($request->filled("userId")) {
+            $query = $query
+                ->whereHas("users", function ($query) use ($userId) {
+                    $query->where("user_id", $userId);
+                });
+        }
+
+        return $query;
     }
 }

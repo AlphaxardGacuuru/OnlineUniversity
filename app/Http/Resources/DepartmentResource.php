@@ -18,6 +18,9 @@ class DepartmentResource extends JsonResource
 			"id" => $this->id,
 			"name" => $this->name,
 			"facultyId" => $this->faculty_id,
+			"courseCount" => $this->courses->count(),
+			"unitCount" => $this->units()->count(),
+			"materialCount" => $this->materials()->count(),
 			"createdAt" => $this->created_at,
 		];
     }

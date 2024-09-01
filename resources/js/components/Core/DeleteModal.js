@@ -1,6 +1,6 @@
 import React from "react"
 
-const DeleteModal = ({ index, model, modelName, onDelete }) => {
+const DeleteModal = ({ index, model, modelName, message, onDelete }) => {
 	return (
 		<React.Fragment>
 			{/* Confirm Delete Modal End */}
@@ -25,7 +25,7 @@ const DeleteModal = ({ index, model, modelName, onDelete }) => {
 								aria-label="Close"></button>
 						</div>
 						<div className="modal-body text-start text-wrap">
-							Are you sure you want to delete {model.name}.
+							{message}.
 						</div>
 						<div className="modal-footer justify-content-between">
 							<button
