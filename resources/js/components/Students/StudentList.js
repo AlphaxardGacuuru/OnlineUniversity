@@ -206,6 +206,7 @@ const StudentList = (props) => {
 															index={`student${key}`}
 															model={student}
 															modelName="Student"
+															message={`Are you sure you want to delete ${student.name}.`}
 															onDelete={onDeleteStudent}
 														/>
 													</div>

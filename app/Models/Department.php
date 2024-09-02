@@ -38,8 +38,8 @@ class Department extends Model
     public function materials()
     {
         return $this->units()
-            ->filter(fn($units) => !is_null($units->material))
-            ->map(fn($units) => $units->material)
+            ->filter(fn($unit) => !is_null($unit->materials))
+            ->map(fn($unit) => $unit->materials)
             ->flatten();
     }
 }

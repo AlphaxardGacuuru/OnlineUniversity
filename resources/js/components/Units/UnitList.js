@@ -225,6 +225,7 @@ const UnitList = (props) => {
 															index={`unit${key}`}
 															model={unit}
 															modelName="Unit"
+															message={`Are you sure you want to delete ${unit.name}, it has ${unit.materialCount} Materials.`}
 															onDelete={onDeleteUnit}
 														/>
 													</div>

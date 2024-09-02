@@ -178,6 +178,7 @@ const CourseList = (props) => {
 															index={`course${key}`}
 															model={course}
 															modelName="Course"
+															message={`Are you sure you want to delete ${course.name}, it has ${course.unitCount} Units and ${course.materialCount} Materials.`}
 															onDelete={onDeleteCourse}
 														/>
 													</div>

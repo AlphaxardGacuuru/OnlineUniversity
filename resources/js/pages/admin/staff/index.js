@@ -199,6 +199,7 @@ const index = (props) => {
 													index={`staff${key}`}
 													model={staff}
 													modelName="Staff"
+													message={`Are you sure you want to delete ${staff.name}`}
 													onDelete={onDeleteStaff}
 												/>
 											</div>

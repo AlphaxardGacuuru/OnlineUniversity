@@ -79,6 +79,14 @@ class Course extends Model
      * Custom
      */
 
+    public function materials()
+    {
+        return $this->units
+            ->filter(fn($unit) => !is_null($unit->materials))
+            ->map(fn($unit) => $unit->materials)
+            ->flatten();
+    }
+
     public function currentSession()
     {
         return $this->academicSessions()

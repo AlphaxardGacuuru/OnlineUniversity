@@ -200,6 +200,7 @@ const InstructorList = (props) => {
 															index={`instructor${key}`}
 															model={instructor}
 															modelName="Instructor"
+															message={`Are you sure you want to delete ${instructor.name}.`}
 															onDelete={onDeleteInstructor}
 														/>
 													</div>

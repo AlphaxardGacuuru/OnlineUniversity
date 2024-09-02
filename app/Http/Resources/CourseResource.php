@@ -24,6 +24,8 @@ class CourseResource extends JsonResource
             "facultyName" => $this->department?->faculty->name,
             "departmentId" => $this->department_id,
             "departmentName" => $this->department?->name,
+			"unitCount" => $this->units()->count(),
+			"materialCount" => $this->materials()->count(),
 			"currentSessionId" => $this->currentSession()?->id,
             "admissionFee" => $this->admissionFee(),
         ];

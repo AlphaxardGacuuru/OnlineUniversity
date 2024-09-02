@@ -130,6 +130,7 @@ const show = (props) => {
 										index={`instructor`}
 										model={user}
 										modelName="Instructor"
+										message={`Are you sure you want to delete ${user.name}`}
 										onDelete={onDeleteInstructor}
 									/>
 								</div>
