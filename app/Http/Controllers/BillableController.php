@@ -31,7 +31,22 @@ class BillableController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+			"courseId" => "required|string",
+			"name" => "required|string",
+			"description" => "required|string|max:255",
+			"price" => "required|string",
+			"year" => "required|string",
+			"semester" => "required|string",
+		]);
+
+		[$saved, $message, $billable] = $this->service->store($request);
+
+		return response([
+			"status" => $saved,
+			"message" => $message,
+			"data" => $billable
+		], 200);
     }
 
     /**
@@ -40,9 +55,9 @@ class BillableController extends Controller
      * @param  \App\Models\Billable  $billable
      * @return \Illuminate\Http\Response
      */
-    public function show(Billable $billable)
+    public function show($id)
     {
-        //
+        return $this->service->show($id);
     }
 
     /**
@@ -52,9 +67,23 @@ class BillableController extends Controller
      * @param  \App\Models\Billable  $billable
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Billable $billable)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+			"name" => "nullable|string",
+			"description" => "nullable|string|max:255",
+			"price" => "nullable|string",
+			"year" => "nullable|string",
+			"semester" => "nullable|string",
+		]);
+
+		[$saved, $message, $billable] = $this->service->update($request, $id);
+
+		return response([
+			"status" => $saved,
+			"message" => $message,
+			"data" => $billable
+		], 200);
     }
 
     /**
@@ -63,9 +92,15 @@ class BillableController extends Controller
      * @param  \App\Models\Billable  $billable
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Billable $billable)
+    public function destroy($id)
     {
-        //
+        [$deleted, $message, $billable] = $this->service->destroy($id);
+
+		return response([
+			"status" => $deleted,
+			"message" => $message,
+			"data" => $billable
+		], 200);
     }
 
     /*

@@ -80,8 +80,8 @@ class SubmissionService extends Service
             ->get()
             ->groupBy("user_id")
             ->map(function ($submissionModels, $key) use ($discussionForums) {
-                // Add byInstructor attribute to grades
-                $submission = $submissionModels
+                // Add isInstructor attribute to grades
+                $submissions = $submissionModels
                     ->each(function ($submission) {
                         $submission
                             ->grades
@@ -98,7 +98,7 @@ class SubmissionService extends Service
 
                 return [
                     "userId" => $key,
-                    "data" => $submission,
+                    "data" => $submissions,
                     "discussionForums" => $discussionForums ? $discussionForums["data"] : [],
                 ];
             })
@@ -119,10 +119,24 @@ class SubmissionService extends Service
         $discussionForums = $discussionForumsQuery
             ->get()
             ->groupBy("user_id")
-            ->map(fn($discussionForum, $key) => [
-                "userId" => $key,
-                "data" => $discussionForum,
-            ])
+            ->map(function ($discussionForumModels, $key) {
+                // Add isInstructor attribute to grades
+                $discussionForums = $discussionForumModels
+                    ->each(function ($discussionForum) {
+                        $discussionForum
+                            ->ratings
+                            ->each(function ($rating) {
+                                $isInstructor = $rating->user->account_type == "instructor";
+
+                                $rating->gradedByInstructor = $isInstructor ? $rating->id : "";
+                            });
+                    });
+
+                return [
+                    "userId" => $key,
+                    "data" => $discussionForums,
+                ];
+            })
             ->values();
 
         return GradeBookDiscussionResource::collection($discussionForums);

@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::create('billables', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('course_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('name');
             $table->string('price');
             $table->text('description')->nullable();
             $table->integer('year')->nullable();
             $table->integer('semester')->nullable();
-            $table->foreignId('course_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
             $table->timestamps();
         });
     }

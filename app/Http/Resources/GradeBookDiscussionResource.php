@@ -23,7 +23,7 @@ class GradeBookDiscussionResource extends JsonResource
             "academicSessionId" => $data->academic_session_id,
             "unitId" => $data->unit_id,
             "data" => $this["data"]->map(fn ($discussionForum) => [
-				"id" => $discussionForum->id,
+				"gradedByInstructor" => $discussionForum->gradedByInstructor,
 				"ratings" => $discussionForum->ratings,
 				"week" => $discussionForum->week,
 				"updatedAt" => $discussionForum->updatedAt,

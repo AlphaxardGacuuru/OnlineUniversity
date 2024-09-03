@@ -48,6 +48,9 @@ import AdminGrades from "@/pages/admin/grades/index"
 import AdminMaterialCreate from "@/pages/admin/materials/create"
 import AdminMaterialEdit from "@/pages/admin/materials/edit/[id]"
 
+import AdminBillableCreate from "@/pages/admin/billables/create"
+import AdminBillableEdit from "@/pages/admin/billables/edit/[id]"
+
 import AdminSessions from "@/pages/admin/sessions/index"
 import AdminSessionCreate from "@/pages/admin/sessions/create"
 import AdminSessionEdit from "@/pages/admin/sessions/edit/[id]"
@@ -211,6 +214,14 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/materials/:id/edit",
 			component: <AdminMaterialEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/billables/:id/create",
+			component: <AdminBillableCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/billables/:id/edit",
+			component: <AdminBillableEdit {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/sessions",
