@@ -8,6 +8,7 @@ const edit = (props) => {
 	var { id } = useParams()
 
 	const [billable, setBillable] = useState({})
+	const [courseId, setCourseId] = useState()
 	const [name, setName] = useState()
 	const [description, setDescription] = useState()
 	const [price, setPrice] = useState()
@@ -26,6 +27,7 @@ const edit = (props) => {
 		Axios.get(`/api/billables/${id}`)
 			.then((res) => {
 				setBillable(res.data.data)
+				setCourseId(res.data.data.courseId)
 				// Set page
 				props.setPage({
 					name: "Edit Billable",
@@ -133,8 +135,8 @@ const edit = (props) => {
 
 					<center>
 						<MyLink
-							linkTo={`/courses/${id}/show`}
-							text="back to billables"
+							linkTo={`/courses/${courseId}/show`}
+							text="back to course"
 						/>
 					</center>
 

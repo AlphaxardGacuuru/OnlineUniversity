@@ -4,6 +4,30 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 
+// Import React FilePond
+import { FilePond, registerPlugin } from "react-filepond"
+
+// Import FilePond styles
+import "filepond/dist/filepond.min.css"
+
+// Import the Image EXIF Orientation and Image Preview plugins
+// Note: These need to be installed separately
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation"
+import FilePondPluginImagePreview from "filepond-plugin-image-preview"
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type"
+import FilePondPluginImageCrop from "filepond-plugin-image-crop"
+import FilePondPluginImageTransform from "filepond-plugin-image-transform"
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+
+// Register the plugins
+registerPlugin(
+	FilePondPluginImageExifOrientation,
+	FilePondPluginImagePreview,
+	FilePondPluginFileValidateType,
+	FilePondPluginImageCrop,
+	FilePondPluginImageTransform
+)
+
 const edit = (props) => {
 	var { id } = useParams()
 
@@ -59,10 +83,40 @@ const edit = (props) => {
 	}
 
 	return (
-		<div className="row">
-			<div className="col-sm-4"></div>
-			<div className="col-sm-4">
-				<form onSubmit={onSubmit}>
+		<form onSubmit={onSubmit}>
+			<div className="row">
+				<div className="col-sm-4">
+					<center>
+						<div className="card shadow p-4 mb-4 text-center">
+							<div className="m-3">
+								<div className="avatar-container">
+									<FilePond
+										name="filepond-avatar"
+										labelIdle='Drag & Drop your Profile Picture or <span class="filepond--label-action text-dark"> Browse </span>'
+										stylePanelLayout="compact circle"
+										imageCropAspectRatio="1:1"
+										acceptedFileTypes={["image/*"]}
+										stylePanelAspectRatio="1:1"
+										allowRevert={false}
+										server={{
+											url: `/api/filepond`,
+											process: {
+												url: `/avatar/${student.id}`,
+												onload: (res) => {
+													props.setMessages([res])
+													// Update Auth
+													props.get("auth", props.setAuth, "auth")
+												},
+												onerror: (err) => console.log(err.response),
+											},
+										}}
+									/>
+								</div>
+							</div>
+						</div>
+					</center>
+				</div>
+				<div className="col-sm-4">
 					<input
 						type="text"
 						name="name"
@@ -133,25 +187,24 @@ const edit = (props) => {
 								</option>
 							))}
 					</select>
-
-					<div className="d-flex justify-content-end mb-2">
-						<Btn
-							text="update"
-							loading={loading}
-						/>
-					</div>
-
-					<center>
-						<MyLink
-							linkTo="/students"
-							text="back to students"
-						/>
-					</center>
-
 					<div className="col-sm-4"></div>
-				</form>
+				</div>
 			</div>
-		</div>
+
+			<div className="d-flex justify-content-center mb-2">
+				<Btn
+					text="update"
+					loading={loading}
+				/>
+			</div>
+
+			<center>
+				<MyLink
+					linkTo="/students"
+					text="back to students"
+				/>
+			</center>
+		</form>
 	)
 }
 

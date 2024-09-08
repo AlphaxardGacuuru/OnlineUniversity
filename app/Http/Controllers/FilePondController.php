@@ -23,7 +23,7 @@ class FilePondController extends Controller
         $user = User::findOrFail($id);
 
         // Delete profile pic if it's not the default one
-        if ($user->avatar != '/storage/avatars/male_avatar.png') {
+        if ($user->avatar != '/storage/avatars/male-avatar.png') {
 
             // Get old avatar and delete it
             $oldAvatar = substr($user->avatar, 9);

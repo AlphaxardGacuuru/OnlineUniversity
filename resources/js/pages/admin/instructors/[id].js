@@ -12,6 +12,7 @@ import UnitList from "@/components/Units/UnitList"
 import FeeStatementList from "@/components/FeeStatement/FeeStatementList"
 import DeleteModal from "@/components/Core/DeleteModal"
 import MyLink from "@/components/Core/MyLink"
+import Btn from "@/components/Core/Btn"
 
 const show = (props) => {
 	const { id } = useParams()
@@ -95,6 +96,8 @@ const show = (props) => {
 		return activeTab == tab ? "d-block" : "d-none"
 	}
 
+	var canEditProfile = location.pathname.match("/admin/") || props.auth.id == id
+
 	return (
 		<div className="row">
 			<div className="col-sm-4">
@@ -115,28 +118,42 @@ const show = (props) => {
 					<h6 className="text-capitalize">{user.accountType}</h6>
 					<h6>{user.facultyName}</h6>
 					<h6>{user.departmentName}</h6>
-					{location.pathname.match("/admin/") && (
-						<React.Fragment>
-							<hr />
-							<div className="d-flex justify-content-between">
-								<MyLink
-									linkTo={`/instructors/${id}/edit`}
-									text="edit"
-									className="btn-sm"
-								/>
+					<hr />
+					<div className="d-flex justify-content-between">
+						{canEditProfile && (
+							<MyLink
+								linkTo={`${
+									location.pathname.match("/admin/instructors")
+										? "/instructors"
+										: location.pathname.match("/admin/students")
+										? "/students"
+										: location.pathname.match("/admin/staff")
+										? "/staff"
+										: ""
+								}/${id}/edit`}
+								text="edit"
+								className="btn-sm"
+							/>
+						)}
 
-								<div className="mx-1">
-									<DeleteModal
-										index={`instructor`}
-										model={user}
-										modelName="Instructor"
-										message={`Are you sure you want to delete ${user.name}`}
-										onDelete={onDeleteInstructor}
-									/>
-								</div>
+						{location.pathname.match("/admin/") ? (
+							<div className="mx-1">
+								<DeleteModal
+									index={`instructor`}
+									model={user}
+									modelName="Instructor"
+									message={`Are you sure you want to delete ${user.name}`}
+									onDelete={onDeleteInstructor}
+								/>
 							</div>
-						</React.Fragment>
-					)}
+						) : (
+							<Btn
+								text="delete"
+								className="btn-sm"
+								disabled={true}
+							/>
+						)}
+					</div>
 				</div>
 			</div>
 			<div className="col-sm-8">

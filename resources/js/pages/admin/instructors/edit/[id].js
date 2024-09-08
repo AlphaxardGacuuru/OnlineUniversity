@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom/cjs/react-router-dom.min"
+import { useLocation, useParams } from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
@@ -8,8 +8,33 @@ import CloseSVG from "@/svgs/CloseSVG"
 
 import Countries from "@/components/Core/Countries"
 
+// Import React FilePond
+import { FilePond, registerPlugin } from "react-filepond"
+
+// Import FilePond styles
+import "filepond/dist/filepond.min.css"
+
+// Import the Image EXIF Orientation and Image Preview plugins
+// Note: These need to be installed separately
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation"
+import FilePondPluginImagePreview from "filepond-plugin-image-preview"
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type"
+import FilePondPluginImageCrop from "filepond-plugin-image-crop"
+import FilePondPluginImageTransform from "filepond-plugin-image-transform"
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+
+// Register the plugins
+registerPlugin(
+	FilePondPluginImageExifOrientation,
+	FilePondPluginImagePreview,
+	FilePondPluginFileValidateType,
+	FilePondPluginImageCrop,
+	FilePondPluginImageTransform
+)
+
 const edit = (props) => {
 	var { id } = useParams()
+	var location = useLocation()
 
 	const [instructor, setInstructor] = useState({})
 	const [name, setName] = useState()
@@ -115,9 +140,41 @@ const edit = (props) => {
 
 	return (
 		<div>
-			<form onSubmit={onSubmit}>
+			<form
+				onSubmit={onSubmit}
+				className="my-5">
 				<div className="row">
-					<div className="col-sm-2"></div>
+					<div className="col-sm-4 ">
+						<center>
+							<div className="card shadow p-4 mb-4 text-center">
+								<div className="m-3">
+									<div className="avatar-container">
+										<FilePond
+											name="filepond-avatar"
+											labelIdle='Drag & Drop your Profile Picture or <span class="filepond--label-action text-dark"> Browse </span>'
+											stylePanelLayout="compact circle"
+											imageCropAspectRatio="1:1"
+											acceptedFileTypes={["image/*"]}
+											stylePanelAspectRatio="1:1"
+											allowRevert={false}
+											server={{
+												url: `/api/filepond`,
+												process: {
+													url: `/avatar/${instructor.id}`,
+													onload: (res) => {
+														props.setMessages([res])
+														// Update Auth
+														props.get("auth", props.setAuth, "auth")
+													},
+													onerror: (err) => console.log(err.response),
+												},
+											}}
+										/>
+									</div>
+								</div>
+							</div>
+						</center>
+					</div>
 					<div className="col-sm-4">
 						<input
 							type="text"
@@ -325,9 +382,7 @@ const edit = (props) => {
 							<select
 								name="unitId"
 								className="form-control mb-3 me-2"
-								onChange={(e) =>
-									handleUnitIds(Number.parseInt(e.target.value))
-								}
+								onChange={(e) => handleUnitIds(Number.parseInt(e.target.value))}
 								disabled={unitIds.length > 0}>
 								<option value="">Select Unit</option>
 								{units
@@ -400,7 +455,6 @@ const edit = (props) => {
 						))}
 						{/* Units End */}
 					</div>
-					<div className="col-sm-2"></div>
 				</div>
 
 				<center className="mt-4 mb-5">
@@ -412,10 +466,17 @@ const edit = (props) => {
 					<br />
 					<br />
 
-					<MyLink
-						linkTo="/instructors"
-						text="back to instructors"
-					/>
+					{location.pathname.match("/admin/") ? (
+						<MyLink
+							linkTo="/instructors"
+							text="back to instructors"
+						/>
+					) : (
+						<MyLink
+							linkTo={`/${id}/show`}
+							text="back to profile"
+						/>
+					)}
 				</center>
 			</form>
 		</div>

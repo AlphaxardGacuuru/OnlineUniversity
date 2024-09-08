@@ -280,6 +280,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminInstructorShow {...GLOBAL_STATE} />,
 		},
 		{
+			path: "/instructor/:id/edit",
+			component: <AdminInstructorEdit {...GLOBAL_STATE} />,
+		},
+		{
 			path: "/instructor/courses/:id/show",
 			component: <AdminCourseShow {...GLOBAL_STATE} />,
 		},
@@ -313,6 +317,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/student/:id/show",
 			component: <AdminInstructorShow {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/student/:id/edit",
+			component: <AdminStudentEdit {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/student/courses",
