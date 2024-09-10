@@ -6,6 +6,7 @@ use App\Http\Controllers\BillableController;
 use App\Http\Controllers\CardTransactionController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CreditNoteController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DiscussionForumController;
 use App\Http\Controllers\DiscussionForumRatingController;
@@ -55,6 +56,7 @@ Route::apiResources([
     "mpesa-transactions" => MPESATransactionController::class,
     "kopokopo-recipients" => KopokopoRecipientController::class,
     "kopokopo-transfers" => KopokopoTransferController::class,
+    "credit-notes" => CreditNoteController::class,
     "instructors" => InstructorController::class,
     "students" => StudentController::class,
     "users" => UserController::class,

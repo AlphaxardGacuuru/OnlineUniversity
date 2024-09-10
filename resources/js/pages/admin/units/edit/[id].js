@@ -26,29 +26,29 @@ const edit = (props) => {
 		// Set page
 		props.setPage({ name: "Edit Course Unit", path: ["units", "edit"] })
 		// Fetch Unit
-		Axios.get(`/api/units/${id}`).then((res) => {
-			var unit = res.data.data
+		Axios.get(`/api/units/${id}`)
+			.then((res) => {
+				var unit = res.data.data
 
-			// Set page
-			props.setPage({
-				name: "Edit Learning Resource",
-				path: ["courses", `courses/${unit.courseId}/show`, "create"],
+				// Set page
+				props.setPage({
+					name: "Edit Learning Resource",
+					path: ["courses", `courses/${unit.courseId}/show`, "create"],
+				})
+
+				setUnit(unit)
+				setInstructorIds(unit.instructorIds)
+
+				// Fetch Instructors
+				props.get(
+					`instructors?idAndName=true&courseId=${unit.courseId}`,
+					setInstructors
+				)
+
+				// Fetch Session
+				props.get(`sessions/current-by-course-id/${unit.courseId}`, setSession)
 			})
-
-			setUnit(unit)
-			setInstructorIds(unit.instructors.map((instructor) => instructor.id))
-
-			// Fetch Instructors
-			props.get(
-				`instructors?idAndName=true&courseId=${unit.courseId}`,
-				setInstructors
-			)
-
-			// Fetch Session
-			Axios.get(`api/sessions/by-course-id/${unit.courseId}`)
-				.then((res) => setSession(res.data.data))
-				.catch((err) => props.getErrors(err))
-		})
+			.catch((err) => props.getErrors(err))
 	}, [])
 
 	/*

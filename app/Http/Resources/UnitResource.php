@@ -23,8 +23,8 @@ class UnitResource extends JsonResource
             "semester" => $this->semester,
             "credits" => $this->credits,
             "courseId" => $this->course_id,
-            "materials" => $this->materials,
 			"materialCount" => $this->materials()->count(),
+			"instructorIds" => $this->instructors()->map(fn ($instructor) => $instructor->id)
         ];
     }
 }

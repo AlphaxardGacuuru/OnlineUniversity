@@ -13,8 +13,13 @@ import Login from "@/pages/login"
 import AdminDashboard from "@/pages/admin/index"
 
 import AdminFinanceTransaction from "@/pages/admin/finance/transactions/index"
+
 import AdminFinanceWallet from "@/pages/admin/finance/wallet/index"
 import AdminFinanceWalletCreate from "@/pages/admin/finance/wallet/create"
+
+import AdminFinanceCreditNotes from "@/pages/admin/finance/credit-notes/index"
+import AdminFinanceCreditNoteCreate from "@/pages/admin/finance/credit-notes/create"
+import AdminFinanceCreditNoteEdit from "@/pages/admin/finance/credit-notes/edit/[id]"
 
 import AdminInstructors from "@/pages/admin/instructors/index"
 import AdminInstructorCreate from "@/pages/admin/instructors/create"
@@ -114,6 +119,18 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/finance/wallet/create",
 			component: <AdminFinanceWalletCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/finance/credit-notes",
+			component: <AdminFinanceCreditNotes {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/finance/credit-notes/:id/create",
+			component: <AdminFinanceCreditNoteCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/finance/credit-notes/:id/edit",
+			component: <AdminFinanceCreditNoteEdit {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/instructors",

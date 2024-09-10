@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class CreditNote extends Model
 {
     use HasFactory;
+
+	/*
+	* Relationships
+	*/ 
+	public function user()
+	{
+		return $this->belongsTo(User::class);
+	}
 }

@@ -16,6 +16,7 @@ import LinkSVG from "@/svgs/LinkSVG"
 import ResourceSVG from "@/svgs/ResourceSVG"
 import PersonGearSVG from "@/svgs/PersonGearSVG"
 import EnrollmentSVG from "@/svgs/EnrollmentSVG"
+import CreditNoteSVG from "@/svgs/CreditNoteSVG"
 
 const AdminNavLinks = () => {
 	const location = useLocation()
@@ -96,6 +97,18 @@ const AdminNavLinks = () => {
 							</Link>
 						</li>
 						{/* Wallet End */}
+						{/* Credit Notes */}
+						<li className="nav-item">
+							<Link
+								to={`/admin/finance/credit-notes`}
+								className={`nav-link ${activeStrict("/admin/finance/credit-notes")}`}>
+								<div className="nav-link-icon">
+									<CreditNoteSVG />
+								</div>
+								<div className="nav-link-text">Credit Notes</div>
+							</Link>
+						</li>
+						{/* Credit Notes End */}
 					</ol>
 				</div>
 				{/* Collapse End */}

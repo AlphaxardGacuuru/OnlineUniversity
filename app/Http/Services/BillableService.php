@@ -7,6 +7,9 @@ use App\Models\Billable;
 
 class BillableService extends Service
 {
+	/*
+	* Get All Billables
+	*/ 
     public function index($request)
     {
         $billablesQuery = new Billable;

@@ -135,17 +135,26 @@ const show = (props) => {
 								className="btn-sm"
 							/>
 						)}
-
 						{location.pathname.match("/admin/") ? (
-							<div className="mx-1">
-								<DeleteModal
-									index={`instructor`}
-									model={user}
-									modelName="Instructor"
-									message={`Are you sure you want to delete ${user.name}`}
-									onDelete={onDeleteInstructor}
+							<React.Fragment>
+								{/* Credit Note Link Start */}
+								<MyLink
+									linkTo={`/finance/credit-notes/${id}/create`}
+									text="award credit note"
+									className="btn-sm mx-1"
 								/>
-							</div>
+								{/* Credit Note Link End */}
+
+								<div className="mx-1">
+									<DeleteModal
+										index={`instructor`}
+										model={user}
+										modelName="Instructor"
+										message={`Are you sure you want to delete ${user.name}`}
+										onDelete={onDeleteInstructor}
+									/>
+								</div>
+							</React.Fragment>
 						) : (
 							<Btn
 								text="delete"

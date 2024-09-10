@@ -2,29 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\CreditNoteService;
 use App\Models\CreditNote;
 use Illuminate\Http\Request;
 
 class CreditNoteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct(protected CreditNoteService $service)
     {
         //
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function index(Request $request)
     {
-        //
+        return $this->service->index($request);
     }
 
     /**
@@ -35,7 +31,19 @@ class CreditNoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            "userId" => "required|string",
+            "description" => "required|string|max:65535",
+            "amount" => "required|string",
+        ]);
+
+        [$saved, $message, $creditNote] = $this->service->store($request);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $creditNote,
+        ], 200);
     }
 
     /**
@@ -44,20 +52,9 @@ class CreditNoteController extends Controller
      * @param  \App\Models\CreditNote  $creditNote
      * @return \Illuminate\Http\Response
      */
-    public function show(CreditNote $creditNote)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\CreditNote  $creditNote
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(CreditNote $creditNote)
-    {
-        //
+        return $this->service->show($id);
     }
 
     /**
@@ -67,9 +64,20 @@ class CreditNoteController extends Controller
      * @param  \App\Models\CreditNote  $creditNote
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CreditNote $creditNote)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            "description" => "nullable|string",
+            "amount" => "nullable|string",
+        ]);
+
+        [$saved, $message, $creditNote] = $this->service->update($request, $id);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $creditNote,
+        ], 200);
     }
 
     /**
@@ -78,8 +86,14 @@ class CreditNoteController extends Controller
      * @param  \App\Models\CreditNote  $creditNote
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CreditNote $creditNote)
+    public function destroy($id)
     {
-        //
+        [$deleted, $message, $creditNote] = $this->service->destroy($id);
+
+        return response([
+            "status" => $deleted,
+            "message" => $message,
+            "data" => $creditNote,
+        ], 200);
     }
 }

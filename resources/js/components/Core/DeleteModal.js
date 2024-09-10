@@ -25,7 +25,7 @@ const DeleteModal = ({ index, model, modelName, message, onDelete }) => {
 								aria-label="Close"></button>
 						</div>
 						<div className="modal-body text-start text-wrap">
-							{message}.
+							{message}
 						</div>
 						<div className="modal-footer justify-content-between">
 							<button

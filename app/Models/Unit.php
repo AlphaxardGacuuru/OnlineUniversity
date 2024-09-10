@@ -12,7 +12,7 @@ class Unit extends Model
     /*
      * Relationships
      */
-	
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_units');
@@ -40,22 +40,21 @@ class Unit extends Model
     public function instructors()
     {
         return $this->userUnits
+            ->filter(fn($userUnit) => !is_null($userUnit->user))
             ->map(fn($userUnit) => $userUnit
                     ->user()
                     ->where("account_type", "instructor")
-                    ->first())
-            ->filter(fn($item) => $item)
-            ->all();
+                    ->first());
     }
 
     public function students()
     {
         return $this->userUnits
+            ->filter(fn($userUnit) => !is_null($userUnit->user))
             ->map(fn($userUnit) => $userUnit
                     ->user()
                     ->where("account_type", "student")
                     ->first())
-            ->filter(fn($item) => $item)
             ->all();
     }
 }
