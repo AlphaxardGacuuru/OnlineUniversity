@@ -98,6 +98,10 @@ class CreditNoteService extends Service
             });
         }
 
+		if ($request) {
+			$query = $query->where("user_id", $request->input("userId"));
+		}
+
         return $query;
     }
 }

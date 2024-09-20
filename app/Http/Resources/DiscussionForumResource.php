@@ -34,7 +34,7 @@ class DiscussionForumResource extends JsonResource
             "text" => $this->text,
             "attachment" => $this->attachment,
 			"rating" => $this->rating(),
-			"ratings" => $this->ratings,
+			"totalRatings" => $this->total_ratings,
             "hasRated" => $hasRated ? $hasRated->rating : 0,
             "updatedAt" => $this->updated_at,
             "createdAt" => $this->created_at,

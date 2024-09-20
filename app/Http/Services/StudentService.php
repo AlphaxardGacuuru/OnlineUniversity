@@ -8,6 +8,7 @@ use App\Http\Services\Service;
 use App\Models\AcademicSession;
 use App\Models\Billable;
 use App\Models\CardTransaction;
+use App\Models\CreditNote;
 use App\Models\Invoice;
 use App\Models\InvoiceBillable;
 use App\Models\MPESATransaction;
@@ -277,18 +278,26 @@ class StudentService extends Service
         $mpesaPaymentQuery = MPESATransaction::select("id", "amount as credit", "created_at")
             ->where("user_id", $id);
 
+        $creditNoteQuery = CreditNote::select("id", "amount as credit", "created_at")
+            ->where("user_id", $id);
+
         // Calculate total fees paid
-        $feesPaid = $cardPaymentQuery->sum("amount") + $mpesaPaymentQuery->sum("amount");
+        $feesPaid = $cardPaymentQuery->sum("amount") +
+        	$mpesaPaymentQuery->sum("amount") +
+        	$creditNoteQuery->sum("amount");
 
         $cardPayments = $cardPaymentQuery->get();
 
         $mpesaPayments = $mpesaPaymentQuery->get();
+
+        $creditNotes = $creditNoteQuery->get();
 
         $balance = 0;
 
         $feeStatements = $invoices
             ->concat($cardPayments)
             ->concat($mpesaPayments)
+            ->concat($creditNotes)
             ->sortBy(fn($item) => Carbon::parse($item->created_at))
             ->values()
             ->map(function ($item) use (&$balance) {

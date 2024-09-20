@@ -6,13 +6,15 @@ import {
 } from "react-router-dom/cjs/react-router-dom.min"
 
 import Img from "@/components/Core/Img"
+import MyLink from "@/components/Core/MyLink"
+import Btn from "@/components/Core/Btn"
 
 import CourseList from "@/components/Courses/CourseList"
 import UnitList from "@/components/Units/UnitList"
 import FeeStatementList from "@/components/FeeStatement/FeeStatementList"
+import CreditNoteList from "@/components/CreditNotes/CreditNoteList"
+
 import DeleteModal from "@/components/Core/DeleteModal"
-import MyLink from "@/components/Core/MyLink"
-import Btn from "@/components/Core/Btn"
 
 const show = (props) => {
 	const { id } = useParams()
@@ -32,6 +34,7 @@ const show = (props) => {
 	const [courses, setCourses] = useState([])
 	const [units, setUnits] = useState([])
 	const [fees, setFees] = useState({})
+	const [creditNotes, setCreditNotes] = useState([])
 
 	const pagePath = location.pathname.match("/admin/staff")
 		? "staff"
@@ -52,6 +55,12 @@ const show = (props) => {
 		})
 		props.get(`${pagePath}s/${id}`, setUser)
 		props.get(`fee-statements/${id}`, setFees)
+		props.getPaginated(
+			`credit-notes?
+			userId=${id}`,
+			setCreditNotes,
+			"creditNotes"
+		)
 	}, [])
 
 	// Fetch on Type
@@ -120,31 +129,38 @@ const show = (props) => {
 					<h6>{user.departmentName}</h6>
 					<hr />
 					<div className="d-flex justify-content-between">
-						{canEditProfile && (
-							<MyLink
-								linkTo={`${
-									location.pathname.match("/admin/instructors")
-										? "/instructors"
-										: location.pathname.match("/admin/students")
-										? "/students"
-										: location.pathname.match("/admin/staff")
-										? "/staff"
-										: ""
-								}/${id}/edit`}
-								text="edit"
-								className="btn-sm"
-							/>
-						)}
-						{location.pathname.match("/admin/") ? (
-							<React.Fragment>
-								{/* Credit Note Link Start */}
+						<div className="d-flex justify-content-start">
+							{/* Edit Link Start */}
+							{canEditProfile && (
+								<MyLink
+									linkTo={`${
+										location.pathname.match("/admin/instructors")
+											? "/instructors"
+											: location.pathname.match("/admin/students")
+											? "/students"
+											: location.pathname.match("/admin/staff")
+											? "/staff"
+											: ""
+									}/${id}/edit`}
+									text="edit"
+									className="btn-sm"
+								/>
+							)}
+							{/* Edit Link End */}
+
+							{/* Credit Note Link Start */}
+							{location.pathname.match("/admin/") && (
 								<MyLink
 									linkTo={`/finance/credit-notes/${id}/create`}
 									text="award credit note"
 									className="btn-sm mx-1"
 								/>
-								{/* Credit Note Link End */}
+							)}
+							{/* Credit Note Link End */}
+						</div>
 
+						{location.pathname.match("/admin/") ? (
+							<React.Fragment>
 								<div className="mx-1">
 									<DeleteModal
 										index={`instructor`}
@@ -194,6 +210,14 @@ const show = (props) => {
 							Fee Statements
 						</div>
 					)}
+					<div
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+							"credit-notes"
+						)}`}
+						style={{ cursor: "pointer" }}
+						onClick={() => setTab("credit-notes")}>
+						Credit Notes
+					</div>
 				</div>
 				{/* Tabs End */}
 
@@ -231,6 +255,16 @@ const show = (props) => {
 					/>
 				)}
 				{/* Fee Statements Tab End */}
+
+				{/* Credit Notes Tab */}
+				<CreditNoteList
+					{...props}
+					creditNotes={creditNotes}
+					setCreditNotes={setCreditNotes}
+					activeTab={activeTab("credit-notes")}
+					setNameQuery={setNameQuery}
+				/>
+				{/* Credit Notes Tab End */}
 			</div>
 		</div>
 	)

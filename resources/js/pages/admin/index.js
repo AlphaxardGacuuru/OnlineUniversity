@@ -17,6 +17,7 @@ import DepartmentSVG from "@/svgs/DepartmentSVG"
 import CourseSVG from "@/svgs/CourseSVG"
 import Doughnut from "@/components/Charts/Doughnut"
 import MoneySVG from "@/svgs/MoneySVG"
+import UnitSVG from "@/svgs/UnitSVG"
 
 const index = (props) => {
 	const [dashboard, setDashboard] = useState(props.getLocalStorage("dashboard") ?? {})
@@ -31,7 +32,7 @@ const index = (props) => {
 		Axios.get("/api/admin").then((res) => {
 			setDashboard(res.data)
 			props.setLocalStorage("dashboard", res.data)
-	})
+		})
 		props.get("instructors", setInstructors)
 		props.get("students", setStudents)
 		props.get("staff", setStaff)
@@ -111,18 +112,28 @@ const index = (props) => {
 		{
 			label: "Last Week",
 			data: dashboard.staff?.lastWeek,
-			backgroundColor: "rgba(75, 192, 192, 1)",
-			borderColor: "rgba(75, 192, 192, 1)",
+			backgroundColor: "rgba(255, 159, 64, 1)",
+			borderColor: "rgba(255, 159, 64, 1)",
 			// borderWidth: 1,
 		},
 	]
 
-	var staffLineGraphDatasets = [
+	var courseLineGraphDatasets = [
 		{
 			label: "Last Week",
-			data: dashboard.staff?.lastWeek,
+			data: dashboard.courses?.lastWeek,
 			backgroundColor: "rgba(153, 102, 255, 1)",
 			borderColor: "rgba(153, 102, 255, 1)",
+			// borderWidth: 1,
+		},
+	]
+
+	var unitLineGraphDatasets = [
+		{
+			label: "Last Week",
+			data: dashboard.units?.lastWeek,
+			backgroundColor: "rgba(75, 192, 192, 1)",
+			borderColor: "rgba(75, 192, 192, 1)",
 			// borderWidth: 1,
 		},
 	]
@@ -172,7 +183,9 @@ const index = (props) => {
 				<div className="col-sm-12">
 					<div className="d-flex flex-wrap justify-content-start">
 						{/* Instructors */}
-						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card" style={{ width: "19.5em", height: "auto" }}>
+						<div
+							className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card"
+							style={{ width: "19.5em", height: "auto" }}>
 							<div className="d-flex justify-content-between align-items-center">
 								<div className="px-4">
 									<h4>Instructors</h4>
@@ -216,7 +229,9 @@ const index = (props) => {
 						</div>
 						{/* Customers End */}
 						{/* Students */}
-						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card" style={{ width: "19.5em", height: "auto" }}>
+						<div
+							className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card"
+							style={{ width: "19.5em", height: "auto" }}>
 							<div className="d-flex justify-content-between align-items-center">
 								<div className="px-4">
 									<h4>Students</h4>
@@ -260,7 +275,9 @@ const index = (props) => {
 						</div>
 						{/* Students End */}
 						{/* Staff */}
-						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card" style={{ width: "19.5em", height: "auto" }}>
+						<div
+							className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card"
+							style={{ width: "19.5em", height: "auto" }}>
 							<div className="d-flex justify-content-between align-items-center">
 								<div className="px-4">
 									<h4>Staff</h4>
@@ -304,7 +321,9 @@ const index = (props) => {
 						</div>
 						{/* Staff End */}
 						{/* Faculties */}
-						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card" style={{ width: "19.5em", height: "auto" }}>
+						<div
+							className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card"
+							style={{ width: "19.5em", height: "auto" }}>
 							<div className="d-flex justify-content-between align-items-center">
 								<div className="px-4">
 									<h4>Faculties</h4>
@@ -348,7 +367,9 @@ const index = (props) => {
 						</div>
 						{/* Faculties End */}
 						{/* Departments */}
-						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card" style={{ width: "19.5em", height: "auto" }}>
+						<div
+							className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card"
+							style={{ width: "19.5em", height: "auto" }}>
 							<div className="d-flex justify-content-between align-items-center">
 								<div className="px-4">
 									<h4>Departments</h4>
@@ -392,11 +413,13 @@ const index = (props) => {
 						</div>
 						{/* Departments End */}
 						{/* Courses */}
-						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card" style={{ width: "19.5em", height: "auto" }}>
+						<div
+							className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card"
+							style={{ width: "19.5em", height: "auto" }}>
 							<div className="d-flex justify-content-between align-items-center">
 								<div className="px-4">
 									<h4>Courses</h4>
-									<h6>{dashboard.staff?.total}</h6>
+									<h6>{dashboard.courses?.total}</h6>
 								</div>
 								<div className="px-4 fs-2 bg-primary-subtle text-primary rounded">
 									<CourseSVG />
@@ -429,14 +452,62 @@ const index = (props) => {
 								{dashboard.courses && (
 									<Line
 										labels={[1, 2, 3, 4, 5, 6, 7]}
-										datasets={staffLineGraphDatasets}
+										datasets={courseLineGraphDatasets}
 									/>
 								)}
 							</div>
 						</div>
 						{/* Courses End */}
+						{/* Units */}
+						<div
+							className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card"
+							style={{ width: "19.5em", height: "auto" }}>
+							<div className="d-flex justify-content-between align-items-center">
+								<div className="px-4">
+									<h4>Course Units</h4>
+									<h6>{dashboard.units?.total}</h6>
+								</div>
+								<div className="px-4 fs-2 bg-primary-subtle text-primary rounded">
+									<UnitSVG />
+								</div>
+							</div>
+							<div className="d-flex justify-content-end align-items-center">
+								<div className="">
+									<h6>
+										{dashboard.units?.growth > 0 && (
+											<span className="text-success">
+												<ArrowUpSVG />
+												{dashboard.units?.growth}
+											</span>
+										)}
+										{dashboard.units?.growth == 0 && (
+											<span className="text-secondary">
+												{dashboard.units?.growth}
+											</span>
+										)}
+										{dashboard.units?.growth < 0 && (
+											<span className="text-danger">
+												<ArrowDownSVG />
+												{dashboard.units?.growth}
+											</span>
+										)}
+									</h6>
+								</div>
+							</div>
+							<div className="d-flex justify-content-end align-items-center">
+								{dashboard.units && (
+									<Line
+										labels={[1, 2, 3, 4, 5, 6, 7]}
+										datasets={unitLineGraphDatasets}
+									/>
+								)}
+							</div>
+						</div>
+						{/* Units End */}
 						{/* Fees */}
-						<div className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card" style={{ width: "19.5em", height: "auto" }}>
+						<div
+							className="border-top-0 border-end-0 border-bottom-0 border-5 border-primary rounded m-1 me-4 p-2 card"
+							style={{ width: "19.5em", height: "auto" }}>
 							<div className="d-flex justify-content-between align-items-center">
 								<div className="px-4">
 									<h4>Fees</h4>

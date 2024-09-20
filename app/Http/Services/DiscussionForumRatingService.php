@@ -26,7 +26,7 @@ class DiscussionForumRatingService extends Service
             DB::transaction(function () use ($getRating) {
                 // Update Club Votes
                 $discussionForum = DiscussionForum::find($getRating->first()->discussion_forum_id);
-                $discussionForum->ratings = $getRating->sum("rating");
+                $discussionForum->total_ratings = $getRating->sum("rating");
                 $discussionForum->save();
 
                 // Delete Rating
@@ -46,7 +46,7 @@ class DiscussionForumRatingService extends Service
 
                 // Update Club Votes
                 $discussionForum = DiscussionForum::find($rating->discussion_forum_id);
-                $discussionForum->ratings = $getRating->sum("rating");
+                $discussionForum->total_ratings = $getRating->sum("rating");
                 $discussionForum->save();
             });
 

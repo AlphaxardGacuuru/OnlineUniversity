@@ -123,13 +123,10 @@ class SubmissionService extends Service
                 // Add isInstructor attribute to grades
                 $discussionForums = $discussionForumModels
                     ->each(function ($discussionForum) {
-                        $discussionForum
+                        $discussionForum->gradedByInstructor = $discussionForum
                             ->ratings
-                            ->each(function ($rating) {
-                                $isInstructor = $rating->user->account_type == "instructor";
-
-                                $rating->gradedByInstructor = $isInstructor ? $rating->id : "";
-                            });
+                            ->first(fn ($rating) => $rating->user->account_type == "instructor")
+							?->user_id;
                     });
 
                 return [

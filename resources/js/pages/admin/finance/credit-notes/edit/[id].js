@@ -20,7 +20,7 @@ const edit = (props) => {
 			path: ["credit-notes", "edit"],
 		})
 
-		props.get(`/credit-notes/${id}`, setCreditNote)
+		props.get(`credit-notes/${id}`, setCreditNote)
 	}, [])
 
 	/*

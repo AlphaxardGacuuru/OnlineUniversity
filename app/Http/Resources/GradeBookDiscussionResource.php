@@ -22,13 +22,15 @@ class GradeBookDiscussionResource extends JsonResource
             "userAvatar" => $data->user->avatar,
             "academicSessionId" => $data->academic_session_id,
             "unitId" => $data->unit_id,
-            "data" => $this["data"]->map(fn ($discussionForum) => [
-				"gradedByInstructor" => $discussionForum->gradedByInstructor,
-				"ratings" => $discussionForum->ratings,
-				"week" => $discussionForum->week,
-				"updatedAt" => $discussionForum->updatedAt,
-				"createdAt" => $discussionForum->createdAt,
-			]),
+            "data" => $this["data"]->map(fn($discussionForum) => [
+                "gradedByInstructor" => $discussionForum->gradedByInstructor,
+                "ratings" => $discussionForum
+                    ->ratings
+                    ->reduce(fn($acc, $rating) => $acc + $rating->rating, 0),
+                "week" => $discussionForum->week,
+                "updatedAt" => $discussionForum->updatedAt,
+                "createdAt" => $discussionForum->createdAt,
+            ]),
         ];
     }
 }

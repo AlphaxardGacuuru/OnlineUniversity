@@ -40,21 +40,20 @@ class Unit extends Model
     public function instructors()
     {
         return $this->userUnits
-            ->filter(fn($userUnit) => !is_null($userUnit->user))
             ->map(fn($userUnit) => $userUnit
                     ->user()
                     ->where("account_type", "instructor")
-                    ->first());
+                    ->first())
+            ->filter(fn($instructor) => !is_null($instructor));
     }
 
     public function students()
     {
         return $this->userUnits
-            ->filter(fn($userUnit) => !is_null($userUnit->user))
             ->map(fn($userUnit) => $userUnit
                     ->user()
                     ->where("account_type", "student")
                     ->first())
-            ->all();
+            ->filter(fn($student) => !is_null($student));
     }
 }

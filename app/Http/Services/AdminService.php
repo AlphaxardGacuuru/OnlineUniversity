@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Department;
 use App\Models\Faculty;
 use App\Models\MPESATransaction;
+use App\Models\Unit;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -24,6 +25,7 @@ class AdminService extends Service
             "faculties" => $this->faculties(),
             "departments" => $this->departments(),
             "courses" => $this->courses(),
+            "units" => $this->units(),
             "fees" => $this->fees(),
         ];
     }
@@ -216,8 +218,7 @@ class AdminService extends Service
     }
 
     /*
-     * Get Courses Data
-     */
+     * Get Unit     */
     public function courses()
     {
         $total = Course::count();
@@ -244,6 +245,38 @@ class AdminService extends Service
             "total" => $total,
             "growth" => $this->growth($yesterday, $today),
             "lastWeek" => $getCoursesLastWeek,
+        ];
+    }
+
+    /*
+     * Get Units Data
+     */
+    public function units()
+    {
+        $total = Unit::count();
+
+        $carbonYesterday = now()->subDay();
+
+        $yesterday = Unit::whereDate("created_at", $carbonYesterday)->count();
+
+        $carbonToday = Carbon::today()->toDateString();
+
+        $today = Unit::whereDate("created_at", $carbonToday)->count();
+
+        // Get Users By Day
+        $startDate = Carbon::now()->subWeek()->startOfWeek();
+        $endDate = Carbon::now()->subWeek()->endOfWeek();
+
+        $getUnitsLastWeek = Unit::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->groupBy(DB::raw('DATE(units.created_at)'))
+            ->get()
+            ->map(fn($item) => $item->count);
+
+        return [
+            "total" => $total,
+            "growth" => $this->growth($yesterday, $today),
+            "lastWeek" => $getUnitsLastWeek,
         ];
     }
 

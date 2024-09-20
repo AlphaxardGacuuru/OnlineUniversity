@@ -12,7 +12,7 @@ const Questions = (props) => {
 		var existsAndIsCurrentUsers =
 			existingTime && existingTime.userId == props.auth.id
 
-		return existsAndIsCurrentUsers ? existingTime.time : 0.1 * 60
+		return existsAndIsCurrentUsers ? existingTime.time : props.questions.time * 60
 	}
 
 	const [attempting, setAttempting] = useState(false)

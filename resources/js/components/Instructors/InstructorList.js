@@ -13,12 +13,18 @@ import PaginationLinks from "@/components/Core/PaginationLinks"
 const InstructorList = (props) => {
 	const location = useLocation()
 
+	const controller = new AbortController()
+
 	const [faculties, setFaculties] = useState([])
 	const [departments, setDepartments] = useState([])
 
 	useEffect(() => {
-		props.get("faculties?idAndName=true", setFaculties)
-		props.get("departments?idAndName=true", setDepartments)
+		props.get("faculties?idAndName=true", setFaculties, null, true, controller)
+		props.get("departments?idAndName=true", setDepartments, null, true, controller)
+
+		 return () => {
+				controller.abort() // Cancel the request when component unmounts
+			}
 	}, [])
 
 	/*

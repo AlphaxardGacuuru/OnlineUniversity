@@ -9,7 +9,7 @@ class GradeBookSubmissionResource extends JsonResource
     public function calculateRating()
     {
         return $this["discussionForums"]
-            ->reduce(fn($acc, $submission) => $acc + $submission->ratings);
+            ->reduce(fn($acc, $submission) => $acc + $submission->total_ratings);
     }
 
     public function calculateGrade($type)

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react"
 import ReactDOM from "react-dom"
 import { HashRouter } from "react-router-dom"
 
-import ScrollToTop from "@/functions/ScrollToTop"
+import RouterMiddleware from "@/middleware/RouterMiddleware"
 import TopNav from "@/components/Layouts/TopNav"
 import Footer from "@/components/Layouts/Footer"
 import Messages from "@/components/Core/Messages"
@@ -66,8 +66,9 @@ function App() {
 		setState,
 		storage = null,
 		errors = true,
+		controller = {}
 	) => {
-		Axios.get(`/api/${endpoint}`)
+		Axios.get(`/api/${endpoint}`, { signal: controller.signal }) // Pass the controller signal)
 			.then((res) => {
 				// Set State
 				var data = res.data ? res.data.data : []
@@ -75,9 +76,13 @@ function App() {
 				// Set Local Storage
 				storage && setLocalStorage(storage, data)
 			})
-			.catch(() => {
-				// Show Errors
-				errors && setErrors([`Failed to fetch ${endpoint}`])
+			.catch((error) => {
+				if (Axios.isCancel(error)) {
+					console.log(`Request for ${endpoint} canceled`)
+				} else {
+					// Show Errors
+					errors && setErrors([`Failed to fetch ${endpoint}`])
+				}
 			})
 	}
 
@@ -87,6 +92,7 @@ function App() {
 		setState,
 		storage = null,
 		errors = true,
+		controller = {}
 	) => {
 		Axios.get(`/api/${endpoint}`)
 			.then((res) => {
@@ -160,7 +166,7 @@ function App() {
 
 	return (
 		<HashRouter>
-			<ScrollToTop />
+			<RouterMiddleware {...GLOBAL_STATE} />
 			<TopNav {...GLOBAL_STATE} />
 			<RouteList GLOBAL_STATE={GLOBAL_STATE} />
 			<Footer {...GLOBAL_STATE} />
