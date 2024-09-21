@@ -36,7 +36,7 @@ class DiscussionForumRatingController extends Controller
             "rating" => "required|integer",
         ]);
 
-        [$rating, $message, $saved] = $this->service->store($request);
+        [$saved, $message, $rating] = $this->service->store($request);
 
         return response([
             "status" => $saved,
@@ -63,9 +63,19 @@ class DiscussionForumRatingController extends Controller
      * @param  \App\Models\DiscussionForumRating  $discussionForumRating
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DiscussionForumRating $discussionForumRating)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            "rating" => "nullable|integer",
+        ]);
+
+        [$saved, $message, $rating] = $this->service->update($request, $id);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $rating,
+        ], 200);
     }
 
     /**

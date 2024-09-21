@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import {
-	useLocation,
-	useParams,
-} from "react-router-dom/cjs/react-router-dom.min"
+import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
@@ -10,11 +7,11 @@ import Img from "@/components/Core/Img"
 import HeroIcon from "@/components/Core/HeroIcon"
 
 import PersonSVG from "@/svgs/PersonSVG"
+import StarFilledSVG from "@/svgs/StarFilledSVG"
+import StarSVG from "@/svgs/StarSVG"
 
 const index = (props) => {
 	var { id } = useParams()
-
-	const location = useLocation()
 
 	const [unitSession] = (props.auth?.unitSessions || [{}])
 		.filter((unitSession) => unitSession.unitId == id)
@@ -24,10 +21,16 @@ const index = (props) => {
 	const [discussions, setDiscussions] = useState([])
 	const [tab, setTab] = useState("Discussion Forum")
 	const [weeks, setWeeks] = useState([])
+	
+	const [week, setWeek] = useState({})
+	const [hasRated, setHasRated] = useState()
+
 	const [grade, setGrade] = useState({})
 	const [newGrade, setNewGrade] = useState({})
 	const [comments, setComments] = useState()
-	const [modalOpen, setModalOpen] = useState(true)
+	
+	const [ratingModalOpen, setRatingModalOpen] = useState(true)
+	const [gradingModalOpen, setGradingModalOpen] = useState(true)
 
 	const [nameQuery, setNameQuery] = useState("")
 	const [loading, setLoading] = useState()
@@ -84,21 +87,67 @@ const index = (props) => {
 		)
 	}, [])
 
-	var modalBtn = useRef()
-	var modalBtnClose = useRef()
+	var ratingModalBtn = useRef()
+	var gradingModalBtn = useRef()
+	var ratingModalBtnClose = useRef()
+	var gradingModalBtnClose = useRef()
 
 	/*
-	 * Handle Showing Attachment
+	 * Handle Rating Modal
 	 */
-	const handleShowModal = (item) => {
-		// Set Grade
-		setGrade(item)
+	const showRatingModal = (item) => {
+		// Set Rating
+		setWeek(item)
 		// Open Modal button
-		modalBtn.current.click()
+		ratingModalBtn.current.click()
 	}
 
 	/*
-	 * Grade
+	 * Handle Grade Modal
+	 */
+	const showGradeModal = (item) => {
+		// Set Grade
+		setGrade(item)
+		// Open Modal button
+		gradingModalBtn.current.click()
+	}
+
+	const ratings = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+
+	/*
+	 * Edit Rating
+	 */
+	const onEditRating = (e) => {
+		e.preventDefault()
+		setLoading(true)
+
+		Axios.put(`/api/discussion-forum-ratings/${week.gradedByInstructor}`, {
+			rating: hasRated,
+		})
+			.then((res) => {
+				setLoading(false)
+				props.setMessages([res.data.message])
+
+				// Fetch Submissions
+				props.get(
+					`grade-book-discussions/${id}?
+					sessionId=${unitSession?.sessionId || ""}&
+					name=${nameQuery}`,
+					setDiscussions
+				)
+				// Close Modal
+				ratingModalBtnClose.current.click()
+				setRatingModalOpen(false)
+				setRatingModalOpen(true)
+			})
+			.catch((err) => {
+				setLoading(false)
+				props.getErrors(err)
+			})
+	}
+
+	/*
+	 * Edit Grade
 	 */
 	const onEditGrade = (e) => {
 		e.preventDefault()
@@ -122,8 +171,8 @@ const index = (props) => {
 				)
 				// Close Modal
 				modalBtnClose.current.click()
-				setModalOpen(false)
-				setModalOpen(true)
+				setGradingModalOpen(false)
+				setGradingModalOpen(true)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -148,38 +197,124 @@ const index = (props) => {
 		submission.cat2 +
 		submission.reviewQuiz +
 		submission.finalExam
-		
+
 	return (
 		<div>
-			{/* Edit Grade Modal */}
+			{/* Edit Rating Modal */}
 			{/* Button */}
 			<button
-				ref={modalBtn}
+				ref={ratingModalBtn}
 				type="hidden"
 				className="btn btn-sm rounded-pill text-white d-none"
 				data-bs-toggle="modal"
-				data-bs-target="#staticBackdrop"></button>
+				data-bs-target="#statingBackdropRating"></button>
 
 			{/* Modal */}
-			{modalOpen && (
+			{ratingModalOpen && (
 				<div
 					className="modal fade"
-					id="staticBackdrop"
+					id="statingBackdropRating"
 					data-bs-backdrop="static"
 					data-bs-keyboard="false"
 					tabIndex="-1"
-					aria-labelledby="staticBackdropLabel"
+					aria-labelledby="statingBackdropRatingLabel"
 					aria-hidden="true">
 					<div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
 						<div className="modal-content">
 							<div className="modal-header">
 								<h1
 									className="modal-title fs-5"
-									id="staticBackdropLabel">
-									Edit
+									id="statingBackdropRatingLabel">
+									Edit Rating
 								</h1>
 								<button
-									ref={modalBtnClose}
+									ref={ratingModalBtnClose}
+									type="button"
+									className="btn-close"
+									data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div className="modal-body text-start">
+								{/* Form */}
+								<div className={`flex-grow-1 me-2 mb-1`}>
+									<form onSubmit={onEditRating}>
+										{/* Rating */}
+										<div className="d-flex justify-content-center bg-white shadow-sm mb-2 p-2">
+											{ratings.map((rating, key) => (
+												<div
+													key={key}
+													className="p-1"
+													style={{ cursor: "pointer" }}
+													onClick={() => {
+														// Check if rating exists
+														if (hasRated) {
+															setHasRated()
+														} else {
+															// Change UI
+															setHasRated(rating)
+														}
+													}}>
+													{hasRated == rating ? (
+														<span className="text-primary">
+															<StarFilledSVG />
+															<div className="m-0">{rating}</div>
+														</span>
+													) : (
+														<span>
+															<StarSVG />
+															<div className="m-0">{rating}</div>
+														</span>
+													)}
+												</div>
+											))}
+										</div>
+										{/* Rating End */}
+
+										<div className="text-end">
+											<Btn
+												text="submit rating"
+												loading={loading}
+											/>
+										</div>
+									</form>
+								</div>
+								{/* Form End */}
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
+			{/* Edit Rating Modal End */}
+
+			{/* Edit Grade Modal */}
+			{/* Button */}
+			<button
+				ref={gradingModalBtn}
+				type="hidden"
+				className="btn btn-sm rounded-pill text-white d-none"
+				data-bs-toggle="modal"
+				data-bs-target="#statingBackdropGrading"></button>
+
+			{/* Modal */}
+			{gradingModalOpen && (
+				<div
+					className="modal fade"
+					id="statingBackdropGrading"
+					data-bs-backdrop="static"
+					data-bs-keyboard="false"
+					tabIndex="-1"
+					aria-labelledby="statingBackdropGradingLabel"
+					aria-hidden="true">
+					<div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+						<div className="modal-content">
+							<div className="modal-header">
+								<h1
+									className="modal-title fs-5"
+									id="statingBackdropGradingLabel">
+									Edit Grade
+								</h1>
+								<button
+									ref={gradingModalBtnClose}
 									type="button"
 									className="btn-close"
 									data-bs-dismiss="modal"
@@ -321,7 +456,21 @@ const index = (props) => {
 									</div>
 								</td>
 								{discussion.data.map((week, key) => (
-									<td key={key}>{week.ratings}</td>
+									<td key={key}>
+										<div className="d-flex justify-content-start">
+											<div className="mx-1"> {week.ratings}</div>
+											<div className="mx-1">
+												<Btn
+													text="edit"
+													className={`btn-sm btn-secondary mb-1`}
+													onClick={() => showRatingModal(week)}
+													disabled={
+														!week.gradedByInstructor
+													}
+												/>
+											</div>
+										</div>
+									</td>
 								))}
 								<td>
 									{discussion.data.reduce((acc, week) => acc + week.ratings, 0)}
@@ -366,14 +515,14 @@ const index = (props) => {
 									</div>
 								</td>
 								<td>
-									<div className="d-flex justify-content-between">
+									<div className="d-flex justify-content-start">
 										<div className="mx-1">{submission.discussionForum}</div>
 										<div className="mx-1">
 											<Btn
 												text="edit"
 												className={`btn-sm btn-secondary mb-1`}
 												onClick={() =>
-													handleShowModal(submission.discussionForum)
+													showGradeModal(submission.discussionForum)
 												}
 											/>
 										</div>
@@ -389,9 +538,11 @@ const index = (props) => {
 												text="edit"
 												className={`btn-sm btn-secondary mb-1`}
 												onClick={() =>
-													handleShowModal(submission.writtenAssignment)
+													showGradeModal(submission.writtenAssignment)
 												}
-												disabled={!submission.writtenAssignment.gradedByInstructor}
+												disabled={
+													!submission.writtenAssignment.gradedByInstructor
+												}
 											/>
 										</div>
 									</div>
@@ -406,9 +557,11 @@ const index = (props) => {
 												text="edit"
 												className={`btn-sm btn-secondary mb-1`}
 												onClick={() =>
-													handleShowModal(submission.learningReflection)
+													showGradeModal(submission.learningReflection)
 												}
-												disabled={!submission.learningReflection.gradedByInstructor}
+												disabled={
+													!submission.learningReflection.gradedByInstructor
+												}
 											/>
 										</div>
 									</div>

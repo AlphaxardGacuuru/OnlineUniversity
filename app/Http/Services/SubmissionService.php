@@ -126,7 +126,7 @@ class SubmissionService extends Service
                         $discussionForum->gradedByInstructor = $discussionForum
                             ->ratings
                             ->first(fn ($rating) => $rating->user->account_type == "instructor")
-							?->user_id;
+							?->id;
                     });
 
                 return [

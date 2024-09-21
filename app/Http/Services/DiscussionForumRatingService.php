@@ -56,4 +56,20 @@ class DiscussionForumRatingService extends Service
 
         return [$saved, $message, $rating];
     }
+
+	/*
+	* Update
+	*/ 
+	public function update($request, $id)
+	{
+		$discussionForumRating = DiscussionForumRating::find($id);
+
+		if ($request->filled("rating")) {
+			$discussionForumRating->rating = $request->rating;
+		}
+
+		$save = $discussionForumRating->save();
+
+		return [$save, "Discussion Forum updated successfully", $discussionForumRating];
+	}
 }
