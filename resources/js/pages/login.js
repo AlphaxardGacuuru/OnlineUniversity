@@ -10,9 +10,14 @@ const login = (props) => {
 	var router = useHistory()
 
 	const [tab, setTab] = useState("admin")
+
+	const [name, setName] = useState()
 	const [email, setEmail] = useState("alphaxardgacuuru47@gmail.com")
 	const [password, setPassword] = useState("alphaxardgacuuru47@gmail.com")
+	const [confirmPassword, setConfirmPassword] = useState()
 	const [loading, setLoading] = useState(false)
+
+	const [register, setRegister] = useState(true)
 
 	useEffect(() => {
 		if (props.auth.name != "Guest") {
@@ -34,6 +39,45 @@ const login = (props) => {
 		const secretKey = "OnlineUniversityAuthorizationToken"
 		// Encrypt
 		return CryptoJS.AES.encrypt(token, secretKey).toString()
+	}
+
+	const onRegister = (e) => {
+		setLoading(true)
+		e.preventDefault()
+
+		Axios.get("/sanctum/csrf-cookie").then(() => {
+			Axios.post(`/register`, {
+				name: name,
+				email: email,
+				password: password,
+				password_confirmation: confirmPassword,
+				device_name: "computer",
+			})
+				.then((res) => {
+					props.setMessages([res.data.message])
+					// Remove loader
+					setLoading(false)
+					// Encrypt and Save Sanctum Token to Local Storage
+					props.setLocalStorage("sanctumToken", encryptedToken(res.data.data))
+					// Update Logged in user
+					Axios.get("/api/auth", {
+						headers: { Authorization: `Bearer ${res.data.data}` },
+					})
+						.then((res) => {
+							// Set LocalStorage
+							props.setLocalStorage("auth", res.data.data)
+							// Reload page
+							// window.location.href = `/#/instructor`
+							window.location.reload()
+						})
+						.catch((err) => props.getErrors(err, false))
+				})
+				.catch((err) => {
+					// Remove loader
+					setLoading(false)
+					props.getErrors(err)
+				})
+		})
 	}
 
 	const onSubmit = (e) => {
@@ -84,94 +128,158 @@ const login = (props) => {
 					<div className="col-lg-6">
 						<div className="signup-warp">
 							<div className="section-title text-white text-left">
-								<h2>Sign up to became a student</h2>
+								{register ? (
+									<h2>Sign up to became a student</h2>
+								) : (
+									<h2>Login to Admin, Innstructor or Student Portal</h2>
+								)}
 								<p></p>
 							</div>
-							{/* <!-- signup form --> */}
-							<form
-								onSubmit={onSubmit}
-								className="signup-form">
-								{/* <GoogleLoginButton
+							{register ? (
+								<form
+									onSubmit={onRegister}
+									className="signup-form">
+									<input
+										type="text"
+										placeholder="Your Name"
+										value={name}
+										onChange={(e) => setName(e.target.value)}
+									/>
+									<input
+										type="text"
+										name="email"
+										placeholder="Your Email"
+										value={email}
+										onChange={(e) => setEmail(e.target.value)}
+										autoComplete="email"
+									/>
+									<input
+										type="password"
+										placeholder="Your Password"
+										value={password}
+										onChange={(e) => setPassword(e.target.value)}
+									/>
+									<input
+										type="password"
+										placeholder="Confirm Your Password"
+										value={confirmPassword}
+										onChange={(e) => setConfirmPassword(e.target.value)}
+									/>
+
+									<h6 className="invisible">Some text</h6>
+
+									<div className="d-flex justify-content-between">
+										<button
+											className="site-btn btn-dark"
+											onClick={() => setRegister(false)}>
+											Back
+										</button>
+										<button
+											type="submit"
+											className="site-btn">
+											Register
+											{loading && (
+												<div className="spinner-border spinner-border-sm border-2 light my-auto mx-2"></div>
+											)}
+										</button>
+									</div>
+								</form>
+							) : (
+								<form
+									onSubmit={onSubmit}
+									className="signup-form">
+									{/* <GoogleLoginButton
 									className="border-0 m-0 w-100 mb-4"
 									onClick={() => onSocial("google")}
 								/> */}
 
-								{/* Tabs */}
-								<div className="d-flex justify-content-between mb-4">
-									<button
-										type="reset"
-										className="btn text-white rounded-0 w-100"
-										style={{
-											backgroundColor: tab == "admin" ? "#d82a4e" : "#000",
-										}}
-										onClick={() => {
-											setTab("admin")
-											setEmail("alphaxardgacuuru47@gmail.com")
-											setPassword("alphaxardgacuuru47@gmail.com")
-										}}>
-										Admin
-									</button>
-									<button
-										type="reset"
-										className="btn text-white rounded-0 mx-1 w-100"
-										style={{
-											backgroundColor: tab == "instructor" ? "#d82a4e" : "#000",
-										}}
-										onClick={() => {
-											setTab("instructor")
-											setEmail("gacuuruwakarenge@gmail.com")
-											setPassword("gacuuruwakarenge@gmail.com")
-										}}>
-										Instructor
-									</button>
-									<button
-										type="reset"
-										className="btn text-white rounded-0 w-100"
-										style={{
-											backgroundColor: tab == "student" ? "#d82a4e" : "#000",
-										}}
-										onClick={() => {
-											setTab("student")
-											setEmail("cikumuhandi@gmail.com")
-											setPassword("cikumuhandi@gmail.com")
-										}}>
-										Student
-									</button>
-								</div>
-								{/* Tabs End */}
+									{/* Tabs */}
+									<div className="d-flex justify-content-between mb-4">
+										<button
+											type="reset"
+											className="btn text-white rounded-0 w-100"
+											style={{
+												backgroundColor: tab == "admin" ? "#d82a4e" : "#000",
+											}}
+											onClick={() => {
+												setTab("admin")
+												setEmail("alphaxardgacuuru47@gmail.com")
+												setPassword("alphaxardgacuuru47@gmail.com")
+											}}>
+											Admin
+										</button>
+										<button
+											type="reset"
+											className="btn text-white rounded-0 mx-1 w-100"
+											style={{
+												backgroundColor:
+													tab == "instructor" ? "#d82a4e" : "#000",
+											}}
+											onClick={() => {
+												setTab("instructor")
+												setEmail("gacuuruwakarenge@gmail.com")
+												setPassword("gacuuruwakarenge@gmail.com")
+											}}>
+											Instructor
+										</button>
+										<button
+											type="reset"
+											className="btn text-white rounded-0 w-100"
+											style={{
+												backgroundColor: tab == "student" ? "#d82a4e" : "#000",
+											}}
+											onClick={() => {
+												setTab("student")
+												setEmail("cikumuhandi@gmail.com")
+												setPassword("cikumuhandi@gmail.com")
+											}}>
+											Student
+										</button>
+									</div>
+									{/* Tabs End */}
 
-								<input
-									type="text"
-									placeholder="Your Email"
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
-									autoComplete="email"
-								/>
-								<input
-									type="password"
-									placeholder="Your Password"
-									value={password}
-									onChange={(e) => setPassword(e.target.value)}
-								/>
+									<input
+										type="text"
+										placeholder="Your Email"
+										value={email}
+										onChange={(e) => setEmail(e.target.value)}
+										autoComplete="email"
+									/>
+									<input
+										type="password"
+										placeholder="Your Password"
+										value={password}
+										onChange={(e) => setPassword(e.target.value)}
+									/>
 
-								<h6 className="invisible">Some text</h6>
+									<h6 className="invisible">Some text</h6>
 
-								<div className="d-flex justify-content-between">
-									<Link
-										to="/student/login"
-										className="site-btn btn-dark">
-										Back
-									</Link>
-									<button
-										type="submit"
-										className="site-btn">
-										Login
-										{loading && (
-											<div className="spinner-border spinner-border-sm border-2 light my-auto mx-2"></div>
-										)}
-									</button>
-								</div>
-							</form>
+									<div className="d-flex justify-content-between">
+										<Link
+											to="/student/login"
+											className="site-btn btn-dark">
+											Back
+										</Link>
+										<button
+											type="submit"
+											className="site-btn">
+											Login
+											{loading && (
+												<div className="spinner-border spinner-border-sm border-2 light my-auto mx-2"></div>
+											)}
+										</button>
+									</div>
+									{/* Register Button Start */}
+									<div className="d-flex justify-content-center mt-2">
+										<button
+											className="site-btn"
+											onClick={() => setRegister(true)}>
+											Register
+										</button>
+									</div>
+									{/* Register Button End */}
+								</form>
+							)}
 						</div>
 					</div>
 				</div>

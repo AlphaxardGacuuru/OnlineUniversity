@@ -48,8 +48,17 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        // Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        // return redirect(RouteServiceProvider::HOME);
+
+        $token = $user
+            ->createToken($request->device_name)
+            ->plainTextToken;
+
+        return response([
+            "message" => "Registered Successfully",
+            "data" => $token,
+        ], 200);
     }
 }

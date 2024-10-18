@@ -42,7 +42,7 @@ const index = (props) => {
 						</p>
 						<div className="text-center my-2">
 							<Link
-								to="/student/login"
+								to="/login"
 								className="site-btn">
 								Sing up here now
 							</Link>
@@ -57,7 +57,7 @@ const index = (props) => {
 						</p>
 						<div className="text-center my-2">
 							<Link
-								to="/student/login"
+								to="/login"
 								className="site-btn">
 								Sing up here now
 							</Link>
@@ -71,7 +71,7 @@ const index = (props) => {
 						</p>
 						<div className="text-center my-2">
 							<Link
-								to="/student/login"
+								to="/login"
 								className="site-btn">
 								Sing up here now
 							</Link>
@@ -86,7 +86,7 @@ const index = (props) => {
 						</p>
 						<div className="text-center my-2">
 							<Link
-								to="/student/login"
+								to="/login"
 								className="site-btn">
 								Sing up here now
 							</Link>
@@ -115,7 +115,7 @@ const index = (props) => {
 									{/* <span>120 Courses</span> */}
 									<div className="text-center">
 										<Link
-											to="/student/login"
+											to="/login"
 											className="site-btn">
 											Sing up here now
 										</Link>
@@ -146,7 +146,7 @@ const index = (props) => {
 									{/* <span>70 Courses</span> */}
 									<div className="text-center">
 										<Link
-											to="/student/login"
+											to="/login"
 											className="site-btn">
 											Sing up here now
 										</Link>
@@ -174,7 +174,7 @@ const index = (props) => {
 									{/* <span>55 Courses</span> */}
 									<div className="text-center">
 										<Link
-											to="/student/login"
+											to="/login"
 											className="site-btn">
 											Sing up here now
 										</Link>
@@ -204,7 +204,7 @@ const index = (props) => {
 									{/* <span>40 Courses</span> */}
 									<div className="text-center">
 										<Link
-											to="/student/login"
+											to="/login"
 											className="site-btn">
 											Sing up here now
 										</Link>
@@ -267,7 +267,7 @@ const index = (props) => {
 					</div>
 					<div className="text-center pt-5">
 						<Link
-							to="/student/login"
+							to="/login"
 							className="site-btn">
 							Sing up here now
 						</Link>
