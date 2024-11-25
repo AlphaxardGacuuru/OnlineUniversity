@@ -17,7 +17,7 @@ const show = (props) => {
 	const [billables, setBillables] = useState([])
 	const [session, setSession] = useState({})
 	const [tab, setTab] = useState("units")
-	const [hasBalance, setHasBalance] = useState()
+	const [hasBalance, setHasBalance] = useState("")
 	const [loading, setLoading] = useState()
 
 	const [nameQuery, setNameQuery] = useState("")
@@ -208,7 +208,7 @@ const show = (props) => {
 									)}
 								</React.Fragment>
 							)}
-							{parseFloat(hasBalance.replace(/,/g, "")) > 0 && (
+							{parseFloat(hasBalance?.replace(/,/g, "")) > 0 && (
 								<p className="mb-0 text-warning">Balance KES {hasBalance}</p>
 							)}
 						</React.Fragment>
