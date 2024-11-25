@@ -29,13 +29,13 @@ const PaymentMenu = (props) => {
 					</div>
 
 					<div className="mt-4 mb-2">
-						<FlutterWaveHookBtn
+						{/* <FlutterWaveHookBtn
 							{...props}
 							paymentAmount={props.paymentAmount}
 							paymentTitle={props.paymentTitle}
 							paymentDescription={props.paymentDescription}
 							text="pay with card"
-						/>
+						/> */}
 					</div>
 					<div className="mb-2">
 						<KopokopoBtn

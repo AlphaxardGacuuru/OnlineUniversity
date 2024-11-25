@@ -208,7 +208,7 @@ const show = (props) => {
 									)}
 								</React.Fragment>
 							)}
-							{hasBalance && (
+							{parseFloat(hasBalance.replace(/,/g, "")) > 0 && (
 								<p className="mb-0 text-warning">Balance KES {hasBalance}</p>
 							)}
 						</React.Fragment>

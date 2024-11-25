@@ -98,7 +98,7 @@ class CreditNoteService extends Service
             });
         }
 
-		if ($request) {
+		if ($request->filled("userId")) {
 			$query = $query->where("user_id", $request->input("userId"));
 		}
 

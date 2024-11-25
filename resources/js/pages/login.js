@@ -119,7 +119,7 @@ const login = (props) => {
 	}
 
 	return (
-		<section className="signup-section spad pt-5">
+		<section className="signup-section spad pt-4">
 			<div
 				className="signup-bg set-bg"
 				style={{ background: `url("/storage/img/signup-bg.jpg")` }}></div>
@@ -127,11 +127,11 @@ const login = (props) => {
 				<div className="row">
 					<div className="col-lg-6">
 						<div className="signup-warp">
-							<div className="section-title text-white text-left">
+							<div className="section-title text-white text-left mb-2">
 								{register ? (
 									<h2>Sign up to became a student</h2>
 								) : (
-									<h2>Login to Admin, Innstructor or Student Portal</h2>
+									<h2>Login to Admin, Instructor or Student Portal</h2>
 								)}
 								<p></p>
 							</div>
@@ -139,40 +139,58 @@ const login = (props) => {
 								<form
 									onSubmit={onRegister}
 									className="signup-form">
+									{/* Name Start */}
 									<input
 										type="text"
 										placeholder="Your Name"
+										className="mb-1"
 										value={name}
 										onChange={(e) => setName(e.target.value)}
 									/>
+									{/* Name End */}
+
+									{/* Email Start */}
 									<input
 										type="text"
 										name="email"
 										placeholder="Your Email"
+										className="mb-1"
 										value={email}
 										onChange={(e) => setEmail(e.target.value)}
 										autoComplete="email"
 									/>
+									{/* Email End */}
+
+									{/* Password Start */}
 									<input
 										type="password"
 										placeholder="Your Password"
+										className="mb-1"
 										value={password}
 										onChange={(e) => setPassword(e.target.value)}
 									/>
+									{/* Password End */}
+
+									{/* Password Confirmation Start */}
 									<input
 										type="password"
 										placeholder="Confirm Your Password"
+										className="mb-1"
 										value={confirmPassword}
 										onChange={(e) => setConfirmPassword(e.target.value)}
 									/>
+									{/* Password Confirmation End */}
 
 									<h6 className="invisible">Some text</h6>
 
 									<div className="d-flex justify-content-between">
 										<button
 											className="site-btn btn-dark"
-											onClick={() => setRegister(false)}>
-											Back
+											onClick={(e) => {
+												e.preventDefault()
+												setRegister(false)
+											}}>
+											Login
 										</button>
 										<button
 											type="submit"
@@ -238,28 +256,40 @@ const login = (props) => {
 									</div>
 									{/* Tabs End */}
 
+									{/* Email Start */}
 									<input
 										type="text"
 										placeholder="Your Email"
+										className="mb-1"
 										value={email}
 										onChange={(e) => setEmail(e.target.value)}
 										autoComplete="email"
 									/>
+									{/* Email End */}
+
+									{/* Password Start */}
 									<input
 										type="password"
 										placeholder="Your Password"
+										className="mb-1"
 										value={password}
 										onChange={(e) => setPassword(e.target.value)}
 									/>
+									{/* Password End */}
 
 									<h6 className="invisible">Some text</h6>
 
 									<div className="d-flex justify-content-between">
-										<Link
-											to="/student/login"
-											className="site-btn btn-dark">
-											Back
-										</Link>
+										{/* Register Button Start */}
+										<button
+											className="site-btn btn-dark"
+											onClick={(e) => {
+												e.preventDefault()
+												setRegister(true)
+											}}>
+											Register
+										</button>
+										{/* Register Button End */}
 										<button
 											type="submit"
 											className="site-btn">
@@ -269,15 +299,6 @@ const login = (props) => {
 											)}
 										</button>
 									</div>
-									{/* Register Button Start */}
-									<div className="d-flex justify-content-center mt-2">
-										<button
-											className="site-btn"
-											onClick={() => setRegister(true)}>
-											Register
-										</button>
-									</div>
-									{/* Register Button End */}
 								</form>
 							)}
 						</div>
