@@ -12,8 +12,8 @@ const login = (props) => {
 	const [tab, setTab] = useState("admin")
 
 	const [name, setName] = useState()
-	const [email, setEmail] = useState("alphaxardgacuuru47@gmail.com")
-	const [password, setPassword] = useState("alphaxardgacuuru47@gmail.com")
+	const [email, setEmail] = useState()
+	const [password, setPassword] = useState()
 	const [confirmPassword, setConfirmPassword] = useState()
 	const [loading, setLoading] = useState(false)
 
@@ -219,11 +219,7 @@ const login = (props) => {
 											style={{
 												backgroundColor: tab == "admin" ? "#d82a4e" : "#000",
 											}}
-											onClick={() => {
-												setTab("admin")
-												setEmail("alphaxardgacuuru47@gmail.com")
-												setPassword("alphaxardgacuuru47@gmail.com")
-											}}>
+											onClick={() => setTab("admin")}>
 											Admin
 										</button>
 										<button
@@ -233,11 +229,7 @@ const login = (props) => {
 												backgroundColor:
 													tab == "instructor" ? "#d82a4e" : "#000",
 											}}
-											onClick={() => {
-												setTab("instructor")
-												setEmail("gacuuruwakarenge@gmail.com")
-												setPassword("gacuuruwakarenge@gmail.com")
-											}}>
+											onClick={() => setTab("instructor")}>
 											Instructor
 										</button>
 										<button
@@ -246,11 +238,7 @@ const login = (props) => {
 											style={{
 												backgroundColor: tab == "student" ? "#d82a4e" : "#000",
 											}}
-											onClick={() => {
-												setTab("student")
-												setEmail("cikumuhandi@gmail.com")
-												setPassword("cikumuhandi@gmail.com")
-											}}>
+											onClick={() => setTab("student")}>
 											Student
 										</button>
 									</div>
