@@ -12,20 +12,24 @@ class ResourceService extends Service
      */
     public function index()
     {
-        $resources = Resource::orderBy("id", "DESC")->paginate(20);
+        $resourceQuery = new Resource;
+
+        $resources = $resourceQuery
+            ->orderby("id", "DESC")
+            ->paginate();
 
         return ResourceResource::collection($resources);
     }
 
-	/*
-	* Get One Resource
-	*/ 
-	public function show($id)
-	{
-		$resource = Resource::find($id);
+    /*
+     * Get One Resource
+     */
+    public function show($id)
+    {
+        $resource = Resource::find($id);
 
-		return new ResourceResource($resource);
-	}
+        return new ResourceResource($resource);
+    }
 
     /*
      * Store Resource

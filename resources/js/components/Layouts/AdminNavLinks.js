@@ -101,7 +101,9 @@ const AdminNavLinks = () => {
 						<li className="nav-item">
 							<Link
 								to={`/admin/finance/credit-notes`}
-								className={`nav-link ${activeStrict("/admin/finance/credit-notes")}`}>
+								className={`nav-link ${activeStrict(
+									"/admin/finance/credit-notes"
+								)}`}>
 								<div className="nav-link-icon">
 									<CreditNoteSVG />
 								</div>
@@ -207,6 +209,18 @@ const AdminNavLinks = () => {
 				</Link>
 			</li>
 			{/* Courses Link End */}
+			{/* Resources Link */}
+			<li className="nav-item">
+				<Link
+					to={`/admin/resources`}
+					className={`nav-link ${active("/admin/resources")}`}>
+					<div className="nav-link-icon">
+						<ResourceSVG />
+					</div>
+					<div className="nav-link-text">Resources</div>
+				</Link>
+			</li>
+			{/* Resources Link End */}
 			{/* Sessions Link */}
 			<li className="nav-item">
 				<Link

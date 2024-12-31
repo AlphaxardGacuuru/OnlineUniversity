@@ -434,7 +434,7 @@ const index = (props) => {
 						<tr>
 							<th className="frozen-column">Student</th>
 							{/* Get the longest data and use it to loop throught the weeks */}
-							{weeks.map((week, key) => (
+							{weeks?.map((week, key) => (
 								<th key={key}>Week {week}</th>
 							))}
 							<th>Total</th>

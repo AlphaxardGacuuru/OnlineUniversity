@@ -56,6 +56,10 @@ import AdminMaterialEdit from "@/pages/admin/materials/edit/[id]"
 import AdminBillableCreate from "@/pages/admin/billables/create"
 import AdminBillableEdit from "@/pages/admin/billables/edit/[id]"
 
+import AdminResources from "@/pages/admin/resources/index"
+import AdminResourceCreate from "@/pages/admin/resources/create"
+import AdminResourceEdit from "@/pages/admin/resources/edit/[id]"
+
 import AdminSessions from "@/pages/admin/sessions/index"
 import AdminSessionCreate from "@/pages/admin/sessions/create"
 import AdminSessionEdit from "@/pages/admin/sessions/edit/[id]"
@@ -71,8 +75,6 @@ import AdminStaffEdit from "@/pages/admin/staff/edit/[id]"
 import AdminRoleIndex from "@/pages/admin/role"
 import AdminRoleCreate from "@/pages/admin/role/create"
 import AdminRoleEdit from "@/pages/admin/role/edit/[id]"
-
-import AdminResources from "@/pages/admin/resources/index"
 
 const RouteList = ({ GLOBAL_STATE }) => {
 	const routes = [
@@ -239,6 +241,18 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/billables/:id/edit",
 			component: <AdminBillableEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/resources",
+			component: <AdminResources {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/resources/create",
+			component: <AdminResourceCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/resources/:id/edit",
+			component: <AdminResourceEdit {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/sessions",
