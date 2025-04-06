@@ -124,9 +124,10 @@ class SubmissionService extends Service
                 $discussionForums = $discussionForumModels
                     ->each(function ($discussionForum) {
                         $discussionForum->gradedByInstructor = $discussionForum
-                            ->ratings
-                            ->first(fn ($rating) => $rating->user->account_type == "instructor")
-							?->id;
+                            ->ratings()
+                            ->get()
+                            ->first(fn($rating) => $rating->user->account_type == "instructor")
+                        ?->id;
                     });
 
                 return [

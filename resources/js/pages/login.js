@@ -5,6 +5,7 @@ import Btn from "@/components/Core/Btn"
 import CryptoJS from "crypto-js"
 
 import { GoogleLoginButton } from "react-social-login-buttons"
+import BackSVG from "@/svgs/BackSVG"
 
 const login = (props) => {
 	var router = useHistory()
@@ -190,7 +191,17 @@ const login = (props) => {
 												e.preventDefault()
 												setRegister(false)
 											}}>
-											Login
+											<div className="d-flex justify-content-between  align-items-center">
+												<div
+													className="mt-2"
+													style={{ fontSize: "0.7em" }}>
+													<BackSVG />
+												</div>
+												<div>Login</div>
+												<div className="invisible">
+													<BackSVG />
+												</div>
+											</div>
 										</button>
 										<button
 											type="submit"
@@ -275,7 +286,17 @@ const login = (props) => {
 												e.preventDefault()
 												setRegister(true)
 											}}>
-											Register
+											<div className="d-flex justify-content-between align-items-center">
+												<div
+													className="mt-2"
+													style={{ fontSize: "0.7em" }}>
+													<BackSVG />
+												</div>
+												<div>Register</div>
+												<div className="invisible">
+													<BackSVG />
+												</div>
+											</div>
 										</button>
 										{/* Register Button End */}
 										<button

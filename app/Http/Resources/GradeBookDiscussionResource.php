@@ -25,7 +25,8 @@ class GradeBookDiscussionResource extends JsonResource
             "data" => $this["data"]->map(fn($discussionForum) => [
                 "gradedByInstructor" => $discussionForum->gradedByInstructor,
                 "ratings" => $discussionForum
-                    ->ratings
+                    ->ratings()
+					->get()
                     ->reduce(fn($acc, $rating) => $acc + $rating->rating, 0),
                 "week" => $discussionForum->week,
                 "updatedAt" => $discussionForum->updatedAt,

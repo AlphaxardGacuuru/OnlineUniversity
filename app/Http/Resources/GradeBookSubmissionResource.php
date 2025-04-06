@@ -17,15 +17,15 @@ class GradeBookSubmissionResource extends JsonResource
         $grades = $this["data"]
             ->filter(fn($submission) => $submission->type == $type)
             ->first()
-            ?->grades;
+        ?->grades;
 
         $gradedByInstructor = $grades
-            ->filter(fn($grade) => $grade->gradedByInstructor)
+            ?->filter(fn($grade) => $grade->gradedByInstructor)
             ->first()
         ?->gradedByInstructor;
 
         $totalGrade = $grades
-            ?->reduce(fn($acc, $grade) => $acc + $grade->grade);
+        ?->reduce(fn($acc, $grade) => $acc + $grade->grade);
 
         return [
             "gradedByInstructor" => $gradedByInstructor,

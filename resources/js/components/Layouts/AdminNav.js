@@ -32,8 +32,8 @@ const AdminMenu = (props) => {
 		var isInAdminPage =
 			location.pathname.match("/admin/") ||
 			location.pathname.match("/instructor/") ||
-			location.pathname.match("/student/") &&
-			(!location.pathname.match("/login") &&
+			(location.pathname.match("/student/") &&
+				!location.pathname.match("/login") &&
 				!location.pathname.match("/register"))
 
 		// Handle Redirects for Admin
@@ -44,8 +44,11 @@ const AdminMenu = (props) => {
 		}
 	}, [props.location])
 
-	const getNotifications = () =>
-		props.get("notifications", setNotifications, null, false)
+	const getNotifications = () => {
+		if (props.auth.name != "Guest") {
+			props.get("notifications", setNotifications, null, false)
+		}
+	}
 
 	useEffect(() => {
 		// Fetch Chats
