@@ -121,6 +121,10 @@ const SocialMediaInput = (props) => {
 							value={text}
 							row="1"
 							onChange={(e) => setText(e.target.value)}
+							onInput={(e) => {
+								e.target.style.height = "40px" // Reset height to calculate new height
+								e.target.style.height = `${e.target.scrollHeight}px` // Set height based on content
+							}}
 							required={props.required}></textarea>
 					</div>
 					{/* Input End */}
