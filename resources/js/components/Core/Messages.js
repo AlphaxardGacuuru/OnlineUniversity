@@ -5,12 +5,11 @@ import "react-toastify/dist/ReactToastify.css"
 const Messages = ({ messages, setMessages, errors, setErrors }) => {
 	// Display messages and errors as toasts
 	if (messages.length > 0) {
-		messages.forEach((message) => toast.messages(message))
+		messages.forEach((message) => toast.success(message))
 		setTimeout(() => setMessages([]), 2900)
 	}
 
 	if (errors.length > 0) {
-		console.info("Errors: ", errors)
 		errors.forEach((validationErrors) => {
 			// Check if validationErrors is an array
 			if (Array.isArray(validationErrors)) {
