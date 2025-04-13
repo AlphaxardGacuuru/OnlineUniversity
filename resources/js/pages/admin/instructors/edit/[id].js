@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { useLocation, useParams } from "react-router-dom/cjs/react-router-dom.min"
+import {
+	useLocation,
+	useParams,
+} from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
@@ -246,9 +249,7 @@ const edit = (props) => {
 								</option>
 							))}
 						</select>
-					</div>
 
-					<div className="col-sm-4">
 						<select
 							name="education"
 							className="form-control mb-3 me-2 text-capitalize"
@@ -264,7 +265,9 @@ const edit = (props) => {
 								</option>
 							))}
 						</select>
+					</div>
 
+					<div className="col-sm-4">
 						<select
 							name="facultyId"
 							className="form-control mb-3 me-2"

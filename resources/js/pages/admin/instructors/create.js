@@ -179,9 +179,7 @@ const create = (props) => {
 								</option>
 							))}
 						</select>
-					</div>
 
-					<div className="col-sm-4">
 						<select
 							name="education"
 							className="form-control mb-3 me-2"
@@ -197,7 +195,9 @@ const create = (props) => {
 								</option>
 							))}
 						</select>
+					</div>
 
+					<div className="col-sm-4">
 						<select
 							name="facultyId"
 							className="form-control mb-3 me-2"

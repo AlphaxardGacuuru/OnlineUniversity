@@ -113,6 +113,7 @@ const create = (props) => {
 						name="year"
 						placeholder="Year"
 						className="form-control mb-2 me-2"
+						min="1"
 						onChange={(e) => setYear(parseInt(e.target.value))}
 						required={true}
 					/>
@@ -122,6 +123,7 @@ const create = (props) => {
 						name="semester"
 						placeholder="Semester"
 						className="form-control mb-2 me-2"
+						min="1"
 						onChange={(e) => setSemester(parseInt(e.target.value))}
 						required={true}
 					/>
