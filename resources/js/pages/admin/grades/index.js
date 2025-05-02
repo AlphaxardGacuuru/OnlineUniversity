@@ -447,7 +447,7 @@ const index = (props) => {
 									<div className="d-flex">
 										<div>{key + 1}</div>
 										<Img
-											src={discussion.avatar}
+											src={discussion.userAvatar}
 											className="rounded-circle mx-2"
 											style={{ minWidth: "3em", height: "3em" }}
 											alt="Avatar"

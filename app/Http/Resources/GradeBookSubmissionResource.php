@@ -40,6 +40,7 @@ class GradeBookSubmissionResource extends JsonResource
             ->reduce(function ($acc, $submission) {
                 $grade = collect($submission->answers)
                     ->reduce(function ($acc, $answer) {
+
                         $answerIsCorrect = $answer["student"] == $answer["correct"];
 
                         return $answerIsCorrect ? $acc + 1 : $acc;
@@ -68,7 +69,7 @@ class GradeBookSubmissionResource extends JsonResource
             "discussionForum" => $this->calculateRating(),
             "writtenAssignment" => $this->calculateGrade("Written Assignment"),
             "learningReflection" => $this->calculateGrade("Learning Reflection"),
-            "selfQuiz" => $this->calculateMarks("Self Quiz"),
+            // "selfQuiz" => $this->calculateMarks("Self Quiz"),
             "cat1" => $this->calculateMarks("CAT 1"),
             "cat2" => $this->calculateMarks("CAT 2"),
             "reviewQuiz" => $this->calculateMarks("Review Quiz"),

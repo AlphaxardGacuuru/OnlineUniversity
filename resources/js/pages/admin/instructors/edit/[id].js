@@ -42,6 +42,8 @@ const edit = (props) => {
 	const [instructor, setInstructor] = useState({})
 	const [name, setName] = useState()
 	const [email, setEmail] = useState()
+	const [password, setPassword] = useState()
+	const [passwordConfirmation, setPasswordConfirmation] = useState()
 	const [phone, setPhone] = useState()
 	const [gender, setGender] = useState()
 	const [education, setEducation] = useState()
@@ -117,6 +119,8 @@ const edit = (props) => {
 		Axios.put(`/api/instructors/${id}`, {
 			name: name,
 			email: email,
+			password: password,
+			password_confirmation: passwordConfirmation,
 			phone: phone,
 			gender: gender,
 			education: education,
@@ -179,6 +183,7 @@ const edit = (props) => {
 						</center>
 					</div>
 					<div className="col-sm-4">
+
 						<input
 							type="text"
 							name="name"
@@ -186,6 +191,7 @@ const edit = (props) => {
 							className="form-control mb-2 me-2"
 							onChange={(e) => setName(e.target.value)}
 						/>
+						
 						<input
 							type="text"
 							name="email"
@@ -193,6 +199,23 @@ const edit = (props) => {
 							className="form-control mb-2 me-2"
 							onChange={(e) => setEmail(e.target.value)}
 						/>
+
+						<input
+							type="text"
+							name="email"
+							placeholder="Password"
+							className="form-control mb-2 me-2"
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+
+						<input
+							type="text"
+							name="email"
+							placeholder="Password Confirmation"
+							className="form-control mb-2 me-2"
+							onChange={(e) => setPasswordConfirmation(e.target.value)}
+						/>
+
 						<input
 							type="tel"
 							name="phone"

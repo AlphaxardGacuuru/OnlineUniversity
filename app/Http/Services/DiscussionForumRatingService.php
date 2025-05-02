@@ -70,6 +70,6 @@ class DiscussionForumRatingService extends Service
 
 		$save = $discussionForumRating->save();
 
-		return [$save, "Discussion Forum updated successfully", $discussionForumRating];
+		return [$save, "Discussion Forum Rating updated successfully", $discussionForumRating];
 	}
 }

@@ -11,6 +11,9 @@ import PaymentMenu from "@/components/Payments/PaymentMenu"
 import RouteList from "./Core/RouteList"
 import { random } from "lodash"
 
+import { ToastContainer, toast, Bounce } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+
 function App() {
 	// Function for checking local storage
 	const getLocalStorage = (state) => {
@@ -54,6 +57,7 @@ function App() {
 	const [instructorMenu, setInstructorMenu] = useState("left-open")
 	const [studentMenu, setStudentMenu] = useState("left-open")
 	const [page, setPage] = useState({ name: "/", path: [] })
+	const [loadingItems, setLoadingItems] = useState([])
 
 	const [showPayMenu, setShowPayMenu] = useState("")
 	const [paymentTitle, setPaymentTitle] = useState()
@@ -68,8 +72,13 @@ function App() {
 		errors = true,
 		controller = {}
 	) => {
+		// Increment loading items
+		setLoadingItems((prev) => prev++)
+
 		Axios.get(`/api/${endpoint}`, { signal: controller.signal }) // Pass the controller signal)
 			.then((res) => {
+				// Decrement loading items
+				setLoadingItems((prev) => prev--)
 				// Set State
 				var data = res.data ? res.data.data : []
 				setState(data)
@@ -77,6 +86,9 @@ function App() {
 				storage && setLocalStorage(storage, data)
 			})
 			.catch((error) => {
+				// Decrement loading items
+				setLoadingItems((prev) => prev--)
+
 				if (Axios.isCancel(error)) {
 					console.log(`Request for ${endpoint} canceled`)
 				} else {
@@ -94,8 +106,13 @@ function App() {
 		errors = true,
 		controller = {}
 	) => {
+		// Increment loading items
+		setLoadingItems((prev) => prev++)
+
 		Axios.get(`/api/${endpoint}`)
 			.then((res) => {
+				// Decrement loading items
+				setLoadingItems((prev) => prev--)
 				// Set State
 				var data = res.data ? res.data : []
 				setState(data)
@@ -103,6 +120,8 @@ function App() {
 				storage && setLocalStorage(storage, data)
 			})
 			.catch(() => {
+				// Decrement loading items
+				setLoadingItems((prev) => prev--)
 				// Set Errors
 				errors && setErrors([`Failed to fetch ${endpoint}`])
 			})
@@ -125,8 +144,18 @@ function App() {
 		setErrors(newError)
 	}
 
+	// Check if there are loading items and show toast
+	useEffect(() => {
+		if (loadingItems > 0) {
+			toast.info("Loading...")
+		} else {
+			toast.dismiss()
+		}
+	}, [loadingItems])
+
 	// Fetch data on page load
 	useEffect(() => {
+		toast.success("Page is loading")
 		get("auth", setAuth, "auth", false)
 	}, [])
 
@@ -172,6 +201,20 @@ function App() {
 			<Footer {...GLOBAL_STATE} />
 			<Messages {...GLOBAL_STATE} />
 			<PaymentMenu {...GLOBAL_STATE} />
+			<ToastContainer
+				position="top-center"
+				autoClose={false}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				draggablePercent={40}
+				pauseOnHover
+				theme="colored"
+				transition={Bounce}
+			/>
 		</HashRouter>
 	)
 }

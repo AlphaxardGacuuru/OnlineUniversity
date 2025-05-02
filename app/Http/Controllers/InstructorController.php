@@ -77,7 +77,8 @@ class InstructorController extends Controller
         $this->validate($request, [
             "name" => "nullable|string",
             "email" => "nullable|email|unique:users",
-            "phone" => "string|unique:users",
+            "password" => "nullable|string|confirmed",
+			"phone" => "string|unique:users",
             "gender" => "nullable|string",
             "originLocation" => "nullable|string",
             "currentLocation" => "nullable|string",

@@ -11,14 +11,13 @@ const mix = require("laravel-mix");
  |
  */
 
-mix.react("resources/js/app.js", "public/js").sass(
-    "resources/sass/app.scss",
-    "public/css"
-);
+mix
+	.react("resources/js/app.js", "public/js")
+	.sass("resources/sass/app.scss", "public/css");
 
 mix.browserSync({
-	port: 3010,
-    proxy: "http://localhost:8100",
+	port: 3006,
+    proxy: "http://localhost:8060",
     reloadDelay: 500,
 	open: false
 });

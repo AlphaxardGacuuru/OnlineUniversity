@@ -99,8 +99,12 @@ class StudentService extends Service
             $student->name = $request->input("name");
         }
 
-        if ($request->filled("email")) {
-            $student->email = $request->input("email");
+		if ($request->filled("email")) {
+			$student->email = $request->input("email");
+		}
+
+        if ($request->filled("password")) {
+			$student->password = Hash::make($request->input("password"));
         }
 
         if ($request->filled("phone")) {
@@ -117,10 +121,6 @@ class StudentService extends Service
 
         if ($request->filled("originLocation")) {
             $student->origin_location = $request->input("originLocation");
-        }
-
-        if ($request->filled("password")) {
-            $student->password = Hash::make($request->input("email"));
         }
 
         if ($request->filled("facultyId")) {

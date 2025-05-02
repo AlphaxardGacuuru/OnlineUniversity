@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\StudentService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password;
 
 class StudentController extends Controller
 {
@@ -73,7 +74,8 @@ class StudentController extends Controller
         $this->validate($request, [
             "name" => "nullable|string",
             "email" => "nullable|email|unique:users",
-            "phone" => "string|unique:users",
+			'password' => ['required', 'confirmed', Password::defaults()],
+            "phone" => "nullable|string|unique:users",
             "gender" => "nullable|string",
 			"currentLocation" => "nullable|string",
 			"originLocation" => "nullable|string",

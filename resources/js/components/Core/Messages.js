@@ -31,6 +31,7 @@ const Messages = ({ messages, setMessages, errors, setErrors }) => {
 			rtl={false}
 			pauseOnFocusLoss
 			draggable
+			draggablePercent={40}
 			pauseOnHover
 			theme="colored"
 			transition={Bounce}

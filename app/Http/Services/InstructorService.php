@@ -145,6 +145,10 @@ class InstructorService extends Service
             $instructor->email = $request->input("email");
         }
 
+		if ($request->filled("password")) {
+			$instructor->password = Hash::make($request->input("password"));
+		}
+
         if ($request->filled("phone")) {
             $instructor->phone = $request->input("phone");
         }
@@ -163,10 +167,6 @@ class InstructorService extends Service
 
         if ($request->filled("education")) {
             $instructor->education = $request->input("education");
-        }
-
-        if ($request->filled("password")) {
-            $instructor->password = Hash::make($request->input("email"));
         }
 
         if ($request->filled("facultyId")) {
