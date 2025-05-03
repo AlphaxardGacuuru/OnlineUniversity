@@ -20,6 +20,7 @@ const PageLoader = (props) => {
 		if (props.loadingItems > 0) {
 			if (!called) {
 				toast.info(Spinner, {
+					toastId: "page-loader-toast", // Unique ID for this toast
 					position: "top-center",
 					autoClose: false,
 					hideProgressBar: false,
@@ -40,7 +41,7 @@ const PageLoader = (props) => {
 			}
 		} else {
 			setCalled(false)
-			toast.dismiss()
+			toast.dismiss("page-loader-toast")
 		}
 	}, [props.loadingItems])
 
