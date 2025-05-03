@@ -3,11 +3,14 @@ import { ToastContainer, toast, Bounce } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
 const Messages = ({ messages, setMessages, errors, setErrors }) => {
-
 	useEffect(() => {
 		// Display messages and errors as toasts
 		if (messages.length > 0) {
-			messages.forEach((message) => toast.success(message))
+			messages.forEach((message) =>
+				toast.success(message, {
+					toastId: "messages-toast", // Unique ID for this toast
+				})
+			)
 			setTimeout(() => setMessages([]), 2900)
 		}
 
@@ -15,7 +18,11 @@ const Messages = ({ messages, setMessages, errors, setErrors }) => {
 			errors.forEach((validationErrors) => {
 				// Check if validationErrors is an array
 				if (Array.isArray(validationErrors)) {
-					validationErrors.forEach((error) => toast.error(error))
+					validationErrors.forEach((error) =>
+						toast.error(error, {
+							toastId: "messages-toast", // Unique ID for this toast
+						})
+					)
 				} else {
 					toast.warning(validationErrors)
 				}
