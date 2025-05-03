@@ -7,12 +7,10 @@ import TopNav from "@/components/Layouts/TopNav"
 import Footer from "@/components/Layouts/Footer"
 import Messages from "@/components/Core/Messages"
 import PaymentMenu from "@/components/Payments/PaymentMenu"
+import PageLoader from "@/components/Core/PageLoader"
 
 import RouteList from "./Core/RouteList"
 import { random } from "lodash"
-
-import { ToastContainer, toast, Bounce } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
 
 function App() {
 	// Function for checking local storage
@@ -57,7 +55,7 @@ function App() {
 	const [instructorMenu, setInstructorMenu] = useState("left-open")
 	const [studentMenu, setStudentMenu] = useState("left-open")
 	const [page, setPage] = useState({ name: "/", path: [] })
-	const [loadingItems, setLoadingItems] = useState([])
+	const [loadingItems, setLoadingItems] = useState(0)
 
 	const [showPayMenu, setShowPayMenu] = useState("")
 	const [paymentTitle, setPaymentTitle] = useState()
@@ -72,13 +70,18 @@ function App() {
 		errors = true,
 		controller = {}
 	) => {
-		// Increment loading items
-		setLoadingItems((prev) => prev++)
+		// Increment loading items for select endpoints
+		if (!["notifications"].includes(endpoint)) {
+			setLoadingItems((prev) => prev + 1)
+		}
 
 		Axios.get(`/api/${endpoint}`, { signal: controller.signal }) // Pass the controller signal)
 			.then((res) => {
 				// Decrement loading items
-				setLoadingItems((prev) => prev--)
+				if (!["notifications"].includes(endpoint)) {
+					setLoadingItems((prev) => prev - 1)
+				}
+
 				// Set State
 				var data = res.data ? res.data.data : []
 				setState(data)
@@ -87,13 +90,15 @@ function App() {
 			})
 			.catch((error) => {
 				// Decrement loading items
-				setLoadingItems((prev) => prev--)
+				if (!["notifications"].includes(endpoint)) {
+					setLoadingItems((prev) => prev - 1)
+				}
 
 				if (Axios.isCancel(error)) {
 					console.log(`Request for ${endpoint} canceled`)
 				} else {
 					// Show Errors
-					errors && setErrors([`Failed to fetch ${endpoint}`])
+					errors && setErrors([`Failed to fetch ${endpoint.split("?")[0]}`])
 				}
 			})
 	}
@@ -106,13 +111,18 @@ function App() {
 		errors = true,
 		controller = {}
 	) => {
-		// Increment loading items
-		setLoadingItems((prev) => prev++)
+		// Increment loading items for select endpoints
+		if (!["notifications"].includes(endpoint)) {
+			setLoadingItems((prev) => prev + 1)
+		}
 
 		Axios.get(`/api/${endpoint}`)
 			.then((res) => {
 				// Decrement loading items
-				setLoadingItems((prev) => prev--)
+				if (!["notifications"].includes(endpoint)) {
+					setLoadingItems((prev) => prev - 1)
+				}
+
 				// Set State
 				var data = res.data ? res.data : []
 				setState(data)
@@ -121,9 +131,12 @@ function App() {
 			})
 			.catch(() => {
 				// Decrement loading items
-				setLoadingItems((prev) => prev--)
+				if (!["notifications"].includes(endpoint)) {
+					setLoadingItems((prev) => prev - 1)
+				}
+
 				// Set Errors
-				errors && setErrors([`Failed to fetch ${endpoint}`])
+				errors && setErrors([`Failed to fetch ${endpoint.split("?")[0]}`])
 			})
 	}
 
@@ -144,18 +157,8 @@ function App() {
 		setErrors(newError)
 	}
 
-	// Check if there are loading items and show toast
-	useEffect(() => {
-		if (loadingItems > 0) {
-			toast.info("Loading...")
-		} else {
-			toast.dismiss()
-		}
-	}, [loadingItems])
-
 	// Fetch data on page load
 	useEffect(() => {
-		toast.success("Page is loading")
 		get("auth", setAuth, "auth", false)
 	}, [])
 
@@ -171,6 +174,8 @@ function App() {
 		getPaginated,
 		iterator,
 		getErrors,
+		loadingItems,
+		setLoadingItems,
 		login,
 		setLogin,
 		auth,
@@ -196,25 +201,12 @@ function App() {
 	return (
 		<HashRouter>
 			<RouterMiddleware {...GLOBAL_STATE} />
+			<PageLoader {...GLOBAL_STATE} />
 			<TopNav {...GLOBAL_STATE} />
 			<RouteList GLOBAL_STATE={GLOBAL_STATE} />
 			<Footer {...GLOBAL_STATE} />
 			<Messages {...GLOBAL_STATE} />
 			<PaymentMenu {...GLOBAL_STATE} />
-			<ToastContainer
-				position="top-center"
-				autoClose={false}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				draggablePercent={40}
-				pauseOnHover
-				theme="colored"
-				transition={Bounce}
-			/>
 		</HashRouter>
 	)
 }
