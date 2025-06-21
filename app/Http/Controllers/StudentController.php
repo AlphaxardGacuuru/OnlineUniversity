@@ -74,7 +74,7 @@ class StudentController extends Controller
         $this->validate($request, [
             "name" => "nullable|string",
             "email" => "nullable|email|unique:users",
-			'password' => ['required', 'confirmed', Password::defaults()],
+			'password' => ['nullable', 'confirmed', Password::defaults()],
             "phone" => "nullable|string|unique:users",
             "gender" => "nullable|string",
 			"currentLocation" => "nullable|string",
