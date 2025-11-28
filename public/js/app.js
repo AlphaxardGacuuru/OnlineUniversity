@@ -115677,6 +115677,10 @@ var Create = function Create(props) {
     _useState16 = _slicedToArray(_useState15, 2),
     loading = _useState16[0],
     setLoading = _useState16[1];
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState18 = _slicedToArray(_useState17, 2),
+    files = _useState18[0],
+    setFiles = _useState18[1];
 
   // CKEditor Refs
   var editorRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
@@ -115689,14 +115693,14 @@ var Create = function Create(props) {
     answerD: "",
     correctAnswer: ""
   };
-  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([questionPrototype]),
-    _useState18 = _slicedToArray(_useState17, 2),
-    questions = _useState18[0],
-    setQuestions = _useState18[1];
-  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([questionPrototype]),
     _useState20 = _slicedToArray(_useState19, 2),
-    time = _useState20[0],
-    setTime = _useState20[1];
+    questions = _useState20[0],
+    setQuestions = _useState20[1];
+  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState22 = _slicedToArray(_useState21, 2),
+    time = _useState22[0],
+    setTime = _useState22[1];
 
   // Set Page
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -115706,11 +115710,9 @@ var Create = function Create(props) {
     });
   }, []);
 
-  // ===== CKEDITOR FIXED EFFECT (CORRECTED) =====
+  // CKEditor Effect
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     var editorTypes = ["Learning Guide", "Discussion Forum", "Written Assignment", "Learning Reflection"];
-
-    // If not using rich text, destroy any existing editor
     if (!editorTypes.includes(title)) {
       if (editorInstanceRef.current) {
         editorInstanceRef.current.destroy();
@@ -115718,19 +115720,13 @@ var Create = function Create(props) {
       }
       return;
     }
-
-    // Destroy any existing instance before re-init
     if (editorInstanceRef.current) {
       editorInstanceRef.current.destroy();
       editorInstanceRef.current = null;
     }
-
-    // Reset editor DOM container
     if (editorRef.current) {
       editorRef.current.innerHTML = "";
     }
-
-    // Load CKEditor script if not loaded
     if (!window.ClassicEditor && !document.querySelector('script[src*="ckeditor"]')) {
       var script = document.createElement("script");
       script.src = "https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js";
@@ -115756,8 +115752,6 @@ var Create = function Create(props) {
         return console.error("CKEditor error:", err);
       });
     }
-
-    // Cleanup
     return function () {
       if (editorInstanceRef.current) {
         editorInstanceRef.current.destroy();
@@ -115775,6 +115769,15 @@ var Create = function Create(props) {
     setTimeout(function () {
       return setQuestions(newQuestions);
     }, 100);
+  };
+
+  // FIXED: Handle file updates properly
+  var handleFilesUpdate = function handleFilesUpdate(fileItems) {
+    setFiles(fileItems);
+    // If files are cleared, also clear media state
+    if (fileItems.length === 0 && media) {
+      setMedia("");
+    }
   };
 
   // Submit
@@ -115870,30 +115873,48 @@ var Create = function Create(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     ref: editorRef
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
-    className: "p-2"
+    className: "p-2 mt-3"
   }, "Add Media"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm p-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_filepond__WEBPACK_IMPORTED_MODULE_4__["FilePond"], {
+    files: files,
+    onupdatefiles: handleFilesUpdate,
+    allowMultiple: false,
+    maxFiles: 1,
     name: "filepond-thumbnail",
     labelIdle: "Drag & Drop your Image or <span class=\"filepond--label-action text-dark\">Browse</span>",
     imageCropAspectRatio: "16:9",
     allowRevert: true,
+    acceptedFileTypes: ['image/*'],
+    allowImagePreview: true,
+    imagePreviewMaxHeight: 200,
+    instantUpload: true,
     server: {
       url: "".concat(props.url, "/api/filepond"),
       process: {
         url: "/materials",
         onload: function onload(res) {
-          return setMedia(res);
+          setMedia(res);
+          console.log('Media uploaded:', res);
+          return res;
+        },
+        onerror: function onerror(err) {
+          console.error('Upload error:', err);
+          props.setErrors(['Failed to upload media']);
         }
       },
       revert: {
         url: "/materials/".concat(media === null || media === void 0 ? void 0 : media.substr(17)),
         onload: function onload(res) {
-          return props.setMessages([res]);
+          props.setMessages([res]);
+          setMedia("");
+          return res;
         }
       }
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), ["Self Quiz", "CAT 1", "CAT 2", "Review Quiz", "Final Exam"].includes(title) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }), media && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "alert alert-success mt-2 py-2 mb-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "\u2713 Media uploaded successfully: ", media.split('/').pop()))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), ["Self Quiz", "CAT 1", "CAT 2", "Review Quiz", "Final Exam"].includes(title) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "number",
     className: "form-control mb-2",
     placeholder: "Quiz Time in minutes",
@@ -116079,8 +116100,12 @@ var Edit = function Edit(props) {
     _useState18 = _slicedToArray(_useState17, 2),
     loading = _useState18[0],
     setLoading = _useState18[1];
+  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+    _useState20 = _slicedToArray(_useState19, 2),
+    dataLoaded = _useState20[0],
+    setDataLoaded = _useState20[1]; // NEW: Track data loading
 
-  // CKEditor Refs (matching CREATE)
+  // CKEditor Refs
   var editorRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
   var editorInstanceRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
   var questionPrototype = {
@@ -116091,14 +116116,14 @@ var Edit = function Edit(props) {
     answerD: "",
     correctAnswer: ""
   };
-  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([questionPrototype]),
-    _useState20 = _slicedToArray(_useState19, 2),
-    questions = _useState20[0],
-    setQuestions = _useState20[1];
-  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([questionPrototype]),
     _useState22 = _slicedToArray(_useState21, 2),
-    time = _useState22[0],
-    setTime = _useState22[1];
+    questions = _useState22[0],
+    setQuestions = _useState22[1];
+  var _useState23 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState24 = _slicedToArray(_useState23, 2),
+    time = _useState24[0],
+    setTime = _useState24[1];
 
   // ================== FETCH MATERIAL ===================
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -116114,7 +116139,7 @@ var Edit = function Edit(props) {
       setWeek(data.week);
       setStartsAt(data.startsAt);
       setEndsAt(data.endsAt);
-      setRichText(data.richText);
+      setRichText(data.richText || "");
       setMedia(data.media || "");
       if (data.questions) {
         setQuestions(data.questions.questions);
@@ -116124,14 +116149,42 @@ var Edit = function Edit(props) {
         name: "Edit Learning Resource",
         path: ["courses", "units/".concat(data.unitId, "/show"), "edit"]
       });
+
+      // NEW: Mark data as loaded
+      setDataLoaded(true);
     })["catch"](function (err) {
       return props.getErrors(err);
     });
   }, []);
 
-  // ================== CKEDITOR INIT (same as CREATE) ===================
+  // ================== CKEDITOR INIT (FIXED) ===================
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    if (!["Learning Guide", "Discussion Forum", "Written Assignment", "Learning Reflection"].includes(title)) return;
+    var editorTypes = ["Learning Guide", "Discussion Forum", "Written Assignment", "Learning Reflection"];
+
+    // FIXED: Don't initialize until data is loaded
+    if (!dataLoaded) return;
+
+    // If not using rich text, destroy any existing editor
+    if (!editorTypes.includes(title)) {
+      if (editorInstanceRef.current) {
+        editorInstanceRef.current.destroy();
+        editorInstanceRef.current = null;
+      }
+      return;
+    }
+
+    // Destroy any existing instance before re-init
+    if (editorInstanceRef.current) {
+      editorInstanceRef.current.destroy();
+      editorInstanceRef.current = null;
+    }
+
+    // Reset editor DOM container
+    if (editorRef.current) {
+      editorRef.current.innerHTML = "";
+    }
+
+    // Load CKEditor script if not loaded
     if (!window.ClassicEditor && !document.querySelector('script[src*="ckeditor"]')) {
       var script = document.createElement("script");
       script.src = "https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js";
@@ -116144,27 +116197,28 @@ var Edit = function Edit(props) {
       initEditor();
     }
     function initEditor() {
-      if (editorRef.current && window.ClassicEditor && !editorInstanceRef.current) {
-        window.ClassicEditor.create(editorRef.current, {
-          toolbar: ["heading", "|", "bold", "italic", "underline", "|", "link", "bulletedList", "numberedList", "|", "insertTable", "tableColumn", "tableRow", "mergeTableCells", "|", "blockQuote", "|", "undo", "redo"]
-        }).then(function (editor) {
-          editorInstanceRef.current = editor;
-          editor.setData(richText);
-          editor.model.document.on("change:data", function () {
-            setRichText(editor.getData());
-          });
-        })["catch"](function (err) {
-          return console.error(err);
+      if (!editorRef.current || !window.ClassicEditor) return;
+      window.ClassicEditor.create(editorRef.current, {
+        toolbar: ["heading", "|", "bold", "italic", "underline", "|", "link", "bulletedList", "numberedList", "|", "insertTable", "tableColumn", "tableRow", "mergeTableCells", "|", "blockQuote", "|", "undo", "redo"]
+      }).then(function (editor) {
+        editorInstanceRef.current = editor;
+        editor.setData(richText || "");
+        editor.model.document.on("change:data", function () {
+          setRichText(editor.getData());
         });
-      }
+      })["catch"](function (err) {
+        return console.error("CKEditor error:", err);
+      });
     }
+
+    // Cleanup
     return function () {
       if (editorInstanceRef.current) {
         editorInstanceRef.current.destroy();
         editorInstanceRef.current = null;
       }
     };
-  }, [title]);
+  }, [title, dataLoaded]); // FIXED: Added dataLoaded dependency
 
   // ================== REMOVE QUESTION ===================
   var removeQuestion = function removeQuestion(index) {
@@ -116193,7 +116247,7 @@ var Edit = function Edit(props) {
       endsAt: endsAt,
       richText: richText,
       media: media,
-      questions: questionsWithMeta
+      questions: questions[0].question ? questionsWithMeta : null // FIXED: Only send if questions exist
     }).then(function (res) {
       setLoading(false);
       props.setMessages([res.data.message]);
@@ -116234,7 +116288,7 @@ var Edit = function Edit(props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     className: "form-control mb-2",
     type: "text",
-    defaultValue: description,
+    value: description,
     onChange: function onChange(e) {
       return setDescription(e.target.value);
     },
@@ -116242,7 +116296,7 @@ var Edit = function Edit(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     className: "form-control mb-2",
     type: "number",
-    defaultValue: week,
+    value: week,
     onChange: function onChange(e) {
       return setWeek(e.target.value);
     },
@@ -116253,19 +116307,21 @@ var Edit = function Edit(props) {
   }, "Week Start Date"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     className: "form-control mb-2",
     type: "date",
-    defaultValue: startsAt,
+    value: startsAt,
     onChange: function onChange(e) {
       return setStartsAt(e.target.value);
-    }
+    },
+    required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     className: "ms-1"
   }, "Week End Date"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     className: "form-control mb-2",
     type: "date",
-    defaultValue: endsAt,
+    value: endsAt,
     onChange: function onChange(e) {
       return setEndsAt(e.target.value);
-    }
+    },
+    required: true
   }), ["Learning Guide", "Discussion Forum", "Written Assignment", "Learning Reflection"].includes(title) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "bg-white",
     style: {
@@ -116274,7 +116330,7 @@ var Edit = function Edit(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     ref: editorRef
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
-    className: "p-2"
+    className: "p-2 mt-3"
   }, "Add Media"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm p-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_filepond__WEBPACK_IMPORTED_MODULE_4__["FilePond"], {
@@ -116282,6 +116338,12 @@ var Edit = function Edit(props) {
     labelIdle: "Drag & Drop your Image or <span class=\"filepond--label-action text-dark\">Browse</span>",
     imageCropAspectRatio: "16:9",
     allowRevert: true,
+    files: media ? [{
+      source: "".concat(props.url).concat(media),
+      options: {
+        type: 'local'
+      }
+    }] : [],
     server: {
       url: "".concat(props.url, "/api/filepond"),
       process: {
@@ -116293,14 +116355,26 @@ var Edit = function Edit(props) {
       revert: {
         url: "/materials/".concat(media === null || media === void 0 ? void 0 : media.substr(17)),
         onload: function onload(res) {
-          return props.setMessages([res]);
+          props.setMessages([res]);
+          setMedia(""); // FIXED: Clear media on revert
         }
+      },
+
+      load: function load(source, _load, error) {
+        // FIXED: Handle loading existing files
+        fetch(source).then(function (res) {
+          return res.blob();
+        }).then(_load)["catch"](error);
       }
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), ["Self Quiz", "CAT 1", "CAT 2", "Review Quiz", "Final Exam"].includes(title) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }), media && !media.startsWith('blob:') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "mt-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "text-muted small"
+  }, "Current media: ", media.split('/').pop()))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), ["Self Quiz", "CAT 1", "CAT 2", "Review Quiz", "Final Exam"].includes(title) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     className: "form-control mb-2",
     type: "number",
-    defaultValue: time,
+    value: time,
     onChange: function onChange(e) {
       return setTime(e.target.value);
     },
@@ -116322,7 +116396,7 @@ var Edit = function Edit(props) {
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       className: "form-control mb-2",
       placeholder: "Which of the below is...",
-      defaultValue: question.question,
+      value: question.question,
       onChange: function onChange(e) {
         questions[key].question = e.target.value;
         setQuestions(_toConsumableArray(questions));
@@ -116333,7 +116407,7 @@ var Edit = function Edit(props) {
         key: letter,
         className: "form-control mb-2",
         placeholder: "Answer ".concat(letter),
-        defaultValue: question["answer".concat(letter)],
+        value: question["answer".concat(letter)],
         onChange: function onChange(e) {
           questions[key]["answer".concat(letter)] = e.target.value;
           setQuestions(_toConsumableArray(questions));
@@ -119604,16 +119678,34 @@ var show = function show(props) {
     className: "card shadow-sm mb-2 p-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Description"), material.description ? material.description : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "text-muted"
-  }, "No Description to show")), ["Learning Guide", "Discussion Forum", "Written Assignment", "Learning Reflection"].includes(material.title) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "No Description to show")), ["Learning Guide", "Discussion Forum", "Written Assignment", "Learning Reflection"].includes(material.title) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm mb-2 py-5 p-2"
   }, material.richText ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     dangerouslySetInnerHTML: {
       __html: material.richText
     },
-    className: "px-5"
+    className: "px-5 material-content"
   }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-center p-5 text-muted"
-  }, "No Rich text to show")), showDiscussionForum() && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_DiscussionForum__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, props, {
+  }, "No Rich text to show")), material.media && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm mb-2 p-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+    className: "mb-3"
+  }, "Attached Media"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "text-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "".concat(props.url).concat(material.media),
+    alt: "Learning material media",
+    className: "img-fluid rounded shadow-sm",
+    style: {
+      maxWidth: '100%',
+      height: 'auto'
+    },
+    onError: function onError(e) {
+      e.target.style.display = 'none';
+      e.target.parentElement.innerHTML = '<p class="text-danger">Media failed to load</p>';
+    }
+  })))), showDiscussionForum() && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_DiscussionForum__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, props, {
     sessionId: unitSession === null || unitSession === void 0 ? void 0 : unitSession.sessionId,
     unitId: unitSession === null || unitSession === void 0 ? void 0 : unitSession.unitId,
     week: material.week
@@ -119641,7 +119733,7 @@ var show = function show(props) {
     setGenderQuery: setGenderQuery,
     setFacultyQuery: setFacultyQuery,
     setDepartmentQuery: setDepartmentQuery
-  }))));
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("style", null, "\n\t\t\t\t.material-content {\n\t\t\t\t\tfont-family: inherit;\n\t\t\t\t\tcolor: #212529;\n\t\t\t\t\tfont-size: 16px;\n\t\t\t\t\tline-height: 1.6;\n\t\t\t\t}\n\n\t\t\t\t.material-content a {\n\t\t\t\t\tcolor: #0066cc;\n\t\t\t\t\ttext-decoration: underline;\n\t\t\t\t}\n\n\t\t\t\t.material-content table {\n\t\t\t\t\tborder-collapse: collapse;\n\t\t\t\t\twidth: 100%;\n\t\t\t\t\tmargin: 1em 0;\n\t\t\t\t\tbackground-color: #fff;\n\t\t\t\t}\n\n\t\t\t\t.material-content table td,\n\t\t\t\t.material-content table th {\n\t\t\t\t\tborder: 1px solid #ddd;\n\t\t\t\t\tpadding: 8px 12px;\n\t\t\t\t\ttext-align: left;\n\t\t\t\t}\n\n\t\t\t\t.material-content table th {\n\t\t\t\t\tbackground-color: #f8f9fa;\n\t\t\t\t\tfont-weight: bold;\n\t\t\t\t}\n\n\t\t\t\t.material-content table tr:nth-child(even) {\n\t\t\t\t\tbackground-color: #f9f9f9;\n\t\t\t\t}\n\n\t\t\t\t.material-content ul,\n\t\t\t\t.material-content ol {\n\t\t\t\t\tmargin: 1em 0;\n\t\t\t\t\tpadding-left: 2em;\n\t\t\t\t}\n\n\t\t\t\t.material-content li {\n\t\t\t\t\tmargin: 0.5em 0;\n\t\t\t\t}\n\n\t\t\t\t.material-content h1,\n\t\t\t\t.material-content h2,\n\t\t\t\t.material-content h3,\n\t\t\t\t.material-content h4 {\n\t\t\t\t\tmargin-top: 1.5em;\n\t\t\t\t\tmargin-bottom: 0.5em;\n\t\t\t\t\tfont-weight: bold;\n\t\t\t\t}\n\n\t\t\t\t.material-content blockquote {\n\t\t\t\t\tmargin: 1em 0;\n\t\t\t\t\tpadding: 0.5em 1em;\n\t\t\t\t\tborder-left: 4px solid #ddd;\n\t\t\t\t\tbackground-color: #f9f9f9;\n\t\t\t\t}\n\n\t\t\t\t.material-content p {\n\t\t\t\t\tmargin: 1em 0;\n\t\t\t\t}\n\t\t\t"));
 };
 /* harmony default export */ __webpack_exports__["default"] = (show);
 

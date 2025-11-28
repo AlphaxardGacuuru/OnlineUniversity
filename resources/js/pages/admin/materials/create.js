@@ -36,8 +36,8 @@ const Create = (props) => {
 	const [richText, setRichText] = useState("")
 	const [media, setMedia] = useState("")
 	const [loading, setLoading] = useState(false)
+	const [files, setFiles] = useState([])
 
-	// CKEditor Refs
 	const editorRef = useRef(null)
 	const editorInstanceRef = useRef(null)
 
@@ -61,7 +61,6 @@ const Create = (props) => {
 		})
 	}, [])
 
-	// ===== CKEDITOR FIXED EFFECT (CORRECTED) =====
 	useEffect(() => {
 		const editorTypes = [
 			"Learning Guide",
@@ -70,7 +69,6 @@ const Create = (props) => {
 			"Learning Reflection",
 		]
 
-		// If not using rich text, destroy any existing editor
 		if (!editorTypes.includes(title)) {
 			if (editorInstanceRef.current) {
 				editorInstanceRef.current.destroy()
@@ -79,18 +77,15 @@ const Create = (props) => {
 			return
 		}
 
-		// Destroy any existing instance before re-init
 		if (editorInstanceRef.current) {
 			editorInstanceRef.current.destroy()
 			editorInstanceRef.current = null
 		}
 
-		// Reset editor DOM container
 		if (editorRef.current) {
 			editorRef.current.innerHTML = ""
 		}
 
-		// Load CKEditor script if not loaded
 		if (!window.ClassicEditor && !document.querySelector('script[src*="ckeditor"]')) {
 			const script = document.createElement("script")
 			script.src = "https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"
@@ -138,7 +133,6 @@ const Create = (props) => {
 				.catch((err) => console.error("CKEditor error:", err))
 		}
 
-		// Cleanup
 		return () => {
 			if (editorInstanceRef.current) {
 				editorInstanceRef.current.destroy()
@@ -154,7 +148,13 @@ const Create = (props) => {
 		setTimeout(() => setQuestions(newQuestions), 100)
 	}
 
-	// Submit
+	const handleFilesUpdate = (fileItems) => {
+		setFiles(fileItems)
+		if (fileItems.length === 0 && media) {
+			setMedia("")
+		}
+	}
+
 	const onSubmit = (e) => {
 		e.preventDefault()
 
@@ -260,26 +260,51 @@ const Create = (props) => {
 								<div ref={editorRef}></div>
 							</div>
 
-							<h6 className="p-2">Add Media</h6>
+							<h6 className="p-2 mt-3">Add Media</h6>
 
 							<div className="card shadow-sm p-2">
 								<FilePond
+									files={files}
+									onupdatefiles={handleFilesUpdate}
+									allowMultiple={false}
+									maxFiles={1}
 									name="filepond-thumbnail"
 									labelIdle='Drag & Drop your Image or <span class="filepond--label-action text-dark">Browse</span>'
 									imageCropAspectRatio="16:9"
 									allowRevert={true}
+									acceptedFileTypes={['image/*']}
+									allowImagePreview={true}
+									imagePreviewMaxHeight={200}
+									instantUpload={true}
 									server={{
 										url: `${props.url}/api/filepond`,
 										process: {
 											url: "/materials",
-											onload: (res) => setMedia(res),
+											onload: (res) => {
+												setMedia(res)
+												return res
+											},
+											onerror: (err) => {
+												console.error('Upload error:', err)
+												props.setErrors(['Failed to upload media'])
+											}
 										},
 										revert: {
 											url: `/materials/${media?.substr(17)}`,
-											onload: (res) => props.setMessages([res]),
+											onload: (res) => {
+												props.setMessages([res])
+												setMedia("")
+												return res
+											},
 										},
 									}}
 								/>
+								
+								{media && (
+									<div className="alert alert-success mt-2 py-2 mb-0">
+										<small>✓ Media uploaded successfully: {media.split('/').pop()}</small>
+									</div>
+								)}
 							</div>
 
 							<br />

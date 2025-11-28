@@ -2,14 +2,167 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Make CKEditor tables show vertical and horizontal lines */
-.ck-content table {
-    width: 100%;
-    border-collapse: collapse;
+/* ==================================================
+   CKEDITOR CONTENT DISPLAY STYLES
+   Add this to your global CSS file (e.g., styles.css or App.css)
+   ================================================== */
+
+/* Ensure CKEditor content displays consistently in editor */
+.ck-content,
+.ck-content * {
+	font-family: inherit !important;
+	color: #212529 !important;
+	font-size: 16px;
+	line-height: 1.6;
 }
 
-.ck-content th,
-.ck-content td {
-    border: 1px solid #444; /* dark lines for visibility */
-    padding: 6px;
+/* Style links in CKEditor */
+.ck-content a {
+	color: #0066cc;
+	text-decoration: underline;
+}
+
+/* Table styles in CKEditor */
+.ck-content table {
+	border-collapse: collapse;
+	width: 100%;
+	margin: 1em 0;
+	background-color: #fff;
+}
+
+.ck-content table td,
+.ck-content table th {
+	border: 1px solid #ddd;
+	padding: 8px 12px;
+	text-align: left;
+}
+
+.ck-content table th {
+	background-color: #f8f9fa;
+	font-weight: bold;
+}
+
+.ck-content table tr:nth-child(even) {
+	background-color: #f9f9f9;
+}
+
+/* ==================================================
+   DISPLAY STYLES FOR RENDERED HTML (Show Component)
+   ================================================== */
+
+/* Ensure consistent display of rendered HTML content */
+[dangerouslySetInnerHTML] {
+	font-family: inherit !important;
+	color: #212529 !important;
+	font-size: 16px;
+	line-height: 1.6;
+}
+
+/* Style links in displayed content */
+[dangerouslySetInnerHTML] a {
+	color: #0066cc;
+	text-decoration: underline;
+}
+
+/* Prevent link text from changing font */
+[dangerouslySetInnerHTML] a * {
+	font-family: inherit !important;
+	font-size: inherit !important;
+	color: inherit !important;
+}
+
+/* Table styles in displayed content */
+[dangerouslySetInnerHTML] table {
+	border-collapse: collapse;
+	width: 100%;
+	margin: 1em 0;
+	background-color: #fff;
+	display: table !important;
+}
+
+[dangerouslySetInnerHTML] table td,
+[dangerouslySetInnerHTML] table th {
+	border: 1px solid #ddd;
+	padding: 8px 12px;
+	text-align: left;
+}
+
+[dangerouslySetInnerHTML] table th {
+	background-color: #f8f9fa;
+	font-weight: bold;
+}
+
+[dangerouslySetInnerHTML] table tr:nth-child(even) {
+	background-color: #f9f9f9;
+}
+
+/* Lists in displayed content */
+[dangerouslySetInnerHTML] ul,
+[dangerouslySetInnerHTML] ol {
+	margin: 1em 0;
+	padding-left: 2em;
+}
+
+[dangerouslySetInnerHTML] li {
+	margin: 0.5em 0;
+}
+
+/* Headings in displayed content */
+[dangerouslySetInnerHTML] h1,
+[dangerouslySetInnerHTML] h2,
+[dangerouslySetInnerHTML] h3,
+[dangerouslySetInnerHTML] h4,
+[dangerouslySetInnerHTML] h5,
+[dangerouslySetInnerHTML] h6 {
+	margin-top: 1.5em;
+	margin-bottom: 0.5em;
+	font-weight: bold;
+	line-height: 1.3;
+}
+
+[dangerouslySetInnerHTML] h1 {
+	font-size: 2em;
+}
+
+[dangerouslySetInnerHTML] h2 {
+	font-size: 1.75em;
+}
+
+[dangerouslySetInnerHTML] h3 {
+	font-size: 1.5em;
+}
+
+[dangerouslySetInnerHTML] h4 {
+	font-size: 1.25em;
+}
+
+/* Blockquotes in displayed content */
+[dangerouslySetInnerHTML] blockquote {
+	margin: 1em 0;
+	padding: 0.5em 1em;
+	border-left: 4px solid #ddd;
+	background-color: #f9f9f9;
+	font-style: italic;
+}
+
+/* Paragraphs in displayed content */
+[dangerouslySetInnerHTML] p {
+	margin: 1em 0;
+}
+
+/* Strong and emphasis */
+[dangerouslySetInnerHTML] strong {
+	font-weight: bold;
+}
+
+[dangerouslySetInnerHTML] em {
+	font-style: italic;
+}
+
+/* Images in displayed content */
+[dangerouslySetInnerHTML] img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	margin: 1em 0;
 }

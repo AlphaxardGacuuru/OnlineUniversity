@@ -225,6 +225,7 @@ const show = (props) => {
 						</div>
 					</div>
 					{/* Material Tabs End */}
+					
 					{/* Description Start */}
 					<div className="card shadow-sm mb-2 p-2">
 						<h5>Description</h5>
@@ -235,27 +236,50 @@ const show = (props) => {
 						)}
 					</div>
 					{/* Description End */}
-					{/* Rich Text */}
+					
+					{/* Rich Text - FIXED: Added proper styling */}
 					{[
 						"Learning Guide",
 						"Discussion Forum",
 						"Written Assignment",
 						"Learning Reflection",
 					].includes(material.title) && (
-						<div className="card shadow-sm mb-2 py-5 p-2">
-							{material.richText ? (
-								<div
-									dangerouslySetInnerHTML={{ __html: material.richText }}
-									className="px-5"
-								/>
-							) : (
-								<div className="d-flex justify-content-center p-5 text-muted">
-									No Rich text to show
+						<>
+							<div className="card shadow-sm mb-2 py-5 p-2">
+								{material.richText ? (
+									<div
+										dangerouslySetInnerHTML={{ __html: material.richText }}
+										className="px-5 material-content"
+									/>
+								) : (
+									<div className="d-flex justify-content-center p-5 text-muted">
+										No Rich text to show
+									</div>
+								)}
+							</div>
+
+							{/* Media Display - FIXED: Separate media section */}
+							{material.media && (
+								<div className="card shadow-sm mb-2 p-4">
+									<h5 className="mb-3">Attached Media</h5>
+									<div className="text-center">
+										<img 
+											src={`${props.url}${material.media}`} 
+											alt="Learning material media"
+											className="img-fluid rounded shadow-sm"
+											style={{ maxWidth: '100%', height: 'auto' }}
+											onError={(e) => {
+												e.target.style.display = 'none'
+												e.target.parentElement.innerHTML = '<p class="text-danger">Media failed to load</p>'
+											}}
+										/>
+									</div>
 								</div>
 							)}
-						</div>
+						</>
 					)}
 					{/* Rich Text End */}
+					
 					{/* Discussion Forum */}
 					{showDiscussionForum() && (
 						<DiscussionForum
@@ -266,6 +290,7 @@ const show = (props) => {
 						/>
 					)}
 					{/* Discussion Forum End */}
+					
 					{/* Submission */}
 					{showSubmission() && (
 						<Submission
@@ -275,7 +300,6 @@ const show = (props) => {
 							material={material}
 						/>
 					)}
-					{/* Submission End */}
 
 					{/* Quiz Start */}
 					{[
@@ -325,6 +349,8 @@ const show = (props) => {
 				/>
 				{/* Students Tab End */}
 			</div>
+
+			
 		</div>
 	)
 }
