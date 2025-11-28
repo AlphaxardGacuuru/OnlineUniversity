@@ -38,8 +38,9 @@ const Edit = (props) => {
 	const [richText, setRichText] = useState("")
 	const [media, setMedia] = useState("")
 	const [loading, setLoading] = useState(false)
+	const [dataLoaded, setDataLoaded] = useState(false) // NEW: Track data loading
 
-	// CKEditor Refs (matching CREATE)
+	// CKEditor Refs
 	const editorRef = useRef(null)
 	const editorInstanceRef = useRef(null)
 
@@ -72,7 +73,7 @@ const Edit = (props) => {
 				setWeek(data.week)
 				setStartsAt(data.startsAt)
 				setEndsAt(data.endsAt)
-				setRichText(data.richText)
+				setRichText(data.richText || "")
 				setMedia(data.media || "")
 
 				if (data.questions) {
@@ -84,21 +85,39 @@ const Edit = (props) => {
 					name: "Edit Learning Resource",
 					path: ["courses", `units/${data.unitId}/show`, "edit"],
 				})
+
+				// NEW: Mark data as loaded
+				setDataLoaded(true)
 			})
 			.catch((err) => props.getErrors(err))
 	}, [])
 
-	// ================== CKEDITOR INIT (same as CREATE) ===================
 	useEffect(() => {
-		if (
-			![
-				"Learning Guide",
-				"Discussion Forum",
-				"Written Assignment",
-				"Learning Reflection",
-			].includes(title)
-		)
+		const editorTypes = [
+			"Learning Guide",
+			"Discussion Forum",
+			"Written Assignment",
+			"Learning Reflection",
+		]
+
+		if (!dataLoaded) return
+
+		if (!editorTypes.includes(title)) {
+			if (editorInstanceRef.current) {
+				editorInstanceRef.current.destroy()
+				editorInstanceRef.current = null
+			}
 			return
+		}
+
+		if (editorInstanceRef.current) {
+			editorInstanceRef.current.destroy()
+			editorInstanceRef.current = null
+		}
+
+		if (editorRef.current) {
+			editorRef.current.innerHTML = ""
+		}
 
 		if (!window.ClassicEditor && !document.querySelector('script[src*="ckeditor"]')) {
 			const script = document.createElement("script")
@@ -111,51 +130,51 @@ const Edit = (props) => {
 		}
 
 		function initEditor() {
-			if (editorRef.current && window.ClassicEditor && !editorInstanceRef.current) {
-				window.ClassicEditor.create(editorRef.current, {
-					toolbar: [
-						"heading",
-						"|",
-						"bold",
-						"italic",
-						"underline",
-						"|",
-						"link",
-						"bulletedList",
-						"numberedList",
-						"|",
-						"insertTable",
-						"tableColumn",
-						"tableRow",
-						"mergeTableCells",
-						"|",
-						"blockQuote",
-						"|",
-						"undo",
-						"redo",
-					],
-				})
-					.then((editor) => {
-						editorInstanceRef.current = editor
-						editor.setData(richText)
+			if (!editorRef.current || !window.ClassicEditor) return
 
-						editor.model.document.on("change:data", () => {
-							setRichText(editor.getData())
-						})
+			window.ClassicEditor.create(editorRef.current, {
+				toolbar: [
+					"heading",
+					"|",
+					"bold",
+					"italic",
+					"underline",
+					"|",
+					"link",
+					"bulletedList",
+					"numberedList",
+					"|",
+					"insertTable",
+					"tableColumn",
+					"tableRow",
+					"mergeTableCells",
+					"|",
+					"blockQuote",
+					"|",
+					"undo",
+					"redo",
+				],
+			})
+				.then((editor) => {
+					editorInstanceRef.current = editor
+					editor.setData(richText || "")
+
+					editor.model.document.on("change:data", () => {
+						setRichText(editor.getData())
 					})
-					.catch((err) => console.error(err))
-			}
+				})
+				.catch((err) => console.error("CKEditor error:", err))
 		}
 
+		// Cleanup
 		return () => {
 			if (editorInstanceRef.current) {
 				editorInstanceRef.current.destroy()
 				editorInstanceRef.current = null
 			}
 		}
-	}, [title])
+	}, [title, dataLoaded]) 
 
-	// ================== REMOVE QUESTION ===================
 	const removeQuestion = (index) => {
 		const newQuestions = questions.filter((_, i) => i !== index)
 		setQuestions([])
@@ -178,7 +197,7 @@ const Edit = (props) => {
 			endsAt,
 			richText,
 			media,
-			questions: questionsWithMeta,
+			questions: questions[0].question ? questionsWithMeta : null, // FIXED: Only send if questions exist
 		})
 			.then((res) => {
 				setLoading(false)
@@ -224,43 +243,43 @@ const Edit = (props) => {
 						))}
 					</select>
 
-					{/* DESCRIPTION */}
 					<input
 						className="form-control mb-2"
 						type="text"
-						defaultValue={description}
+						value={description}
 						onChange={(e) => setDescription(e.target.value)}
 						placeholder="Description"
 					/>
 
-					{/* WEEK */}
+					{/* WEEK - FIXED: Changed from defaultValue to value */}
 					<input
 						className="form-control mb-2"
 						type="number"
-						defaultValue={week}
+						value={week}
 						onChange={(e) => setWeek(e.target.value)}
 						placeholder="Week"
 						required
 					/>
 
-					{/* DATES */}
+					{/* DATES - FIXED: Changed from defaultValue to value */}
 					<label className="ms-1">Week Start Date</label>
 					<input
 						className="form-control mb-2"
 						type="date"
-						defaultValue={startsAt}
+						value={startsAt}
 						onChange={(e) => setStartsAt(e.target.value)}
+						required
 					/>
 
 					<label className="ms-1">Week End Date</label>
 					<input
 						className="form-control mb-2"
 						type="date"
-						defaultValue={endsAt}
+						value={endsAt}
 						onChange={(e) => setEndsAt(e.target.value)}
+						required
 					/>
 
-					{/* CKEDITOR + MEDIA */}
 					{[
 						"Learning Guide",
 						"Discussion Forum",
@@ -272,7 +291,7 @@ const Edit = (props) => {
 								<div ref={editorRef}></div>
 							</div>
 
-							<h6 className="p-2">Add Media</h6>
+							<h6 className="p-2 mt-3">Add Media</h6>
 
 							<div className="card shadow-sm p-2">
 								<FilePond
@@ -280,6 +299,10 @@ const Edit = (props) => {
 									labelIdle='Drag & Drop your Image or <span class="filepond--label-action text-dark">Browse</span>'
 									imageCropAspectRatio="16:9"
 									allowRevert={true}
+									files={media ? [{
+										source: `${props.url}${media}`,
+										options: { type: 'local' }
+									}] : []}
 									server={{
 										url: `${props.url}/api/filepond`,
 										process: {
@@ -288,10 +311,25 @@ const Edit = (props) => {
 										},
 										revert: {
 											url: `/materials/${media?.substr(17)}`,
-											onload: (res) => props.setMessages([res]),
+											onload: (res) => {
+												props.setMessages([res])
+												setMedia("") 
+											},
 										},
+										load: (source, load, error) => {
+											fetch(source)
+												.then(res => res.blob())
+												.then(load)
+												.catch(error)
+										}
 									}}
 								/>
+
+								{media && !media.startsWith('blob:') && (
+									<div className="mt-2">
+										<p className="text-muted small">Current media: {media.split('/').pop()}</p>
+									</div>
+								)}
 							</div>
 
 							<br />
@@ -299,16 +337,16 @@ const Edit = (props) => {
 						</>
 					)}
 
-					{/* MULTIPLE CHOICE SECTION (same as create) */}
+					{/* MULTIPLE CHOICE SECTION */}
 					{["Self Quiz", "CAT 1", "CAT 2", "Review Quiz", "Final Exam"].includes(
 						title
 					) && (
 						<>
-							{/* TIME */}
+							{/* TIME - FIXED: Changed from defaultValue to value */}
 							<input
 								className="form-control mb-2"
 								type="number"
-								defaultValue={time}
+								value={time}
 								onChange={(e) => setTime(e.target.value)}
 								placeholder="Quiz Time in minutes"
 								required
@@ -331,10 +369,11 @@ const Edit = (props) => {
 										)}
 									</div>
 
+									{/* FIXED: Changed from defaultValue to value */}
 									<input
 										className="form-control mb-2"
 										placeholder="Which of the below is..."
-										defaultValue={question.question}
+										value={question.question}
 										onChange={(e) => {
 											questions[key].question = e.target.value
 											setQuestions([...questions])
@@ -344,12 +383,13 @@ const Edit = (props) => {
 
 									<label>Answers</label>
 
+									{/* FIXED: Changed from defaultValue to value */}
 									{["A", "B", "C", "D"].map((letter) => (
 										<input
 											key={letter}
 											className="form-control mb-2"
 											placeholder={`Answer ${letter}`}
-											defaultValue={question[`answer${letter}`]}
+											value={question[`answer${letter}`]}
 											onChange={(e) => {
 												questions[key][`answer${letter}`] = e.target.value
 												setQuestions([...questions])
